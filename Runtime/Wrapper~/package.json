@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/emscripten": "^1.39.6",
     "livekit-client": "^0.16.2"
   },
   "devDependencies": {

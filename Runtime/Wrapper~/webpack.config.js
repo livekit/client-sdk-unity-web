@@ -6,7 +6,7 @@ module.exports = {
         // Used by Unity Templates
         'livekit-client': {
             import: 'livekit-client',
-            filename: 'WebGLTemplates/ExampleTemplate/livekit-client.js'
+            filename: 'Plugins/livekit-client.jspre'
         },
 
         // Used by emscripten
