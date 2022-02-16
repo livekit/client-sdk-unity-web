@@ -35,6 +35,7 @@ module.exports = {
         globalObject: 'this',
         filename: '[name]',
         path: path.resolve(__dirname, '../'),
-        library: 'livekit'
+        library: 'livekit',
+        libraryTarget: 'window'
     },
 };

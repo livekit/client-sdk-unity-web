@@ -5,8 +5,11 @@
   "description": "LiveKit Bridge for Web",
   "unity": "2021.3",
   "author": {
-    "name": "Théo Monnom",
+    "name": "Th\u00e9o Monnom",
     "email": "theo.monnom@outlook.com"
   },
-  "type": "library"
+  "type": "library",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  }
 }
