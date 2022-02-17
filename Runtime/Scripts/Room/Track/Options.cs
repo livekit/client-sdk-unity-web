@@ -1,152 +1,151 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-    public class ConstrainBoolean
+    public struct ConstrainBoolean
     {
         [JsonProperty("exact")]
-        bool Exact;
+        public bool Exact;
         [JsonProperty("ideal")]
-        bool Idea;
+        public bool Idea;
     }
 
-    public class ConstrainDOMString
+    public struct ConstrainDOMString
     {
         [JsonProperty("exact")]
-        string[] Exact;
+        public string[] Exact;
         [JsonProperty("ideal")]
-        string[] Ideal;
+        public string[] Ideal;
     }
 
-    public class ULongRange
+    public struct ConstrainULong
     {
+        [JsonProperty("exact")]
+        public int Exact;
+        [JsonProperty("ideal")]
+        public int Ideal;
         [JsonProperty("min")]
-        int Min;
+        public int Min;
         [JsonProperty("max")]
-        int Max;
+        public int Max;
     }
 
-    public class ConstrainULong : ULongRange
+    public struct ConstrainDouble
     {
         [JsonProperty("exact")]
-        int Exact;
+        public double Exact;
         [JsonProperty("ideal")]
-        int Ideal;
-    }
-
-    public class DoubleRange
-    {
+        public double Ideal;
         [JsonProperty("min")]
-        double Min;
+        public double Min;
         [JsonProperty("max")]
-        double Max;
+        public double Max;
     }
 
-    public class ConstrainDouble : DoubleRange
-    {
-        [JsonProperty("exact")]
-        double Exact;
-        [JsonProperty("ideal")]
-        double Ideal;
-    }
-
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum FacingMode
     {
-        [JsonProperty("user")]
+        [EnumMember(Value = "user")]
         User,
-        [JsonProperty("environment")]
+        [EnumMember(Value = "environment")]
         Environment,
-        [JsonProperty("left")]
+        [EnumMember(Value = "left")]
         Left,
-        [JsonProperty("right")]
+        [EnumMember(Value = "right")]
         Right
     }
 
-    public class TrackPublishDefaults
+
+    public struct TrackPublishDefaults
     {
         [JsonProperty("videoEncoding")]
-        VideoEncoding? videoEncoding;
+        public VideoEncoding? videoEncoding;
         [JsonProperty("screenShareEncoding")]
-        VideoEncoding? ScreenShareEncoding;
+        public VideoEncoding? ScreenShareEncoding;
         [JsonProperty("videoCodec")]
-        VideoCodec? VideoCodec;
+        public VideoCodec? VideoCodec;
         [JsonProperty("audioBitrate")]
-        int? AudioBitrate;
+        public int? AudioBitrate;
         [JsonProperty("dtx")]
-        bool? DTX;
+        public bool? DTX;
         [JsonProperty("simulcast")]
-        bool? Simulcast;
+        public bool? Simulcast;
         [JsonProperty("stopMicTrackOnMute")]
-        bool? StopMicTrackOnMute;
+        public bool? StopMicTrackOnMute;
     }
 
-    public class TrackPublishOptions : TrackPublishDefaults
+    public struct TrackPublishOptions
     {
         [JsonProperty("name")]
-        string? Name;
+        public string? Name;
         [JsonProperty("source")]
-        Track.Source? Source;
+        public Track.Source? Source;
+
+        // TrackPublishDefaults copied (no struct inheritance)
+        [JsonProperty("videoEncoding")]
+        public VideoEncoding? videoEncoding;
+        [JsonProperty("screenShareEncoding")]
+        public VideoEncoding? ScreenShareEncoding;
+        [JsonProperty("videoCodec")]
+        public VideoCodec? VideoCodec;
+        [JsonProperty("audioBitrate")]
+        public int? AudioBitrate;
+        [JsonProperty("dtx")]
+        public bool? DTX;
+        [JsonProperty("simulcast")]
+        public bool? Simulcast;
+        [JsonProperty("stopMicTrackOnMute")]
+        public bool? StopMicTrackOnMute;
     }
 
-    public class CreateLocalTracksOptions
-    {
-        [JsonProperty("audio")]
-        bool? AudioEnabled;
-        [JsonProperty("audio")]
-        AudioCaptureOptions? Audio;
-
-        [JsonProperty("video")]
-        bool? VideoEnabled;
-        [JsonProperty("video")]
-        VideoCaptureOptions? Video;
-    }
-
-    public class VideoCaptureOptions
+    public struct VideoCaptureOptions
     {
         [JsonProperty("deviceId")]
-        ConstrainDOMString DeviceId;
+        public ConstrainDOMString DeviceId;
         [JsonProperty("facingMode")]
-        FacingMode? facingMode;
+        public FacingMode? facingMode;
         [JsonProperty("resolution")]
-        VideoResolution? Resolution;
+        public VideoResolution? Resolution;
     }
 
-    public class ScreenShareCaptureOptions
+    public struct ScreenShareCaptureOptions
     {
         [JsonProperty("audio")]
-        bool? Audio;
+        public bool? Audio;
         [JsonProperty("resolution")]
-        VideoResolution? Resolution;
+        public VideoResolution? Resolution;
     }
 
-    public class AudioCaptureOptions
+    public struct AudioCaptureOptions
     {
         [JsonProperty("autoGainControl")]
-        ConstrainBoolean AutoGainControl;
+        public ConstrainBoolean? AutoGainControl;
 
         [JsonProperty("channelCount")]
-        ConstrainULong ChannelCount;
+        public ConstrainULong? ChannelCount;
 
         [JsonProperty("deviceId")]
-        ConstrainDOMString DeviceId;
+        public ConstrainDOMString? DeviceId;
 
         [JsonProperty("echoCancellation")]
-        ConstrainBoolean EchoCancellation;
+        public ConstrainBoolean? EchoCancellation;
 
         [JsonProperty("latency")]
-        ConstrainDouble Latency;
+        public ConstrainDouble? Latency;
 
         [JsonProperty("noiseSuppression")]
-        ConstrainBoolean NoiseSuppression;
+        public ConstrainBoolean? NoiseSuppression;
 
         [JsonProperty("sampleRate")]
-        ConstrainULong SampleRate;
+        public ConstrainULong? SampleRate;
 
         [JsonProperty("sampleSize")]
-        ConstrainULong SampleSize;
+        public ConstrainULong? SampleSize;
     }
 
-    public class VideoResolution
+    public struct VideoResolution
     {
         [JsonProperty("width")]
         public int Width;
@@ -166,7 +165,7 @@ namespace LiveKit
         public int? MaxFramerate;
     }
 
-    public class VideoPreset
+    public struct VideoPreset
     {
         public VideoEncoding Encoding;
         public int Width;
@@ -192,20 +191,20 @@ namespace LiveKit
                 AspectRatio = Width / Height,
             };
         }
-
     }
 
-    public class AudioPreset
+    public struct AudioPreset
     {
         [JsonProperty("maxBitrate")]
         public int MaxBitrate;
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum VideoCodec
     {
-        [JsonProperty("vp8")]
+        [EnumMember(Value = "vp8")]
         VP8,
-        [JsonProperty("h264")]
+        [EnumMember(Value = "h264")]
         H264
     }
 

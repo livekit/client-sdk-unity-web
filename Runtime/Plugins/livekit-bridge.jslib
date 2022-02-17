@@ -4,21 +4,30 @@ var NativeLib = {
 	$RefCounter: 1, // 0 is nullptr
 	$Stack: [],
 
-	NewRef: function () {
+	$NewRef: function () {
 		return RefCounter++;
 	},
 
-	FreeRef: function (ptr) {
-		if (ptr in BridgeData) {
-			var obj = BridgeData[ptr];
-			delete BridgePtr[obj];
-        }
+	$SetRef: function (ptr, obj) {
+		BridgeData[ptr] = obj;
 
+		if (obj !== undefined || obj !== null) {
+			BridgePtr[obj] = ptr;
+        }
+	},
+
+	NewRef: function () {
+		return NewRef();
+	},
+
+	FreeRef: function (ptr) {
+		var obj = BridgeData[ptr];
+		delete BridgePtr[obj];
 		delete BridgeData[ptr];
 	},
 
 	// Get a property by string from an object (if ptr = 0, then the object is window)
-	GetRef: function (ptr, str) {
+	GetProperty: function (ptr, str) {
 		str = Pointer_stringify(str);
 		var obj;
 		if (ptr == 0) {
@@ -35,9 +44,8 @@ var NativeLib = {
 
 		var oPtr;
 		if (!(obj in BridgePtr)) {
-			oPtr = RefCounter++;
-			BridgeData[oPtr] = obj;
-			BridgePtr[obj] = oPtr;
+			oPtr = NewRef();
+			SetRef(oPtr, obj);
 		} else {
 			oPtr = BridgePtr[obj];
 		}
@@ -61,16 +69,34 @@ var NativeLib = {
 		Stack.push(Pointer_stringify(str));
 	},
 
+	PushStruct: function (json) {
+		Stack.push(JSON.parse(Pointer_stringify(json)));
+	},
+
+	PushFunction: function (ptr, fnc) {
+		Stack.push(function () {
+			// TODO Push arguments to c#
+			Runtime.dynCall("vi", fnc, [ptr]);
+        });
+	},
+
 	CallFunction: function (str) {
+		var returnptr = NewRef();
 		var fnc = window[Pointer_stringify(str)];
-		fnc.apply(Stack);
+		var result = fnc.apply(null, Stack);
+		SetRef(returnptr, result);
 		Stack = [];
+		return returnptr;
 	},
 
 	CallMethod: function (ptr, str) {
-		var fnc = BridgeData[ptr][Pointer_stringify(str)];
-		fnc.apply(Stack);
+		var returnptr = NewRef();
+		var obj = BridgeData[ptr];
+		var fnc = obj[Pointer_stringify(str)]
+		var result = fnc.apply(obj, Stack);
+		SetRef(returnptr, result);
 		Stack = [];
+		return returnptr;
 	},
 
 	NewInstance: function (ptr, toPtr, clazz) {
@@ -82,8 +108,7 @@ var NativeLib = {
 		}
 
 		var inst = new (Function.prototype.bind.apply(obj[Pointer_stringify(clazz)], Stack));
-		BridgeData[toPtr] = inst;
-		BridgePtr[inst] = toPtr;
+		SetRef(toPtr, inst);
 		Stack = [];
 	},
 
@@ -117,6 +142,8 @@ var NativeLib = {
     },
 };
 
+autoAddDeps(NativeLib, '$NewRef');
+autoAddDeps(NativeLib, '$SetRef');
 autoAddDeps(NativeLib, '$BridgeData');
 autoAddDeps(NativeLib, '$BridgePtr');
 autoAddDeps(NativeLib, '$RefCounter');

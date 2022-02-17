@@ -1,68 +1,73 @@
-
-
-
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace LiveKit
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RTCIceCredentialType
     {
-        [JsonProperty("oauth")]
+        [EnumMember(Value = "oauth")]
         OAuth,
-        [JsonProperty("password")]
+        [EnumMember(Value = "password")]
         Password,
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RTCBundlePolicy
     {
-        [JsonProperty("balanced")]
+        [EnumMember(Value = "balanced")]
         Balanced,
-        [JsonProperty("max-bundle")]
+        [EnumMember(Value = "max-bundle")]
         MaxBundle,
-        [JsonProperty("max-compat")]
+        [EnumMember(Value = "max-compat")]
         MaxCompat,
     }
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RTCIceTransportPolicy
     {
-        [JsonProperty("all")]
+        [EnumMember(Value = "all")]
         All,
-        [JsonProperty("relay")]
+        [EnumMember(Value = "relay")]
         Relay
     };
 
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RTCRtcpMuxPolicy
     {
-        [JsonProperty("require")]
+        [EnumMember(Value = "require")]
         Require,
-        [JsonProperty("negotiate")]
+        [EnumMember(Value = "negotiate")]
         Negotiate,
     };
 
     public struct RTCIceServer
     {
         [JsonProperty("credential")]
-        string? Credential;
+        public string? Credential;
         [JsonProperty("credentialType")]
-        RTCIceCredentialType? CredentialType;
+        public RTCIceCredentialType? CredentialType;
         [JsonProperty("urls")]
-        string[] URLs;
+        public string[] URLs;
         [JsonProperty("username")]
-        string? Username;
+        public string? Username;
 }
 
     public struct RTCConfiguration
     {
         [JsonProperty("bundlePolicy")]
-        RTCBundlePolicy? BundlePolicy;
+        public RTCBundlePolicy? BundlePolicy;
         [JsonProperty("certificates")]
-        JSRef[] Certificates;
+        public JSRef[] Certificates;
         [JsonProperty("iceCandidatePoolSize")]
-        ushort? IceCandidatePoolSize;
+        public ushort? IceCandidatePoolSize;
         [JsonProperty("iceServers")]
-        RTCIceServer[] IceServers;
+        public RTCIceServer[] IceServers;
         [JsonProperty("iceTransportPolicy")]
-        RTCIceTransportPolicy? IceTransportPolicy;
-        [JsonProperty("iceTransportPolicy")]
-        RTCRtcpMuxPolicy? RTCPMuxPolicy;
+        public RTCIceTransportPolicy? IceTransportPolicy;
+        [JsonProperty("rtcpMuxPolicy")]
+        public RTCRtcpMuxPolicy? RTCPMuxPolicy;
     }
 }

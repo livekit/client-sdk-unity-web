@@ -1,10 +1,18 @@
 using System.Runtime.InteropServices;
 using System;
+using Newtonsoft.Json;
 
 namespace LiveKit
 {
     internal static class JSNative
     {
+        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        {
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
+
         [DllImport("__Internal")]
         internal static extern IntPtr NewRef();
 
@@ -12,7 +20,7 @@ namespace LiveKit
         internal static extern void FreeRef(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetRef(IntPtr ptr, string obj);
+        internal static extern IntPtr GetProperty(IntPtr ptr, string obj);
 
         [DllImport("__Internal")]
         internal static extern void PushNull();
@@ -27,10 +35,16 @@ namespace LiveKit
         internal static extern void PushString(string str);
 
         [DllImport("__Internal")]
-        internal static extern void CallFunction(string fnc);
+        internal static extern void PushStruct(string json);
 
         [DllImport("__Internal")]
-        internal static extern void CallMethod(IntPtr ptr, string fnc);
+        internal static extern void PushFunction(IntPtr ptr, Action<IntPtr> action);
+
+        [DllImport("__Internal")]
+        internal static extern IntPtr CallFunction(string fnc);
+
+        [DllImport("__Internal")]
+        internal static extern IntPtr CallMethod(IntPtr ptr, string fnc);
 
         [DllImport("__Internal")]
         internal static extern void NewInstance(IntPtr ptr, IntPtr toPtr, string clazz);

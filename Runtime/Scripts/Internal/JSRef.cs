@@ -10,7 +10,7 @@ namespace LiveKit{
         public readonly IntPtr NativePtr;
 
         static JSRef(){
-            LiveKit = JSNative.GetRef(IntPtr.Zero, "livekit");
+            LiveKit = JSNative.GetProperty(IntPtr.Zero, "livekit");
         }
 
         public JSRef() : this(JSNative.NewRef())

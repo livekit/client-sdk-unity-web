@@ -1,82 +1,96 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace LiveKit
 {
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum LogLevel
     {
-        [JsonProperty("trace")]
+        [EnumMember(Value = "trace")]
         Trace,
-        [JsonProperty("debug")]
+        [EnumMember(Value = "debug")]
         Debug,
-        [JsonProperty("info")]
+        [EnumMember(Value = "info")]
         Info,
-        [JsonProperty("warn")]
+        [EnumMember(Value = "warn")]
         Warn,
-        [JsonProperty("error")]
+        [EnumMember(Value = "error")]
         Error,
-        [JsonProperty("silent")]
+        [EnumMember(Value = "silent")]
         Silent
     }
 
     public struct RoomOptions
     {
         [JsonProperty("adaptiveStream")]
-        bool AdaptiveStream;
+        public bool AdaptiveStream;
         [JsonProperty("dynacast")]
-        bool Dynacast;
+        public bool Dynacast;
         [JsonProperty("audioCaptureDefaults")]
-        AudioCaptureDefaults?: AudioCaptureOptions;
+        public AudioCaptureOptions? AudioCaptureDefaults;
         [JsonProperty("videoCaptureDefaults")]
-        VideoCaptureDefaults?: VideoCaptureOptions;
+        public VideoCaptureOptions? VideoCaptureDefaults;
         [JsonProperty("publishDefaults")]
-        PublishDefaults?: TrackPublishDefaults;
-         [JsonProperty("stopLocalTrackOnUnpublish")]
-        bool StopLocalTrackOnUnpublish;
+        public TrackPublishDefaults? PublishDefaults;
+        [JsonProperty("stopLocalTrackOnUnpublish")]
+        public bool StopLocalTrackOnUnpublish;
         [JsonProperty("expDisableLayerPause")]
-        bool ExpDisableLayerPause;
+        public bool ExpDisableLayerPause;
         [JsonProperty("expSignalLatency")]
-        double ExpSignalLatency;
+        public double ExpSignalLatency;
     }
 
 
     public struct RoomConnectOptions
     {
         [JsonProperty("autoSubscribe")]
-        bool AutoSubscribe;
+        public bool AutoSubscribe;
         [JsonProperty("rtcConfig")]
-        RTCConfiguration? RTCConfig;
+        public RTCConfiguration? RTCConfig;
     }
 
-    public struct ConnectOptions : CreateLocalTracksOptions
+    public struct ConnectOptions
     {
         [JsonProperty("autoSubscribe")]
-        bool? AutoSubscribe;
+        public bool? AutoSubscribe;
         [JsonProperty("adaptiveStream")]
-        bool? AdaptiveStream;
+        public bool? AdaptiveStream;
         [JsonProperty("autoManageVideo")]
-        bool? AutoManageVideo;
+        public bool? AutoManageVideo;
         [JsonProperty("dynacast")]
-        bool? Dynacast;
+        public bool? Dynacast;
         [JsonProperty("logLevel")]
-        LogLevel? LogLevel;
-        [JsonProperty("autoSubscribe")]
-        iceServers?: RTCIceServer [];
-        [JsonProperty("autoSubscribe")]
-        rtcConfig?: RTCConfiguration;
-        [JsonProperty("autoSubscribe")]
-        audio?: boolean;
-        [JsonProperty("autoSubscribe")]
-        video?: boolean;
-        [JsonProperty("autoSubscribe")]
-        audioCaptureDefaults?: AudioCaptureOptions;
-        [JsonProperty("autoSubscribe")]
-        videoCaptureDefaults?: VideoCaptureOptions;
-        [JsonProperty("autoSubscribe")]
-        publishDefaults?: TrackPublishDefaults;
-        [JsonProperty("autoSubscribe")]
-        stopLocalTrackOnUnpublish?: boolean;
-        [JsonProperty("autoSubscribe")]
-        expDisableLayerPause?: boolean;
-    }
+        public LogLevel? LogLevel;
+        [JsonProperty("iceServers")]
+        public RTCIceServer[] iceServers;
+        [JsonProperty("rtcConfig")]
+        public RTCConfiguration? RTCConfig;
+        [JsonProperty("audio")]
+        public bool? PublishAudio;
+        [JsonProperty("video")]
+        public bool? PublishVideo;
+        [JsonProperty("audioCaptureDefaults")]
+        public AudioCaptureOptions? AudioCaptureDefaults;
+        [JsonProperty("videoCaptureDefaults")]
+        public VideoCaptureOptions? VideoCaptureDefaults;
+        [JsonProperty("publishDefaults")]
+        public TrackPublishDefaults? PublishDefaults;
+        [JsonProperty("stopLocalTrackOnUnpublish")]
+        public bool? StopLocalTrackOnUnpublish;
+        [JsonProperty("expDisableLayerPause")]
+        public bool? ExpDisableLayerPause;
 
+        // CreateLocalTracksOptions TODO
+        /*[JsonProperty("audio")]
+        public bool? AudioEnabled;
+        [JsonProperty("audio")]
+        public AudioCaptureOptions? Audio;
+
+        [JsonProperty("video")]
+        public bool? VideoEnabled;
+        [JsonProperty("video")]
+        public VideoCaptureOptions? Video;*/
+    }
 }
