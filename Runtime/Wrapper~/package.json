@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "livekit-client": "^0.16.2"
+    "livekit-client": "^0.16.6"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",

@@ -5,8 +5,9 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-    public class Track
+    public class Track : JSRef
     {
+
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Kind {
             [EnumMember(Value = "audio")]

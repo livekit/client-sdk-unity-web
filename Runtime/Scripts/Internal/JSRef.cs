@@ -9,7 +9,8 @@ namespace LiveKit{
         internal static Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
         public readonly IntPtr NativePtr;
 
-        static JSRef(){
+        static JSRef()
+        {
             LiveKit = JSNative.GetProperty(IntPtr.Zero, "livekit");
         }
 

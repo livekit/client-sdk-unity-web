@@ -1358,6 +1358,77 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
 
 /***/ }),
 
+/***/ "./node_modules/livekit-client/dist/api/RequestQueue.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/livekit-client/dist/api/RequestQueue.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const logger_1 = __importDefault(__webpack_require__(/*! ../logger */ "./node_modules/livekit-client/dist/logger.js"));
+class Queue {
+    constructor() {
+        this.queue = [];
+        this.running = false;
+    }
+    enqueue(cb) {
+        logger_1.default.debug('enqueuing request to fire later');
+        this.queue.push(cb);
+    }
+    dequeue() {
+        const evt = this.queue.shift();
+        if (evt)
+            evt();
+        logger_1.default.debug('firing request from queue');
+    }
+    run() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.running)
+                return;
+            logger_1.default.debug('start queue');
+            this.running = true;
+            while (this.running && this.queue.length > 0) {
+                this.dequeue();
+            }
+            this.running = false;
+            logger_1.default.debug('queue finished');
+        });
+    }
+    pause() {
+        logger_1.default.debug('pausing queue');
+        this.running = false;
+    }
+    reset() {
+        logger_1.default.debug('resetting queue');
+        this.running = false;
+        this.queue = [];
+    }
+    isRunning() {
+        return this.running;
+    }
+    isEmpty() {
+        return this.queue.length === 0;
+    }
+}
+exports["default"] = Queue;
+//# sourceMappingURL=RequestQueue.js.map
+
+/***/ }),
+
 /***/ "./node_modules/livekit-client/dist/api/SignalClient.js":
 /*!**************************************************************!*\
   !*** ./node_modules/livekit-client/dist/api/SignalClient.js ***!
@@ -1385,11 +1456,14 @@ const logger_1 = __importDefault(__webpack_require__(/*! ../logger */ "./node_mo
 const livekit_rtc_1 = __webpack_require__(/*! ../proto/livekit_rtc */ "./node_modules/livekit-client/dist/proto/livekit_rtc.js");
 const errors_1 = __webpack_require__(/*! ../room/errors */ "./node_modules/livekit-client/dist/room/errors.js");
 const utils_1 = __webpack_require__(/*! ../room/utils */ "./node_modules/livekit-client/dist/room/utils.js");
+const RequestQueue_1 = __importDefault(__webpack_require__(/*! ./RequestQueue */ "./node_modules/livekit-client/dist/api/RequestQueue.js"));
 /** @internal */
 class SignalClient {
     constructor(useJSON = false) {
         this.isConnected = false;
+        this.isReconnecting = false;
         this.useJSON = useJSON;
+        this.requestQueue = new RequestQueue_1.default();
     }
     join(url, token, opts) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -1404,9 +1478,12 @@ class SignalClient {
     }
     reconnect(url, token) {
         return __awaiter(this, void 0, void 0, function* () {
+            this.isReconnecting = true;
             yield this.connect(url, token, {
                 reconnect: true,
             });
+            this.isReconnecting = false;
+            this.requestQueue.run();
         });
     }
     connect(url, token, opts) {
@@ -1571,8 +1648,15 @@ class SignalClient {
     sendLeave() {
         this.sendRequest(livekit_rtc_1.SignalRequest.fromPartial({ leave: {} }));
     }
-    sendRequest(req) {
+    sendRequest(req, fromQueue = false) {
         return __awaiter(this, void 0, void 0, function* () {
+            // capture all requests while reconnecting and put them in a queue.
+            // keep order by queueing up new events as long as the queue is not empty
+            // unless the request originates from the queue, then don't enqueue again
+            if ((this.isReconnecting && !req.simulate) || (!this.requestQueue.isEmpty() && !fromQueue)) {
+                this.requestQueue.enqueue(() => this.sendRequest(req, true));
+                return;
+            }
             if (this.signalLatency) {
                 yield utils_1.sleep(this.signalLatency);
             }
@@ -1910,7 +1994,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.VideoQuality = exports.TrackPublication = exports.RemoteTrackPublication = exports.RemoteVideoTrack = exports.RemoteAudioTrack = exports.RemoteTrack = exports.LocalTrackPublication = exports.LocalTrack = exports.LocalVideoTrack = exports.LocalAudioTrack = exports.LocalParticipant = exports.RemoteParticipant = exports.Participant = exports.ConnectionQuality = exports.DataPacket_Kind = exports.RoomState = exports.Room = exports.setLogLevel = void 0;
+exports.ConnectionQuality = exports.VideoQuality = exports.TrackPublication = exports.RemoteTrackPublication = exports.RemoteVideoTrack = exports.RemoteAudioTrack = exports.RemoteTrack = exports.LocalTrackPublication = exports.LocalTrack = exports.LocalVideoTrack = exports.LocalAudioTrack = exports.LocalParticipant = exports.RemoteParticipant = exports.Participant = exports.DataPacket_Kind = exports.RoomState = exports.Room = exports.setLogLevel = void 0;
 const logger_1 = __webpack_require__(/*! ./logger */ "./node_modules/livekit-client/dist/logger.js");
 Object.defineProperty(exports, "setLogLevel", ({ enumerable: true, get: function () { return logger_1.setLogLevel; } }));
 const livekit_models_1 = __webpack_require__(/*! ./proto/livekit_models */ "./node_modules/livekit-client/dist/proto/livekit_models.js");
@@ -6794,6 +6878,10 @@ class RTCEngine extends events_1.EventEmitter {
                 if (this.isClosed) {
                     return;
                 }
+                if (utils_1.isFireFox()) {
+                    // FF does not support DTLS restart.
+                    this.fullReconnect = true;
+                }
                 try {
                     if (this.fullReconnect) {
                         yield this.restartConnection();
@@ -6915,6 +7003,7 @@ class RTCEngine extends events_1.EventEmitter {
         }
         this.publisher = new PCTransport_1.default(this.rtcConfig);
         this.subscriber = new PCTransport_1.default(this.rtcConfig);
+        this.emit(events_2.EngineEvent.TransportsCreated, this.publisher, this.subscriber);
         this.publisher.pc.onicecandidate = (ev) => {
             if (!ev.candidate)
                 return;
@@ -6936,16 +7025,19 @@ class RTCEngine extends events_1.EventEmitter {
             this.subscriber.pc.ondatachannel = this.handleDataChannel;
         }
         this.primaryPC = primaryPC;
-        primaryPC.onconnectionstatechange = () => {
+        primaryPC.onconnectionstatechange = () => __awaiter(this, void 0, void 0, function* () {
             if (primaryPC.connectionState === 'connected') {
                 logger_1.default.trace('pc connected');
+                try {
+                    this.connectedServerAddr = yield getConnectedAddress(primaryPC);
+                }
+                catch (e) {
+                    logger_1.default.warn('could not get connected server address', e);
+                }
                 if (!this.pcConnected) {
                     this.pcConnected = true;
                     this.emit(events_2.EngineEvent.Connected);
                 }
-                getConnectedAddress(primaryPC).then((v) => {
-                    this.connectedServerAddr = v;
-                });
             }
             else if (primaryPC.connectionState === 'failed') {
                 // on Safari, PeerConnection will switch to 'disconnected' during renegotiation
@@ -6955,7 +7047,7 @@ class RTCEngine extends events_1.EventEmitter {
                     this.handleDisconnect('peerconnection');
                 }
             }
-        };
+        });
         this.subscriber.pc.ontrack = (ev) => {
             this.emit(events_2.EngineEvent.MediaTrackAdded, ev.track, ev.streams[0], ev.receiver);
         };
@@ -7336,6 +7428,7 @@ class Room extends events_1.EventEmitter {
                     this.options.dynacast = false;
                 }
                 this.state = RoomState.Connected;
+                this.emit(events_2.RoomEvent.StateChanged, this.state);
                 const pi = joinResponse.participant;
                 this.localParticipant = new LocalParticipant_1.default(pi.sid, pi.identity, this.engine, this.options);
                 this.localParticipant.updateInfo(pi);
@@ -7412,6 +7505,7 @@ class Room extends events_1.EventEmitter {
         this.handleRestarting = () => {
             this.state = RoomState.Reconnecting;
             this.emit(events_2.RoomEvent.Reconnecting);
+            this.emit(events_2.RoomEvent.StateChanged, this.state);
             // also unwind existing participants & existing subscriptions
             for (const p of this.participants.values()) {
                 this.handleParticipantDisconnected(p.sid, p);
@@ -7420,6 +7514,7 @@ class Room extends events_1.EventEmitter {
         this.handleRestarted = (joinResponse) => __awaiter(this, void 0, void 0, function* () {
             this.state = RoomState.Connected;
             this.emit(events_2.RoomEvent.Reconnected);
+            this.emit(events_2.RoomEvent.StateChanged, this.state);
             // rehydrate participants
             if (joinResponse.participant) {
                 // with a restart, the sid will have changed, we'll map our understanding to it
@@ -7628,10 +7723,12 @@ class Room extends events_1.EventEmitter {
             .on(events_2.EngineEvent.Resuming, () => {
             this.state = RoomState.Reconnecting;
             this.emit(events_2.RoomEvent.Reconnecting);
+            this.emit(events_2.RoomEvent.StateChanged, this.state);
         })
             .on(events_2.EngineEvent.Resumed, () => {
             this.state = RoomState.Connected;
             this.emit(events_2.RoomEvent.Reconnected);
+            this.emit(events_2.RoomEvent.StateChanged, this.state);
             this.updateSubscriptions();
         })
             .on(events_2.EngineEvent.SignalResumed, () => {
@@ -7820,6 +7917,7 @@ class Room extends events_1.EventEmitter {
         navigator.mediaDevices.removeEventListener('devicechange', this.handleDeviceChange);
         this.state = RoomState.Disconnected;
         this.emit(events_2.RoomEvent.Disconnected);
+        this.emit(events_2.RoomEvent.StateChanged, this.state);
     }
     handleParticipantDisconnected(sid, participant) {
         // remove and send event
@@ -7844,58 +7942,63 @@ class Room extends events_1.EventEmitter {
             this.audioContext = new AudioContext();
         }
     }
-    getOrCreateParticipant(id, info) {
-        let participant = this.participants.get(id);
-        if (!participant) {
-            // it's possible for the RTC track to arrive before signaling data
-            // when this happens, we'll create the participant and make the track work
-            if (info) {
-                participant = RemoteParticipant_1.default.fromParticipantInfo(this.engine.client, info);
-            }
-            else {
-                participant = new RemoteParticipant_1.default(this.engine.client, id, '');
-            }
-            this.participants.set(id, participant);
-            // also forward events
-            // trackPublished is only fired for tracks added after both local participant
-            // and remote participant joined the room
-            participant
-                .on(events_2.ParticipantEvent.TrackPublished, (trackPublication) => {
-                this.emit(events_2.RoomEvent.TrackPublished, trackPublication, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackSubscribed, (track, publication) => {
-                // monitor playback status
-                if (track.kind === Track_1.Track.Kind.Audio) {
-                    track.on(events_2.TrackEvent.AudioPlaybackStarted, this.handleAudioPlaybackStarted);
-                    track.on(events_2.TrackEvent.AudioPlaybackFailed, this.handleAudioPlaybackFailed);
-                }
-                this.emit(events_2.RoomEvent.TrackSubscribed, track, publication, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackUnpublished, (publication) => {
-                this.emit(events_2.RoomEvent.TrackUnpublished, publication, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackUnsubscribed, (track, publication) => {
-                this.emit(events_2.RoomEvent.TrackUnsubscribed, track, publication, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackSubscriptionFailed, (sid) => {
-                this.emit(events_2.RoomEvent.TrackSubscriptionFailed, sid, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackMuted, (pub) => {
-                this.emit(events_2.RoomEvent.TrackMuted, pub, participant);
-            })
-                .on(events_2.ParticipantEvent.TrackUnmuted, (pub) => {
-                this.emit(events_2.RoomEvent.TrackUnmuted, pub, participant);
-            })
-                .on(events_2.ParticipantEvent.MetadataChanged, (metadata) => {
-                this.emit(events_2.RoomEvent.MetadataChanged, metadata, participant);
-            })
-                .on(events_2.ParticipantEvent.ParticipantMetadataChanged, (metadata) => {
-                this.emit(events_2.RoomEvent.ParticipantMetadataChanged, metadata, participant);
-            })
-                .on(events_2.ParticipantEvent.ConnectionQualityChanged, (quality) => {
-                this.emit(events_2.RoomEvent.ConnectionQualityChanged, quality, participant);
-            });
+    createParticipant(id, info) {
+        let participant;
+        if (info) {
+            participant = RemoteParticipant_1.default.fromParticipantInfo(this.engine.client, info);
         }
+        else {
+            participant = new RemoteParticipant_1.default(this.engine.client, id, '');
+        }
+        return participant;
+    }
+    getOrCreateParticipant(id, info) {
+        if (this.participants.has(id)) {
+            return this.participants.get(id);
+        }
+        // it's possible for the RTC track to arrive before signaling data
+        // when this happens, we'll create the participant and make the track work
+        const participant = this.createParticipant(id, info);
+        this.participants.set(id, participant);
+        // also forward events
+        // trackPublished is only fired for tracks added after both local participant
+        // and remote participant joined the room
+        participant
+            .on(events_2.ParticipantEvent.TrackPublished, (trackPublication) => {
+            this.emit(events_2.RoomEvent.TrackPublished, trackPublication, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackSubscribed, (track, publication) => {
+            // monitor playback status
+            if (track.kind === Track_1.Track.Kind.Audio) {
+                track.on(events_2.TrackEvent.AudioPlaybackStarted, this.handleAudioPlaybackStarted);
+                track.on(events_2.TrackEvent.AudioPlaybackFailed, this.handleAudioPlaybackFailed);
+            }
+            this.emit(events_2.RoomEvent.TrackSubscribed, track, publication, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackUnpublished, (publication) => {
+            this.emit(events_2.RoomEvent.TrackUnpublished, publication, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackUnsubscribed, (track, publication) => {
+            this.emit(events_2.RoomEvent.TrackUnsubscribed, track, publication, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackSubscriptionFailed, (sid) => {
+            this.emit(events_2.RoomEvent.TrackSubscriptionFailed, sid, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackMuted, (pub) => {
+            this.emit(events_2.RoomEvent.TrackMuted, pub, participant);
+        })
+            .on(events_2.ParticipantEvent.TrackUnmuted, (pub) => {
+            this.emit(events_2.RoomEvent.TrackUnmuted, pub, participant);
+        })
+            .on(events_2.ParticipantEvent.MetadataChanged, (metadata) => {
+            this.emit(events_2.RoomEvent.MetadataChanged, metadata, participant);
+        })
+            .on(events_2.ParticipantEvent.ParticipantMetadataChanged, (metadata) => {
+            this.emit(events_2.RoomEvent.ParticipantMetadataChanged, metadata, participant);
+        })
+            .on(events_2.ParticipantEvent.ConnectionQualityChanged, (quality) => {
+            this.emit(events_2.RoomEvent.ConnectionQualityChanged, quality, participant);
+        });
         return participant;
     }
     sendSyncState() {
@@ -7945,7 +8048,7 @@ class Room extends events_1.EventEmitter {
             }
         }
     }
-    /** @internal */
+    // /** @internal */
     emit(event, ...args) {
         logger_1.default.debug('room event', event, ...args);
         return super.emit(event, ...args);
@@ -8042,8 +8145,6 @@ var MediaDeviceFailure;
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.TrackEvent = exports.EngineEvent = exports.ParticipantEvent = exports.RoomEvent = void 0;
 /**
  * Events are the primary way LiveKit notifies your application of changes.
  *
@@ -8053,6 +8154,8 @@ exports.TrackEvent = exports.EngineEvent = exports.ParticipantEvent = exports.Ro
  * room.on(RoomEvent.TrackPublished, (track, publication, participant) => {})
  * ```
  */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TrackEvent = exports.EngineEvent = exports.ParticipantEvent = exports.RoomEvent = void 0;
 var RoomEvent;
 (function (RoomEvent) {
     /**
@@ -8069,6 +8172,12 @@ var RoomEvent;
      * when an unrecoverable connection issue had occured
      */
     RoomEvent["Disconnected"] = "disconnected";
+    /**
+     * Whenever the connection state of the room changes
+     *
+     * args: ([[RoomState]])
+     */
+    RoomEvent["StateChanged"] = "stateChanged";
     /**
      * When input or output devices on the machine have changed.
      */
@@ -8176,7 +8285,7 @@ var RoomEvent;
      * args: (prevMetadata: string, [[Participant]])
      *
      */
-    RoomEvent["ParticipantMetadataChanged"] = "participantMetaDataChanged";
+    RoomEvent["ParticipantMetadataChanged"] = "participantMetadataChanged";
     /**
      * Room metadata is a simple way for app-specific state to be pushed to
      * all users.
@@ -8373,6 +8482,7 @@ var ParticipantEvent;
 /** @internal */
 var EngineEvent;
 (function (EngineEvent) {
+    EngineEvent["TransportsCreated"] = "transportsCreated";
     EngineEvent["Connected"] = "connected";
     EngineEvent["Disconnected"] = "disconnected";
     EngineEvent["Resuming"] = "resuming";
@@ -8746,7 +8856,7 @@ class LocalParticipant extends Participant_1.default {
      * @param options
      */
     publishTrack(track, options) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f;
         return __awaiter(this, void 0, void 0, function* () {
             const opts = Object.assign(Object.assign({}, (_a = this.roomOptions) === null || _a === void 0 ? void 0 : _a.publishDefaults), options);
             // convert raw media track into audio or video track
@@ -8830,8 +8940,7 @@ class LocalParticipant extends Participant_1.default {
             // store RTPSender
             track.sender = transceiver.sender;
             if (track instanceof LocalVideoTrack_1.default) {
-                const disableLayerPause = (_h = (_g = this.roomOptions) === null || _g === void 0 ? void 0 : _g.expDisableLayerPause) !== null && _h !== void 0 ? _h : false;
-                track.startMonitor(this.engine.client, disableLayerPause);
+                track.startMonitor(this.engine.client);
             }
             else if (track instanceof LocalAudioTrack_1.default) {
                 track.startMonitor();
@@ -9156,8 +9265,8 @@ class Participant extends events_1.EventEmitter {
         const prevMetadata = this.metadata;
         this.metadata = md;
         if (changed) {
-            this.emit(events_2.ParticipantEvent.MetadataChanged, prevMetadata, this);
-            this.emit(events_2.ParticipantEvent.ParticipantMetadataChanged, prevMetadata, this);
+            this.emit(events_2.ParticipantEvent.MetadataChanged, prevMetadata);
+            this.emit(events_2.ParticipantEvent.ParticipantMetadataChanged, prevMetadata);
         }
     }
     /** @internal */
@@ -9669,7 +9778,14 @@ class LocalAudioTrack extends LocalTrack_1.default {
                 this._currentBitrate = 0;
                 return;
             }
-            const stats = yield this.getSenderStats();
+            let stats;
+            try {
+                stats = yield this.getSenderStats();
+            }
+            catch (e) {
+                logger_1.default.error('could not get audio sender stats', e);
+                return;
+            }
             if (stats && this.prevStats) {
                 this._currentBitrate = stats_1.computeBitrate(stats, this.prevStats);
             }
@@ -10002,24 +10118,23 @@ const utils_1 = __webpack_require__(/*! ../utils */ "./node_modules/livekit-clie
 const LocalTrack_1 = __importDefault(__webpack_require__(/*! ./LocalTrack */ "./node_modules/livekit-client/dist/room/track/LocalTrack.js"));
 const Track_1 = __webpack_require__(/*! ./Track */ "./node_modules/livekit-client/dist/room/track/Track.js");
 const utils_2 = __webpack_require__(/*! ./utils */ "./node_modules/livekit-client/dist/room/track/utils.js");
-// delay before attempting to upgrade
-const QUALITY_UPGRADE_DELAY = 60 * 1000;
-// avoid downgrading too quickly
-const QUALITY_DOWNGRADE_DELAY = 5 * 1000;
-const ridOrder = ['q', 'h', 'f'];
 class LocalVideoTrack extends LocalTrack_1.default {
     constructor(mediaTrack, constraints) {
         super(mediaTrack, Track_1.Track.Kind.Video, constraints);
-        this.monitorSender = (disableLayerPause) => __awaiter(this, void 0, void 0, function* () {
+        this.monitorSender = () => __awaiter(this, void 0, void 0, function* () {
             if (!this.sender) {
                 this._currentBitrate = 0;
                 return;
             }
-            const stats = yield this.getSenderStats();
-            const statsMap = new Map(stats.map((s) => [s.rid, s]));
-            if (!disableLayerPause && this.prevStats && this.isSimulcast) {
-                this.checkAndUpdateSimulcast(statsMap);
+            let stats;
+            try {
+                stats = yield this.getSenderStats();
             }
+            catch (e) {
+                logger_1.default.error('could not get audio sender stats', e);
+                return;
+            }
+            const statsMap = new Map(stats.map((s) => [s.rid, s]));
             if (this.prevStats) {
                 let totalBitrate = 0;
                 statsMap.forEach((s, key) => {
@@ -10031,7 +10146,7 @@ class LocalVideoTrack extends LocalTrack_1.default {
             }
             this.prevStats = statsMap;
             setTimeout(() => {
-                this.monitorSender(disableLayerPause);
+                this.monitorSender();
             }, stats_1.monitorFrequency);
         });
     }
@@ -10042,7 +10157,7 @@ class LocalVideoTrack extends LocalTrack_1.default {
         return false;
     }
     /* @internal */
-    startMonitor(signalClient, disableLayerPause) {
+    startMonitor(signalClient) {
         var _a;
         this.signalClient = signalClient;
         // save original encodings
@@ -10051,7 +10166,7 @@ class LocalVideoTrack extends LocalTrack_1.default {
             this.encodings = params.encodings;
         }
         setTimeout(() => {
-            this.monitorSender(disableLayerPause);
+            this.monitorSender();
         }, stats_1.monitorFrequency);
     }
     stop() {
@@ -10181,7 +10296,6 @@ class LocalVideoTrack extends LocalTrack_1.default {
                 logger_1.default.warn('cannot set publishing layers, encodings mismatch');
                 return;
             }
-            this.activeQualities = qualities;
             let hasChanged = false;
             encodings.forEach((encoding, idx) => {
                 var _a;
@@ -10221,109 +10335,6 @@ class LocalVideoTrack extends LocalTrack_1.default {
                 yield this.sender.setParameters(params);
             }
         });
-    }
-    checkAndUpdateSimulcast(statsMap) {
-        var _a, _b;
-        if (!this.sender || this.isMuted || !this.encodings) {
-            return;
-        }
-        let bestEncoding;
-        const { encodings } = this.sender.getParameters();
-        encodings.forEach((encoding) => {
-            // skip inactive encodings
-            if (!encoding.active)
-                return;
-            if (bestEncoding === undefined) {
-                bestEncoding = encoding;
-            }
-            else if (bestEncoding.rid
-                && encoding.rid
-                && ridOrder.indexOf(bestEncoding.rid) < ridOrder.indexOf(encoding.rid)) {
-                bestEncoding = encoding;
-            }
-            else if (bestEncoding.maxBitrate !== undefined
-                && encoding.maxBitrate !== undefined
-                && bestEncoding.maxBitrate < encoding.maxBitrate) {
-                bestEncoding = encoding;
-            }
-        });
-        if (!bestEncoding) {
-            return;
-        }
-        const rid = (_a = bestEncoding.rid) !== null && _a !== void 0 ? _a : '';
-        const sendStats = statsMap.get(rid);
-        const lastStats = (_b = this.prevStats) === null || _b === void 0 ? void 0 : _b.get(rid);
-        if (!sendStats || !lastStats) {
-            return;
-        }
-        const currentQuality = videoQualityForRid(rid);
-        // adaptive simulcast algorithm notes (davidzhao)
-        // Chrome (and other browsers) will automatically pause the highest layer
-        // when it runs into bandwidth limitations. When that happens, it would not
-        // be able to send any new frames between the two stats checks.
-        //
-        // We need to set that layer to inactive intentionally, because chrome tends
-        // to flicker, meaning it will attempt to send that layer again shortly
-        // afterwards, flip-flopping every few seconds. We want to avoid that.
-        //
-        // Note: even after bandwidth recovers, the flip-flopping behavior continues
-        // this is possibly due to SFU-side PLI generation and imperfect bandwidth estimation
-        if (sendStats.qualityLimitationResolutionChanges
-            - lastStats.qualityLimitationResolutionChanges > 0) {
-            this.lastQualityChange = new Date().getTime();
-        }
-        // log.debug('frameSent', sendStats.framesSent, 'lastSent', lastStats.framesSent,
-        //   'elapsed', sendStats.timestamp - lastStats.timestamp);
-        if (sendStats.framesSent - lastStats.framesSent > 0) {
-            // frames have been sending ok, consider upgrading quality
-            if (currentQuality === livekit_models_1.VideoQuality.HIGH || !this.lastQualityChange)
-                return;
-            const nextQuality = currentQuality + 1;
-            if ((new Date()).getTime() - this.lastQualityChange < QUALITY_UPGRADE_DELAY) {
-                return;
-            }
-            if (this.activeQualities
-                && this.activeQualities.some((q) => q.quality === nextQuality && !q.enabled)) {
-                // quality has been disabled by the server, so we should skip
-                return;
-            }
-            // we are already at the highest layer
-            let bestQuality = livekit_models_1.VideoQuality.LOW;
-            encodings.forEach((encoding) => {
-                var _a;
-                const quality = videoQualityForRid((_a = encoding.rid) !== null && _a !== void 0 ? _a : '');
-                if (quality > bestQuality) {
-                    bestQuality = quality;
-                }
-            });
-            if (nextQuality > bestQuality) {
-                return;
-            }
-            logger_1.default.debug('upgrading video quality to', nextQuality);
-            this.setPublishingQuality(nextQuality);
-            return;
-        }
-        // if best layer has not sent anything, do not downgrade till the
-        // best layer starts sending something. It is possible that the
-        // browser has not started some layer(s) due to cpu/bandwidth
-        // constraints
-        if (sendStats.framesSent === 0)
-            return;
-        // if we've upgraded or downgraded recently, give it a bit of time before
-        // downgrading again
-        if (this.lastExplicitQualityChange
-            && ((new Date()).getTime() - this.lastExplicitQualityChange) < QUALITY_DOWNGRADE_DELAY) {
-            return;
-        }
-        if (currentQuality === livekit_models_1.VideoQuality.UNRECOGNIZED) {
-            return;
-        }
-        if (currentQuality === livekit_models_1.VideoQuality.LOW) {
-            // already the lowest quality, nothing we can do
-            return;
-        }
-        logger_1.default.debug('downgrading video quality to', currentQuality - 1);
-        this.setPublishingQuality(currentQuality - 1);
     }
 }
 exports["default"] = LocalVideoTrack;
@@ -11031,7 +11042,9 @@ function attachToElement(track, element) {
     // avoid flicker
     if (element.srcObject !== mediaStream) {
         element.srcObject = mediaStream;
-        if (utils_1.isSafari() && element instanceof HTMLVideoElement) {
+        if ((utils_1.isSafari() || utils_1.isFireFox()) && element instanceof HTMLVideoElement) {
+            // Firefox also has a timing issue where video doesn't actually get attached unless
+            // performed out-of-band
             // Safari 15 has a bug where in certain layouts, video element renders
             // black until the page is resized or other changes take place.
             // Resetting the src triggers it to render.
@@ -11677,7 +11690,7 @@ exports.getClientInfo = getClientInfo;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.protocolVersion = exports.version = void 0;
-exports.version = '0.16.2';
+exports.version = '0.16.6';
 exports.protocolVersion = 6;
 //# sourceMappingURL=version.js.map
 

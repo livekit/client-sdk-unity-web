@@ -3,6 +3,7 @@ var NativeLib = {
 	$BridgePtr: {}, // O(1)
 	$RefCounter: 1, // 0 is nullptr
 	$Stack: [],
+	$StackCSharp: [],
 
 	$NewRef: function () {
 		return RefCounter++;
@@ -26,7 +27,6 @@ var NativeLib = {
 		delete BridgeData[ptr];
 	},
 
-	// Get a property by string from an object (if ptr = 0, then the object is window)
 	GetProperty: function (ptr, str) {
 		str = Pointer_stringify(str);
 		var obj;
@@ -75,8 +75,9 @@ var NativeLib = {
 
 	PushFunction: function (ptr, fnc) {
 		Stack.push(function () {
-			// TODO Push arguments to c#
+			StackCSharp = arguments;
 			Runtime.dynCall("vi", fnc, [ptr]);
+			StackCSharp = [];
         });
 	},
 
@@ -111,6 +112,13 @@ var NativeLib = {
 		SetRef(toPtr, inst);
 		Stack = [];
 	},
+
+	ShiftStack: function () {
+		var ptr = NewRef();
+		var v = StackCSharp.shift();
+		SetRef(ptr, v);
+		return ptr;
+    },
 
 	GetString: function (ptr) {
 		var value = BridgeData[ptr];
@@ -148,5 +156,6 @@ autoAddDeps(NativeLib, '$BridgeData');
 autoAddDeps(NativeLib, '$BridgePtr');
 autoAddDeps(NativeLib, '$RefCounter');
 autoAddDeps(NativeLib, '$Stack');
+autoAddDeps(NativeLib, '$StackCSharp');
 
 mergeInto(LibraryManager.library, NativeLib);

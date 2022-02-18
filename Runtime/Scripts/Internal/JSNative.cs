@@ -50,6 +50,9 @@ namespace LiveKit
         internal static extern void NewInstance(IntPtr ptr, IntPtr toPtr, string clazz);
 
         [DllImport("__Internal")]
+        internal static extern IntPtr ShiftStack();
+
+        [DllImport("__Internal")]
         internal static extern string GetString(IntPtr ptr);
 
         [DllImport("__Internal")]
@@ -61,5 +64,4 @@ namespace LiveKit
         [DllImport("__Internal")]
         internal static extern IntPtr GetData(IntPtr ptr);
     }
-
 }
