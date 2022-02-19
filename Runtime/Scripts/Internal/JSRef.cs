@@ -5,9 +5,23 @@ namespace LiveKit{
 
     public class JSRef
     {
-        public static readonly IntPtr LiveKit;
+        internal static readonly IntPtr LiveKit;
         internal static Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
-        public readonly IntPtr NativePtr;
+        internal readonly IntPtr NativePtr;
+
+        internal static T FromPtr<T>(IntPtr ptr) where T : JSRef
+        {
+            if (!BridgeData.ContainsKey(ptr))
+                return Activator.CreateInstance(typeof(T), ptr) as T;
+
+            BridgeData[ptr].TryGetTarget(out JSRef fref);
+            return fref as T;
+        }
+
+        internal static JSRef FromPtr(IntPtr ptr)
+        {
+            return FromPtr<JSRef>(ptr);
+        }
 
         static JSRef()
         {

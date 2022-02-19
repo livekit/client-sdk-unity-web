@@ -4,6 +4,7 @@ var NativeLib = {
 	$RefCounter: 1, // 0 is nullptr
 	$Stack: [],
 	$StackCSharp: [],
+	$nullptr: 0,
 
 	$NewRef: function () {
 		return RefCounter++;
@@ -12,9 +13,22 @@ var NativeLib = {
 	$SetRef: function (ptr, obj) {
 		BridgeData[ptr] = obj;
 
-		if (obj !== undefined || obj !== null) {
+		if (obj !== undefined && obj !== null) {
 			BridgePtr[obj] = ptr;
         }
+	},
+
+	$GetOrNewRef: function (obj) {
+		// Always create a new ref for primitives
+		var ptr; 
+		if (typeof val !== "object" || obj === null && !(obj in BridgePtr)) {
+			ptr = NewRef();
+			SetRef(ptr, obj);
+		} else {
+			ptr = BridgePtr[obj];
+		}
+
+		return ptr;
 	},
 
 	NewRef: function () {
@@ -30,27 +44,39 @@ var NativeLib = {
 	GetProperty: function (ptr, str) {
 		str = Pointer_stringify(str);
 		var obj;
-		if (ptr == 0) {
+		if (ptr == nullptr) {
 			obj = window[str];
 		} else {
 			if (!(ptr in BridgeData))
-				return 0;
+				return nullptr;
 
 			obj = BridgeData[ptr][str];
         }
 
 		if (!obj)
-			return 0;
+			return nullptr;
 
-		var oPtr;
-		if (!(obj in BridgePtr)) {
-			oPtr = NewRef();
-			SetRef(oPtr, obj);
-		} else {
-			oPtr = BridgePtr[obj];
-		}
+		return GetOrNewRef(obj);
+	},
 
-		return oPtr;
+	IsNull: function (ptr) {
+		var obj = BridgeData[ptr];
+		return obj === null;
+	},
+
+	IsUndefined: function (ptr) {
+		var obj = BridgeData[ptr];
+		return obj === undefined;
+	},
+
+	IsString: function (ptr) {
+		var obj = BridgeData[ptr];
+		return typeof obj === 'string' || obj instanceof String;
+	},
+
+	IsObject: function (ptr) {
+		var obj = BridgeData[ptr];
+		return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 	},
 
 	PushNull: function () {
@@ -75,7 +101,7 @@ var NativeLib = {
 
 	PushFunction: function (ptr, fnc) {
 		Stack.push(function () {
-			StackCSharp = arguments;
+			StackCSharp = Array.from(arguments);
 			Runtime.dynCall("vi", fnc, [ptr]);
 			StackCSharp = [];
         });
@@ -114,10 +140,8 @@ var NativeLib = {
 	},
 
 	ShiftStack: function () {
-		var ptr = NewRef();
 		var v = StackCSharp.shift();
-		SetRef(ptr, v);
-		return ptr;
+		return GetOrNewRef(v);
     },
 
 	GetString: function (ptr) {
@@ -138,18 +162,20 @@ var NativeLib = {
 		return value;
 	},
 
-	GetData: function (ptr) {
+	GetDataPtr: function (ptr) {
 		var value = BridgeData[ptr];
 		var arr = new Uint8Array(value);
 		var ptr = _malloc(arr.byteLength + 4);
 		HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
 		HEAPU8.set(arr, ptr + 4);
-
-		// TODO Should I free ptr ?
+		setTimeout(function () {
+			_free(ptr);
+		}, 0);
 		return ptr;
     },
 };
 
+autoAddDeps(NativeLib, '$GetOrNewRef');
 autoAddDeps(NativeLib, '$NewRef');
 autoAddDeps(NativeLib, '$SetRef');
 autoAddDeps(NativeLib, '$BridgeData');
@@ -157,5 +183,6 @@ autoAddDeps(NativeLib, '$BridgePtr');
 autoAddDeps(NativeLib, '$RefCounter');
 autoAddDeps(NativeLib, '$Stack');
 autoAddDeps(NativeLib, '$StackCSharp');
+autoAddDeps(NativeLib, '$nullptr');
 
 mergeInto(LibraryManager.library, NativeLib);
