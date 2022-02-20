@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-
     internal class Utils
     {
         public static string ToEnumString<T>(T type)

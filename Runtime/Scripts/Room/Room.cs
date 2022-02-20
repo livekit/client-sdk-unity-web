@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
 
 namespace LiveKit
 {
@@ -36,10 +35,10 @@ namespace LiveKit
 		public delegate void TrackUnmutedDelegate(TrackPublication publication, Participant participant);
 		public delegate void LocalTrackPublishedDelegate(LocalTrackPublication publication, LocalParticipant participant);
 		public delegate void LocalTrackUnpublishedDelegate(LocalTrackPublication publication, LocalParticipant participant);
-		public delegate void ParticipantMetadataChangedDelegate(string? metadata, Participant participant);
+		public delegate void ParticipantMetadataChangedDelegate(string metadata, Participant participant);
 		public delegate void ActiveSpeakersChangedDelegate(JSArray<Participant> speakers);
 		public delegate void RoomMetadataChangedDelegate(string metadata);
-		public delegate void DataReceivedDelegate(byte[] data, RemoteParticipant? participant, DataPacketKind? kind);
+		public delegate void DataReceivedDelegate(byte[] data, RemoteParticipant participant, DataPacketKind? kind);
 		public delegate void ConnectionQualityChangedDelegate(ConnectionQuality quality, Participant participant);
 		public delegate void MediaDevicesErrorDelegate(JSError error);
 		public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publicationb, Track.StreamState streamState, RemoteParticipant participant);
@@ -266,7 +265,7 @@ namespace LiveKit
 			private readonly WeakReference<Room> m_Room;
 			private RoomEvent m_Event;
 			
-			public EventReceiver(Room room, RoomEvent e)
+			public EventReceiver(Room room, RoomEvent e) : base(JSNative.NewRef())
 			{
 				m_Room = new WeakReference<Room>(room);
 				m_Event = e;
@@ -279,7 +278,7 @@ namespace LiveKit
 
 		private List<EventReceiver> m_Events = new List<EventReceiver>(); // Avoid EventReceiver from being garbage collected
 
-		public Room(RoomOptions? options = null)
+		public Room(RoomOptions? options = null) : base(JSNative.NewRef())
 		{
 			if (options != null)
 				JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));

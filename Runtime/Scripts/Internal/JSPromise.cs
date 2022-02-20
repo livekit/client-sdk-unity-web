@@ -1,6 +1,7 @@
 using AOT;
 using System;
 using System.Collections;
+using UnityEngine.Scripting;
 
 namespace LiveKit
 {
@@ -50,6 +51,7 @@ namespace LiveKit
         public bool IsDone { get; private set; }
         public bool IsError { get; private set; }
 
+        [Preserve]
         public JSPromise(IntPtr ptr) : base(ptr)
         {
             m_IgnoreFirst = true; // Support yield operation

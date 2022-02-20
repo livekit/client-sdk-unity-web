@@ -1,12 +1,18 @@
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using System.Runtime.Serialization;
+using UnityEngine.Scripting;
 
 namespace LiveKit
 {
     public class Track : JSRef
     {
+        [Preserve]
+        public Track(IntPtr ptr) : base(ptr)
+        {
+            
+        }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public enum Kind {

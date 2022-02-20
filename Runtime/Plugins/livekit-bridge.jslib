@@ -21,7 +21,7 @@ var NativeLib = {
 	$GetOrNewRef: function (obj) {
 		// Always create a new ref for primitives
 		var ptr; 
-		if (typeof val !== "object" || obj === null && !(obj in BridgePtr)) {
+		if (typeof val !== "object" || obj === null || !(obj in BridgePtr)) {
 			ptr = NewRef();
 			SetRef(ptr, obj);
 		} else {

@@ -46,14 +46,14 @@ namespace LiveKit
     public struct RTCIceServer
     {
         [JsonProperty("credential")]
-        public string? Credential;
+        public string Credential;
         [JsonProperty("credentialType")]
         public RTCIceCredentialType? CredentialType;
         [JsonProperty("urls")]
         public string[] URLs;
         [JsonProperty("username")]
-        public string? Username;
-}
+        public string Username;
+    }
 
     public struct RTCConfiguration
     {

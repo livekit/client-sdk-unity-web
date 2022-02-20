@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LiveKit{
 
@@ -12,7 +13,9 @@ namespace LiveKit{
         internal static T FromPtr<T>(IntPtr ptr) where T : JSRef
         {
             if (!BridgeData.ContainsKey(ptr))
+            {
                 return Activator.CreateInstance(typeof(T), ptr) as T;
+            }
 
             BridgeData[ptr].TryGetTarget(out JSRef fref);
             return fref as T;
@@ -28,12 +31,7 @@ namespace LiveKit{
             LiveKit = JSNative.GetProperty(IntPtr.Zero, "livekit");
         }
 
-        public JSRef() : this(JSNative.NewRef())
-        {
-
-        }
-
-        public JSRef(IntPtr ptr)  
+        public JSRef(IntPtr ptr)
         {
             NativePtr = ptr;
             BridgeData.Add(NativePtr, new WeakReference<JSRef>(this));
