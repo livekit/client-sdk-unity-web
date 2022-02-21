@@ -19,12 +19,10 @@ var NativeLib = {
 	},
 
 	$GetOrNewRef: function (obj) {
-		var ptr;
-		if (!(obj in BridgePtr) || typeof val !== "object" || obj === null) {
+		var ptr = BridgePtr.get(obj);
+		if (ptr === undefined || typeof val !== "object" || obj === null) {
 			ptr = NewRef();
 			SetRef(ptr, obj);
-		} else {
-			ptr = BridgePtr.get(obj);
 		}
 
 		return ptr;
