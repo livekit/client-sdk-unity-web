@@ -1,7 +1,7 @@
 var NativeLib = {
-	$BridgeData: {},
-	$BridgePtr: {}, // O(1)
-	$RefCounter: 1, // 0 is nullptr
+	$BridgeData: null,
+	$BridgePtr: null,
+	$RefCounter: 1,
 	$Stack: [],
 	$StackCSharp: [],
 	$nullptr: 0,
@@ -11,34 +11,39 @@ var NativeLib = {
 	},
 
 	$SetRef: function (ptr, obj) {
-		BridgeData[ptr] = obj;
+		BridgeData.set(ptr, obj);
 
-		if (obj !== undefined && obj !== null) {
-			BridgePtr[obj] = ptr;
+		if (typeof val === "object" && obj !== null) {
+			BridgePtr.set(obj, ptr);
         }
 	},
 
 	$GetOrNewRef: function (obj) {
-		// Always create a new ref for primitives
-		var ptr; 
-		if (typeof val !== "object" || obj === null || !(obj in BridgePtr)) {
+		var ptr;
+		if (!(obj in BridgePtr) || typeof val !== "object" || obj === null) {
 			ptr = NewRef();
 			SetRef(ptr, obj);
 		} else {
-			ptr = BridgePtr[obj];
+			ptr = BridgePtr.get(obj);
 		}
 
 		return ptr;
 	},
+
+	Init: function () {
+		// When initializing these variables directly, emscripten remplace the type by {} (not sure why)
+		BridgeData = new Map();
+		BridgePtr = new Map();
+    },
 
 	NewRef: function () {
 		return NewRef();
 	},
 
 	FreeRef: function (ptr) {
-		var obj = BridgeData[ptr];
-		delete BridgePtr[obj];
-		delete BridgeData[ptr];
+		var obj = BridgeData.get(ptr);
+		BridgePtr.delete(obj);
+		BridgeData.delete(ptr);
 	},
 
 	GetProperty: function (ptr, str) {
@@ -47,10 +52,11 @@ var NativeLib = {
 		if (ptr == nullptr) {
 			obj = window[str];
 		} else {
-			if (!(ptr in BridgeData))
+			var p = BridgeData.get(ptr);
+			if (p === undefined)
 				return nullptr;
 
-			obj = BridgeData[ptr][str];
+			obj = p[str];
         }
 
 		if (!obj)
@@ -60,23 +66,26 @@ var NativeLib = {
 	},
 
 	IsNull: function (ptr) {
-		var obj = BridgeData[ptr];
-		return obj === null;
+		return BridgeData.get(ptr) === null;
 	},
 
 	IsUndefined: function (ptr) {
-		var obj = BridgeData[ptr];
-		return obj === undefined;
+		return BridgeData.get(ptr) === undefined;
 	},
 
 	IsString: function (ptr) {
-		var obj = BridgeData[ptr];
+		var obj = BridgeData.get(ptr);
 		return typeof obj === 'string' || obj instanceof String;
 	},
 
 	IsObject: function (ptr) {
-		var obj = BridgeData[ptr];
+		var obj = BridgeData.get(ptr);
 		return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+	},
+
+	IsArray: function (ptr) {
+		var obj = BridgeData.get(ptr);
+		return Array.isArray(obj);
 	},
 
 	PushNull: function () {
@@ -118,7 +127,7 @@ var NativeLib = {
 
 	CallMethod: function (ptr, str) {
 		var returnptr = NewRef();
-		var obj = BridgeData[ptr];
+		var obj = BridgeData.get(ptr);
 		var fnc = obj[Pointer_stringify(str)]
 		var result = fnc.apply(obj, Stack);
 		SetRef(returnptr, result);
@@ -131,7 +140,7 @@ var NativeLib = {
 		if (ptr == 0) {
 			obj = window;
 		} else {
-			obj = BridgeData[ptr];
+			obj = BridgeData.get(ptr);
 		}
 
 		var inst = new (Function.prototype.bind.apply(obj[Pointer_stringify(clazz)], Stack));
@@ -145,7 +154,7 @@ var NativeLib = {
     },
 
 	GetString: function (ptr) {
-		var value = BridgeData[ptr];
+		var value = BridgeData.get(ptr);
 		var bufferSize = lengthBytesUTF8(value) + 1;
 		var buffer = _malloc(bufferSize);
 		stringToUTF8(value, buffer, bufferSize);
@@ -153,17 +162,17 @@ var NativeLib = {
 	},
 
 	GetNumber: function (ptr) {
-		var value = BridgeData[ptr];
+		var value = BridgeData.get(ptr);
 		return value;
 	},
 
 	GetBool: function (ptr) {
-		var value = BridgeData[ptr];
+		var value = BridgeData.get(ptr);
 		return value;
 	},
 
 	GetDataPtr: function (ptr) {
-		var value = BridgeData[ptr];
+		var value = BridgeData.get(ptr);
 		var arr = new Uint8Array(value);
 		var ptr = _malloc(arr.byteLength + 4);
 		HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
@@ -172,7 +181,7 @@ var NativeLib = {
 			_free(ptr);
 		}, 0);
 		return ptr;
-    },
+    }
 };
 
 autoAddDeps(NativeLib, '$GetOrNewRef');

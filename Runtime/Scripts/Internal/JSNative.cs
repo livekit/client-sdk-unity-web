@@ -3,7 +3,6 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Converters;
-using UnityEngine.Scripting;
 
 namespace LiveKit
 {
@@ -18,7 +17,11 @@ namespace LiveKit
         static JSNative()
         {
             AotHelper.EnsureType<StringEnumConverter>();
+            Init();
         }
+
+        [DllImport("__Internal")]
+        internal static extern void Init();
 
         [DllImport("__Internal")]
         internal static extern IntPtr NewRef();
@@ -70,6 +73,9 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern bool IsObject(IntPtr ptr);
+
+        [DllImport("__Internal")]
+        internal static extern bool IsArray(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern string GetString(IntPtr ptr);
