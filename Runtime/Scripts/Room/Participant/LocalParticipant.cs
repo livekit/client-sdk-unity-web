@@ -12,7 +12,7 @@ namespace LiveKit
 
         }
 
-        public new LocalTrackPublication GetTrack(Track.Source source)
+        public new LocalTrackPublication GetTrack(TrackSource source)
         {
             return base.GetTrack(source) as LocalTrackPublication;
         }

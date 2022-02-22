@@ -79,9 +79,9 @@ namespace LiveKit
     public struct TrackPublishOptions
     {
         [JsonProperty("name")]
-        public string? Name;
+        public string Name;
         [JsonProperty("source")]
-        public Track.Source? Source;
+        public TrackSource? Source;
 
         // TrackPublishDefaults copied (no struct inheritance)
         [JsonProperty("videoEncoding")]

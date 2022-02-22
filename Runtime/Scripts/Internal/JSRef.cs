@@ -1,36 +1,40 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace LiveKit{
 
     public class JSRef
     {
-        internal static readonly IntPtr LiveKit;
+        internal static readonly JSRef LiveKit;
         internal static Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
-        internal readonly IntPtr NativePtr;
+        internal IntPtr NativePtr { get; private set; }
 
-        internal static T FromPtr<T>(IntPtr ptr) where T : JSRef
+        static JSRef()
+        {
+            LiveKit = Acquire(JSNative.GetProperty(IntPtr.Zero, "livekit"));
+        }
+
+        internal static T Acquire<T>(IntPtr ptr) where T : JSRef
         {
             if (!BridgeData.ContainsKey(ptr))
-            {
                 return Activator.CreateInstance(typeof(T), ptr) as T;
-            }
 
             BridgeData[ptr].TryGetTarget(out JSRef fref);
             return fref as T;
         }
 
-        internal static JSRef FromPtr(IntPtr ptr)
+        internal static JSRef Acquire(IntPtr ptr)
         {
-            return FromPtr<JSRef>(ptr);
+            return Acquire<JSRef>(ptr);
         }
 
-        static JSRef()
+        public static T CopyRef<T>(JSRef pref) where T : JSRef
         {
-            LiveKit = JSNative.GetProperty(IntPtr.Zero, "livekit");
+            return Acquire<T>(JSNative.CopyRef(pref.NativePtr));
         }
 
+        [Preserve]
         public JSRef(IntPtr ptr)
         {
             NativePtr = ptr;
@@ -39,8 +43,23 @@ namespace LiveKit{
 
         ~JSRef()
         {
-            JSNative.FreeRef(NativePtr);
-            BridgeData.Remove(NativePtr);
+            Free();
+        }
+
+        internal void Free()
+        {
+            if (NativePtr == IntPtr.Zero)
+                return;
+
+            JSNative.FreeRef(Release());
+        }
+
+        internal IntPtr Release()
+        {
+            var ptr = NativePtr;
+            BridgeData.Remove(ptr);
+            NativePtr = IntPtr.Zero;
+            return ptr;
         }
     }
 }

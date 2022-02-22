@@ -13,14 +13,14 @@ var NativeLib = {
 	$SetRef: function (ptr, obj) {
 		BridgeData.set(ptr, obj);
 
-		if (typeof val === "object" && obj !== null) {
+		if (typeof val === 'object' && obj !== null) {
 			BridgePtr.set(obj, ptr);
         }
 	},
 
 	$GetOrNewRef: function (obj) {
 		var ptr = BridgePtr.get(obj);
-		if (ptr === undefined || typeof val !== "object" || obj === null) {
+		if (ptr === undefined || typeof val !== 'object' || obj === null) {
 			ptr = NewRef();
 			SetRef(ptr, obj);
 		}
@@ -29,7 +29,7 @@ var NativeLib = {
 	},
 
 	Init: function () {
-		// When initializing these variables directly, emscripten remplace the type by {} (not sure why)
+		// When initializing these variables directly, emscripten replace the type by {} (not sure why)
 		BridgeData = new Map();
 		BridgePtr = new Map();
     },
@@ -42,6 +42,13 @@ var NativeLib = {
 		var obj = BridgeData.get(ptr);
 		BridgePtr.delete(obj);
 		BridgeData.delete(ptr);
+	},
+
+	CopyRef: function (ptr) {
+		var obj = BridgeData.get(ptr);
+		var ref = NewRef();
+		SetRef(ref, obj);
+		return ref;
 	},
 
 	GetProperty: function (ptr, str) {
@@ -179,7 +186,60 @@ var NativeLib = {
 			_free(ptr);
 		}, 0);
 		return ptr;
-    }
+	},
+
+	// Video Receive
+	NewTexture: function () {
+		var tex = GLctx.createTexture();
+		if (!tex)
+			return nullptr;
+
+		var id = GL.getNewId(GL.textures);
+		tex.name = id;
+		GL.textures[id] = tex;
+		return id;
+	},
+
+	DestroyTexture: function (ptr) {
+		GLctx.deleteTexture(ptr);
+	},
+
+	AttachVideo: function (texId, videoPtr) {
+		var attachPtr = NewRef();
+		SetRef(attachPtr, true);
+
+		var tex = GL.textures[texId];
+		var video = BridgeData.get(videoPtr);
+		var lastTime = -1;
+
+		var updateVideo = function () {
+			if (!BridgeData.get(attachPtr))
+				return; // Detached
+
+			var time = video.currentTime;
+			if (time !== lastTime) {
+				GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
+
+				// Flip
+				GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+				GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
+				GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+
+				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
+				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR);
+				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_S, GLctx.CLAMP_TO_EDGE);
+				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_T, GLctx.CLAMP_TO_EDGE);
+				GLctx.bindTexture(GLctx.TEXTURE_2D, null);
+
+				lastTime = time;
+			}
+
+			requestAnimationFrame(updateVideo);
+		};
+
+		requestAnimationFrame(updateVideo);
+		return attachPtr;
+	},
 };
 
 autoAddDeps(NativeLib, '$GetOrNewRef');

@@ -42,7 +42,6 @@ namespace LiveKit
         public double ExpSignalLatency;
     }
 
-
     public struct RoomConnectOptions
     {
         [JsonProperty("autoSubscribe")]
@@ -50,7 +49,6 @@ namespace LiveKit
         [JsonProperty("rtcConfig")]
         public RTCConfiguration? RTCConfig;
     }
-
     public struct ConnectOptions
     {
         [JsonProperty("autoSubscribe")]

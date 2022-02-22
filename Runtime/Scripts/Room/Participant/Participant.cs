@@ -24,7 +24,7 @@ namespace LiveKit
         public string Sid { 
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "sid"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "sid"));
                 return JSNative.GetString(ptr.NativePtr);
             }
         }
@@ -33,7 +33,7 @@ namespace LiveKit
         {
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "audioLevel"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "audioLevel"));
                 return (int) JSNative.GetNumber(ptr.NativePtr);
             }
         }
@@ -42,7 +42,7 @@ namespace LiveKit
         {
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "isSpeaking"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "isSpeaking"));
                 return JSNative.GetBool(ptr.NativePtr);
             }
         }
@@ -51,7 +51,7 @@ namespace LiveKit
         {
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "identity"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "identity"));
                 return JSNative.GetString(ptr.NativePtr);
             }
         }
@@ -60,7 +60,7 @@ namespace LiveKit
         {
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "name"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "name"));
                 if (!JSNative.IsString(ptr.NativePtr))
                     return null;
 
@@ -72,7 +72,7 @@ namespace LiveKit
         {
             get
             {
-                var ptr = FromPtr(JSNative.GetProperty(NativePtr, "metadata"));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr, "metadata"));
                 if (!JSNative.IsString(ptr.NativePtr))
                     return null;
 
@@ -88,10 +88,10 @@ namespace LiveKit
 
         public JSArray<TrackPublication> GetTracks()
         {
-            return FromPtr<JSArray<TrackPublication>>(JSNative.CallMethod(NativePtr, "getTracks"));
+            return Acquire<JSArray<TrackPublication>>(JSNative.CallMethod(NativePtr, "getTracks"));
         }
 
-        public TrackPublication GetTrack(Track.Source source)
+        public TrackPublication GetTrack(TrackSource source)
         {
             JSNative.PushString(Utils.ToEnumString(source));
             var ptr = JSNative.CallMethod(NativePtr, "getTrack");
@@ -99,7 +99,7 @@ namespace LiveKit
             if (JSNative.IsUndefined(ptr))
                 return null;
 
-            return FromPtr<TrackPublication>(ptr);
+            return Acquire<TrackPublication>(ptr);
         }
 
         public TrackPublication GetTrackByName(string name)
@@ -110,7 +110,7 @@ namespace LiveKit
             if (JSNative.IsUndefined(ptr))
                 return null;
 
-            return FromPtr<TrackPublication>(ptr);
+            return Acquire<TrackPublication>(ptr);
         }
     }
 }

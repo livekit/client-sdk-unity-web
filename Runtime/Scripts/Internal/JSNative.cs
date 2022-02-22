@@ -30,6 +30,9 @@ namespace LiveKit
         internal static extern void FreeRef(IntPtr ptr);
 
         [DllImport("__Internal")]
+        internal static extern IntPtr CopyRef(IntPtr ptr);
+
+        [DllImport("__Internal")]
         internal static extern IntPtr GetProperty(IntPtr ptr, string obj);
 
         [DllImport("__Internal")]
@@ -88,6 +91,15 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern void GetDataPtr(IntPtr ptr);
+
+        [DllImport("__Internal")]
+        internal static extern int NewTexture();
+
+        [DllImport("__Internal")]
+        internal static extern void DestroyTexture(int id);
+
+        [DllImport("__Internal")]
+        internal static extern IntPtr AttachVideo(int texId, IntPtr videoPtr);
 
         internal static unsafe byte[] GetData(IntPtr ptr)
         {
