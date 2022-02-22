@@ -76,9 +76,7 @@ namespace LiveKit
 			[MonoPInvokeCallback(typeof(Action<IntPtr>))]
 			private static void EventReceived(IntPtr iptr)
 			{
-				BridgeData[iptr].TryGetTarget(out JSRef jsref);
-				var evRef = jsref as EventReceiver;
-
+				var evRef = Acquire<EventReceiver>(iptr);
 				evRef.m_Room.TryGetTarget(out Room room);
 
 				switch (evRef.m_Event)
