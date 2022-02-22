@@ -33,7 +33,10 @@ namespace LiveKit
         internal static extern IntPtr CopyRef(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetProperty(IntPtr ptr, string obj);
+        internal static extern IntPtr GetProperty(IntPtr ptr);
+
+        [DllImport("__Internal")]
+        internal static extern void SetProperty(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern void PushNull();
@@ -49,6 +52,12 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern void PushStruct(string json);
+
+        [DllImport("__Internal")]
+        internal static extern void PushData(byte[] data, int size);
+
+        [DllImport("__Internal")]
+        internal static extern void PushObject(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern void PushFunction(IntPtr ptr, Action<IntPtr> action);

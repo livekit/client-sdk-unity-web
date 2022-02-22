@@ -12,7 +12,8 @@ namespace LiveKit{
 
         static JSRef()
         {
-            LiveKit = Acquire(JSNative.GetProperty(IntPtr.Zero, "livekit"));
+            JSNative.PushString("livekit");
+            LiveKit = Acquire(JSNative.GetProperty(IntPtr.Zero));
         }
 
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef

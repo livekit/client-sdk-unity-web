@@ -16,7 +16,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "videoWidth"));
+                JSNative.PushString("videoWidth");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return (int) JSNative.GetNumber(ptr.NativePtr);
             }
         }
@@ -25,7 +26,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "videoHeight"));
+                JSNative.PushString("videoHeight");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return (int) JSNative.GetNumber(ptr.NativePtr);
             }
         }

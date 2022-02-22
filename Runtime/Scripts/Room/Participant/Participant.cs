@@ -24,7 +24,8 @@ namespace LiveKit
         public string Sid { 
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "sid"));
+                JSNative.PushString("sid");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return JSNative.GetString(ptr.NativePtr);
             }
         }
@@ -33,7 +34,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "audioLevel"));
+                JSNative.PushString("audioLevel");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return (int) JSNative.GetNumber(ptr.NativePtr);
             }
         }
@@ -42,7 +44,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "isSpeaking"));
+                JSNative.PushString("isSpeaking");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return JSNative.GetBool(ptr.NativePtr);
             }
         }
@@ -51,7 +54,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "identity"));
+                JSNative.PushString("identity");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return JSNative.GetString(ptr.NativePtr);
             }
         }
@@ -60,7 +64,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "name"));
+                JSNative.PushString("name");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 if (!JSNative.IsString(ptr.NativePtr))
                     return null;
 
@@ -72,7 +77,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "metadata"));
+                JSNative.PushString("metadata");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 if (!JSNative.IsString(ptr.NativePtr))
                     return null;
 

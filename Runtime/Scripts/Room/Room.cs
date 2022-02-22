@@ -275,6 +275,14 @@ namespace LiveKit
 		}
 
 		private List<EventReceiver> m_Events = new List<EventReceiver>(); // Avoid EventReceiver from being garbage collected
+		public LocalParticipant LocalParticipant
+        {
+            get
+            {
+				JSNative.PushString("localParticipant");
+				return Acquire<LocalParticipant>(JSNative.GetProperty(NativePtr));
+			}
+        }
 
 		public Room(RoomOptions? options = null) : base(JSNative.NewRef())
 		{

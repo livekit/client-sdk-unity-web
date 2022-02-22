@@ -51,17 +51,19 @@ var NativeLib = {
 		return ref;
 	},
 
-	GetProperty: function (ptr, str) {
-		str = Pointer_stringify(str);
+	GetProperty: function (ptr) {
+		var key = Stack[0];
+		Stack = [];
+
 		var obj;
 		if (ptr == nullptr) {
-			obj = window[str];
+			obj = window[key];
 		} else {
 			var p = BridgeData.get(ptr);
 			if (p === undefined)
 				return nullptr;
 
-			obj = p[str];
+			obj = p[key];
         }
 
 		if (!obj)
@@ -69,6 +71,23 @@ var NativeLib = {
 
 		return GetOrNewRef(obj);
 	},
+
+	SetProperty: function (ptr) {
+		var key = Stack[0];
+		var value = Stack[1];
+		Stack = [];
+
+		var obj;
+		if (ptr == nullptr) {
+			obj = window;
+		} else {
+			obj = BridgeData.get(ptr);
+			if (obj === undefined)
+				return;
+		}
+
+		obj[key] = value;
+    },
 
 	IsNull: function (ptr) {
 		return BridgeData.get(ptr) === null;
@@ -113,6 +132,10 @@ var NativeLib = {
 		Stack.push(JSON.parse(Pointer_stringify(json)));
 	},
 
+	PushData: function (data, size) {
+		Stack.push(HEAPU8.subarray(data, data + size));
+	},
+
 	PushFunction: function (ptr, fnc) {
 		Stack.push(function () {
 			StackCSharp = Array.from(arguments);
@@ -121,22 +144,26 @@ var NativeLib = {
         });
 	},
 
+	PushObject: function (ptr) {
+		Stack.push(BridgeData.get(ptr));
+	},
+
 	CallFunction: function (str) {
-		var returnptr = NewRef();
 		var fnc = window[Pointer_stringify(str)];
 		var result = fnc.apply(null, Stack);
-		SetRef(returnptr, result);
 		Stack = [];
+		var returnptr = NewRef();
+		SetRef(returnptr, result);
 		return returnptr;
 	},
 
 	CallMethod: function (ptr, str) {
-		var returnptr = NewRef();
 		var obj = BridgeData.get(ptr);
 		var fnc = obj[Pointer_stringify(str)]
 		var result = fnc.apply(obj, Stack);
-		SetRef(returnptr, result);
 		Stack = [];
+		var returnptr = NewRef();
+		SetRef(returnptr, result);
 		return returnptr;
 	},
 

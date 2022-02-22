@@ -58,7 +58,8 @@ namespace LiveKit
         {
             get
             {
-                var ptr = Acquire(JSNative.GetProperty(NativePtr, "kind"));
+                JSNative.PushString("kind");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
                 return Utils.ToEnum<TrackKind>(JSNative.GetString(ptr.NativePtr));
             }
         }
