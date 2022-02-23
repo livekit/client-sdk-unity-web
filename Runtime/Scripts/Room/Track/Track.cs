@@ -51,7 +51,6 @@ namespace LiveKit
         public int Height;
     }
 
-
     public class Track : JSRef
     {
         public TrackKind Kind

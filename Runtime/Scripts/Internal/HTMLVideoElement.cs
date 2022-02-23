@@ -1,5 +1,6 @@
 using AOT;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -9,6 +10,9 @@ namespace LiveKit
 
     public class HTMLVideoElement : HTMLMediaElement
     {
+        // TODO Think about when to release the reference ?
+        private static List<HTMLVideoElement> m_Attached = new List<HTMLVideoElement>(); // Keep a reference
+
         private JSRef m_AttachRef;
         private int m_TexId;
 
@@ -49,6 +53,7 @@ namespace LiveKit
             m_TexId = JSNative.NewTexture();
             m_AttachRef = Acquire(JSNative.AttachVideo(m_TexId, NativePtr));
             AddEventListener("resize", ResizeEvent);
+            m_Attached.Add(this);
         }
     }
 }
