@@ -156,9 +156,7 @@ var NativeLib = {
 		var fnc = window[Pointer_stringify(str)];
 		var result = fnc.apply(null, Stack);
 		Stack = [];
-		var returnptr = NewRef();
-		SetRef(returnptr, result);
-		return returnptr;
+		return GetOrNewRef(result);
 	},
 
 	CallMethod: function (ptr, str) {
@@ -166,9 +164,7 @@ var NativeLib = {
 		var fnc = obj[Pointer_stringify(str)]
 		var result = fnc.apply(obj, Stack);
 		Stack = [];
-		var returnptr = NewRef();
-		SetRef(returnptr, result);
-		return returnptr;
+		return GetOrNewRef(result);
 	},
 
 	NewInstance: function (ptr, toPtr, clazz) {

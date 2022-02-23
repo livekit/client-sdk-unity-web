@@ -18,7 +18,7 @@ namespace LiveKit
 
             JSNative.PushString(e);
             JSNative.PushFunction(identifier.Value, callback);
-            JSNative.CallMethod(NativePtr, "addEventListener");
+            Acquire(JSNative.CallMethod(NativePtr, "addEventListener"));
         }
     }
 }

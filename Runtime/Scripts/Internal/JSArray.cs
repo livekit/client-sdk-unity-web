@@ -62,7 +62,8 @@ namespace LiveKit
         public int IndexOf(T item)
         {
             JSNative.PushObject(item.NativePtr);
-            return (int) JSNative.GetNumber(JSNative.CallMethod(NativePtr, "indexOf"));
+            var r = Acquire(JSNative.CallMethod(NativePtr, "indexOf"));
+            return (int) JSNative.GetNumber(r.NativePtr);
         }
 
         public void Insert(int index, T item)
@@ -70,20 +71,20 @@ namespace LiveKit
             JSNative.PushNumber(index);
             JSNative.PushNumber(0);
             JSNative.PushObject(item.NativePtr);
-            JSNative.FreeRef(JSNative.CallMethod(NativePtr, "push"));
+            Acquire(JSNative.CallMethod(NativePtr, "push"));
         }
 
         public void RemoveAt(int index)
         {
             JSNative.PushNumber(index);
             JSNative.PushNumber(1);
-            JSNative.FreeRef(JSNative.CallMethod(NativePtr, "splice"));
+            Acquire(JSNative.CallMethod(NativePtr, "splice"));
         }
 
         public void Add(T obj)
         {
             JSNative.PushObject(obj.NativePtr);
-            JSNative.FreeRef(JSNative.CallMethod(NativePtr, "push"));
+            Acquire(JSNative.CallMethod(NativePtr, "push"));
         }
 
         public void Clear()

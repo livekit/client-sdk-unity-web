@@ -65,7 +65,7 @@ namespace LiveKit
 
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
-            JSNative.CallMethod(NativePtr, "then");
+            Acquire(JSNative.CallMethod(NativePtr, "then"));
         }
 
         public void Catch(PromiseRejectDelegate reject)
@@ -73,7 +73,7 @@ namespace LiveKit
             m_Reject = reject;
 
             JSNative.PushFunction(NativePtr, PromiseResolve);
-            JSNative.CallMethod(NativePtr, "catch");
+            Acquire(JSNative.CallMethod(NativePtr, "catch"));
         }
 
         // Coroutines impl

@@ -18,13 +18,10 @@ namespace LiveKit
             JSNative.PushNumber((double) kind);
             if (participants == null)
             {
-
-                Debug.Log("a");
                 JSNative.PushUndefined();
             }
             else
             {
-                Debug.Log("here");
                 var arr = new JSArray<RemoteParticipant>(participants);
                 JSNative.PushObject(arr.NativePtr);
             }

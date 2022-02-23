@@ -270,7 +270,7 @@ namespace LiveKit
 
 				JSNative.PushString(Utils.ToEnumString(e));
 				JSNative.PushFunction(NativePtr, EventReceived);
-				JSNative.FreeRef(JSNative.CallMethod(room.NativePtr, "on"));
+				Acquire(JSNative.CallMethod(room.NativePtr, "on"));
 			}
 		}
 
@@ -304,7 +304,7 @@ namespace LiveKit
 			if(options != null)
 				JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-			return new JSPromise(JSNative.CallMethod(NativePtr, "connect"));
+			return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "connect"));
 		}
 	}
 }

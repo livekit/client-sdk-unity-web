@@ -100,23 +100,23 @@ namespace LiveKit
         public TrackPublication GetTrack(TrackSource source)
         {
             JSNative.PushString(Utils.ToEnumString(source));
-            var ptr = JSNative.CallMethod(NativePtr, "getTrack");
+            var r = Acquire(JSNative.CallMethod(NativePtr, "getTrack"));
             
-            if (JSNative.IsUndefined(ptr))
+            if (JSNative.IsUndefined(r.NativePtr))
                 return null;
 
-            return Acquire<TrackPublication>(ptr);
+            return Acquire<TrackPublication>(r.Release());
         }
 
         public TrackPublication GetTrackByName(string name)
         {
             JSNative.PushString(name);
-            var ptr = JSNative.CallMethod(NativePtr, "getTrackByName");
+            var r = Acquire(JSNative.CallMethod(NativePtr, "getTrackByName"));
 
-            if (JSNative.IsUndefined(ptr))
+            if (JSNative.IsUndefined(r.NativePtr))
                 return null;
 
-            return Acquire<TrackPublication>(ptr);
+            return Acquire<TrackPublication>(r.Release());
         }
     }
 }
