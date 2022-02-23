@@ -116,6 +116,10 @@ var NativeLib = {
 		Stack.push(null);
 	},
 
+	PushUndefined: function () {
+		Stack.push(undefined);
+	},
+
 	PushNumber: function (nb) {
 		Stack.push(nb);
 	},
@@ -203,8 +207,8 @@ var NativeLib = {
 		return value;
 	},
 
-	GetDataPtr: function (ptr) {
-		var value = BridgeData.get(ptr);
+	GetDataPtr: function (pptr) {
+		var value = BridgeData.get(pptr);
 		var arr = new Uint8Array(value);
 		var ptr = _malloc(arr.byteLength + 4);
 		HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 

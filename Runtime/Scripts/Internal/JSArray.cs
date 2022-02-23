@@ -20,6 +20,12 @@ namespace LiveKit
             JSNative.NewInstance(IntPtr.Zero, NativePtr, "Array");
         }
 
+        public JSArray(IEnumerable<T> f) : this()
+        {
+            foreach(var i in f)
+                Add(i);
+        }
+
         public bool IsFixedSize => false;
 
         public bool IsReadOnly => false;

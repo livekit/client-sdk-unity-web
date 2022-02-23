@@ -1,9 +1,9 @@
 using System;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-
     public class LocalParticipant : Participant
     {
         [Preserve]
@@ -12,20 +12,24 @@ namespace LiveKit
 
         }
 
-        public JSPromise PublishData(byte[] data, DataPacketKind kind)
+        public JSPromise PublishData(byte[] data, DataPacketKind kind, RemoteParticipant[] participants = null)
         {
             JSNative.PushData(data, data.Length);
             JSNative.PushNumber((double) kind);
-            /*if (participants == null)
+            if (participants == null)
             {
-                JSNative.PushNull();
+
+                Debug.Log("a");
+                JSNative.PushUndefined();
             }
             else
             {
-                
-            }*/
+                Debug.Log("here");
+                var arr = new JSArray<RemoteParticipant>(participants);
+                JSNative.PushObject(arr.NativePtr);
+            }
 
-            return new JSPromise(JSNative.CallMethod(NativePtr, "publishData")); //Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "publishData"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "publishData"));
         }
 
         public new LocalTrackPublication GetTrack(TrackSource source)

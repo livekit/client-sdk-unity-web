@@ -42,6 +42,9 @@ namespace LiveKit
         internal static extern void PushNull();
 
         [DllImport("__Internal")]
+        internal static extern void PushUndefined();
+
+        [DllImport("__Internal")]
         internal static extern void PushNumber(double nb);
 
         [DllImport("__Internal")]
@@ -99,7 +102,7 @@ namespace LiveKit
         internal static extern bool GetBool(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern void GetDataPtr(IntPtr ptr);
+        internal static extern IntPtr GetDataPtr(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern int NewTexture();
