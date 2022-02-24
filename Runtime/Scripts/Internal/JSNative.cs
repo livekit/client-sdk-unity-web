@@ -30,9 +30,6 @@ namespace LiveKit
         internal static extern void FreeRef(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr CopyRef(IntPtr ptr);
-
-        [DllImport("__Internal")]
         internal static extern IntPtr GetProperty(IntPtr ptr);
 
         [DllImport("__Internal")]

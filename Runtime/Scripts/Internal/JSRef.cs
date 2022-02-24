@@ -1,11 +1,32 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace LiveKit{
+namespace LiveKit
+{
 
     public class JSRef
     {
+        private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
+        {
+            {"Participant", typeof(Participant)},
+            {"LocalParticipant", typeof(LocalParticipant)},
+            {"RemoteParticipant", typeof(RemoteParticipant)},
+            {"Track", typeof(Track)},
+            {"RemoteTrack", typeof(RemoteTrack)},
+            {"RemoteVideoTrack", typeof(RemoteVideoTrack)},
+            {"RemoteAudioTrack", typeof(RemoteAudioTrack)},
+            {"LocalTrack", typeof(LocalTrack)},
+            {"LocalVideoTrack", typeof(LocalVideoTrack)},
+            {"LocalAudioTrack", typeof(LocalAudioTrack)},
+            {"TrackPublication", typeof(TrackPublication)},
+            {"RemoteTrackPublication", typeof(RemoteTrackPublication)},
+            {"LocalTrackPublication", typeof(LocalTrackPublication)},
+            {"HTMLVideoElement", typeof(HTMLVideoElement)},
+            {"HTMLAudioElement", typeof(HTMLAudioElement)},
+        };
+
         internal static readonly JSRef LiveKit;
         internal static Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
         internal IntPtr NativePtr { get; private set; }
@@ -19,7 +40,29 @@ namespace LiveKit{
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef
         {
             if (!BridgeData.ContainsKey(ptr))
-                return Activator.CreateInstance(typeof(T), ptr) as T;
+            {
+                var type = typeof(T);
+                if (JSNative.IsObject(ptr))
+                {
+                    // Maintain class hierarchy
+                    JSNative.PushString("constructor");
+                    var ctor = Acquire(JSNative.GetProperty(ptr));
+
+                    JSNative.PushString("name");
+
+                    var cName = Acquire(JSNative.GetProperty(ctor.NativePtr));
+                    var typeName = JSNative.GetString(cName.NativePtr);
+
+                    Debug.Log(typeName);
+                    Debug.Log($"last {type}");
+
+
+                    if (s_TypeMap.TryGetValue(typeName, out Type correctType))
+                        type = correctType;
+                }
+
+                return Activator.CreateInstance(type, ptr) as T;
+            }
 
             BridgeData[ptr].TryGetTarget(out JSRef fref);
             return fref as T;
@@ -28,11 +71,6 @@ namespace LiveKit{
         internal static JSRef Acquire(IntPtr ptr)
         {
             return Acquire<JSRef>(ptr);
-        }
-
-        public static T CopyRef<T>(JSRef pref) where T : JSRef
-        {
-            return Acquire<T>(JSNative.CopyRef(pref.NativePtr));
         }
 
         [Preserve]

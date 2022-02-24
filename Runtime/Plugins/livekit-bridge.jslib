@@ -44,13 +44,6 @@ var NativeLib = {
 		BridgeData.delete(ptr);
 	},
 
-	CopyRef: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		var ref = NewRef();
-		SetRef(ref, obj);
-		return ref;
-	},
-
 	GetProperty: function (ptr) {
 		var key = Stack[0];
 		Stack = [];

@@ -71,14 +71,7 @@ namespace LiveKit
 
         public HTMLMediaElement Attach()
         {
-            var ptr = Acquire(JSNative.CallMethod(NativePtr, "attach"));
-
-            if (Kind == TrackKind.Video)
-                return Acquire<HTMLVideoElement>(ptr.Release());
-            else if(Kind == TrackKind.Audio)
-                return Acquire<HTMLAudioElement>(ptr.Release());
-
-            return null;
+            return Acquire<HTMLMediaElement>(JSNative.CallMethod(NativePtr, "attach"));
         }
     }
 }
