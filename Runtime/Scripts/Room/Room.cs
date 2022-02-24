@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
+using UnityEngine.Scripting;
 
 namespace LiveKit
 {
@@ -284,6 +286,12 @@ namespace LiveKit
 			}
         }
 
+		[Preserve]
+		public Room(IntPtr ptr) : base(ptr)
+        {
+
+        }
+
 		public Room(RoomOptions? options = null) : base(JSNative.NewRef())
 		{
 			if (options != null)
@@ -296,7 +304,7 @@ namespace LiveKit
 			}
 		}
 
-		public JSPromise Connect(string url, string token, ConnectOptions? options = null)
+		public JSPromise<Room> Connect(string url, string token, ConnectOptions? options = null)
 		{
 			JSNative.PushString(url);
 			JSNative.PushString(token);
@@ -304,7 +312,7 @@ namespace LiveKit
 			if(options != null)
 				JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-			return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "connect"));
+			return Acquire<JSPromise<Room>>(JSNative.CallMethod(NativePtr, "connect"));
 		}
 	}
 }

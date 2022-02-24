@@ -1,36 +1,40 @@
 using AOT;
 using System;
 using System.Collections;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
     // TODO Support "Then" chaining ?
-    public class JSPromise : JSRef, IEnumerator
+    public class JSPromise<T> : JSRef, IEnumerator where T : JSRef
     {
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         public static void PromiseResolve(IntPtr id)
         {
             BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise;
+            var promise = jsref as JSPromise<T>;
             promise.IsDone = true;
+            promise.ResolveValue = Acquire<T>(JSNative.ShiftStack());
 
             if (promise.m_IgnoreFirst)
             {
                 promise.m_IgnoreFirst = false;
                 return;
             }
-            
-            promise.m_Resolve();
+
+            promise.m_Resolve(promise.ResolveValue);
         }
 
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         public static void PromiseReject(IntPtr id)
         {
             BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise;
+            var promise = jsref as JSPromise<T>;
             promise.IsDone = true;
             promise.IsError = true;
+
+            promise.RejectValue = Acquire(JSNative.ShiftStack());
 
             if (promise.m_IgnoreFirst)
             {
@@ -38,11 +42,11 @@ namespace LiveKit
                 return;
             }
 
-            promise.m_Reject();
+            promise.m_Reject(promise.RejectValue);
         }
 
-        public delegate void PromiseResolveDelegate();
-        public delegate void PromiseRejectDelegate();
+        public delegate void PromiseResolveDelegate(T value);
+        public delegate void PromiseRejectDelegate(JSRef reason);
 
         private PromiseResolveDelegate m_Resolve;
         private PromiseRejectDelegate m_Reject;
@@ -50,12 +54,14 @@ namespace LiveKit
 
         public bool IsDone { get; private set; }
         public bool IsError { get; private set; }
+        public T ResolveValue { get; private set; }
+        public JSRef RejectValue { get; private set; }
 
         [Preserve]
         public JSPromise(IntPtr ptr) : base(ptr)
         {
             m_IgnoreFirst = true; // Support yield operation
-            Then(() => { }, () => { });
+            Then((v) => { }, (v) => { });
         }
 
         public void Then(PromiseResolveDelegate resolve, PromiseRejectDelegate reject)

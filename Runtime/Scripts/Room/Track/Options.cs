@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
 using System.Runtime.Serialization;
 
 namespace LiveKit
@@ -9,7 +10,7 @@ namespace LiveKit
         [JsonProperty("exact")]
         public bool Exact;
         [JsonProperty("ideal")]
-        public bool Idea;
+        public bool Ideal;
     }
 
     public struct ConstrainDOMString
@@ -57,6 +58,54 @@ namespace LiveKit
         Right
     }
 
+    [JsonConverter(typeof(CreateLocalTracksOptionsWriter))]
+    public struct CreateLocalTracksOptions
+    {
+        public bool? Audio;
+        public bool? Video;
+
+        public AudioCaptureOptions? AudioOptions;
+        public VideoCaptureOptions? VideoOptions;
+    }
+
+    public class CreateLocalTracksOptionsWriter : JsonConverter<CreateLocalTracksOptions>
+    {
+        public override bool CanRead => false;
+
+        public override CreateLocalTracksOptions ReadJson(JsonReader reader, Type objectType, CreateLocalTracksOptions existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteJson(JsonWriter writer, CreateLocalTracksOptions value, JsonSerializer serializer)
+        {
+            writer.WriteStartObject();
+
+            if(value.AudioOptions != null && value.Audio.GetValueOrDefault(true))
+            {
+                writer.WritePropertyName("audio");
+                serializer.Serialize(writer, value.AudioOptions);
+            }
+            else if(value.Audio != null)
+            {
+                writer.WritePropertyName("audio");
+                writer.WriteValue(value.Audio);
+            }
+
+            if (value.VideoOptions != null && value.Video.GetValueOrDefault(true))
+            {
+                writer.WritePropertyName("video");
+                serializer.Serialize(writer, value.VideoOptions);
+            }
+            else if (value.Video != null)
+            {
+                writer.WritePropertyName("video");
+                writer.WriteValue(value.Video);
+            }
+
+            writer.WriteEndObject();
+        }
+    }
 
     public struct TrackPublishDefaults
     {
