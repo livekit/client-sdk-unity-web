@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-
     public class JSRef
     {
+        // Used to maintain class hierarchy
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
+            {"Room", typeof(Room)},
             {"Participant", typeof(Participant)},
             {"LocalParticipant", typeof(LocalParticipant)},
             {"RemoteParticipant", typeof(RemoteParticipant)},
@@ -44,18 +44,13 @@ namespace LiveKit
                 var type = typeof(T);
                 if (JSNative.IsObject(ptr))
                 {
-                    // Maintain class hierarchy
+                    // Maintain class hierarchy 
                     JSNative.PushString("constructor");
                     var ctor = Acquire(JSNative.GetProperty(ptr));
 
                     JSNative.PushString("name");
-
                     var cName = Acquire(JSNative.GetProperty(ctor.NativePtr));
                     var typeName = JSNative.GetString(cName.NativePtr);
-
-                    Debug.Log(typeName);
-                    Debug.Log($"last {type}");
-
 
                     if (s_TypeMap.TryGetValue(typeName, out Type correctType))
                         type = correctType;

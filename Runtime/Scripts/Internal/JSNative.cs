@@ -117,5 +117,15 @@ namespace LiveKit
             Marshal.Copy(ptr + 4, data, 0, length); // TODO Maybe not copy ?
             return data;
         }
+
+        internal static T GetStruct<T>(IntPtr ptr)
+        {
+            PushString("JSON");
+            var json = JSRef.Acquire(GetProperty(IntPtr.Zero));
+
+            PushObject(ptr);
+            var r = JSRef.Acquire(CallMethod(json.NativePtr, "stringify"));
+            return JsonConvert.DeserializeObject<T>(GetString(r.NativePtr));
+        }
     }
 }

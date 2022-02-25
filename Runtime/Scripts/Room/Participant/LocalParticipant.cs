@@ -6,6 +6,11 @@ namespace LiveKit
 {
     public class LocalParticipant : Participant
     {
+        
+
+
+
+
         [Preserve]
         public LocalParticipant(IntPtr ptr) : base(ptr)
         {

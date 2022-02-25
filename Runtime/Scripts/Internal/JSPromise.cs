@@ -6,80 +6,49 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    // TODO Support "Then" chaining ?
-    public class JSPromise<T> : JSRef, IEnumerator where T : JSRef
+    // TODO Support "Then" chaining 
+    public class JSPromise : JSRef, IEnumerator
     {
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
-        public static void PromiseResolve(IntPtr id)
+        private static void PromiseResolve(IntPtr id)
         {
             BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise<T>;
+            var promise = jsref as JSPromise;
+            promise.OnResolve();
             promise.IsDone = true;
-            promise.ResolveValue = Acquire<T>(JSNative.ShiftStack());
-
-            if (promise.m_IgnoreFirst)
-            {
-                promise.m_IgnoreFirst = false;
-                return;
-            }
-
-            promise.m_Resolve(promise.ResolveValue);
         }
 
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
-        public static void PromiseReject(IntPtr id)
+        private static void PromiseReject(IntPtr id)
         {
             BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise<T>;
+            var promise = jsref as JSPromise;
+            promise.OnReject();
             promise.IsDone = true;
             promise.IsError = true;
-
-            promise.RejectValue = Acquire(JSNative.ShiftStack());
-
-            if (promise.m_IgnoreFirst)
-            {
-                promise.m_IgnoreFirst = false;
-                return;
-            }
-
-            promise.m_Reject(promise.RejectValue);
         }
-
-        public delegate void PromiseResolveDelegate(T value);
-        public delegate void PromiseRejectDelegate(JSRef reason);
-
-        private PromiseResolveDelegate m_Resolve;
-        private PromiseRejectDelegate m_Reject;
-        private bool m_IgnoreFirst;
 
         public bool IsDone { get; private set; }
         public bool IsError { get; private set; }
-        public T ResolveValue { get; private set; }
-        public JSRef RejectValue { get; private set; }
+        public JSRef ResolveValue { get; protected set; }
+        public JSRef RejectValue { get; protected set; }
 
         [Preserve]
         public JSPromise(IntPtr ptr) : base(ptr)
         {
-            m_IgnoreFirst = true; // Support yield operation
-            Then((v) => { }, (v) => { });
-        }
-
-        public void Then(PromiseResolveDelegate resolve, PromiseRejectDelegate reject)
-        {
-            m_Resolve = resolve;
-            m_Reject = reject;
-
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
             Acquire(JSNative.CallMethod(NativePtr, "then"));
         }
 
-        public void Catch(PromiseRejectDelegate reject)
+        protected virtual void OnResolve()
         {
-            m_Reject = reject;
+            ResolveValue = Acquire(JSNative.ShiftStack());
+        }
 
-            JSNative.PushFunction(NativePtr, PromiseResolve);
-            Acquire(JSNative.CallMethod(NativePtr, "catch"));
+        protected virtual void OnReject()
+        {
+            RejectValue = Acquire(JSNative.ShiftStack());
         }
 
         // Coroutines impl
@@ -93,6 +62,54 @@ namespace LiveKit
         public void Reset()
         {
             // Ignore
+        }
+    }
+
+    public class JSPromise<T> : JSPromise where T : JSRef
+    {
+        public new T ResolveValue => base.ResolveValue as T;
+
+        [Preserve]
+        public JSPromise(IntPtr ptr) : base(ptr)
+        {
+
+        }
+
+        protected override void OnResolve()
+        {
+            base.ResolveValue = Acquire<T>(JSNative.ShiftStack());
+        }
+    }
+
+    public abstract class PromiseWrapper<T> : IEnumerator where T : JSRef
+    {
+        protected JSPromise<T> m_Promise;
+        public bool IsError => m_Promise.IsError;
+        public bool IsDone => m_Promise.IsDone;
+        
+        protected PromiseWrapper(JSPromise<T> promise)
+        {
+            m_Promise = promise;
+        }
+
+        public abstract void OnDone();
+
+        public object Current => null;
+
+        public bool MoveNext()
+        {
+            if (m_Promise.IsDone)
+            {
+                OnDone();
+                return false;
+            }
+
+            return true;
+        }
+
+        public void Reset()
+        {
+            
         }
     }
 }

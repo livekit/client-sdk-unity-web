@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -304,7 +303,7 @@ namespace LiveKit
 			}
 		}
 
-		public JSPromise<Room> Connect(string url, string token, ConnectOptions? options = null)
+		public ConnectOperation Connect(string url, string token, ConnectOptions? options = null)
 		{
 			JSNative.PushString(url);
 			JSNative.PushString(token);
@@ -312,7 +311,25 @@ namespace LiveKit
 			if(options != null)
 				JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-			return Acquire<JSPromise<Room>>(JSNative.CallMethod(NativePtr, "connect"));
+			return new ConnectOperation(Acquire<JSPromise<Room>>(JSNative.CallMethod(NativePtr, "connect")));
 		}
 	}
+
+
+	public class ConnectOperation : PromiseWrapper<Room>
+	{
+		public Room Room { get; private set; }
+
+		public ConnectOperation(JSPromise<Room> promise) : base(promise)
+		{
+
+		}
+
+		public override void OnDone()
+		{
+			if(!m_Promise.IsError)
+				Room = m_Promise.ResolveValue;
+		}
+	}
+
 }

@@ -63,6 +63,67 @@ namespace LiveKit
             }
         }
 
+        public MediaStreamTrack MediaStreamTrack
+        {
+            get
+            {
+                JSNative.PushString("mediaStreamTrack");
+                return Acquire<MediaStreamTrack>(JSNative.GetProperty(NativePtr));
+            }
+        }
+
+        public JSArray<HTMLMediaElement> AttachedElements
+        {
+            get
+            {
+                JSNative.PushString("attachedElements");
+                return Acquire<JSArray<HTMLMediaElement>>(JSNative.GetProperty(NativePtr));
+            }
+        }
+
+        public bool IsMuted
+        {
+            get
+            {
+                JSNative.PushString("isMuted");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBool(ptr.NativePtr);
+            }
+        }
+
+        public TrackStreamState StreamState
+        {
+            get
+            {
+                JSNative.PushString("streamState");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(ptr.NativePtr));
+            }
+        }
+
+        public TrackSource Source
+        {
+            get
+            {
+                JSNative.PushString("source");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackSource>(JSNative.GetString(ptr.NativePtr));
+            }
+        }
+
+        public string Sid
+        {
+            get
+            {
+                JSNative.PushString("sid");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                if (!JSNative.IsString(ptr.NativePtr))
+                    return null;
+
+                return JSNative.GetString(ptr.NativePtr);
+            }
+        }
+
         [Preserve]
         public Track(IntPtr ptr) : base(ptr)
         {
@@ -72,6 +133,16 @@ namespace LiveKit
         public HTMLMediaElement Attach()
         {
             return Acquire<HTMLMediaElement>(JSNative.CallMethod(NativePtr, "attach"));
+        }
+
+        public JSArray<HTMLMediaElement> Detach()
+        {
+            return Acquire<JSArray<HTMLMediaElement>>(JSNative.CallMethod(NativePtr, "detach"));
+        }
+
+        public void Stop()
+        {
+            Acquire(JSNative.CallMethod(NativePtr, "stop"));
         }
     }
 }
