@@ -87,7 +87,7 @@ namespace LiveKit
             {
                 JSNative.PushString("isMuted");
                 var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBool(ptr.NativePtr);
+                return JSNative.GetBoolean(ptr.NativePtr);
             }
         }
 

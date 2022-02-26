@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSMap<TKey, TValue> : JSRef, IDictionary<TKey, TValue> where TKey : JSRef where TValue : JSRef
+    public class JSMap<TKey, TValue> : JSRef, IDictionary<TKey, TValue>
     {
         public ICollection<TKey> Keys
         {
@@ -53,25 +53,28 @@ namespace LiveKit
                 if (!ContainsKey(key))
                     throw new KeyNotFoundException();
 
-                JSNative.PushObject(key.NativePtr);
-                return Acquire<TValue>(JSNative.CallMethod(NativePtr, "get"));
+                PushKey(key);
+                var ptr = JSNative.CallMethod(NativePtr, "get");
+                if(JSNative.IsPrimitive(typeof(TValue)))
+                    return (TValue) JSNative.GetPrimitive(ptr);
+
+                return (TValue)(object)Acquire(ptr);
             }
             set
             {
-                JSNative.PushObject(key.NativePtr);
-                JSNative.PushObject(value.NativePtr);
+                PushKey(key);
+                PushValue(value);
                 Acquire(JSNative.CallMethod(NativePtr, "set"));
             }
         }
 
-        public JSMap() : this(JSNative.NewRef())
+        internal JSMap() : this(JSNative.NewRef())
         {
             JSNative.NewInstance(IntPtr.Zero, NativePtr, "Map");
         }
 
-
         [Preserve]
-        public JSMap(IntPtr ptr) : base(ptr)
+        internal JSMap(IntPtr ptr) : base(ptr)
         {
 
         }
@@ -86,23 +89,23 @@ namespace LiveKit
 
         public bool ContainsKey(TKey key)
         {
-            JSNative.PushObject(key.NativePtr);
+            PushKey(key);
             var cref = Acquire(JSNative.CallMethod(NativePtr, "has"));
-            return JSNative.GetBool(cref.NativePtr);
+            return JSNative.GetBoolean(cref.NativePtr);
         }
 
         public bool Remove(TKey key)
         {
-            JSNative.PushObject(key.NativePtr);
+            PushKey(key);
             var cref = Acquire(JSNative.CallMethod(NativePtr, "delete"));
-            return JSNative.GetBool(cref.NativePtr);
+            return JSNative.GetBoolean(cref.NativePtr);
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
             if (!ContainsKey(key))
             {
-                value = null;
+                value = default(TValue);
                 return false;
             }
 
@@ -123,7 +126,7 @@ namespace LiveKit
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
             if(TryGetValue(item.Key, out var cref))
-                return cref == item.Value;
+                return cref.Equals(item.Value);
 
             return false;
         }
@@ -136,7 +139,7 @@ namespace LiveKit
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (TryGetValue(item.Key, out TValue v) && item.Value == v)
+            if (TryGetValue(item.Key, out TValue v) && item.Value.Equals(v))
                 return Remove(item.Key);
 
             return false;
@@ -151,6 +154,22 @@ namespace LiveKit
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void PushKey(TKey key)
+        {
+            if (JSNative.IsPrimitive(typeof(TKey)))
+                JSNative.PushPrimitive(key);
+            else
+                JSNative.PushObject((key as JSRef).NativePtr);
+        }
+
+        private void PushValue(TValue value)
+        {
+            if (JSNative.IsPrimitive(typeof(TValue)))
+                JSNative.PushPrimitive(value);
+            else
+                JSNative.PushObject((value as JSRef).NativePtr);
         }
     }
 }

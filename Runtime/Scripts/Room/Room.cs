@@ -41,7 +41,7 @@ namespace LiveKit
 	public delegate void ConnectionQualityChangedDelegate(ConnectionQuality quality, Participant participant);
 	public delegate void MediaDevicesErrorDelegate(JSError error);
 	public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publicationb, TrackStreamState streamState, RemoteParticipant participant);
-	public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, TrackPublication.SubscriptionStatus status, RemoteParticipant participant);
+	public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status, RemoteParticipant participant);
 	public delegate void AudioPlaybackChangedDelegate(bool playing);
 
 	public class Room : JSRef
@@ -245,7 +245,7 @@ namespace LiveKit
 							var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
 							var stateref = Acquire(JSNative.ShiftStack());
 
-							var status = Utils.ToEnum<TrackPublication.SubscriptionStatus>(JSNative.GetString(stateref.NativePtr));
+							var status = Utils.ToEnum<SubscriptionStatus>(JSNative.GetString(stateref.NativePtr));
 							var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
 
 							room.TrackSubscriptionPermissionChanged?.Invoke(publication, status, participant);
@@ -254,7 +254,7 @@ namespace LiveKit
 					case RoomEvent.AudioPlaybackStatusChanged:
 						{
 							var fref = Acquire(JSNative.ShiftStack());
-							var playing = JSNative.GetBool(fref.NativePtr);
+							var playing = JSNative.GetBoolean(fref.NativePtr);
 							room.AudioPlaybackChanged?.Invoke(playing);
 							break;
 						}
@@ -276,6 +276,55 @@ namespace LiveKit
 		}
 
 		private List<EventReceiver> m_Events = new List<EventReceiver>(); // Avoid EventReceiver from being garbage collected
+		
+		public RoomState State
+        {
+            get
+            {
+				JSNative.PushString("state");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				return Utils.ToEnum<RoomState>(JSNative.GetString(ptr.NativePtr));
+            }
+        }
+
+		public JSMap<string, RemoteParticipant> Participants
+		{
+			get
+			{
+				JSNative.PushString("participants");
+				return Acquire<JSMap<string, RemoteParticipant>>(JSNative.GetProperty(NativePtr));
+			}
+		}
+
+		public JSArray<Participant> ActiveSpeakers
+		{
+            get
+            {
+				JSNative.PushString("activeSpeakers");
+				return Acquire<JSArray<Participant>>(JSNative.GetProperty(NativePtr));
+			}
+        }
+
+		public string Sid
+        {
+            get 
+			{
+				JSNative.PushString("sid");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				return JSNative.GetString(ptr.NativePtr);
+			}
+        }
+
+		public string Name
+		{
+			get
+			{
+				JSNative.PushString("name");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				return JSNative.GetString(ptr.NativePtr);
+			}
+		}
+
 		public LocalParticipant LocalParticipant
         {
             get
@@ -284,6 +333,39 @@ namespace LiveKit
 				return Acquire<LocalParticipant>(JSNative.GetProperty(NativePtr));
 			}
         }
+
+		public string Metadata
+		{
+			get
+			{
+				JSNative.PushString("metadata");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				if (JSNative.IsUndefined(ptr.NativePtr))
+					return null;
+
+				return JSNative.GetString(ptr.NativePtr);
+			}
+		}
+
+		public RoomOptions RoomOptions
+        {
+			get
+            {
+				JSNative.PushString("options");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				return JSNative.GetStruct<RoomOptions>(ptr.NativePtr);
+			}
+        }
+
+		public bool CanPlaybackAudio
+		{
+			get
+			{
+				JSNative.PushString("canPlaybackAudio");
+				var ptr = Acquire(JSNative.GetProperty(NativePtr));
+				return JSNative.GetBoolean(ptr.NativePtr);
+			}
+		}
 
 		[Preserve]
 		public Room(IntPtr ptr) : base(ptr)
@@ -313,12 +395,40 @@ namespace LiveKit
 
 			return new ConnectOperation(Acquire<JSPromise<Room>>(JSNative.CallMethod(NativePtr, "connect")));
 		}
-	}
 
+		public void Disconnect(bool stopTracks = true)
+        {
+			JSNative.PushBoolean(stopTracks);
+			Acquire(JSNative.CallMethod(NativePtr, "disconnect"));
+        }
+
+		public Participant GetParticipantByIdentity(string identity)
+        {
+			JSNative.PushString(identity);
+			var ptr = Acquire<Participant>(JSNative.CallMethod(NativePtr, "getParticipantByIdentity"));
+			if (JSNative.IsUndefined(ptr.NativePtr))
+				return null;
+
+			return ptr;
+        }
+
+		public JSPromise StartAudio()
+        {
+			return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "startAudio"));
+		}
+
+		public JSPromise SwitchActiveDevice(MediaDeviceKind kind, string deviceId)
+        {
+			JSNative.PushString(Utils.ToEnumString(kind));
+			JSNative.PushString(deviceId);
+			return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "switchActiveDevice"));
+        }
+	}
 
 	public class ConnectOperation : PromiseWrapper<Room>
 	{
 		public Room Room { get; private set; }
+		public JSError Error { get; private set; }
 
 		public ConnectOperation(JSPromise<Room> promise) : base(promise)
 		{
@@ -327,8 +437,10 @@ namespace LiveKit
 
 		public override void OnDone()
 		{
-			if(!m_Promise.IsError)
+			if (!m_Promise.IsError)
 				Room = m_Promise.ResolveValue;
+			else
+				Error = m_Promise.RejectValue as JSError;
 		}
 	}
 

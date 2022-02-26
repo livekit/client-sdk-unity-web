@@ -21,12 +21,31 @@ namespace LiveKit
 
     public class Participant : JSRef
     {
-        public string Sid { 
+
+        public JSMap<string, TrackPublication> AudioTracks
+        {
             get
             {
-                JSNative.PushString("sid");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetString(ptr.NativePtr);
+                JSNative.PushString("audioTracks");
+                return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativePtr));
+            }
+        }
+
+        public JSMap<string, TrackPublication> VideoTracks
+        {
+            get
+            {
+                JSNative.PushString("videoTracks");
+                return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativePtr));
+            }
+        }
+
+        public JSMap<string, TrackPublication> Tracks
+        {
+            get
+            {
+                JSNative.PushString("tracks");
+                return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -46,7 +65,17 @@ namespace LiveKit
             {
                 JSNative.PushString("isSpeaking");
                 var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBool(ptr.NativePtr);
+                return JSNative.GetBoolean(ptr.NativePtr);
+            }
+        }
+
+        public string Sid
+        {
+            get
+            {
+                JSNative.PushString("sid");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(ptr.NativePtr);
             }
         }
 
@@ -86,6 +115,20 @@ namespace LiveKit
             }
         }
 
+        public DateTime? LastSpokeAt
+        {
+            get
+            {
+                JSNative.PushString("lastSpokeAt");
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                if (!JSNative.IsObject(ptr.NativePtr))
+                    return null;
+
+                var tPtr = Acquire(JSNative.CallMethod(ptr.NativePtr, "getTime"));
+                return new DateTime((long)JSNative.GetNumber(tPtr.NativePtr));
+            }
+        }
+
         [Preserve]
         public Participant(IntPtr ptr) : base(ptr)
         {
@@ -100,23 +143,23 @@ namespace LiveKit
         public TrackPublication GetTrack(TrackSource source)
         {
             JSNative.PushString(Utils.ToEnumString(source));
-            var r = Acquire(JSNative.CallMethod(NativePtr, "getTrack"));
+            var r = Acquire<TrackPublication>(JSNative.CallMethod(NativePtr, "getTrack"));
             
             if (JSNative.IsUndefined(r.NativePtr))
                 return null;
 
-            return Acquire<TrackPublication>(r.Release());
+            return r;
         }
 
         public TrackPublication GetTrackByName(string name)
         {
             JSNative.PushString(name);
-            var r = Acquire(JSNative.CallMethod(NativePtr, "getTrackByName"));
+            var r = Acquire<TrackPublication>(JSNative.CallMethod(NativePtr, "getTrackByName"));
 
             if (JSNative.IsUndefined(r.NativePtr))
                 return null;
 
-            return Acquire<TrackPublication>(r.Release());
+            return r;
         }
     }
 }

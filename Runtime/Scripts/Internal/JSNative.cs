@@ -3,6 +3,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace LiveKit
 {
@@ -28,6 +29,9 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern void FreeRef(IntPtr ptr);
+
+        [DllImport("__Internal")]
+        internal static extern void SetRef(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern IntPtr GetProperty(IntPtr ptr);
@@ -90,13 +94,19 @@ namespace LiveKit
         internal static extern bool IsArray(IntPtr ptr);
 
         [DllImport("__Internal")]
+        internal static extern bool IsNumber(IntPtr ptr);
+        
+        [DllImport("__Internal")]
+        internal static extern bool IsBoolean(IntPtr ptr);
+
+        [DllImport("__Internal")]
         internal static extern string GetString(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern double GetNumber(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool GetBool(IntPtr ptr);
+        internal static extern bool GetBoolean(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern IntPtr GetDataPtr(IntPtr ptr);
@@ -127,5 +137,50 @@ namespace LiveKit
             var r = JSRef.Acquire(CallMethod(json.NativePtr, "stringify"));
             return JsonConvert.DeserializeObject<T>(GetString(r.NativePtr));
         }
+
+        internal static void PushPrimitive(object obj)
+        {
+            if (obj is string str)
+                PushString(str);
+            else if (Utils.IsNumber(obj.GetType()))
+                PushNumber((double)obj);
+            else if (obj is bool b)
+                PushBoolean(b);
+            else if (obj == null)
+                PushNull();
+            else
+                throw new ArgumentException("Unsupported type");
+        }
+
+        internal static object GetPrimitive(IntPtr ptr)
+        {
+            if (IsString(ptr))
+                return GetString(ptr);
+            else if (IsNumber(ptr))
+                return GetNumber(ptr);
+            else if (IsBoolean(ptr))
+                return GetBoolean(ptr);
+            else if (IsNull(ptr) || IsUndefined(ptr))
+                return null;
+
+            throw new ArgumentException("Unsupported type");
+        }
+
+        internal static bool IsPrimitive(Type type)
+        {
+            var tc = Type.GetTypeCode(type);
+            return tc == TypeCode.String || tc == TypeCode.Boolean || Utils.IsNumber(type);
+        }
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum MediaDeviceKind
+    {
+        [EnumMember(Value = "audioinput")]
+        AudioInput,
+        [EnumMember(Value = "audiooutput")]
+        AudioOutput,
+        [EnumMember(Value = "videoinput")]
+        VideoInput
     }
 }

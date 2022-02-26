@@ -9,6 +9,7 @@ namespace LiveKit
         // Used to maintain class hierarchy
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
+            {"Error", typeof(JSError)},
             {"Room", typeof(Room)},
             {"Participant", typeof(Participant)},
             {"LocalParticipant", typeof(LocalParticipant)},

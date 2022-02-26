@@ -46,9 +46,12 @@ namespace LiveKit
         [Preserve]
         public HTMLVideoElement(IntPtr ptr) : base(ptr)
         {
-            m_TexId = JSNative.NewTexture();
-            m_AttachRef = Acquire(JSNative.AttachVideo(m_TexId, NativePtr));
-            AddEventListener("resize", ResizeEvent);
+            if (!JSNative.IsUndefined(NativePtr) && !JSNative.IsNull(NativePtr))
+            {
+                m_TexId = JSNative.NewTexture();
+                m_AttachRef = Acquire(JSNative.AttachVideo(m_TexId, NativePtr));
+                AddEventListener("resize", ResizeEvent);
+            }
         }
     }
 }

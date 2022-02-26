@@ -32,14 +32,14 @@ namespace LiveKit
             return new GetDeviceIdOperation(Acquire<JSPromise<JSRef>>(ptr.NativePtr));
         }
 
-        public void Mute()
+        public JSPromise<LocalTrack> Mute()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "mute"));
+            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativePtr, "mute"));
         }
 
-        public void Unmute()
+        public JSPromise<LocalTrack> Unmute()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "unmute"));
+            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativePtr, "unmute"));
         }
     }
 

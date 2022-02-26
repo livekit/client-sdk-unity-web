@@ -5,12 +5,12 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSArray<T> : JSRef, IList<T> where T : JSRef
+    public class JSArray<T> : JSRef, IList<T>
     {
         private object m_Lock = new object();
 
         [Preserve]
-        public JSArray(IntPtr ptr) : base(ptr)
+        internal JSArray(IntPtr ptr) : base(ptr)
         {
 
         }
@@ -44,24 +44,25 @@ namespace LiveKit
 
         public T this[int index]
         {
-            get {
+            get 
+            {
+                if(index >= Count)
+                    throw new IndexOutOfRangeException();
+
                 JSNative.PushNumber(index);
                 var ptr = JSNative.GetProperty(NativePtr);
-                if (ptr == IntPtr.Zero)
-                    return null;
-
-                return Acquire<T>(ptr);
+                return (T)(object)Acquire(ptr);
             }
             set {
                 JSNative.PushNumber(index);
-                JSNative.PushObject(value.NativePtr);
+                PushValue(value);
                 JSNative.SetProperty(NativePtr);
             }
         }
 
         public int IndexOf(T item)
         {
-            JSNative.PushObject(item.NativePtr);
+            PushValue(item);
             var r = Acquire(JSNative.CallMethod(NativePtr, "indexOf"));
             return (int) JSNative.GetNumber(r.NativePtr);
         }
@@ -70,7 +71,7 @@ namespace LiveKit
         {
             JSNative.PushNumber(index);
             JSNative.PushNumber(0);
-            JSNative.PushObject(item.NativePtr);
+            PushValue(item);
             Acquire(JSNative.CallMethod(NativePtr, "push"));
         }
 
@@ -83,7 +84,7 @@ namespace LiveKit
 
         public void Add(T obj)
         {
-            JSNative.PushObject(obj.NativePtr);
+            PushValue(obj);
             Acquire(JSNative.CallMethod(NativePtr, "push"));
         }
 
@@ -126,6 +127,14 @@ namespace LiveKit
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private void PushValue(T value)
+        {
+            if (JSNative.IsPrimitive(typeof(T)))
+                JSNative.PushPrimitive(value);
+            else
+                JSNative.PushObject((value as JSRef).NativePtr);
         }
     }
 }

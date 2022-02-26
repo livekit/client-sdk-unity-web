@@ -13,14 +13,14 @@ var NativeLib = {
 	$SetRef: function (ptr, obj) {
 		BridgeData.set(ptr, obj);
 
-		if (typeof val === 'object' && obj !== null) {
+		if (typeof obj === 'object' && obj !== null) {
 			BridgePtr.set(obj, ptr);
         }
 	},
 
 	$GetOrNewRef: function (obj) {
 		var ptr = BridgePtr.get(obj);
-		if (ptr === undefined || typeof val !== 'object' || obj === null) {
+		if (ptr === undefined || typeof obj !== 'object' || obj === null) {
 			ptr = NewRef();
 			SetRef(ptr, obj);
 		}
@@ -43,6 +43,11 @@ var NativeLib = {
 		BridgePtr.delete(obj);
 		BridgeData.delete(ptr);
 	},
+
+	SetRef: function (ptr) {
+		var value = Stack[0];
+		SetRef(ptr, value);
+    },
 
 	GetProperty: function (ptr) {
 		var key = Stack[0];
@@ -93,6 +98,16 @@ var NativeLib = {
 	IsString: function (ptr) {
 		var obj = BridgeData.get(ptr);
 		return typeof obj === 'string' || obj instanceof String;
+	},
+
+	IsNumber: function (ptr) {
+		var obj = BridgeData.get(ptr);
+		return typeof obj === 'number' && !isNaN(obj);
+    },
+
+	IsBoolean: function (ptr) {
+		var obj = BridgeData.get(ptr);
+		return typeof obj === 'boolean';
 	},
 
 	IsObject: function (ptr) {
@@ -191,7 +206,7 @@ var NativeLib = {
 		return value;
 	},
 
-	GetBool: function (ptr) {
+	GetBoolean: function (ptr) {
 		var value = BridgeData.get(ptr);
 		return value;
 	},
