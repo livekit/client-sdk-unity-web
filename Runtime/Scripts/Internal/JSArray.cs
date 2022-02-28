@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -34,7 +35,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("length");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int)JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 

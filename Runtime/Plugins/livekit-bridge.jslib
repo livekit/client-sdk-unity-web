@@ -64,9 +64,6 @@ var NativeLib = {
 			obj = p[key];
         }
 
-		if (!obj)
-			return nullptr;
-
 		return GetOrNewRef(obj);
 	},
 
