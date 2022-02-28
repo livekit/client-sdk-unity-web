@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -79,6 +80,8 @@ namespace LiveKit
 			{
 				var evRef = Acquire<EventReceiver>(iptr);
 				evRef.m_Room.TryGetTarget(out Room room);
+
+				Debug.Log(evRef.m_Event);
 
 				switch (evRef.m_Event)
 				{
@@ -189,8 +192,15 @@ namespace LiveKit
 						}
 					case RoomEvent.ActiveSpeakersChanged:
 						{
-							var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
-							room.ActiveSpeakersChanged?.Invoke(jsarray);
+                            try
+                            {
+								var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
+								room.ActiveSpeakersChanged?.Invoke(jsarray);
+							}
+                            catch (Exception e){
+								Debug.Log(e.Message);
+							}
+
 							break;
 						}
 					case RoomEvent.RoomMetadataChanged:

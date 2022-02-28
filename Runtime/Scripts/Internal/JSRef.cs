@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -10,6 +11,12 @@ namespace LiveKit
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
             {"Error", typeof(JSError)},
+            {"LivekitError", typeof(LivekitError)},
+            {"ConnectionError", typeof(ConnectionError)},
+            {"TrackInvalidError", typeof(TrackInvalidError)},
+            {"UnsupportedServer", typeof(UnsupportedServer)},
+            {"UnexpectedConnectionState", typeof(UnexpectedConnectionState)},
+            {"PublishDataError", typeof(PublishDataError)},
             {"Room", typeof(Room)},
             {"Participant", typeof(Participant)},
             {"LocalParticipant", typeof(LocalParticipant)},
@@ -52,6 +59,8 @@ namespace LiveKit
                     JSNative.PushString("name");
                     var cName = Acquire(JSNative.GetProperty(ctor.NativePtr));
                     var typeName = JSNative.GetString(cName.NativePtr);
+
+                    Debug.Log(typeName);
 
                     if (s_TypeMap.TryGetValue(typeName, out Type correctType))
                         type = correctType;
