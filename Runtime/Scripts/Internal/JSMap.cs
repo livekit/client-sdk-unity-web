@@ -40,7 +40,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("size");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(ptr.NativePtr);
             }
         }
 
@@ -54,11 +55,11 @@ namespace LiveKit
                     throw new KeyNotFoundException();
 
                 PushKey(key);
-                var ptr = JSNative.CallMethod(NativePtr, "get");
+                var ptr = Acquire(JSNative.CallMethod(NativePtr, "get"));
                 if(JSNative.IsPrimitive(typeof(TValue)))
-                    return (TValue) JSNative.GetPrimitive(ptr);
+                    return (TValue) JSNative.GetPrimitive(ptr.NativePtr);
 
-                return (TValue)(object)Acquire(ptr);
+                return (TValue)(object)Acquire(ptr.NativePtr);
             }
             set
             {
@@ -68,13 +69,13 @@ namespace LiveKit
             }
         }
 
-        internal JSMap() : this(JSNative.NewRef())
+        public JSMap() : this(JSNative.NewRef())
         {
             JSNative.NewInstance(IntPtr.Zero, NativePtr, "Map");
         }
 
         [Preserve]
-        internal JSMap(IntPtr ptr) : base(ptr)
+        public JSMap(IntPtr ptr) : base(ptr)
         {
 
         }

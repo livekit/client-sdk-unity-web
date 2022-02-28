@@ -35,7 +35,8 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("length");
-                return (int)JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                return (int)JSNative.GetNumber(ptr.NativePtr);
             }
         }
 
@@ -51,8 +52,12 @@ namespace LiveKit
                     throw new IndexOutOfRangeException();
 
                 JSNative.PushNumber(index);
-                var ptr = JSNative.GetProperty(NativePtr);
-                return (T)(object)Acquire(ptr);
+                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+
+                if (JSNative.IsPrimitive(typeof(T)))
+                    return (T) JSNative.GetPrimitive(ptr.NativePtr);
+                else
+                    return (T)(object) ptr;
             }
             set {
                 JSNative.PushNumber(index);
