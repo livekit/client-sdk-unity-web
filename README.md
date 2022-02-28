@@ -2,7 +2,7 @@
 This package works only on the WebGL platform of Unity
 
 ## Installation :
-Follow this unity tutorial using the `https://github.com/livekit/unity-webgl-bridge.git` link
+Follow this [unity tutorial](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using the `https://github.com/livekit/unity-webgl-bridge.git` link
 
 ## Usage : 
 
