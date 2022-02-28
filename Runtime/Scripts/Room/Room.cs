@@ -192,15 +192,8 @@ namespace LiveKit
 						}
 					case RoomEvent.ActiveSpeakersChanged:
 						{
-                            try
-                            {
-								var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
-								room.ActiveSpeakersChanged?.Invoke(jsarray);
-							}
-                            catch (Exception e){
-								Debug.Log(e.Message);
-							}
-
+							var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
+							room.ActiveSpeakersChanged?.Invoke(jsarray);
 							break;
 						}
 					case RoomEvent.RoomMetadataChanged:

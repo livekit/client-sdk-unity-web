@@ -60,8 +60,6 @@ namespace LiveKit
                     var cName = Acquire(JSNative.GetProperty(ctor.NativePtr));
                     var typeName = JSNative.GetString(cName.NativePtr);
 
-                    Debug.Log(typeName);
-
                     if (s_TypeMap.TryGetValue(typeName, out Type correctType))
                         type = correctType;
                 }
