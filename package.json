@@ -8,6 +8,13 @@
     "name": "Th\u00e9o Monnom",
     "email": "theo.monnom@outlook.com"
   },
+  "samples": [
+    {
+      "displayName": "Example",
+      "description": "LiveKit sample",
+      "path": "Samples~"
+    }
+  ],
   "type": "library",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0"

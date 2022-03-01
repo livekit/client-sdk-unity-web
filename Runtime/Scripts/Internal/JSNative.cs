@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
+using UnityEngine;
 
 namespace LiveKit
 {
@@ -15,7 +16,8 @@ namespace LiveKit
             NullValueHandling = NullValueHandling.Ignore,
         };
 
-        static JSNative()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        private static void InitJSNative()
         {
             AotHelper.EnsureType<StringEnumConverter>();
             Init();

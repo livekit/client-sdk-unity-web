@@ -1,277 +1,283 @@
 var NativeLib = {
-	$BridgeData: null,
-	$BridgePtr: null,
-	$RefCounter: 1,
-	$Stack: [],
-	$StackCSharp: [],
-	$nullptr: 0,
+    $BridgeData: null,
+    $BridgePtr: null,
+    $RefCounter: 1,
+    $Stack: [],
+    $StackCSharp: [],
+    $nullptr: 0,
 
-	$NewRef: function () {
-		return RefCounter++;
-	},
+    $NewRef: function () {
+        return RefCounter++;
+    },
 
-	$SetRef: function (ptr, obj) {
-		BridgeData.set(ptr, obj);
+    $SetRef: function (ptr, obj) {
+        BridgeData.set(ptr, obj);
 
-		if (typeof obj === 'object' && obj !== null) {
-			BridgePtr.set(obj, ptr);
+        if (typeof obj === 'object' && obj !== null) {
+            BridgePtr.set(obj, ptr);
         }
-	},
-
-	$GetOrNewRef: function (obj) {
-		var ptr = BridgePtr.get(obj);
-		if (ptr === undefined || typeof obj !== 'object' || obj === null) {
-			ptr = NewRef();
-			SetRef(ptr, obj);
-		}
-
-		return ptr;
-	},
-
-	Init: function () {
-		// When initializing these variables directly, emscripten replace the type by {} (not sure why)
-		BridgeData = new Map();
-		BridgePtr = new Map();
     },
 
-	NewRef: function () {
-		return NewRef();
-	},
-
-	FreeRef: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		BridgePtr.delete(obj);
-		BridgeData.delete(ptr);
-	},
-
-	SetRef: function (ptr) {
-		var value = Stack[0];
-		SetRef(ptr, value);
-    },
-
-	GetProperty: function (ptr) {
-		var key = Stack[0];
-		Stack = [];
-
-		var obj;
-		if (ptr == nullptr) {
-			obj = window[key];
-		} else {
-			var p = BridgeData.get(ptr);
-			if (p === undefined)
-				return nullptr;
-
-			obj = p[key];
+    $GetOrNewRef: function (obj) {
+        var ptr = BridgePtr.get(obj); 
+        if (ptr === undefined || typeof obj !== 'object' || obj === null) {
+            ptr = NewRef();
+            SetRef(ptr, obj);
         }
 
-		return GetOrNewRef(obj);
-	},
-
-	SetProperty: function (ptr) {
-		var key = Stack[0];
-		var value = Stack[1];
-		Stack = [];
-
-		var obj;
-		if (ptr == nullptr) {
-			obj = window;
-		} else {
-			obj = BridgeData.get(ptr);
-			if (obj === undefined)
-				return;
-		}
-
-		obj[key] = value;
+        return ptr;
     },
 
-	IsNull: function (ptr) {
-		return BridgeData.get(ptr) === null;
-	},
-
-	IsUndefined: function (ptr) {
-		return BridgeData.get(ptr) === undefined;
-	},
-
-	IsString: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		return typeof obj === 'string' || obj instanceof String;
-	},
-
-	IsNumber: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		return typeof obj === 'number' && !isNaN(obj);
+    Init: function () {
+        // When initializing these variables directly, emscripten replace the type by {} (not sure why)
+        BridgeData = new Map();
+        BridgePtr = new Map();
     },
 
-	IsBoolean: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		return typeof obj === 'boolean';
-	},
+    NewRef: function () {
+        return NewRef();
+    },
 
-	IsObject: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
-	},
+    FreeRef: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        BridgePtr.delete(obj);
+        BridgeData.delete(ptr);
+    },
 
-	IsArray: function (ptr) {
-		var obj = BridgeData.get(ptr);
-		return Array.isArray(obj);
-	},
+    SetRef: function (ptr) {
+        var value = Stack[0];
+        SetRef(ptr, value);
+    },
 
-	PushNull: function () {
-		Stack.push(null);
-	},
+    GetProperty: function (ptr) {
+        var key = Stack[0];
+        Stack = [];
 
-	PushUndefined: function () {
-		Stack.push(undefined);
-	},
+        var obj;
+        if (ptr == nullptr) {
+            obj = window[key];
+        } else {
+            var p = BridgeData.get(ptr);
+            if (p === undefined)
+                return nullptr;
 
-	PushNumber: function (nb) {
-		Stack.push(nb);
-	},
+            obj = p[key];
+        }
 
-	PushBoolean: function (bool) {
-		Stack.push(bool);
-	},
+        return GetOrNewRef(obj);
+    },
 
-	PushString: function (str) {
-		Stack.push(Pointer_stringify(str));
-	},
+    SetProperty: function (ptr) {
+        var key = Stack[0];
+        var value = Stack[1];
+        Stack = [];
 
-	PushStruct: function (json) {
-		Stack.push(JSON.parse(Pointer_stringify(json)));
-	},
+        var obj;
+        if (ptr == nullptr) {
+            obj = window;
+        } else {
+            obj = BridgeData.get(ptr);
+            if (obj === undefined)
+                return;
+        }
 
-	PushData: function (data, size) {
-		Stack.push(HEAPU8.subarray(data, data + size));
-	},
+        obj[key] = value;
+    },
 
-	PushFunction: function (ptr, fnc) {
-		Stack.push(function () {
-			StackCSharp = Array.from(arguments);
-			Runtime.dynCall("vi", fnc, [ptr]);
-			StackCSharp = [];
+    IsNull: function (ptr) {
+        return BridgeData.get(ptr) === null;
+    },
+
+    IsUndefined: function (ptr) {
+        return BridgeData.get(ptr) === undefined;
+    },
+
+    IsString: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        return typeof obj === 'string' || obj instanceof String;
+    },
+
+    IsNumber: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        return typeof obj === 'number' && !isNaN(obj);
+    },
+
+    IsBoolean: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        return typeof obj === 'boolean';
+    },
+
+    IsObject: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+    },
+
+    IsArray: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        return Array.isArray(obj);
+    },
+
+    PushNull: function () {
+        Stack.push(null);
+    },
+
+    PushUndefined: function () {
+        Stack.push(undefined);
+    },
+
+    PushNumber: function (nb) {
+        Stack.push(nb);
+    },
+
+    PushBoolean: function (bool) {
+        Stack.push(bool);
+    },
+
+    PushString: function (str) {
+        Stack.push(Pointer_stringify(str));
+    },
+
+    PushStruct: function (json) {
+        Stack.push(JSON.parse(Pointer_stringify(json)));
+    },
+
+    PushData: function (data, size) {
+        Stack.push(HEAPU8.subarray(data, data + size));
+    },
+
+    PushFunction: function (ptr, fnc) {
+        Stack.push(function () {
+            StackCSharp = Array.from(arguments);
+
+            if (typeof Runtime !== "undefined") {
+                Runtime.dynCall("vi", fnc, [ptr]);
+            } else {
+                dynCall("vi", fnc, [ptr]);
+            }
+
+            StackCSharp = [];
         });
-	},
-
-	PushObject: function (ptr) {
-		Stack.push(BridgeData.get(ptr));
-	},
-
-	CallFunction: function (str) {
-		var fnc = window[Pointer_stringify(str)];
-		var result = fnc.apply(null, Stack);
-		Stack = [];
-		return GetOrNewRef(result);
-	},
-
-	CallMethod: function (ptr, str) {
-		var obj = BridgeData.get(ptr);
-		var fnc = obj[Pointer_stringify(str)]
-		var result = fnc.apply(obj, Stack);
-		Stack = [];
-		return GetOrNewRef(result);
-	},
-
-	NewInstance: function (ptr, toPtr, clazz) {
-		var obj;
-		if (ptr == 0) {
-			obj = window;
-		} else {
-			obj = BridgeData.get(ptr);
-		}
-
-		var inst = new (Function.prototype.bind.apply(obj[Pointer_stringify(clazz)], Stack));
-		SetRef(toPtr, inst);
-		Stack = [];
-	},
-
-	ShiftStack: function () {
-		var v = StackCSharp.shift();
-		return GetOrNewRef(v);
     },
 
-	GetString: function (ptr) {
-		var value = BridgeData.get(ptr);
-		var bufferSize = lengthBytesUTF8(value) + 1;
-		var buffer = _malloc(bufferSize);
-		stringToUTF8(value, buffer, bufferSize);
-		return buffer;
-	},
+    PushObject: function (ptr) {
+        Stack.push(BridgeData.get(ptr));
+    },
 
-	GetNumber: function (ptr) {
-		var value = BridgeData.get(ptr);
-		return value;
-	},
+    CallFunction: function (str) {
+        var fnc = window[Pointer_stringify(str)];
+        var result = fnc.apply(null, Stack);
+        Stack = [];
+        return GetOrNewRef(result);
+    },
 
-	GetBoolean: function (ptr) {
-		var value = BridgeData.get(ptr);
-		return value;
-	},
+    CallMethod: function (ptr, str) {
+        var obj = BridgeData.get(ptr);
+        var fnc = obj[Pointer_stringify(str)]
+        var result = fnc.apply(obj, Stack);
+        Stack = [];
+        return GetOrNewRef(result);
+    },
 
-	GetDataPtr: function (pptr) {
-		var value = BridgeData.get(pptr);
-		var arr = new Uint8Array(value);
-		var ptr = _malloc(arr.byteLength + 4);
-		HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
-		HEAPU8.set(arr, ptr + 4);
-		setTimeout(function () {
-			_free(ptr);
-		}, 0);
-		return ptr;
-	},
+    NewInstance: function (ptr, toPtr, clazz) {
+        var obj;
+        if (ptr == 0) {
+            obj = window;
+        } else {
+            obj = BridgeData.get(ptr);
+        }
 
-	// Video Receive
-	NewTexture: function () {
-		var tex = GLctx.createTexture();
-		if (!tex)
-			return nullptr;
+        var inst = new (Function.prototype.bind.apply(obj[Pointer_stringify(clazz)], Stack));
+        SetRef(toPtr, inst);
+        Stack = [];
+    },
 
-		var id = GL.getNewId(GL.textures);
-		tex.name = id;
-		GL.textures[id] = tex;
-		return id;
-	},
+    ShiftStack: function () {
+        var v = StackCSharp.shift();
+        return GetOrNewRef(v);
+    },
 
-	DestroyTexture: function (ptr) {
-		GLctx.deleteTexture(ptr);
-	},
+    GetString: function (ptr) {
+        var value = BridgeData.get(ptr);
+        var bufferSize = lengthBytesUTF8(value) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(value, buffer, bufferSize);
+        return buffer;
+    },
 
-	AttachVideo: function (texId, videoPtr) {
-		var attachPtr = NewRef();
-		SetRef(attachPtr, true);
+    GetNumber: function (ptr) {
+        var value = BridgeData.get(ptr);
+        return value;
+    },
 
-		var tex = GL.textures[texId];
-		var video = BridgeData.get(videoPtr);
-		var lastTime = -1;
+    GetBoolean: function (ptr) {
+        var value = BridgeData.get(ptr);
+        return value;
+    },
 
-		var updateVideo = function () {
-			if (!BridgeData.get(attachPtr))
-				return; // Detached
+    GetDataPtr: function (pptr) {
+        var value = BridgeData.get(pptr);
+        var arr = new Uint8Array(value);
+        var ptr = _malloc(arr.byteLength + 4);
+        HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
+        HEAPU8.set(arr, ptr + 4);
+        setTimeout(function () {
+            _free(ptr);
+        }, 0);
+        return ptr;
+    },
 
-			var time = video.currentTime;
-			if (time !== lastTime) {
-				GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
+    // Video Receive
+    NewTexture: function () {
+        var tex = GLctx.createTexture();
+        if (!tex)
+            return nullptr;
 
-				// Flip
-				GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-				GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
-				GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        var id = GL.getNewId(GL.textures);
+        tex.name = id;
+        GL.textures[id] = tex;
+        return id;
+    },
 
-				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
-				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR);
-				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_S, GLctx.CLAMP_TO_EDGE);
-				GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_T, GLctx.CLAMP_TO_EDGE);
-				GLctx.bindTexture(GLctx.TEXTURE_2D, null);
+    DestroyTexture: function (ptr) {
+        GLctx.deleteTexture(ptr);
+    },
 
-				lastTime = time;
-			}
+    AttachVideo: function (texId, videoPtr) {
+        var attachPtr = NewRef();
+        SetRef(attachPtr, true);
 
-			requestAnimationFrame(updateVideo);
-		};
+        var tex = GL.textures[texId];
+        var video = BridgeData.get(videoPtr);
+        var lastTime = -1;
 
-		requestAnimationFrame(updateVideo);
-		return attachPtr;
-	},
+        var updateVideo = function () {
+            if (!BridgeData.get(attachPtr))
+                return; // Detached
+
+            var time = video.currentTime;
+            if (time !== lastTime) {
+                GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
+
+                // Flip
+                GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+                GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
+                GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+
+                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
+                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR);
+                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_S, GLctx.CLAMP_TO_EDGE);
+                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_T, GLctx.CLAMP_TO_EDGE);
+                GLctx.bindTexture(GLctx.TEXTURE_2D, null);
+
+                lastTime = time;
+            }
+
+            requestAnimationFrame(updateVideo);
+        };
+
+        requestAnimationFrame(updateVideo);
+        return attachPtr;
+    },
 };
 
 autoAddDeps(NativeLib, '$GetOrNewRef');
