@@ -382,11 +382,13 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            JSNative.NewInstance(LiveKit.NativePtr, NativePtr, "Room");
+            JSNative.NewInstance(JSNative.LiveKit.NativePtr, NativePtr, "Room");
 
             foreach(var e in Enum.GetValues(typeof(RoomEvent))){
                 m_Events.Add(new EventReceiver(this, (RoomEvent) e));
             }
+
+            JSBridge.SendRoomCreated(this);
         }
 
         public ConnectOperation Connect(string url, string token, ConnectOptions? options = null)

@@ -10,7 +10,10 @@ namespace LiveKit
 {
     internal static class JSNative
     {
-        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        internal static JSRef LiveKit { get; private set; }
+        internal static JSRef LKBridge { get; private set; }
+
+        internal static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore,
@@ -21,6 +24,14 @@ namespace LiveKit
         {
             AotHelper.EnsureType<StringEnumConverter>();
             Init();
+
+            PushString("livekit");
+            LiveKit = JSRef.Acquire(GetProperty(IntPtr.Zero));
+
+            PushString("lkbridge");
+            LKBridge = JSRef.Acquire(GetProperty(IntPtr.Zero));
+
+            JSBridge.SendReady();
         }
 
         [DllImport("__Internal")]
