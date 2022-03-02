@@ -134,11 +134,11 @@ var NativeLib = {
     },
 
     PushString: function (str) {
-        Stack.push(Pointer_stringify(str));
+        Stack.push(UTF8ToString(str));
     },
 
     PushStruct: function (json) {
-        Stack.push(JSON.parse(Pointer_stringify(json)));
+        Stack.push(JSON.parse(UTF8ToString(json)));
     },
 
     PushData: function (data, size) {
@@ -164,7 +164,7 @@ var NativeLib = {
     },
 
     CallFunction: function (str) {
-        var fnc = window[Pointer_stringify(str)];
+        var fnc = window[UTF8ToString(str)];
         var result = fnc.apply(null, Stack);
         Stack = [];
         return GetOrNewRef(result);
@@ -172,7 +172,7 @@ var NativeLib = {
 
     CallMethod: function (ptr, str) {
         var obj = BridgeData.get(ptr);
-        var fnc = obj[Pointer_stringify(str)]
+        var fnc = obj[UTF8ToString(str)]
         var result = fnc.apply(obj, Stack);
         Stack = [];
         return GetOrNewRef(result);
@@ -186,7 +186,7 @@ var NativeLib = {
             obj = BridgeData.get(ptr);
         }
 
-        var inst = new (Function.prototype.bind.apply(obj[Pointer_stringify(clazz)], Stack));
+        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], Stack));
         SetRef(toPtr, inst);
         Stack = [];
     },

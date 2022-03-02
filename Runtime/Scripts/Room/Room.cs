@@ -81,8 +81,6 @@ namespace LiveKit
                 var evRef = Acquire<EventReceiver>(iptr);
                 evRef.m_Room.TryGetTarget(out Room room);
 
-                Debug.Log(evRef.m_Event);
-
                 switch (evRef.m_Event)
                 {
                     case RoomEvent.Reconnecting:
