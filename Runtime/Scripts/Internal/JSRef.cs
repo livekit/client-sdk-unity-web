@@ -73,11 +73,13 @@ namespace LiveKit
 
         public static T AcquireOrNull<T>(IntPtr ptr) where T : JSRef
         {
-            var a = Acquire<T>(ptr);
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+            {
+                Acquire<JSRef>(ptr);
                 return null;
+            }
 
-            return a;
+            return Acquire<T>(ptr);
         }
 
         public static JSRef AcquireOrNull(IntPtr ptr)

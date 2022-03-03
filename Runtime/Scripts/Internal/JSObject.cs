@@ -3,6 +3,9 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
+    /*
+     * JSObject ensures that we are using a non-null reference
+     */
     public class JSObject : JSRef
     {
 
@@ -14,7 +17,7 @@ namespace LiveKit
                 throw new ArgumentException("An object reference cannot be null");
         }
 
-        public JSObject() : base(JSNative.NewRef())
+        internal JSObject() : base(JSNative.NewRef())
         {
             
         }
