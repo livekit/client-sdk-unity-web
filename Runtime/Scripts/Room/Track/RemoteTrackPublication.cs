@@ -14,8 +14,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("subscriptionStatus");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<SubscriptionStatus>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<SubscriptionStatus>(ptr.ToString());
             }
         }
 
@@ -24,11 +24,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoQuality");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return (VideoQuality)JSNative.GetNumber(ptr.NativePtr);
+                var ptr = AcquireOrNull<JSNumber>(JSNative.GetProperty(NativePtr));
+                return (VideoQuality)ptr?.ToNumber();
             }
         }
 
@@ -70,6 +67,5 @@ namespace LiveKit
 
             Acquire(JSNative.CallMethod(NativePtr, "setTrack"));
         }
-
     }
 }

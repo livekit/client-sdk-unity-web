@@ -13,8 +13,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("code");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return (int) JSNative.GetNumber(ptr.NativePtr);
+                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
+                return (int)ptr.ToNumber();
             }
         }
 
@@ -90,11 +90,11 @@ namespace LiveKit
             var ptr = JSRef.Acquire(JSNative.GetProperty(IntPtr.Zero));
 
             JSNative.PushObject(error.NativePtr);
-            var rPtr = JSRef.Acquire(JSNative.CallMethod(ptr.NativePtr, "getFailure"));
-            if (JSNative.IsUndefined(rPtr.NativePtr))
+            var rPtr = JSRef.AcquireOrNull<JSString>(JSNative.CallMethod(ptr.NativePtr, "getFailure"));
+            if (rPtr == null)
                 return null;
 
-            return Utils.ToEnum<MediaDeviceFailure>(JSNative.GetString(rPtr.NativePtr));
+            return Utils.ToEnum<MediaDeviceFailure>(rPtr.ToString());
         }
     }
 }

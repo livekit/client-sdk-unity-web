@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 namespace LiveKit
 {
 
-    public class MediaStreamTrack : JSRef
+    public class MediaStreamTrack : JSObject
     {
 
         [Preserve]

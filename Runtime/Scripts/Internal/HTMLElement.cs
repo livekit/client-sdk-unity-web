@@ -3,7 +3,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public abstract class HTMLElement : JSRef
+    public abstract class HTMLElement : JSObject
     {
         [Preserve]
         public HTMLElement(IntPtr ptr) : base(ptr)

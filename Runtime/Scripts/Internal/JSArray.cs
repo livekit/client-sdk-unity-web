@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSArray<T> : JSRef, IList<T>
+    public class JSArray<T> : JSObject, IList<T>
     {
         private object m_Lock = new object();
 
@@ -35,8 +35,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("length");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return (int)JSNative.GetNumber(ptr.NativePtr);
+                return (int) Acquire<JSNumber>(JSNative.GetProperty(NativePtr)).ToNumber();
             }
         }
 
@@ -52,7 +51,9 @@ namespace LiveKit
                     throw new IndexOutOfRangeException();
 
                 JSNative.PushNumber(index);
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
+                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
+                if(ptr == null)
+                    return default(T);
 
                 if (JSNative.IsPrimitive(typeof(T)))
                     return (T) JSNative.GetPrimitive(ptr.NativePtr);
@@ -69,8 +70,7 @@ namespace LiveKit
         public int IndexOf(T item)
         {
             PushValue(item);
-            var r = Acquire(JSNative.CallMethod(NativePtr, "indexOf"));
-            return (int) JSNative.GetNumber(r.NativePtr);
+            return (int) Acquire<JSNumber>(JSNative.CallMethod(NativePtr, "indexOf")).ToNumber();
         }
 
         public void Insert(int index, T item)

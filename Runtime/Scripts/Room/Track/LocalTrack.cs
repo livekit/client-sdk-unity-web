@@ -13,14 +13,13 @@ namespace LiveKit
 
         public string GetId()
         {
-            var ptr = Acquire(JSNative.CallMethod(NativePtr, "id"));
-            return JSNative.GetString(ptr.NativePtr);
+            return Acquire<JSString>(JSNative.CallMethod(NativePtr, "id")).ToString();
         }
 
         public TrackDimensions? GetDimensions()
         {
-            var ptr = Acquire(JSNative.CallMethod(NativePtr, "dimensions"));
-            if (JSNative.IsUndefined(ptr.NativePtr))
+            var ptr = AcquireOrNull(JSNative.CallMethod(NativePtr, "dimensions"));
+            if (ptr == null)
                 return null;
 
             return JSNative.GetStruct<TrackDimensions>(ptr.NativePtr);
@@ -28,8 +27,8 @@ namespace LiveKit
     
         public GetDeviceIdOperation GetDeviceId()
         {
-            var ptr = Acquire(JSNative.CallMethod(NativePtr, "getDeviceId"));
-            return new GetDeviceIdOperation(Acquire<JSPromise<JSRef>>(ptr.NativePtr));
+            var ptr = Acquire<JSPromise<JSRef>>(JSNative.CallMethod(NativePtr, "getDeviceId"));
+            return new GetDeviceIdOperation(ptr);
         }
 
         public JSPromise<LocalTrack> Mute()

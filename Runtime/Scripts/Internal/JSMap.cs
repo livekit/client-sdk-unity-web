@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSMap<TKey, TValue> : JSRef, IDictionary<TKey, TValue>
+    public class JSMap<TKey, TValue> : JSObject, IDictionary<TKey, TValue>
     {
         public ICollection<TKey> Keys
         {
@@ -40,8 +40,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("size");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return (int) JSNative.GetNumber(ptr.NativePtr);
+                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
+                return (int)ptr.ToNumber();
             }
         }
 
@@ -55,11 +55,14 @@ namespace LiveKit
                     throw new KeyNotFoundException();
 
                 PushKey(key);
-                var ptr = Acquire(JSNative.CallMethod(NativePtr, "get"));
+                var ptr = AcquireOrNull(JSNative.CallMethod(NativePtr, "get"));
+                if (ptr == null)
+                    return default(TValue);
+
                 if(JSNative.IsPrimitive(typeof(TValue)))
                     return (TValue) JSNative.GetPrimitive(ptr.NativePtr);
 
-                return (TValue)(object)Acquire(ptr.NativePtr);
+                return (TValue)(object)ptr;
             }
             set
             {
@@ -91,15 +94,13 @@ namespace LiveKit
         public bool ContainsKey(TKey key)
         {
             PushKey(key);
-            var cref = Acquire(JSNative.CallMethod(NativePtr, "has"));
-            return JSNative.GetBoolean(cref.NativePtr);
+            return Acquire<JSBoolean>(JSNative.CallMethod(NativePtr, "has")).ToBool();
         }
 
         public bool Remove(TKey key)
         {
             PushKey(key);
-            var cref = Acquire(JSNative.CallMethod(NativePtr, "delete"));
-            return JSNative.GetBoolean(cref.NativePtr);
+            return Acquire<JSBoolean>(JSNative.CallMethod(NativePtr, "delete")).ToBool();
         }
 
         public bool TryGetValue(TKey key, out TValue value)

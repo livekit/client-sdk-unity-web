@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class ExampleRoom : MonoBehaviour
 {
-    private Room m_Room = new Room();
     private Dictionary<TrackPublication, RawImage> m_Videos = new Dictionary<TrackPublication, RawImage>();
+    private Room m_Room;
 
     public GridLayoutGroup ViewContainer;
     public RawImage ViewPrefab;
@@ -16,6 +16,8 @@ public class ExampleRoom : MonoBehaviour
 
     IEnumerator Start()
     {
+        // New Room must be called when WebGL assembly is loaded
+        m_Room = new Room();
         var c = m_Room.Connect(JoinMenu.LivekitURL, JoinMenu.RoomToken);
         yield return c;
 
@@ -62,7 +64,7 @@ public class ExampleRoom : MonoBehaviour
                 newView.texture = tex;
             };
         }
-        else if (track.Kind == TrackKind.Audio)
+        else if (track.Kind == TrackKind.Audio && publication is RemoteTrackPublication)
         {
             track.Attach();
         }

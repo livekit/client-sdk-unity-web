@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -45,7 +44,7 @@ namespace LiveKit
     public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status, RemoteParticipant participant);
     public delegate void AudioPlaybackChangedDelegate(bool playing);
 
-    public class Room : JSRef
+    public class Room : JSObject
     {
         public event ReconnectingDelegate Reconnecting;
         public event ReconnectedDelegate Reconnected;
@@ -94,8 +93,7 @@ namespace LiveKit
                         break;
                     case RoomEvent.StateChanged:
                         {
-                            var fref = Acquire(JSNative.ShiftStack());
-                            var str = JSNative.GetString(fref.NativePtr);
+                            var str = Acquire<JSString>(JSNative.ShiftStack()).ToString();
                             room.StateChanged?.Invoke(Utils.ToEnum<RoomState>(str));
                             break;
                         }
@@ -131,8 +129,7 @@ namespace LiveKit
                         }
                     case RoomEvent.TrackSubscriptionFailed:
                         {
-                            var fref = Acquire(JSNative.ShiftStack());
-                            var sid = JSNative.GetString(fref.NativePtr);
+                            var sid = Acquire<JSString>(JSNative.ShiftStack()).ToString();
                             var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
                             room.TrackSubscriptionFailed?.Invoke(sid, participant);
                             break;
@@ -182,10 +179,9 @@ namespace LiveKit
                         }
                     case RoomEvent.ParticipantMetadataChanged:
                         {
-                            var fref = Acquire(JSNative.ShiftStack());
-                            var metadata = JSNative.IsString(fref.NativePtr) ? JSNative.GetString(fref.NativePtr) : null;
+                            var metadata = AcquireOrNull<JSString>(JSNative.ShiftStack());
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
-                            room.ParticipantMetadataChanged?.Invoke(metadata, participant);
+                            room.ParticipantMetadataChanged?.Invoke(metadata != null ? metadata.ToString() : null, participant);
                             break;
                         }
                     case RoomEvent.ActiveSpeakersChanged:
@@ -196,8 +192,7 @@ namespace LiveKit
                         }
                     case RoomEvent.RoomMetadataChanged:
                         {
-                            var fref = Acquire<JSRef>(JSNative.ShiftStack());
-                            var metadata = JSNative.GetString(fref.NativePtr);
+                            var metadata = Acquire<JSString>(JSNative.ShiftStack()).ToString();
                             room.RoomMetadataChanged?.Invoke(metadata);
                             break;
                         }
@@ -207,20 +202,17 @@ namespace LiveKit
                             var dataPtr = Acquire(JSNative.GetDataPtr(dataref.NativePtr));
                             var data = JSNative.GetData(dataPtr.NativePtr);
 
-                            var pref = Acquire<JSRef>(JSNative.ShiftStack());
-                            var participant = JSNative.IsObject(pref.NativePtr) ? pref as RemoteParticipant : null;
+                            var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
 
-                            var kindref = Acquire<JSRef>(JSNative.ShiftStack());
-                            var kind = JSNative.IsString(kindref.NativePtr)
-                                ? Utils.ToEnum<DataPacketKind?>(JSNative.GetString(kindref.NativePtr)) : null;
+                            var kindObj = AcquireOrNull<JSString>(JSNative.ShiftStack());
+                            var kind = kindObj != null ? Utils.ToEnum<DataPacketKind?>(kindObj.ToString()) : null;
 
                             room.DataReceived?.Invoke(data, participant, kind);
                             break;
                         }
                     case RoomEvent.ConnectionQualityChanged:
                         {
-                            var fref = Acquire(JSNative.ShiftStack());
-                            var quality = Utils.ToEnum<ConnectionQuality>(JSNative.GetString(fref.NativePtr));
+                            var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             room.ConnectionQualityChanged?.Invoke(quality, participant);
                             break;
@@ -255,9 +247,7 @@ namespace LiveKit
                         }
                     case RoomEvent.AudioPlaybackStatusChanged:
                         {
-                            var fref = Acquire(JSNative.ShiftStack());
-                            var playing = JSNative.GetBoolean(fref.NativePtr);
-                            room.AudioPlaybackChanged?.Invoke(playing);
+                            room.AudioPlaybackChanged?.Invoke(Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool());
                             break;
                         }
                 }
@@ -284,8 +274,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("state");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<RoomState>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<RoomState>(ptr.ToString());
             }
         }
 
@@ -312,8 +302,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("sid");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetString(ptr.NativePtr);
+                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
             }
         }
 
@@ -322,8 +311,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("name");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetString(ptr.NativePtr);
+                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
             }
         }
 
@@ -341,11 +329,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("metadata");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return JSNative.GetString(ptr.NativePtr);
+                var ptr = AcquireOrNull<JSString>(JSNative.GetProperty(NativePtr));
+                return ptr?.ToString();
             }
         }
 
@@ -364,8 +349,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("canPlaybackAudio");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr);
+                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
+                return ptr.ToBool();
             }
         }
 
@@ -375,7 +360,7 @@ namespace LiveKit
 
         }
 
-        public Room(RoomOptions? options = null) : base(JSNative.NewRef())
+        public Room(RoomOptions? options = null)
         {
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
@@ -409,11 +394,7 @@ namespace LiveKit
         public Participant GetParticipantByIdentity(string identity)
         {
             JSNative.PushString(identity);
-            var ptr = Acquire<Participant>(JSNative.CallMethod(NativePtr, "getParticipantByIdentity"));
-            if (JSNative.IsUndefined(ptr.NativePtr))
-                return null;
-
-            return ptr;
+            return AcquireOrNull<Participant>(JSNative.CallMethod(NativePtr, "getParticipantByIdentity"));
         }
 
         public JSPromise StartAudio()

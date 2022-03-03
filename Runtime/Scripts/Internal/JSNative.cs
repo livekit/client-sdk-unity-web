@@ -147,8 +147,11 @@ namespace LiveKit
             var json = JSRef.Acquire(GetProperty(IntPtr.Zero));
 
             PushObject(ptr);
-            var r = JSRef.Acquire(CallMethod(json.NativePtr, "stringify"));
-            return JsonConvert.DeserializeObject<T>(GetString(r.NativePtr));
+            var r = JSRef.AcquireOrNull<JSString>(CallMethod(json.NativePtr, "stringify"));
+            if (r == null)
+                return default(T);
+
+            return JsonConvert.DeserializeObject<T>(r.ToString());
         }
 
         internal static void PushPrimitive(object obj)

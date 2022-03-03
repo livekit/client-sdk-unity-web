@@ -10,8 +10,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isAdaptiveStream");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr);
+                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
+                return ptr.ToBool();
             }
         }
 

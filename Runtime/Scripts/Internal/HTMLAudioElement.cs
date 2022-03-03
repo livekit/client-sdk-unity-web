@@ -11,8 +11,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("volume");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return (int)JSNative.GetNumber(ptr.NativePtr);
+                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
+                return (float) ptr.ToNumber();
             }
             set
             {

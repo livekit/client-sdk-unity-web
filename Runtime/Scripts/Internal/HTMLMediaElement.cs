@@ -12,8 +12,7 @@ namespace LiveKit
         [Preserve]
         public HTMLMediaElement(IntPtr ptr) : base(ptr)
         {
-            if(!JSNative.IsUndefined(NativePtr) && !JSNative.IsNull(NativePtr))
-                m_Attached.Add(this);
+            m_Attached.Add(this);
         }
     }
 }

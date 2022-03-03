@@ -51,15 +51,15 @@ namespace LiveKit
         public int Height;
     }
 
-    public class Track : JSRef
+    public class Track : JSObject
     {
         public TrackKind Kind
         {
             get
             {
                 JSNative.PushString("kind");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackKind>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackKind>(ptr.ToString());
             }
         }
 
@@ -86,8 +86,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr);
+                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
+                return ptr.ToBool();
             }
         }
 
@@ -96,8 +96,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("streamState");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackStreamState>(ptr.ToString());
             }
         }
 
@@ -106,8 +106,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackSource>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackSource>(ptr.ToString());
             }
         }
 
@@ -116,11 +116,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("sid");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (!JSNative.IsString(ptr.NativePtr))
-                    return null;
-
-                return JSNative.GetString(ptr.NativePtr);
+                var ptr = AcquireOrNull<JSString>(JSNative.GetProperty(NativePtr));
+                return ptr?.ToString();
             }
         }
 

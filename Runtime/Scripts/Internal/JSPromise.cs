@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 namespace LiveKit
 {
     // TODO Support "Then" chaining 
-    public class JSPromise : JSRef, IEnumerator
+    public class JSPromise : JSObject, IEnumerator
     {
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void PromiseResolve(IntPtr id)
@@ -43,12 +43,12 @@ namespace LiveKit
 
         protected virtual void OnResolve()
         {
-            ResolveValue = Acquire(JSNative.ShiftStack());
+            ResolveValue = AcquireOrNull(JSNative.ShiftStack());
         }
 
         protected virtual void OnReject()
         {
-            RejectValue = Acquire(JSNative.ShiftStack());
+            RejectValue = AcquireOrNull(JSNative.ShiftStack());
         }
 
         // Coroutines impl
@@ -77,7 +77,7 @@ namespace LiveKit
 
         protected override void OnResolve()
         {
-            base.ResolveValue = Acquire<T>(JSNative.ShiftStack());
+            base.ResolveValue = AcquireOrNull<T>(JSNative.ShiftStack());
         }
     }
 

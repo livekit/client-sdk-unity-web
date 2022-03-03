@@ -17,15 +17,15 @@ namespace LiveKit
         Unsubscribed
     }
 
-    public class TrackPublication : JSRef
+    public class TrackPublication : JSObject
     {
         public TrackKind Kind
         {
             get
             {
                 JSNative.PushString("kind");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackKind>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackKind>(ptr.ToString());
             }
         }
 
@@ -34,8 +34,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackName");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetString(ptr.NativePtr);
+                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
             }
         }
 
@@ -44,8 +43,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackSid");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetString(ptr.NativePtr);
+                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
             }
         }
 
@@ -54,11 +52,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("track");
-                var ptr = Acquire<Track>(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return ptr;
+                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -67,8 +61,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackSource>(JSNative.GetString(ptr.NativePtr));
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackSource>(ptr.ToString());
             }
         }
 
@@ -77,11 +71,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("mimeType");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-                
-                return JSNative.GetString(ptr.NativePtr);
+                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
+                return ptr?.ToString();
             }
         }
 
@@ -90,8 +81,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
+                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
+                if (ptr == null)
                     return null;
 
                 return JSNative.GetStruct<TrackDimensions>(ptr.NativePtr);
@@ -103,11 +94,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("simulcasted");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return JSNative.GetBoolean(ptr.NativePtr);
+                var ptr = AcquireOrNull<JSBoolean>(JSNative.GetProperty(NativePtr));
+                return ptr?.ToBool();
             }
         }
 
@@ -116,8 +104,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr); 
+                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
             }
         }
 
@@ -126,8 +113,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isEnabled");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr);
+                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
             }
         }
 
@@ -136,8 +122,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isSubscribed");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetBoolean(ptr.NativePtr); 
+                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
             }
         }
 
@@ -146,11 +131,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("audioTrack");
-                var ptr = Acquire<Track>(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return ptr;
+                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -159,11 +140,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoTrack");
-                var ptr = Acquire<Track>(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
-                    return null;
-
-                return ptr;
+                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
             }
         }
 

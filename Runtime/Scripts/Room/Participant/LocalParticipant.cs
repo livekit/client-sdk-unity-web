@@ -14,20 +14,12 @@ namespace LiveKit
 
         public JSError LastCameraError()
         {
-            var ptr = Acquire<JSError>(JSNative.CallMethod(NativePtr, "lastCameraError"));
-            if (JSNative.IsUndefined(ptr.NativePtr))
-                return null;
-
-            return ptr;
+            return AcquireOrNull<JSError>(JSNative.CallMethod(NativePtr, "lastCameraError")); ;
         }
 
         public JSError LastMicrophoneError()
         {
-            var ptr = Acquire<JSError>(JSNative.CallMethod(NativePtr, "lastMicrophoneError"));
-            if (JSNative.IsUndefined(ptr.NativePtr))
-                return null;
-
-            return ptr;
+            return AcquireOrNull<JSError>(JSNative.CallMethod(NativePtr, "lastMicrophoneError"));
         }
 
         public new LocalTrackPublication GetTrack(TrackSource source)
@@ -105,11 +97,7 @@ namespace LiveKit
             if(stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            var ptr = Acquire<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
-            if (!JSNative.IsObject(ptr.NativePtr))
-                return null;
-
-            return ptr;
+            return AcquireOrNull<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
         }
 
         public LocalTrackPublication UnpublishTrack(MediaStreamTrack track, bool? stopOnUnpublish)
@@ -119,11 +107,7 @@ namespace LiveKit
             if (stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            var ptr = Acquire<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
-            if (!JSNative.IsObject(ptr.NativePtr))
-                return null;
-
-            return ptr;
+            return AcquireOrNull<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
         }
 
         public JSPromise<JSRef> PublishData(byte[] data, DataPacketKind kind, RemoteParticipant[] participants = null)

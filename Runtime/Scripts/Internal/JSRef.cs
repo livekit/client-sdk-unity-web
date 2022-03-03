@@ -9,6 +9,9 @@ namespace LiveKit
         // Used to maintain class hierarchy
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
+            {"Number", typeof(JSNumber)},
+            {"String", typeof(JSString)},
+            {"Boolean", typeof(JSBoolean)},
             {"Error", typeof(JSError)},
             {"LivekitError", typeof(LivekitError)},
             {"ConnectionError", typeof(ConnectionError)},
@@ -66,6 +69,20 @@ namespace LiveKit
         internal static JSRef Acquire(IntPtr ptr)
         {
             return Acquire<JSRef>(ptr);
+        }
+
+        public static T AcquireOrNull<T>(IntPtr ptr) where T : JSRef
+        {
+            var a = Acquire<T>(ptr);
+            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+                return null;
+
+            return a;
+        }
+
+        public static JSRef AcquireOrNull(IntPtr ptr)
+        {
+            return AcquireOrNull<JSRef>(ptr);
         }
 
         [Preserve]

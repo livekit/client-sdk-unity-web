@@ -14,8 +14,8 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                if (JSNative.IsUndefined(ptr.NativePtr))
+                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
+                if (ptr == null)
                     return null;
 
                 return JSNative.GetStruct<TrackPublishOptions>(ptr.NativePtr);
