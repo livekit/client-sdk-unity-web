@@ -27,6 +27,7 @@ public class JoinMenu : MonoBehaviour
             if (string.IsNullOrWhiteSpace(RoomToken))
                 return;
 
+            m_PreviewTrack?.Detach();
             m_PreviewTrack?.Stop();
             SceneManager.LoadScene("RoomScene", LoadSceneMode.Single);
         });

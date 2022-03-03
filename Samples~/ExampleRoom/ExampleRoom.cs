@@ -41,9 +41,9 @@ public class ExampleRoom : MonoBehaviour
         };
 
         m_Room.LocalTrackPublished += (publication, participant) => HandleAddedTrack(publication.Track, publication);
-        m_Room.LocalTrackUnpublished += (publication, participant) => HandleRemovedTrack(publication);
+        m_Room.LocalTrackUnpublished += (publication, participant) => HandleRemovedTrack(publication.Track, publication);
         m_Room.TrackSubscribed += (track, publication, participant) => HandleAddedTrack(track, publication);
-        m_Room.TrackUnsubscribed += (track, publication, participant) => HandleRemovedTrack(publication);
+        m_Room.TrackUnsubscribed += (track, publication, participant) => HandleRemovedTrack(track, publication); ;
 
         yield return m_Room.LocalParticipant.EnableCameraAndMicrophone();
     }
@@ -70,8 +70,10 @@ public class ExampleRoom : MonoBehaviour
         }
     }
 
-    private void HandleRemovedTrack(TrackPublication publication)
+    private void HandleRemovedTrack(Track track, TrackPublication publication)
     {
+        track?.Detach();
+
         if (m_Videos.TryGetValue(publication, out var view))
             Destroy(view.gameObject);
     }
