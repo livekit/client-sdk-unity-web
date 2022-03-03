@@ -238,8 +238,8 @@ var NativeLib = {
         return id;
     },
 
-    DestroyTexture: function (ptr) {
-        GLctx.deleteTexture(ptr);
+    DestroyTexture: function (id) {
+        GLctx.deleteTexture(GL.textures[id]);
     },
 
     AttachVideo: function (texId, videoPtr) {
@@ -255,13 +255,13 @@ var NativeLib = {
                 return; // Detached
 
             var time = video.currentTime;
-            if (time !== lastTime) {
+            if (!video.paused && video.srcObject !== null && time !== lastTime) {
                 GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
 
                 // Flip
-                GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+                GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
                 GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
-                GLctx.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+                GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, false);
 
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR);
