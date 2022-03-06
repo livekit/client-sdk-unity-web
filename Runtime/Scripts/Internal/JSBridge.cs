@@ -19,7 +19,7 @@ namespace LiveKit
 
         static JSBridge()
         {
-            JSNative.PushString("default"); // UnityBridge is exported as default
+            JSNative.PushString("UnityBridge");
             var ptr = JSRef.Acquire(JSNative.GetProperty(JSNative.LKBridge.NativePtr));
 
             JSNative.PushString("instance");

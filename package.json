@@ -1,8 +1,8 @@
 {
   "name": "io.livekit.unity",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "displayName": "LiveKit WebGL SDK",
-  "description": "LiveKit Bridge for Web",
+  "description": "LiveKit Unity Bridge for WebGL",
   "unity": "2021.3",
   "author": {
     "name": "Th\u00e9o Monnom",

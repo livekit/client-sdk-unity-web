@@ -1,22 +1,33 @@
 {
-  "name": "livekit-unity",
-  "version": "1.0.0",
-  "description": "",
-  "source": "src/UnityBridge.ts",
+  "name": "@livekit/livekit-unity",
+  "version": "0.0.4",
+  "description": "LiveKit Unity Bridge for WebGL",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "types": "dist/index.d.ts",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/livekit/unity-webgl-bridge.git"
+  },
   "scripts": {
-    "build": "npx webpack"
+    "build": "npx tsc",
+    "buildunity": "npx webpack"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "livekit-client": "^0.16.6"
+    "livekit-client": "^0.16.6",
+    "typed-emitter": "^2.1.0"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",
-    "typed-emitter": "^2.1.0",
     "typescript": "^4.5.5",
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/livekit/unity-webgl-bridge/issues"
+  },
+  "homepage": "https://github.com/livekit/unity-webgl-bridge#readme"
 }

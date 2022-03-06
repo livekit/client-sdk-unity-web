@@ -2,7 +2,7 @@ import { Room } from "livekit-client"
 import type TypedEmitter from 'typed-emitter';
 import { EventEmitter } from 'events';
 
-export default class UnityBridge extends (EventEmitter as new () => TypedEmitter<UnityCallbacks>) {
+export class UnityBridge extends (EventEmitter as new () => TypedEmitter<UnityCallbacks>) {
   private _ready : boolean = false;
 
   private constructor(){
@@ -17,7 +17,7 @@ export default class UnityBridge extends (EventEmitter as new () => TypedEmitter
     return this._ready;
   }
 
-  public static get instance() {
+  public static get instance() : UnityBridge {
     // The UnityBridge is set on window to expose the instance to Unity
     var w = (<any>window);
     return w.lkbridgeinst || (w.lkbridgeinst = new this());

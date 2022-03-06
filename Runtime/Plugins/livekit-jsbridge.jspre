@@ -30,18 +30,25 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UnityEvent = void 0;
+exports.UnityEvent = exports.UnityBridge = void 0;
 var events_1 = __webpack_require__(7187);
 var UnityBridge = /** @class */ (function (_super) {
     __extends(UnityBridge, _super);
     function UnityBridge() {
         var _this = _super.call(this) || this;
-        _this.ready = false;
+        _this._ready = false;
         _this.once(UnityEvent.BridgeReady, function () {
-            _this.ready = true;
+            _this._ready = true;
         });
         return _this;
     }
+    Object.defineProperty(UnityBridge.prototype, "ready", {
+        get: function () {
+            return this._ready;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(UnityBridge, "instance", {
         get: function () {
             // The UnityBridge is set on window to expose the instance to Unity
@@ -51,11 +58,6 @@ var UnityBridge = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    UnityBridge.prototype.sendRoom = function (room) {
-        if (!this.ready)
-            throw new Error("Can't sendRoom when UnityBridge isn't ready");
-        Runtime.dynCall("vi", this.unityCb, [room]);
-    };
     UnityBridge.prototype.emit = function (event) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -65,7 +67,7 @@ var UnityBridge = /** @class */ (function (_super) {
     };
     return UnityBridge;
 }(events_1.EventEmitter));
-exports["default"] = UnityBridge;
+exports.UnityBridge = UnityBridge;
 ;
 var UnityEvent;
 (function (UnityEvent) {
@@ -81,12 +83,32 @@ var UnityEvent;
 })(UnityEvent = exports.UnityEvent || (exports.UnityEvent = {}));
 
 
+/***/ }),
+
+/***/ 3607:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(6968), exports);
+
+
 /***/ })
 
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-/******/ var __webpack_exports__ = (__webpack_exec__(6968));
+/******/ var __webpack_exports__ = (__webpack_exec__(3607));
 /******/ window.lkbridge = __webpack_exports__;
 /******/ }
 ]);

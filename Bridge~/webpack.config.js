@@ -8,7 +8,7 @@ module.exports = {
         },
 
         'lkbridge': {
-            import: './src/UnityBridge.ts',
+            import: './src/index.ts',
             filename: 'Runtime/Plugins/livekit-jsbridge.jspre',
             dependOn: 'livekit'
         },
