@@ -3,10 +3,19 @@ This package works only on the WebGL platform of Unity
 
 ## Installation :
 Follow this [unity tutorial](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using the `https://github.com/livekit/unity-webgl-bridge.git` link.
-You can then directly import the samples into the package manager
+You can then directly import the samples into the package manager.
+
+If you want to write JavaScript code in your application (e.g. you want to use React for your UI), you can install our [TypeScript package](https://www.npmjs.com/package/@livekit/livekit-unity) via npm.
+
+## Package version :
+To avoid confusion, the npm package and the Unity package will always have the same version number.
 
 ## Usage : 
+There are two different ways to build an application using this package :
+1. Write your application entirely in C# (e.g. [ExampleRoom](https://github.com/livekit/unity-webgl-bridge/tree/main/Samples~/ExampleRoom))
+2. Still use JS and be able to bridge the Room object by using our npm package. (e.g. [JSExample](https://github.com/livekit/unity-webgl-bridge/tree/main/Samples~/JSExample))
 
+## Simple example
 ```cs
 public class MyObject : MonoBehaviour
 {
