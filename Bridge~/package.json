@@ -8,7 +8,7 @@
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/livekit/unity-webgl-bridge.git"
+    "url": "git+ssh://git@github.com/livekit/client-sdk-unity-web.git"
   },
   "scripts": {
     "build": "npx tsc",
@@ -27,7 +27,7 @@
     "webpack-cli": "^4.9.2"
   },
   "bugs": {
-    "url": "https://github.com/livekit/unity-webgl-bridge/issues"
+    "url": "https://github.com/livekit/client-sdk-unity-web/issues"
   },
-  "homepage": "https://github.com/livekit/unity-webgl-bridge#readme"
+  "homepage": "https://github.com/livekit/client-sdk-unity-web#readme"
 }
