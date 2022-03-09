@@ -374,7 +374,7 @@ namespace LiveKit
             JSBridge.SendRoomCreated(this);
         }
 
-        public ConnectOperation Connect(string url, string token, ConnectOptions? options = null)
+        public ConnectOperation Connect(string url, string token, RoomConnectOptions? options = null)
         {
             JSNative.PushString(url);
             JSNative.PushString(token);
