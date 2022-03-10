@@ -19,11 +19,13 @@ namespace LiveKit
 
         static JSBridge()
         {
+#if !UNITY_EDITOR
             JSNative.PushString("UnityBridge");
             var ptr = JSRef.Acquire(JSNative.GetProperty(JSNative.LKBridge.NativePtr));
 
             JSNative.PushString("instance");
             JSUnityBridge = JSRef.Acquire(JSNative.GetProperty(ptr.NativePtr));
+#endif
         }
 
         internal static void SendReady()

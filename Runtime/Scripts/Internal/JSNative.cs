@@ -1,7 +1,6 @@
 using System.Runtime.InteropServices;
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Utilities;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 using UnityEngine;
@@ -22,6 +21,7 @@ namespace LiveKit
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void InitJSNative()
         {
+#if !UNITY_EDITOR
             AotHelper.EnsureType<StringEnumConverter>();
             Init();
 
@@ -32,6 +32,7 @@ namespace LiveKit
             LKBridge = JSRef.Acquire(GetProperty(IntPtr.Zero));
 
             JSBridge.SendReady();
+#endif
         }
 
         [DllImport("__Internal")]

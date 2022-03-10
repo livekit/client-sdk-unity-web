@@ -197,15 +197,15 @@ namespace LiveKit
                             break;
                         }
                     case RoomEvent.DataReceived:
-                        {
+                    {
                             var dataref = Acquire<JSRef>(JSNative.ShiftStack());
                             var dataPtr = Acquire(JSNative.GetDataPtr(dataref.NativePtr));
                             var data = JSNative.GetData(dataPtr.NativePtr);
 
                             var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
 
-                            var kindObj = AcquireOrNull<JSString>(JSNative.ShiftStack());
-                            var kind = kindObj != null ? Utils.ToEnum<DataPacketKind?>(kindObj.ToString()) : null;
+                            var kindObj = AcquireOrNull<JSNumber>(JSNative.ShiftStack());
+                            var kind = kindObj != null ? (DataPacketKind?) kindObj.ToNumber() : null;
 
                             room.DataReceived?.Invoke(data, participant, kind);
                             break;
