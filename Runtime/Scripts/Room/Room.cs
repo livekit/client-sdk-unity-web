@@ -197,7 +197,7 @@ namespace LiveKit
                             break;
                         }
                     case RoomEvent.DataReceived:
-                    {
+                        {
                             var dataref = Acquire<JSRef>(JSNative.ShiftStack());
                             var dataPtr = Acquire(JSNative.GetDataPtr(dataref.NativePtr));
                             var data = JSNative.GetData(dataPtr.NativePtr);
