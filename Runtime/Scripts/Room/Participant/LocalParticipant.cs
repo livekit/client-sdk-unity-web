@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -112,17 +113,17 @@ namespace LiveKit
 
         public JSPromise<JSRef> PublishData(byte[] data, DataPacketKind kind, RemoteParticipant[] participants = null)
         {
+            JSArray<RemoteParticipant> arr = null;
+            if(participants != null)
+                arr = new JSArray<RemoteParticipant>(participants);
+
             JSNative.PushData(data, data.Length);
             JSNative.PushNumber((double)kind);
+
             if (participants == null)
-            {
                 JSNative.PushUndefined();
-            }
             else
-            {
-                var arr = new JSArray<RemoteParticipant>(participants);
                 JSNative.PushObject(arr.NativePtr);
-            }
 
             return Acquire<JSPromise<JSRef>>(JSNative.CallMethod(NativePtr, "publishData"));
         }

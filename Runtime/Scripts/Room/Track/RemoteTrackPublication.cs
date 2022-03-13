@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+ using Newtonsoft.Json;
 using System;
 using UnityEngine.Scripting;
 
@@ -25,7 +25,7 @@ namespace LiveKit
             {
                 JSNative.PushString("videoQuality");
                 var ptr = AcquireOrNull<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (VideoQuality)ptr?.ToNumber();
+                return (VideoQuality?)ptr?.ToNumber();
             }
         }
 

@@ -12,8 +12,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void PromiseResolve(IntPtr id)
         {
-            BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise;
+            var promise = AcquireOrNull<JSPromise>(id);
+            if (promise == null)
+                return; // The promise can be garbage collected before completed (When ignoring Promise)
+            
             promise.OnResolve();
             promise.IsDone = true;
         }
@@ -21,8 +23,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void PromiseReject(IntPtr id)
         {
-            BridgeData[id].TryGetTarget(out JSRef jsref);
-            var promise = jsref as JSPromise;
+            var promise = AcquireOrNull<JSPromise>(id);
+            if (promise == null)
+                return;
+
             promise.OnReject();
             promise.IsDone = true;
             promise.IsError = true;

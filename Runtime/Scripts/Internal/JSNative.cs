@@ -22,7 +22,7 @@ namespace LiveKit
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void InitJSNative()
         {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && UNITY_WEBGL
             AotHelper.EnsureType<StringEnumConverter>();
             Init();
 

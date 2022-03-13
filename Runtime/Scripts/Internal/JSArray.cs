@@ -16,7 +16,7 @@ namespace LiveKit
 
         }
 
-        public JSArray() : this(JSNative.NewRef())
+        public JSArray()
         {
             JSNative.NewInstance(IntPtr.Zero, NativePtr, "Array");
         }
