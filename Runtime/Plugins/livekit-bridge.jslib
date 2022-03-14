@@ -40,8 +40,8 @@ var NativeLib = {
 
     FreeRef: function (ptr) {
         var obj = BridgeData.get(ptr);
-        BridgePtr.delete(obj);
         BridgeData.delete(ptr);
+        BridgePtr.delete(obj);
     },
 
     SetRef: function (ptr) {
@@ -130,7 +130,7 @@ var NativeLib = {
     },
 
     PushBoolean: function (bool) {
-        Stack.push(bool);
+        Stack.push(bool === 1);
     },
 
     PushString: function (str) {
@@ -172,7 +172,7 @@ var NativeLib = {
 
     CallMethod: function (ptr, str) {
         var obj = BridgeData.get(ptr);
-        var fnc = obj[UTF8ToString(str)]
+        var fnc = obj[UTF8ToString(str)];
         var result = fnc.apply(obj, Stack);
         Stack = [];
         return GetOrNewRef(result);
@@ -198,6 +198,9 @@ var NativeLib = {
 
     GetString: function (ptr) {
         var value = BridgeData.get(ptr);
+        if (value === undefined || value === null)
+            return null;
+
         var bufferSize = lengthBytesUTF8(value) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(value, buffer, bufferSize);

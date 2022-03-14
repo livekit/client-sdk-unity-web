@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.Scripting;
+using UnityEngine;
 
 namespace LiveKit
 {
@@ -37,7 +38,7 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        internal static Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new ();
         internal IntPtr NativePtr { get; private set; }
 
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef
@@ -71,7 +72,7 @@ namespace LiveKit
             return Acquire<JSRef>(ptr);
         }
 
-        public static T AcquireOrNull<T>(IntPtr ptr) where T : JSRef
+        internal static T AcquireOrNull<T>(IntPtr ptr) where T : JSRef
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
             {
@@ -82,7 +83,7 @@ namespace LiveKit
             return Acquire<T>(ptr);
         }
 
-        public static JSRef AcquireOrNull(IntPtr ptr)
+        internal static JSRef AcquireOrNull(IntPtr ptr)
         {
             return AcquireOrNull<JSRef>(ptr);
         }
@@ -105,6 +106,7 @@ namespace LiveKit
                 return;
 
             JSNative.FreeRef(Release());
+
         }
 
         internal IntPtr Release()
