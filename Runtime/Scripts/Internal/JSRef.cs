@@ -38,7 +38,7 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new ();
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
         internal IntPtr NativePtr { get; private set; }
 
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef
