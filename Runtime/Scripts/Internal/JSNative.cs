@@ -94,6 +94,9 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern IntPtr ShiftStack();
+        
+        [DllImport("__Internal")]
+        internal static extern IntPtr GetFunctionInstance();
 
         [DllImport("__Internal")]
         internal static extern bool IsString(IntPtr ptr);

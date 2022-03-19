@@ -7,6 +7,7 @@ var NativeLib = {
         RefIndex: 1,
         Stack: [],
         StackCSharp: [],
+        FunctionInstance: null, // Current instance in a callback ( = this )
         NullPtr: 0,
         
         DynCall: function(sig, fnc, args){
@@ -176,7 +177,9 @@ var NativeLib = {
     PushFunction: function (ptr, fnc) {
         LKBridge.Stack.push(function () {
             LKBridge.StackCSharp = Array.from(arguments);
+            LKBridge.FunctionInstance = this;
             LKBridge.DynCall('vi', fnc, [ptr]);
+            LKBridge.FunctionInstance = null;
             LKBridge.StackCSharp = [];
         });
     },
@@ -211,6 +214,11 @@ var NativeLib = {
         return LKBridge.GetOrNewRef(v);
     },
 
+    GetFunctionInstance: function () {
+        var v = LKBridge.FunctionInstance;
+        return LKBridge.GetOrNewRef(v);
+    },
+    
     GetString: function (ptr) {
         var value = LKBridge.Data.get(ptr);
         if (value === undefined || value === null)
