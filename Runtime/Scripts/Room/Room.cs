@@ -218,8 +218,8 @@ namespace LiveKit
                     case RoomEvent.DataReceived:
                         {
                             var dataref = Acquire<JSRef>(JSNative.ShiftStack());
-                            var dataPtr = Acquire(JSNative.GetDataPtr(dataref.NativePtr));
-                            var data = JSNative.GetData(dataPtr.NativePtr);
+                            var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
+                            var data = JSNative.GetData(dataPtr);
 
                             var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
 
