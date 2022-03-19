@@ -24,7 +24,12 @@ namespace LiveKit
         {
 #if !UNITY_EDITOR && UNITY_WEBGL
             AotHelper.EnsureType<StringEnumConverter>();
-            Init();
+
+#if LK_DEBUG
+            InitLiveKit(true);
+#else
+            InitLiveKit(false);
+#endif
 
             PushString("livekit");
             LiveKit = JSRef.Acquire(GetProperty(IntPtr.Zero));
@@ -37,16 +42,16 @@ namespace LiveKit
         }
 
         [DllImport("__Internal")]
-        internal static extern void Init();
+        internal static extern void InitLiveKit(bool debug);
 
         [DllImport("__Internal")]
         internal static extern IntPtr NewRef();
 
         [DllImport("__Internal")]
-        internal static extern void FreeRef(IntPtr ptr);
-
+        internal static extern void AddRefCounter(IntPtr ptr);
+        
         [DllImport("__Internal")]
-        internal static extern void SetRef(IntPtr ptr);
+        internal static extern void RemoveRefCounter(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern IntPtr GetProperty(IntPtr ptr);
@@ -82,9 +87,6 @@ namespace LiveKit
         internal static extern void PushFunction(IntPtr ptr, Action<IntPtr> action);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr CallFunction(string fnc);
-
-        [DllImport("__Internal")]
         internal static extern IntPtr CallMethod(IntPtr ptr, string fnc);
 
         [DllImport("__Internal")]
@@ -104,9 +106,6 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern bool IsObject(IntPtr ptr);
-
-        [DllImport("__Internal")]
-        internal static extern bool IsArray(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern bool IsNumber(IntPtr ptr);
@@ -160,12 +159,12 @@ namespace LiveKit
         {
             if (obj is string str)
                 PushString(str);
-            else if (Utils.IsNumber(obj.GetType()))
-                PushNumber((double)obj);
             else if (obj is bool b)
                 PushBoolean(b);
             else if (obj == null)
                 PushNull();
+            else if (Utils.IsNumber(obj.GetType()))
+                PushNumber((double) obj);
             else
                 throw new ArgumentException("Unsupported type");
         }

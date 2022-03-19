@@ -1,15 +1,26 @@
 var NativeLib = {
     $BridgeData: null,
     $BridgePtr: null,
-    $RefCounter: 1,
+    $BridgeCounter: null,
+    $BridgeDebug: false,
+    $RefIndex: 1,
     $Stack: [],
     $StackCSharp: [],
     $nullptr: 0,
 
     $NewRef: function () {
-        return RefCounter++;
+        var nPtr = RefIndex++;
+        BridgeCounter.set(nPtr, 0)
+        return nPtr;
     },
 
+    $FreeRef: function (ptr) {
+        var obj = BridgeData.get(ptr);
+        BridgeData.delete(ptr);
+        BridgeCounter.delete(ptr);
+        BridgePtr.delete(obj);
+    },
+    
     $SetRef: function (ptr, obj) {
         BridgeData.set(ptr, obj);
 
@@ -19,7 +30,7 @@ var NativeLib = {
     },
 
     $GetOrNewRef: function (obj) {
-        var ptr = BridgePtr.get(obj); 
+        var ptr = BridgePtr.get(obj);
         if (ptr === undefined || typeof obj !== 'object' || obj === null) {
             ptr = NewRef();
             SetRef(ptr, obj);
@@ -27,26 +38,40 @@ var NativeLib = {
 
         return ptr;
     },
+    
+    AddRefCounter: function(ptr) {
+        BridgeCounter.set(ptr, BridgeCounter.get(ptr) + 1);
+    },
+    
+    RemoveRefCounter: function(ptr) {
+        var count = BridgeCounter.get(ptr) - 1;
+        BridgeCounter.set(ptr, count);
+        
+        if(count <= 0) {
+            setTimeout(function(){
+                if(BridgeCounter.get(ptr) <= 0) {
+                    FreeRef(ptr);
+                }                
+            }, 0);
+        }
+    },
 
-    Init: function () {
+    InitLiveKit: function (debug) {
         // When initializing these variables directly, emscripten replace the type by {} (not sure why)
+        BridgeDebug = debug === 1;
         BridgeData = new Map();
         BridgePtr = new Map();
+        BridgeCounter = new Map();
+
+        if (BridgeDebug) {
+            window.lkdata = BridgeData;
+            window.lkptr = BridgePtr;
+            window.lkcounter = BridgeCounter;
+        }
     },
 
     NewRef: function () {
         return NewRef();
-    },
-
-    FreeRef: function (ptr) {
-        var obj = BridgeData.get(ptr);
-        BridgeData.delete(ptr);
-        BridgePtr.delete(obj);
-    },
-
-    SetRef: function (ptr) {
-        var value = Stack[0];
-        SetRef(ptr, value);
     },
 
     GetProperty: function (ptr) {
@@ -54,7 +79,7 @@ var NativeLib = {
         Stack = [];
 
         var obj;
-        if (ptr == nullptr) {
+        if (ptr === nullptr) {
             obj = window[key];
         } else {
             var p = BridgeData.get(ptr);
@@ -73,7 +98,7 @@ var NativeLib = {
         Stack = [];
 
         var obj;
-        if (ptr == nullptr) {
+        if (ptr === nullptr) {
             obj = window;
         } else {
             obj = BridgeData.get(ptr);
@@ -109,12 +134,7 @@ var NativeLib = {
 
     IsObject: function (ptr) {
         var obj = BridgeData.get(ptr);
-        return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
-    },
-
-    IsArray: function (ptr) {
-        var obj = BridgeData.get(ptr);
-        return Array.isArray(obj);
+        return typeof obj === 'object' && obj !== null;
     },
 
     PushNull: function () {
@@ -163,13 +183,6 @@ var NativeLib = {
         Stack.push(BridgeData.get(ptr));
     },
 
-    CallFunction: function (str) {
-        var fnc = window[UTF8ToString(str)];
-        var result = fnc.apply(null, Stack);
-        Stack = [];
-        return GetOrNewRef(result);
-    },
-
     CallMethod: function (ptr, str) {
         var obj = BridgeData.get(ptr);
         var fnc = obj[UTF8ToString(str)];
@@ -180,7 +193,7 @@ var NativeLib = {
 
     NewInstance: function (ptr, toPtr, clazz) {
         var obj;
-        if (ptr == 0) {
+        if (ptr === 0) {
             obj = window;
         } else {
             obj = BridgeData.get(ptr);
@@ -208,13 +221,11 @@ var NativeLib = {
     },
 
     GetNumber: function (ptr) {
-        var value = BridgeData.get(ptr);
-        return value;
+        return BridgeData.get(ptr);
     },
 
     GetBoolean: function (ptr) {
-        var value = BridgeData.get(ptr);
-        return value;
+        return BridgeData.get(ptr);
     },
 
     GetDataPtr: function (pptr) {
@@ -286,9 +297,11 @@ var NativeLib = {
 autoAddDeps(NativeLib, '$GetOrNewRef');
 autoAddDeps(NativeLib, '$NewRef');
 autoAddDeps(NativeLib, '$SetRef');
+autoAddDeps(NativeLib, '$FreeRef');
 autoAddDeps(NativeLib, '$BridgeData');
 autoAddDeps(NativeLib, '$BridgePtr');
-autoAddDeps(NativeLib, '$RefCounter');
+autoAddDeps(NativeLib, '$BridgeCounter');
+autoAddDeps(NativeLib, '$RefIndex');
 autoAddDeps(NativeLib, '$Stack');
 autoAddDeps(NativeLib, '$StackCSharp');
 autoAddDeps(NativeLib, '$nullptr');

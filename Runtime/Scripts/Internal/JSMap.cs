@@ -57,7 +57,7 @@ namespace LiveKit
                 PushKey(key);
                 var ptr = AcquireOrNull(JSNative.CallMethod(NativePtr, "get"));
                 if (ptr == null)
-                    return default(TValue);
+                    return default;
 
                 if(JSNative.IsPrimitive(typeof(TValue)))
                     return (TValue) JSNative.GetPrimitive(ptr.NativePtr);

@@ -14,7 +14,7 @@ namespace LiveKit
         public JSObject(IntPtr ptr) : base(ptr)
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
-                throw new ArgumentException("An object reference cannot be null");
+                throw new ArgumentException($"An object reference cannot be null, {GetType()}");
         }
 
         internal JSObject() : base(JSNative.NewRef())

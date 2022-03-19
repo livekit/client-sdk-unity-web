@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit

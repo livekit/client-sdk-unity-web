@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine.Scripting;
 using UnityEngine;
 
@@ -38,33 +40,30 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
-        internal IntPtr NativePtr { get; private set; }
+        private static readonly Hashtable BridgeData = new Hashtable();
+
+        internal IntPtr NativePtr { get; }
 
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef
         {
-            if (!BridgeData.ContainsKey(ptr))
+            if (BridgeData[ptr] != null && ((WeakReference<JSRef>)BridgeData[ptr]).TryGetTarget(out JSRef eRef))
+                return eRef as T;
+
+            var type = typeof(T);
+            if (JSNative.IsObject(ptr))
             {
-                var type = typeof(T);
-                if (JSNative.IsObject(ptr))
-                {
-                    // Maintain class hierarchy 
-                    JSNative.PushString("constructor");
-                    var ctor = Acquire(JSNative.GetProperty(ptr));
+                // Maintain class hierarchy 
+                JSNative.PushString("constructor");
+                var ctor = Acquire(JSNative.GetProperty(ptr));
 
-                    JSNative.PushString("name");
-                    var cName = Acquire(JSNative.GetProperty(ctor.NativePtr));
-                    var typeName = JSNative.GetString(cName.NativePtr);
+                JSNative.PushString("name");
+                var typeName = Acquire<JSString>(JSNative.GetProperty(ctor.NativePtr));
 
-                    if (s_TypeMap.TryGetValue(typeName, out Type correctType))
-                        type = correctType;
-                }
-
-                return Activator.CreateInstance(type, ptr) as T;
+                if (s_TypeMap.TryGetValue(typeName.ToString(), out Type correctType))
+                    type = correctType;
             }
 
-            BridgeData[ptr].TryGetTarget(out JSRef fref);
-            return fref as T;
+            return Activator.CreateInstance(type, ptr) as T;
         }
 
         internal static JSRef Acquire(IntPtr ptr)
@@ -76,7 +75,7 @@ namespace LiveKit
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
             {
-                Acquire<JSRef>(ptr);
+                Acquire(ptr);
                 return null;
             }
 
@@ -92,29 +91,14 @@ namespace LiveKit
         public JSRef(IntPtr ptr)
         {
             NativePtr = ptr;
+            JSNative.AddRefCounter(ptr);
             BridgeData.Add(NativePtr, new WeakReference<JSRef>(this));
         }
 
         ~JSRef()
         {
-            Free();
-        }
-
-        internal void Free()
-        {
-            if (NativePtr == IntPtr.Zero)
-                return;
-
-            JSNative.FreeRef(Release());
-
-        }
-
-        internal IntPtr Release()
-        {
-            var ptr = NativePtr;
-            BridgeData.Remove(ptr);
-            NativePtr = IntPtr.Zero;
-            return ptr;
+            JSNative.RemoveRefCounter(NativePtr);
+            BridgeData.Remove(NativePtr);
         }
     }
 }

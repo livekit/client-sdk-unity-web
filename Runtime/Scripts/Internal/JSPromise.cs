@@ -6,7 +6,6 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    // TODO Support "Then" chaining 
     public class JSPromise : JSObject, IEnumerator
     {
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
