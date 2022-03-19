@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine.Scripting;
-using UnityEngine;
 
 namespace LiveKit
 {
@@ -40,14 +37,14 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        private static readonly Hashtable BridgeData = new Hashtable();
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
 
         internal IntPtr NativePtr { get; }
 
         internal static T Acquire<T>(IntPtr ptr) where T : JSRef
         {
-            if (BridgeData[ptr] != null && ((WeakReference<JSRef>)BridgeData[ptr]).TryGetTarget(out JSRef eRef))
-                return eRef as T;
+            if (BridgeData.TryGetValue(ptr, out var wRef) && wRef.TryGetTarget(out JSRef jsRef))
+                return jsRef as T;
 
             var type = typeof(T);
             if (JSNative.IsObject(ptr))

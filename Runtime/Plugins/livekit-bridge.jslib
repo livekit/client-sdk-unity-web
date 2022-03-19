@@ -1,56 +1,66 @@
 var NativeLib = {
-    $BridgeData: null,
-    $BridgePtr: null,
-    $BridgeCounter: null,
-    $BridgeDebug: false,
-    $RefIndex: 1,
-    $Stack: [],
-    $StackCSharp: [],
-    $nullptr: 0,
+    $LKBridge: {
+        Data: null, // Map<number, object>
+        Pointers: null, // Map<object, number>
+        RefCount: null, // Map<number, number>
+        Debug: false,
+        RefIndex: 1,
+        Stack: [],
+        StackCSharp: [],
+        NullPtr: 0,
+        
+        DynCall: function(sig, fnc, args){
+            if (typeof Runtime !== 'undefined') {
+                Runtime.dynCall(sig, fnc, args); // Old Unity version
+            } else {
+                dynCall(sig, fnc, args);
+            }
+        },
+        
+        NewRef: function () {
+            var nPtr = LKBridge.RefIndex++;
+            LKBridge.RefCount.set(nPtr, 0)
+            return nPtr;
+        },
+        
+        FreeRef: function (ptr) {
+            var obj = LKBridge.Data.get(ptr);
+            LKBridge.Data.delete(ptr);
+            LKBridge.RefCount.delete(ptr);
+            LKBridge.Pointers.delete(obj);
+        },
+        
+        SetRef: function (ptr, obj) {
+            LKBridge.Data.set(ptr, obj);
 
-    $NewRef: function () {
-        var nPtr = RefIndex++;
-        BridgeCounter.set(nPtr, 0)
-        return nPtr;
-    },
+            if (typeof obj === 'object' && obj !== null) {
+                LKBridge.Pointers.set(obj, ptr);
+            }
+        },
+        
+        GetOrNewRef: function (obj) {
+            var ptr = LKBridge.Pointers.get(obj);
+            if (ptr === undefined || typeof obj !== 'object' || obj === null) {
+                ptr = LKBridge.NewRef();
+                LKBridge.SetRef(ptr, obj);
+            }
 
-    $FreeRef: function (ptr) {
-        var obj = BridgeData.get(ptr);
-        BridgeData.delete(ptr);
-        BridgeCounter.delete(ptr);
-        BridgePtr.delete(obj);
-    },
-    
-    $SetRef: function (ptr, obj) {
-        BridgeData.set(ptr, obj);
-
-        if (typeof obj === 'object' && obj !== null) {
-            BridgePtr.set(obj, ptr);
-        }
-    },
-
-    $GetOrNewRef: function (obj) {
-        var ptr = BridgePtr.get(obj);
-        if (ptr === undefined || typeof obj !== 'object' || obj === null) {
-            ptr = NewRef();
-            SetRef(ptr, obj);
-        }
-
-        return ptr;
+            return ptr;
+        },
     },
     
     AddRefCounter: function(ptr) {
-        BridgeCounter.set(ptr, BridgeCounter.get(ptr) + 1);
+        LKBridge.RefCount.set(ptr, LKBridge.RefCount.get(ptr) + 1);
     },
     
     RemoveRefCounter: function(ptr) {
-        var count = BridgeCounter.get(ptr) - 1;
-        BridgeCounter.set(ptr, count);
+        var count = LKBridge.RefCount.get(ptr) - 1;
+        LKBridge.RefCount.set(ptr, count);
         
         if(count <= 0) {
             setTimeout(function(){
-                if(BridgeCounter.get(ptr) <= 0) {
-                    FreeRef(ptr);
+                if(LKBridge.RefCount.get(ptr) <= 0) {
+                    LKBridge.FreeRef(ptr);
                 }                
             }, 0);
         }
@@ -58,50 +68,48 @@ var NativeLib = {
 
     InitLiveKit: function (debug) {
         // When initializing these variables directly, emscripten replace the type by {} (not sure why)
-        BridgeDebug = debug === 1;
-        BridgeData = new Map();
-        BridgePtr = new Map();
-        BridgeCounter = new Map();
+        LKBridge.Debug = debug === 1;
+        LKBridge.Data = new Map();
+        LKBridge.Pointers = new Map();
+        LKBridge.RefCount = new Map();
 
-        if (BridgeDebug) {
-            window.lkdata = BridgeData;
-            window.lkptr = BridgePtr;
-            window.lkcounter = BridgeCounter;
+        if (LKBridge.Debug) {
+            window.LKInternalBridge = LKBridge;
         }
     },
 
     NewRef: function () {
-        return NewRef();
+        return LKBridge.NewRef();
     },
 
     GetProperty: function (ptr) {
-        var key = Stack[0];
-        Stack = [];
+        var key = LKBridge.Stack[0];
+        LKBridge.Stack = [];
 
         var obj;
-        if (ptr === nullptr) {
+        if (ptr === LKBridge.NullPtr) {
             obj = window[key];
         } else {
-            var p = BridgeData.get(ptr);
+            var p = LKBridge.Data.get(ptr);
             if (p === undefined)
-                return nullptr;
+                return LKBridge.NullPtr;
 
             obj = p[key];
         }
 
-        return GetOrNewRef(obj);
+        return LKBridge.GetOrNewRef(obj);
     },
 
     SetProperty: function (ptr) {
-        var key = Stack[0];
-        var value = Stack[1];
-        Stack = [];
+        var key = LKBridge.Stack[0];
+        var value = LKBridge.Stack[1];
+        LKBridge.Stack = [];
 
         var obj;
-        if (ptr === nullptr) {
+        if (ptr === LKBridge.NullPtr) {
             obj = window;
         } else {
-            obj = BridgeData.get(ptr);
+            obj = LKBridge.Data.get(ptr);
             if (obj === undefined)
                 return;
         }
@@ -110,85 +118,79 @@ var NativeLib = {
     },
 
     IsNull: function (ptr) {
-        return BridgeData.get(ptr) === null;
+        return LKBridge.Data.get(ptr) === null;
     },
 
     IsUndefined: function (ptr) {
-        return BridgeData.get(ptr) === undefined;
+        return LKBridge.Data.get(ptr) === undefined;
     },
 
     IsString: function (ptr) {
-        var obj = BridgeData.get(ptr);
+        var obj = LKBridge.Data.get(ptr);
         return typeof obj === 'string' || obj instanceof String;
     },
 
     IsNumber: function (ptr) {
-        var obj = BridgeData.get(ptr);
+        var obj = LKBridge.Data.get(ptr);
         return typeof obj === 'number' && !isNaN(obj);
     },
 
     IsBoolean: function (ptr) {
-        var obj = BridgeData.get(ptr);
+        var obj = LKBridge.Data.get(ptr);
         return typeof obj === 'boolean';
     },
 
     IsObject: function (ptr) {
-        var obj = BridgeData.get(ptr);
+        var obj = LKBridge.Data.get(ptr);
         return typeof obj === 'object' && obj !== null;
     },
 
     PushNull: function () {
-        Stack.push(null);
+        LKBridge.Stack.push(null);
     },
 
     PushUndefined: function () {
-        Stack.push(undefined);
+        LKBridge.Stack.push(undefined);
     },
 
     PushNumber: function (nb) {
-        Stack.push(nb);
+        LKBridge.Stack.push(nb);
     },
 
     PushBoolean: function (bool) {
-        Stack.push(bool === 1);
+        LKBridge.Stack.push(bool === 1);
     },
 
     PushString: function (str) {
-        Stack.push(UTF8ToString(str));
+        LKBridge.Stack.push(UTF8ToString(str));
     },
 
     PushStruct: function (json) {
-        Stack.push(JSON.parse(UTF8ToString(json)));
+        LKBridge.Stack.push(JSON.parse(UTF8ToString(json)));
     },
 
     PushData: function (data, size) {
-        Stack.push(HEAPU8.subarray(data, data + size));
+        LKBridge.Stack.push(HEAPU8.subarray(data, data + size));
     },
 
     PushFunction: function (ptr, fnc) {
-        Stack.push(function () {
-            StackCSharp = Array.from(arguments);
-
-            if (typeof Runtime !== "undefined") {
-                Runtime.dynCall("vi", fnc, [ptr]);
-            } else {
-                dynCall("vi", fnc, [ptr]);
-            }
-
-            StackCSharp = [];
+        LKBridge.Stack.push(function () {
+            LKBridge.StackCSharp = Array.from(arguments);
+            LKBridge.DynCall('vi', fnc, [ptr]);
+            LKBridge.StackCSharp = [];
         });
     },
 
     PushObject: function (ptr) {
-        Stack.push(BridgeData.get(ptr));
+        LKBridge.Stack.push(LKBridge.Data.get(ptr));
     },
 
     CallMethod: function (ptr, str) {
-        var obj = BridgeData.get(ptr);
+        var obj = LKBridge.Data.get(ptr);
         var fnc = obj[UTF8ToString(str)];
-        var result = fnc.apply(obj, Stack);
-        Stack = [];
-        return GetOrNewRef(result);
+        var result = fnc.apply(obj, LKBridge.Stack);
+        LKBridge.Stack = [];
+        return LKBridge.GetOrNewRef(result);
     },
 
     NewInstance: function (ptr, toPtr, clazz) {
@@ -196,21 +198,21 @@ var NativeLib = {
         if (ptr === 0) {
             obj = window;
         } else {
-            obj = BridgeData.get(ptr);
+            obj = LKBridge.Data.get(ptr);
         }
 
-        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], Stack));
-        SetRef(toPtr, inst);
-        Stack = [];
+        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], LKBridge.Stack));
+        LKBridge.SetRef(toPtr, inst);
+        LKBridge.Stack = [];
     },
 
     ShiftStack: function () {
-        var v = StackCSharp.shift();
-        return GetOrNewRef(v);
+        var v = LKBridge.StackCSharp.shift();
+        return LKBridge.GetOrNewRef(v);
     },
 
     GetString: function (ptr) {
-        var value = BridgeData.get(ptr);
+        var value = LKBridge.Data.get(ptr);
         if (value === undefined || value === null)
             return null;
 
@@ -221,15 +223,15 @@ var NativeLib = {
     },
 
     GetNumber: function (ptr) {
-        return BridgeData.get(ptr);
+        return LKBridge.Data.get(ptr);
     },
 
     GetBoolean: function (ptr) {
-        return BridgeData.get(ptr);
+        return LKBridge.Data.get(ptr);
     },
 
     GetDataPtr: function (pptr) {
-        var value = BridgeData.get(pptr);
+        var value = LKBridge.Data.get(pptr);
         var arr = new Uint8Array(value);
         var ptr = _malloc(arr.byteLength + 4);
         HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
@@ -244,7 +246,7 @@ var NativeLib = {
     NewTexture: function () {
         var tex = GLctx.createTexture();
         if (!tex)
-            return nullptr;
+            return LKBridge.NullPtr;
 
         var id = GL.getNewId(GL.textures);
         tex.name = id;
@@ -257,15 +259,15 @@ var NativeLib = {
     },
 
     AttachVideo: function (texId, videoPtr) {
-        var attachPtr = NewRef();
-        SetRef(attachPtr, true);
+        var attachPtr = LKBridge.NewRef();
+        LKBridge.SetRef(attachPtr, true);
 
         var tex = GL.textures[texId];
-        var video = BridgeData.get(videoPtr);
+        var video = LKBridge.Data.get(videoPtr);
         var lastTime = -1;
 
         var updateVideo = function () {
-            if (!BridgeData.get(attachPtr))
+            if (!LKBridge.Data.get(attachPtr))
                 return; // Detached
 
             var time = video.currentTime;
@@ -294,16 +296,5 @@ var NativeLib = {
     },
 };
 
-autoAddDeps(NativeLib, '$GetOrNewRef');
-autoAddDeps(NativeLib, '$NewRef');
-autoAddDeps(NativeLib, '$SetRef');
-autoAddDeps(NativeLib, '$FreeRef');
-autoAddDeps(NativeLib, '$BridgeData');
-autoAddDeps(NativeLib, '$BridgePtr');
-autoAddDeps(NativeLib, '$BridgeCounter');
-autoAddDeps(NativeLib, '$RefIndex');
-autoAddDeps(NativeLib, '$Stack');
-autoAddDeps(NativeLib, '$StackCSharp');
-autoAddDeps(NativeLib, '$nullptr');
-
+autoAddDeps(NativeLib, '$LKBridge');
 mergeInto(LibraryManager.library, NativeLib);
