@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Runtime.Serialization;
+using AOT;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -53,6 +54,16 @@ namespace LiveKit
 
     public class Track : JSObject
     {
+        public delegate void MessageDelegate();
+        public delegate void MutedDelegate(Track track);
+        public delegate void UnmutedDelegate(Track track);
+        public delegate void EndedDelegate(Track track);
+
+        public event MessageDelegate Message;
+        public event MutedDelegate Muted;
+        public event UnmutedDelegate Unmuted;
+        public event EndedDelegate Ended;
+        
         public TrackKind Kind
         {
             get
@@ -121,10 +132,54 @@ namespace LiveKit
             }
         }
 
+        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        private static void EventReceived(IntPtr iptr)
+        {
+            var evRef = Acquire<JSEventReceiver<TrackEvent>>(iptr);
+            evRef.JSRef.TryGetTarget(out var jsRef);
+            var track = Acquire<Track>(JSNative.GetFunctionInstance());
+            
+            switch (evRef.Event)
+            {
+                case TrackEvent.Message:
+                    track.Message?.Invoke();
+                    Log.Info($"Track: Message()");
+                    break;
+                case TrackEvent.Muted:
+                {
+                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                    Log.Info($"Track: Muted({t})");
+                    track.Muted?.Invoke(t);
+                    break;
+                }
+                case TrackEvent.Unmuted:
+                {
+                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                    Log.Info($"Track: Unmuted({t})");
+                    track.Unmuted?.Invoke(t);
+                    break;
+                }
+                case TrackEvent.Ended:
+                {
+                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                    Log.Info($"Track: Ended({t})");
+                    track.Ended?.Invoke(t);
+                    break;
+                }
+            }
+        }
+        
         [Preserve]
         public Track(IntPtr ptr) : base(ptr)
         {
             
+        }
+
+        internal void RegisterEvents()
+        {
+            foreach(var e in Enum.GetValues(typeof(TrackEvent))){
+                JSEventReceiver<TrackEvent>.ListenEvent(this, (TrackEvent) e, EventReceived);
+            }            
         }
 
         public HTMLMediaElement Attach()
