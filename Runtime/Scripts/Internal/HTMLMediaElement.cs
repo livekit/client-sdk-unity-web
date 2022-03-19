@@ -9,7 +9,7 @@ namespace LiveKit
     public abstract class HTMLMediaElement : HTMLElement
     {
         private static List<HTMLMediaElement> m_Attached = new List<HTMLMediaElement>();
-
+        
         // This method is called when the track has been detached
         // Not sure if this is the best event to hook
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
@@ -20,6 +20,22 @@ namespace LiveKit
                 return;
 
             m_Attached.Remove(el);
+        }
+        
+        public float Volume
+        {
+            get
+            {
+                JSNative.PushString("volume");
+                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
+                return (float) ptr.ToNumber();
+            }
+            set
+            {
+                JSNative.PushString("volume");
+                JSNative.PushNumber(value);
+                JSNative.SetProperty(NativePtr);
+            }
         }
 
         [Preserve]
