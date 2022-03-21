@@ -388,7 +388,7 @@ namespace LiveKit
             foreach (var p in Participants)
                 p.Value.RegisterEvents();
             
-            LocalParticipant.RegisterEvents();
+            // LocalParticipant.RegisterEvents(); This won't work because LocalParticipant is being overriden on RoomConnect.
             ParticipantConnected += p => p.RegisterEvents();
             TrackSubscribed += (track, publication, participant) => track.RegisterEvents();
             LocalTrackPublished += (publication, participant) => publication.Track.RegisterEvents();
@@ -443,9 +443,14 @@ namespace LiveKit
         public override void OnDone()
         {
             if (!m_Promise.IsError)
+            {
                 Room = m_Promise.ResolveValue;
+                Room.LocalParticipant.RegisterEvents();
+            }
             else
+            {
                 Error = m_Promise.RejectValue as JSError;
+            }
         }
     }
 }
