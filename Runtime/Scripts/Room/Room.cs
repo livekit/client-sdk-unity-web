@@ -75,7 +75,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventReceiver<RoomEvent>>(iptr);
+            var evRef = Acquire<JSEventListener<RoomEvent>>(iptr);
             evRef.JSRef.TryGetTarget(out var jsRef);
             var room = Acquire<Room>(JSNative.GetFunctionInstance());
 
@@ -363,10 +363,13 @@ namespace LiveKit
             }
         }
 
+        private List<JSObject> m_Cache = new List<JSObject>();
+        private List<JSEventListener<RoomEvent>> m_Listeners = new List<JSEventListener<RoomEvent>>();
+        
         [Preserve]
         public Room(IntPtr ptr) : base(ptr)
         {
-            
+            Init();
         }
 
         public Room(RoomOptions? options = null)
@@ -375,23 +378,28 @@ namespace LiveKit
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
             JSNative.NewInstance(JSNative.LiveKit.NativePtr, NativePtr, "Room");
-            RegisterEvents();
+            Init();
 
             JSBridge.SendRoomCreated(this);
         }
 
-        internal void RegisterEvents()
+        private void Init()
         {
+            m_Cache.Add(this);
+            
             foreach(var e in Enum.GetValues(typeof(RoomEvent)))
-                JSEventReceiver<RoomEvent>.ListenEvent(this, (RoomEvent) e, EventReceived);
+                m_Listeners.Add(new JSEventListener<RoomEvent>(this, (RoomEvent) e, EventReceived));
 
             foreach (var p in Participants)
-                p.Value.RegisterEvents();
+                m_Cache.Add(p.Value);
             
-            // LocalParticipant.RegisterEvents(); This won't work because LocalParticipant is being overriden on RoomConnect.
-            ParticipantConnected += p => p.RegisterEvents();
-            TrackSubscribed += (track, publication, participant) => track.RegisterEvents();
-            LocalTrackPublished += (publication, participant) => publication.Track.RegisterEvents();
+            m_Cache.Add(LocalParticipant);
+            ParticipantConnected += p => m_Cache.Add(p);
+            ParticipantDisconnected += p => m_Cache.Remove(p);
+            
+            // TODO Find a reliable way to remove unused tracks
+            TrackSubscribed += (track, publication, participant) => m_Cache.Add(track);
+            LocalTrackPublished += (publication, participant) => m_Cache.Add(publication.Track);
         }
 
         public ConnectOperation Connect(string url, string token, RoomConnectOptions? options = null)
@@ -443,14 +451,9 @@ namespace LiveKit
         public override void OnDone()
         {
             if (!m_Promise.IsError)
-            {
                 Room = m_Promise.ResolveValue;
-                Room.LocalParticipant.RegisterEvents();
-            }
             else
-            {
                 Error = m_Promise.RejectValue as JSError;
-            }
         }
     }
 }

@@ -1359,34 +1359,34 @@ class Queue {
         this.running = false;
     }
     enqueue(cb) {
-        logger_1.default.debug('enqueuing request to fire later');
+        logger_1.default.trace('enqueuing request to fire later');
         this.queue.push(cb);
     }
     dequeue() {
         const evt = this.queue.shift();
         if (evt)
             evt();
-        logger_1.default.debug('firing request from queue');
+        logger_1.default.trace('firing request from queue');
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.running)
                 return;
-            logger_1.default.debug('start queue');
+            logger_1.default.trace('start queue');
             this.running = true;
             while (this.running && this.queue.length > 0) {
                 this.dequeue();
             }
             this.running = false;
-            logger_1.default.debug('queue finished');
+            logger_1.default.trace('queue finished');
         });
     }
     pause() {
-        logger_1.default.debug('pausing queue');
+        logger_1.default.trace('pausing queue');
         this.running = false;
     }
     reset() {
-        logger_1.default.debug('resetting queue');
+        logger_1.default.trace('resetting queue');
         this.running = false;
         this.queue = [];
     }
@@ -1407,6 +1407,25 @@ exports["default"] = Queue;
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1421,12 +1440,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toProtoSessionDescription = exports.SignalClient = void 0;
-__webpack_require__(835);
 const logger_1 = __importDefault(__webpack_require__(2662));
 const livekit_rtc_1 = __webpack_require__(4658);
 const errors_1 = __webpack_require__(7650);
 const utils_1 = __webpack_require__(1981);
 const RequestQueue_1 = __importDefault(__webpack_require__(4823));
+if (utils_1.isWeb()) {
+    Promise.resolve().then(() => __importStar(__webpack_require__(835)));
+}
+const passThroughQueueSignals = [
+    'syncState',
+    'trickle',
+    'offer',
+    'answer',
+    'simulate',
+    'leave',
+];
+function canPassThroughQueue(req) {
+    const canPass = Object.keys(req)
+        .find((key) => passThroughQueueSignals.includes(key)) !== undefined;
+    logger_1.default.trace('request allowed to bypass queue:', canPass, req);
+    return canPass;
+}
 /** @internal */
 class SignalClient {
     constructor(useJSON = false) {
@@ -1442,6 +1477,7 @@ class SignalClient {
             this.isConnected = false;
             const res = yield this.connect(url, token, {
                 autoSubscribe: opts === null || opts === void 0 ? void 0 : opts.autoSubscribe,
+                publishOnly: opts === null || opts === void 0 ? void 0 : opts.publishOnly,
             });
             return res;
         });
@@ -1452,8 +1488,6 @@ class SignalClient {
             yield this.connect(url, token, {
                 reconnect: true,
             });
-            this.isReconnecting = false;
-            this.requestQueue.run();
         });
     }
     connect(url, token, opts) {
@@ -1623,7 +1657,8 @@ class SignalClient {
             // capture all requests while reconnecting and put them in a queue.
             // keep order by queueing up new events as long as the queue is not empty
             // unless the request originates from the queue, then don't enqueue again
-            if ((this.isReconnecting && !req.simulate) || (!this.requestQueue.isEmpty() && !fromQueue)) {
+            const canQueue = !fromQueue && !canPassThroughQueue(req);
+            if (canQueue && (this.isReconnecting || (!this.requestQueue.isEmpty()))) {
                 this.requestQueue.enqueue(() => this.sendRequest(req, true));
                 return;
             }
@@ -1721,9 +1756,18 @@ class SignalClient {
                 this.onTokenRefresh(msg.refreshToken);
             }
         }
+        else if (msg.trackUnpublished) {
+            if (this.onLocalTrackUnpublished) {
+                this.onLocalTrackUnpublished(msg.trackUnpublished);
+            }
+        }
         else {
             logger_1.default.debug('unsupported message', msg);
         }
+    }
+    setReconnected() {
+        this.isReconnecting = false;
+        this.requestQueue.run();
     }
     handleWSError(ev) {
         logger_1.default.error('websocket error', ev);
@@ -1783,6 +1827,9 @@ function createConnectionParams(token, info, opts) {
     }
     if (info.browserVersion) {
         params.set('browser_version', info.browserVersion);
+    }
+    if ((opts === null || opts === void 0 ? void 0 : opts.publishOnly) !== undefined) {
+        params.set('publish', opts.publishOnly);
     }
     return `?${params.toString()}`;
 }
@@ -1856,7 +1903,7 @@ function connect(url, token, options) {
     return __awaiter(this, void 0, void 0, function* () {
         options !== null && options !== void 0 ? options : (options = {});
         if (options.adaptiveStream === undefined) {
-            options.adaptiveStream = options.autoManageVideo;
+            options.adaptiveStream = options.autoManageVideo === true ? {} : undefined;
         }
         logger_1.setLogLevel((_a = options.logLevel) !== null && _a !== void 0 ? _a : logger_1.LogLevel.warn);
         const config = (_b = options.rtcConfig) !== null && _b !== void 0 ? _b : {};
@@ -2046,6 +2093,106 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 /***/ }),
 
+/***/ 1609:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Timestamp = exports.protobufPackage = void 0;
+/* eslint-disable */
+const long_1 = __importDefault(__webpack_require__(3720));
+const minimal_1 = __importDefault(__webpack_require__(2100));
+exports.protobufPackage = "google.protobuf";
+const baseTimestamp = { seconds: 0, nanos: 0 };
+exports.Timestamp = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.seconds !== 0) {
+            writer.uint32(8).int64(message.seconds);
+        }
+        if (message.nanos !== 0) {
+            writer.uint32(16).int32(message.nanos);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseTimestamp);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.seconds = longToNumber(reader.int64());
+                    break;
+                case 2:
+                    message.nanos = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseTimestamp);
+        if (object.seconds !== undefined && object.seconds !== null) {
+            message.seconds = Number(object.seconds);
+        }
+        else {
+            message.seconds = 0;
+        }
+        if (object.nanos !== undefined && object.nanos !== null) {
+            message.nanos = Number(object.nanos);
+        }
+        else {
+            message.nanos = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.seconds !== undefined && (obj.seconds = message.seconds);
+        message.nanos !== undefined && (obj.nanos = message.nanos);
+        return obj;
+    },
+    fromPartial(object) {
+        var _a, _b;
+        const message = Object.assign({}, baseTimestamp);
+        message.seconds = (_a = object.seconds) !== null && _a !== void 0 ? _a : 0;
+        message.nanos = (_b = object.nanos) !== null && _b !== void 0 ? _b : 0;
+        return message;
+    },
+};
+var globalThis = (() => {
+    if (typeof globalThis !== "undefined")
+        return globalThis;
+    if (typeof self !== "undefined")
+        return self;
+    if (typeof window !== "undefined")
+        return window;
+    if (typeof __webpack_require__.g !== "undefined")
+        return __webpack_require__.g;
+    throw "Unable to locate global object";
+})();
+function longToNumber(long) {
+    if (long.gt(Number.MAX_SAFE_INTEGER)) {
+        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    }
+    return long.toNumber();
+}
+if (minimal_1.default.util.Long !== long_1.default) {
+    minimal_1.default.util.Long = long_1.default;
+    minimal_1.default.configure();
+}
+//# sourceMappingURL=timestamp.js.map
+
+/***/ }),
+
 /***/ 8983:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -2055,10 +2202,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ClientInfo = exports.ParticipantTracks = exports.UserPacket = exports.SpeakerInfo = exports.ActiveSpeakerUpdate = exports.DataPacket = exports.VideoLayer = exports.TrackInfo = exports.ParticipantInfo = exports.Codec = exports.Room = exports.clientInfo_SDKToJSON = exports.clientInfo_SDKFromJSON = exports.ClientInfo_SDK = exports.dataPacket_KindToJSON = exports.dataPacket_KindFromJSON = exports.DataPacket_Kind = exports.participantInfo_StateToJSON = exports.participantInfo_StateFromJSON = exports.ParticipantInfo_State = exports.connectionQualityToJSON = exports.connectionQualityFromJSON = exports.ConnectionQuality = exports.videoQualityToJSON = exports.videoQualityFromJSON = exports.VideoQuality = exports.trackSourceToJSON = exports.trackSourceFromJSON = exports.TrackSource = exports.trackTypeToJSON = exports.trackTypeFromJSON = exports.TrackType = exports.protobufPackage = void 0;
+exports.RTPStats_GapHistogramEntry = exports.RTPStats = exports.VideoConfiguration = exports.ClientConfiguration = exports.ClientInfo = exports.ParticipantTracks = exports.UserPacket = exports.SpeakerInfo = exports.ActiveSpeakerUpdate = exports.DataPacket = exports.VideoLayer = exports.TrackInfo = exports.ParticipantInfo = exports.ParticipantPermission = exports.Codec = exports.Room = exports.clientInfo_SDKToJSON = exports.clientInfo_SDKFromJSON = exports.ClientInfo_SDK = exports.dataPacket_KindToJSON = exports.dataPacket_KindFromJSON = exports.DataPacket_Kind = exports.participantInfo_StateToJSON = exports.participantInfo_StateFromJSON = exports.ParticipantInfo_State = exports.clientConfigSettingToJSON = exports.clientConfigSettingFromJSON = exports.ClientConfigSetting = exports.connectionQualityToJSON = exports.connectionQualityFromJSON = exports.ConnectionQuality = exports.videoQualityToJSON = exports.videoQualityFromJSON = exports.VideoQuality = exports.trackSourceToJSON = exports.trackSourceFromJSON = exports.TrackSource = exports.trackTypeToJSON = exports.trackTypeFromJSON = exports.TrackType = exports.protobufPackage = void 0;
 /* eslint-disable */
 const long_1 = __importDefault(__webpack_require__(3720));
 const minimal_1 = __importDefault(__webpack_require__(2100));
+const timestamp_1 = __webpack_require__(1609);
 exports.protobufPackage = "livekit";
 var TrackType;
 (function (TrackType) {
@@ -2230,6 +2378,44 @@ function connectionQualityToJSON(object) {
     }
 }
 exports.connectionQualityToJSON = connectionQualityToJSON;
+var ClientConfigSetting;
+(function (ClientConfigSetting) {
+    ClientConfigSetting[ClientConfigSetting["UNSET"] = 0] = "UNSET";
+    ClientConfigSetting[ClientConfigSetting["DISABLED"] = 1] = "DISABLED";
+    ClientConfigSetting[ClientConfigSetting["ENABLED"] = 2] = "ENABLED";
+    ClientConfigSetting[ClientConfigSetting["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(ClientConfigSetting = exports.ClientConfigSetting || (exports.ClientConfigSetting = {}));
+function clientConfigSettingFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "UNSET":
+            return ClientConfigSetting.UNSET;
+        case 1:
+        case "DISABLED":
+            return ClientConfigSetting.DISABLED;
+        case 2:
+        case "ENABLED":
+            return ClientConfigSetting.ENABLED;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return ClientConfigSetting.UNRECOGNIZED;
+    }
+}
+exports.clientConfigSettingFromJSON = clientConfigSettingFromJSON;
+function clientConfigSettingToJSON(object) {
+    switch (object) {
+        case ClientConfigSetting.UNSET:
+            return "UNSET";
+        case ClientConfigSetting.DISABLED:
+            return "DISABLED";
+        case ClientConfigSetting.ENABLED:
+            return "ENABLED";
+        default:
+            return "UNKNOWN";
+    }
+}
+exports.clientConfigSettingToJSON = clientConfigSettingToJSON;
 var ParticipantInfo_State;
 (function (ParticipantInfo_State) {
     /** JOINING - websocket' connected, but not offered yet */
@@ -2636,15 +2822,125 @@ exports.Codec = {
         return message;
     },
 };
+const baseParticipantPermission = {
+    canSubscribe: false,
+    canPublish: false,
+    canPublishData: false,
+    hidden: false,
+    recorder: false,
+};
+exports.ParticipantPermission = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.canSubscribe === true) {
+            writer.uint32(8).bool(message.canSubscribe);
+        }
+        if (message.canPublish === true) {
+            writer.uint32(16).bool(message.canPublish);
+        }
+        if (message.canPublishData === true) {
+            writer.uint32(24).bool(message.canPublishData);
+        }
+        if (message.hidden === true) {
+            writer.uint32(56).bool(message.hidden);
+        }
+        if (message.recorder === true) {
+            writer.uint32(64).bool(message.recorder);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseParticipantPermission);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.canSubscribe = reader.bool();
+                    break;
+                case 2:
+                    message.canPublish = reader.bool();
+                    break;
+                case 3:
+                    message.canPublishData = reader.bool();
+                    break;
+                case 7:
+                    message.hidden = reader.bool();
+                    break;
+                case 8:
+                    message.recorder = reader.bool();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseParticipantPermission);
+        if (object.canSubscribe !== undefined && object.canSubscribe !== null) {
+            message.canSubscribe = Boolean(object.canSubscribe);
+        }
+        else {
+            message.canSubscribe = false;
+        }
+        if (object.canPublish !== undefined && object.canPublish !== null) {
+            message.canPublish = Boolean(object.canPublish);
+        }
+        else {
+            message.canPublish = false;
+        }
+        if (object.canPublishData !== undefined && object.canPublishData !== null) {
+            message.canPublishData = Boolean(object.canPublishData);
+        }
+        else {
+            message.canPublishData = false;
+        }
+        if (object.hidden !== undefined && object.hidden !== null) {
+            message.hidden = Boolean(object.hidden);
+        }
+        else {
+            message.hidden = false;
+        }
+        if (object.recorder !== undefined && object.recorder !== null) {
+            message.recorder = Boolean(object.recorder);
+        }
+        else {
+            message.recorder = false;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.canSubscribe !== undefined &&
+            (obj.canSubscribe = message.canSubscribe);
+        message.canPublish !== undefined && (obj.canPublish = message.canPublish);
+        message.canPublishData !== undefined &&
+            (obj.canPublishData = message.canPublishData);
+        message.hidden !== undefined && (obj.hidden = message.hidden);
+        message.recorder !== undefined && (obj.recorder = message.recorder);
+        return obj;
+    },
+    fromPartial(object) {
+        var _a, _b, _c, _d, _e;
+        const message = Object.assign({}, baseParticipantPermission);
+        message.canSubscribe = (_a = object.canSubscribe) !== null && _a !== void 0 ? _a : false;
+        message.canPublish = (_b = object.canPublish) !== null && _b !== void 0 ? _b : false;
+        message.canPublishData = (_c = object.canPublishData) !== null && _c !== void 0 ? _c : false;
+        message.hidden = (_d = object.hidden) !== null && _d !== void 0 ? _d : false;
+        message.recorder = (_e = object.recorder) !== null && _e !== void 0 ? _e : false;
+        return message;
+    },
+};
 const baseParticipantInfo = {
     sid: "",
     identity: "",
     state: 0,
     metadata: "",
     joinedAt: 0,
-    hidden: false,
-    recorder: false,
     name: "",
+    version: 0,
 };
 exports.ParticipantInfo = {
     encode(message, writer = minimal_1.default.Writer.create()) {
@@ -2666,14 +2962,14 @@ exports.ParticipantInfo = {
         if (message.joinedAt !== 0) {
             writer.uint32(48).int64(message.joinedAt);
         }
-        if (message.hidden === true) {
-            writer.uint32(56).bool(message.hidden);
-        }
-        if (message.recorder === true) {
-            writer.uint32(64).bool(message.recorder);
-        }
         if (message.name !== "") {
             writer.uint32(74).string(message.name);
+        }
+        if (message.version !== 0) {
+            writer.uint32(80).uint32(message.version);
+        }
+        if (message.permission !== undefined) {
+            exports.ParticipantPermission.encode(message.permission, writer.uint32(90).fork()).ldelim();
         }
         return writer;
     },
@@ -2703,14 +2999,14 @@ exports.ParticipantInfo = {
                 case 6:
                     message.joinedAt = longToNumber(reader.int64());
                     break;
-                case 7:
-                    message.hidden = reader.bool();
-                    break;
-                case 8:
-                    message.recorder = reader.bool();
-                    break;
                 case 9:
                     message.name = reader.string();
+                    break;
+                case 10:
+                    message.version = reader.uint32();
+                    break;
+                case 11:
+                    message.permission = exports.ParticipantPermission.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -2757,23 +3053,23 @@ exports.ParticipantInfo = {
         else {
             message.joinedAt = 0;
         }
-        if (object.hidden !== undefined && object.hidden !== null) {
-            message.hidden = Boolean(object.hidden);
-        }
-        else {
-            message.hidden = false;
-        }
-        if (object.recorder !== undefined && object.recorder !== null) {
-            message.recorder = Boolean(object.recorder);
-        }
-        else {
-            message.recorder = false;
-        }
         if (object.name !== undefined && object.name !== null) {
             message.name = String(object.name);
         }
         else {
             message.name = "";
+        }
+        if (object.version !== undefined && object.version !== null) {
+            message.version = Number(object.version);
+        }
+        else {
+            message.version = 0;
+        }
+        if (object.permission !== undefined && object.permission !== null) {
+            message.permission = exports.ParticipantPermission.fromJSON(object.permission);
+        }
+        else {
+            message.permission = undefined;
         }
         return message;
     },
@@ -2791,13 +3087,16 @@ exports.ParticipantInfo = {
         }
         message.metadata !== undefined && (obj.metadata = message.metadata);
         message.joinedAt !== undefined && (obj.joinedAt = message.joinedAt);
-        message.hidden !== undefined && (obj.hidden = message.hidden);
-        message.recorder !== undefined && (obj.recorder = message.recorder);
         message.name !== undefined && (obj.name = message.name);
+        message.version !== undefined && (obj.version = message.version);
+        message.permission !== undefined &&
+            (obj.permission = message.permission
+                ? exports.ParticipantPermission.toJSON(message.permission)
+                : undefined);
         return obj;
     },
     fromPartial(object) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g;
         const message = Object.assign({}, baseParticipantInfo);
         message.sid = (_a = object.sid) !== null && _a !== void 0 ? _a : "";
         message.identity = (_b = object.identity) !== null && _b !== void 0 ? _b : "";
@@ -2810,9 +3109,14 @@ exports.ParticipantInfo = {
         }
         message.metadata = (_d = object.metadata) !== null && _d !== void 0 ? _d : "";
         message.joinedAt = (_e = object.joinedAt) !== null && _e !== void 0 ? _e : 0;
-        message.hidden = (_f = object.hidden) !== null && _f !== void 0 ? _f : false;
-        message.recorder = (_g = object.recorder) !== null && _g !== void 0 ? _g : false;
-        message.name = (_h = object.name) !== null && _h !== void 0 ? _h : "";
+        message.name = (_f = object.name) !== null && _f !== void 0 ? _f : "";
+        message.version = (_g = object.version) !== null && _g !== void 0 ? _g : 0;
+        if (object.permission !== undefined && object.permission !== null) {
+            message.permission = exports.ParticipantPermission.fromPartial(object.permission);
+        }
+        else {
+            message.permission = undefined;
+        }
         return message;
     },
 };
@@ -3544,6 +3848,7 @@ const baseClientInfo = {
     deviceModel: "",
     browser: "",
     browserVersion: "",
+    address: "",
 };
 exports.ClientInfo = {
     encode(message, writer = minimal_1.default.Writer.create()) {
@@ -3570,6 +3875,9 @@ exports.ClientInfo = {
         }
         if (message.browserVersion !== "") {
             writer.uint32(66).string(message.browserVersion);
+        }
+        if (message.address !== "") {
+            writer.uint32(74).string(message.address);
         }
         return writer;
     },
@@ -3603,6 +3911,9 @@ exports.ClientInfo = {
                     break;
                 case 8:
                     message.browserVersion = reader.string();
+                    break;
+                case 9:
+                    message.address = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -3661,6 +3972,12 @@ exports.ClientInfo = {
         else {
             message.browserVersion = "";
         }
+        if (object.address !== undefined && object.address !== null) {
+            message.address = String(object.address);
+        }
+        else {
+            message.address = "";
+        }
         return message;
     },
     toJSON(message) {
@@ -3675,10 +3992,11 @@ exports.ClientInfo = {
         message.browser !== undefined && (obj.browser = message.browser);
         message.browserVersion !== undefined &&
             (obj.browserVersion = message.browserVersion);
+        message.address !== undefined && (obj.address = message.address);
         return obj;
     },
     fromPartial(object) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         const message = Object.assign({}, baseClientInfo);
         message.sdk = (_a = object.sdk) !== null && _a !== void 0 ? _a : 0;
         message.version = (_b = object.version) !== null && _b !== void 0 ? _b : "";
@@ -3688,6 +4006,820 @@ exports.ClientInfo = {
         message.deviceModel = (_f = object.deviceModel) !== null && _f !== void 0 ? _f : "";
         message.browser = (_g = object.browser) !== null && _g !== void 0 ? _g : "";
         message.browserVersion = (_h = object.browserVersion) !== null && _h !== void 0 ? _h : "";
+        message.address = (_j = object.address) !== null && _j !== void 0 ? _j : "";
+        return message;
+    },
+};
+const baseClientConfiguration = { resumeConnection: 0 };
+exports.ClientConfiguration = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.video !== undefined) {
+            exports.VideoConfiguration.encode(message.video, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.screen !== undefined) {
+            exports.VideoConfiguration.encode(message.screen, writer.uint32(18).fork()).ldelim();
+        }
+        if (message.resumeConnection !== 0) {
+            writer.uint32(24).int32(message.resumeConnection);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseClientConfiguration);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.video = exports.VideoConfiguration.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.screen = exports.VideoConfiguration.decode(reader, reader.uint32());
+                    break;
+                case 3:
+                    message.resumeConnection = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseClientConfiguration);
+        if (object.video !== undefined && object.video !== null) {
+            message.video = exports.VideoConfiguration.fromJSON(object.video);
+        }
+        else {
+            message.video = undefined;
+        }
+        if (object.screen !== undefined && object.screen !== null) {
+            message.screen = exports.VideoConfiguration.fromJSON(object.screen);
+        }
+        else {
+            message.screen = undefined;
+        }
+        if (object.resumeConnection !== undefined &&
+            object.resumeConnection !== null) {
+            message.resumeConnection = clientConfigSettingFromJSON(object.resumeConnection);
+        }
+        else {
+            message.resumeConnection = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.video !== undefined &&
+            (obj.video = message.video
+                ? exports.VideoConfiguration.toJSON(message.video)
+                : undefined);
+        message.screen !== undefined &&
+            (obj.screen = message.screen
+                ? exports.VideoConfiguration.toJSON(message.screen)
+                : undefined);
+        message.resumeConnection !== undefined &&
+            (obj.resumeConnection = clientConfigSettingToJSON(message.resumeConnection));
+        return obj;
+    },
+    fromPartial(object) {
+        var _a;
+        const message = Object.assign({}, baseClientConfiguration);
+        if (object.video !== undefined && object.video !== null) {
+            message.video = exports.VideoConfiguration.fromPartial(object.video);
+        }
+        else {
+            message.video = undefined;
+        }
+        if (object.screen !== undefined && object.screen !== null) {
+            message.screen = exports.VideoConfiguration.fromPartial(object.screen);
+        }
+        else {
+            message.screen = undefined;
+        }
+        message.resumeConnection = (_a = object.resumeConnection) !== null && _a !== void 0 ? _a : 0;
+        return message;
+    },
+};
+const baseVideoConfiguration = { hardwareEncoder: 0 };
+exports.VideoConfiguration = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.hardwareEncoder !== 0) {
+            writer.uint32(8).int32(message.hardwareEncoder);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseVideoConfiguration);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.hardwareEncoder = reader.int32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseVideoConfiguration);
+        if (object.hardwareEncoder !== undefined &&
+            object.hardwareEncoder !== null) {
+            message.hardwareEncoder = clientConfigSettingFromJSON(object.hardwareEncoder);
+        }
+        else {
+            message.hardwareEncoder = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.hardwareEncoder !== undefined &&
+            (obj.hardwareEncoder = clientConfigSettingToJSON(message.hardwareEncoder));
+        return obj;
+    },
+    fromPartial(object) {
+        var _a;
+        const message = Object.assign({}, baseVideoConfiguration);
+        message.hardwareEncoder = (_a = object.hardwareEncoder) !== null && _a !== void 0 ? _a : 0;
+        return message;
+    },
+};
+const baseRTPStats = {
+    duration: 0,
+    packets: 0,
+    packetRate: 0,
+    bytes: 0,
+    bitrate: 0,
+    packetsLost: 0,
+    packetLossRate: 0,
+    packetLossPercentage: 0,
+    packetsDuplicate: 0,
+    packetDuplicateRate: 0,
+    bytesDuplicate: 0,
+    bitrateDuplicate: 0,
+    packetsPadding: 0,
+    packetPaddingRate: 0,
+    bytesPadding: 0,
+    bitratePadding: 0,
+    packetsOutOfOrder: 0,
+    frames: 0,
+    frameRate: 0,
+    jitterCurrent: 0,
+    jitterMax: 0,
+    nacks: 0,
+    nackMisses: 0,
+    plis: 0,
+    firs: 0,
+    rttCurrent: 0,
+    rttMax: 0,
+    keyFrames: 0,
+    layerLockPlis: 0,
+};
+exports.RTPStats = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.startTime !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.startTime), writer.uint32(10).fork()).ldelim();
+        }
+        if (message.endTime !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.endTime), writer.uint32(18).fork()).ldelim();
+        }
+        if (message.duration !== 0) {
+            writer.uint32(25).double(message.duration);
+        }
+        if (message.packets !== 0) {
+            writer.uint32(32).uint32(message.packets);
+        }
+        if (message.packetRate !== 0) {
+            writer.uint32(41).double(message.packetRate);
+        }
+        if (message.bytes !== 0) {
+            writer.uint32(48).uint64(message.bytes);
+        }
+        if (message.bitrate !== 0) {
+            writer.uint32(57).double(message.bitrate);
+        }
+        if (message.packetsLost !== 0) {
+            writer.uint32(64).uint32(message.packetsLost);
+        }
+        if (message.packetLossRate !== 0) {
+            writer.uint32(73).double(message.packetLossRate);
+        }
+        if (message.packetLossPercentage !== 0) {
+            writer.uint32(85).float(message.packetLossPercentage);
+        }
+        if (message.packetsDuplicate !== 0) {
+            writer.uint32(88).uint32(message.packetsDuplicate);
+        }
+        if (message.packetDuplicateRate !== 0) {
+            writer.uint32(97).double(message.packetDuplicateRate);
+        }
+        if (message.bytesDuplicate !== 0) {
+            writer.uint32(104).uint64(message.bytesDuplicate);
+        }
+        if (message.bitrateDuplicate !== 0) {
+            writer.uint32(113).double(message.bitrateDuplicate);
+        }
+        if (message.packetsPadding !== 0) {
+            writer.uint32(120).uint32(message.packetsPadding);
+        }
+        if (message.packetPaddingRate !== 0) {
+            writer.uint32(129).double(message.packetPaddingRate);
+        }
+        if (message.bytesPadding !== 0) {
+            writer.uint32(136).uint64(message.bytesPadding);
+        }
+        if (message.bitratePadding !== 0) {
+            writer.uint32(145).double(message.bitratePadding);
+        }
+        if (message.packetsOutOfOrder !== 0) {
+            writer.uint32(152).uint32(message.packetsOutOfOrder);
+        }
+        if (message.frames !== 0) {
+            writer.uint32(160).uint32(message.frames);
+        }
+        if (message.frameRate !== 0) {
+            writer.uint32(169).double(message.frameRate);
+        }
+        if (message.jitterCurrent !== 0) {
+            writer.uint32(177).double(message.jitterCurrent);
+        }
+        if (message.jitterMax !== 0) {
+            writer.uint32(185).double(message.jitterMax);
+        }
+        Object.entries(message.gapHistogram).forEach(([key, value]) => {
+            exports.RTPStats_GapHistogramEntry.encode({ key: key, value }, writer.uint32(194).fork()).ldelim();
+        });
+        if (message.nacks !== 0) {
+            writer.uint32(200).uint32(message.nacks);
+        }
+        if (message.nackMisses !== 0) {
+            writer.uint32(208).uint32(message.nackMisses);
+        }
+        if (message.plis !== 0) {
+            writer.uint32(216).uint32(message.plis);
+        }
+        if (message.lastPli !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.lastPli), writer.uint32(226).fork()).ldelim();
+        }
+        if (message.firs !== 0) {
+            writer.uint32(232).uint32(message.firs);
+        }
+        if (message.lastFir !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.lastFir), writer.uint32(242).fork()).ldelim();
+        }
+        if (message.rttCurrent !== 0) {
+            writer.uint32(248).uint32(message.rttCurrent);
+        }
+        if (message.rttMax !== 0) {
+            writer.uint32(256).uint32(message.rttMax);
+        }
+        if (message.keyFrames !== 0) {
+            writer.uint32(264).uint32(message.keyFrames);
+        }
+        if (message.lastKeyFrame !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.lastKeyFrame), writer.uint32(274).fork()).ldelim();
+        }
+        if (message.layerLockPlis !== 0) {
+            writer.uint32(280).uint32(message.layerLockPlis);
+        }
+        if (message.lastLayerLockPli !== undefined) {
+            timestamp_1.Timestamp.encode(toTimestamp(message.lastLayerLockPli), writer.uint32(290).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseRTPStats);
+        message.gapHistogram = {};
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.startTime = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.endTime = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                case 3:
+                    message.duration = reader.double();
+                    break;
+                case 4:
+                    message.packets = reader.uint32();
+                    break;
+                case 5:
+                    message.packetRate = reader.double();
+                    break;
+                case 6:
+                    message.bytes = longToNumber(reader.uint64());
+                    break;
+                case 7:
+                    message.bitrate = reader.double();
+                    break;
+                case 8:
+                    message.packetsLost = reader.uint32();
+                    break;
+                case 9:
+                    message.packetLossRate = reader.double();
+                    break;
+                case 10:
+                    message.packetLossPercentage = reader.float();
+                    break;
+                case 11:
+                    message.packetsDuplicate = reader.uint32();
+                    break;
+                case 12:
+                    message.packetDuplicateRate = reader.double();
+                    break;
+                case 13:
+                    message.bytesDuplicate = longToNumber(reader.uint64());
+                    break;
+                case 14:
+                    message.bitrateDuplicate = reader.double();
+                    break;
+                case 15:
+                    message.packetsPadding = reader.uint32();
+                    break;
+                case 16:
+                    message.packetPaddingRate = reader.double();
+                    break;
+                case 17:
+                    message.bytesPadding = longToNumber(reader.uint64());
+                    break;
+                case 18:
+                    message.bitratePadding = reader.double();
+                    break;
+                case 19:
+                    message.packetsOutOfOrder = reader.uint32();
+                    break;
+                case 20:
+                    message.frames = reader.uint32();
+                    break;
+                case 21:
+                    message.frameRate = reader.double();
+                    break;
+                case 22:
+                    message.jitterCurrent = reader.double();
+                    break;
+                case 23:
+                    message.jitterMax = reader.double();
+                    break;
+                case 24:
+                    const entry24 = exports.RTPStats_GapHistogramEntry.decode(reader, reader.uint32());
+                    if (entry24.value !== undefined) {
+                        message.gapHistogram[entry24.key] = entry24.value;
+                    }
+                    break;
+                case 25:
+                    message.nacks = reader.uint32();
+                    break;
+                case 26:
+                    message.nackMisses = reader.uint32();
+                    break;
+                case 27:
+                    message.plis = reader.uint32();
+                    break;
+                case 28:
+                    message.lastPli = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                case 29:
+                    message.firs = reader.uint32();
+                    break;
+                case 30:
+                    message.lastFir = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                case 31:
+                    message.rttCurrent = reader.uint32();
+                    break;
+                case 32:
+                    message.rttMax = reader.uint32();
+                    break;
+                case 33:
+                    message.keyFrames = reader.uint32();
+                    break;
+                case 34:
+                    message.lastKeyFrame = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                case 35:
+                    message.layerLockPlis = reader.uint32();
+                    break;
+                case 36:
+                    message.lastLayerLockPli = fromTimestamp(timestamp_1.Timestamp.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseRTPStats);
+        message.gapHistogram = {};
+        if (object.startTime !== undefined && object.startTime !== null) {
+            message.startTime = fromJsonTimestamp(object.startTime);
+        }
+        else {
+            message.startTime = undefined;
+        }
+        if (object.endTime !== undefined && object.endTime !== null) {
+            message.endTime = fromJsonTimestamp(object.endTime);
+        }
+        else {
+            message.endTime = undefined;
+        }
+        if (object.duration !== undefined && object.duration !== null) {
+            message.duration = Number(object.duration);
+        }
+        else {
+            message.duration = 0;
+        }
+        if (object.packets !== undefined && object.packets !== null) {
+            message.packets = Number(object.packets);
+        }
+        else {
+            message.packets = 0;
+        }
+        if (object.packetRate !== undefined && object.packetRate !== null) {
+            message.packetRate = Number(object.packetRate);
+        }
+        else {
+            message.packetRate = 0;
+        }
+        if (object.bytes !== undefined && object.bytes !== null) {
+            message.bytes = Number(object.bytes);
+        }
+        else {
+            message.bytes = 0;
+        }
+        if (object.bitrate !== undefined && object.bitrate !== null) {
+            message.bitrate = Number(object.bitrate);
+        }
+        else {
+            message.bitrate = 0;
+        }
+        if (object.packetsLost !== undefined && object.packetsLost !== null) {
+            message.packetsLost = Number(object.packetsLost);
+        }
+        else {
+            message.packetsLost = 0;
+        }
+        if (object.packetLossRate !== undefined && object.packetLossRate !== null) {
+            message.packetLossRate = Number(object.packetLossRate);
+        }
+        else {
+            message.packetLossRate = 0;
+        }
+        if (object.packetLossPercentage !== undefined &&
+            object.packetLossPercentage !== null) {
+            message.packetLossPercentage = Number(object.packetLossPercentage);
+        }
+        else {
+            message.packetLossPercentage = 0;
+        }
+        if (object.packetsDuplicate !== undefined &&
+            object.packetsDuplicate !== null) {
+            message.packetsDuplicate = Number(object.packetsDuplicate);
+        }
+        else {
+            message.packetsDuplicate = 0;
+        }
+        if (object.packetDuplicateRate !== undefined &&
+            object.packetDuplicateRate !== null) {
+            message.packetDuplicateRate = Number(object.packetDuplicateRate);
+        }
+        else {
+            message.packetDuplicateRate = 0;
+        }
+        if (object.bytesDuplicate !== undefined && object.bytesDuplicate !== null) {
+            message.bytesDuplicate = Number(object.bytesDuplicate);
+        }
+        else {
+            message.bytesDuplicate = 0;
+        }
+        if (object.bitrateDuplicate !== undefined &&
+            object.bitrateDuplicate !== null) {
+            message.bitrateDuplicate = Number(object.bitrateDuplicate);
+        }
+        else {
+            message.bitrateDuplicate = 0;
+        }
+        if (object.packetsPadding !== undefined && object.packetsPadding !== null) {
+            message.packetsPadding = Number(object.packetsPadding);
+        }
+        else {
+            message.packetsPadding = 0;
+        }
+        if (object.packetPaddingRate !== undefined &&
+            object.packetPaddingRate !== null) {
+            message.packetPaddingRate = Number(object.packetPaddingRate);
+        }
+        else {
+            message.packetPaddingRate = 0;
+        }
+        if (object.bytesPadding !== undefined && object.bytesPadding !== null) {
+            message.bytesPadding = Number(object.bytesPadding);
+        }
+        else {
+            message.bytesPadding = 0;
+        }
+        if (object.bitratePadding !== undefined && object.bitratePadding !== null) {
+            message.bitratePadding = Number(object.bitratePadding);
+        }
+        else {
+            message.bitratePadding = 0;
+        }
+        if (object.packetsOutOfOrder !== undefined &&
+            object.packetsOutOfOrder !== null) {
+            message.packetsOutOfOrder = Number(object.packetsOutOfOrder);
+        }
+        else {
+            message.packetsOutOfOrder = 0;
+        }
+        if (object.frames !== undefined && object.frames !== null) {
+            message.frames = Number(object.frames);
+        }
+        else {
+            message.frames = 0;
+        }
+        if (object.frameRate !== undefined && object.frameRate !== null) {
+            message.frameRate = Number(object.frameRate);
+        }
+        else {
+            message.frameRate = 0;
+        }
+        if (object.jitterCurrent !== undefined && object.jitterCurrent !== null) {
+            message.jitterCurrent = Number(object.jitterCurrent);
+        }
+        else {
+            message.jitterCurrent = 0;
+        }
+        if (object.jitterMax !== undefined && object.jitterMax !== null) {
+            message.jitterMax = Number(object.jitterMax);
+        }
+        else {
+            message.jitterMax = 0;
+        }
+        if (object.gapHistogram !== undefined && object.gapHistogram !== null) {
+            Object.entries(object.gapHistogram).forEach(([key, value]) => {
+                message.gapHistogram[Number(key)] = Number(value);
+            });
+        }
+        if (object.nacks !== undefined && object.nacks !== null) {
+            message.nacks = Number(object.nacks);
+        }
+        else {
+            message.nacks = 0;
+        }
+        if (object.nackMisses !== undefined && object.nackMisses !== null) {
+            message.nackMisses = Number(object.nackMisses);
+        }
+        else {
+            message.nackMisses = 0;
+        }
+        if (object.plis !== undefined && object.plis !== null) {
+            message.plis = Number(object.plis);
+        }
+        else {
+            message.plis = 0;
+        }
+        if (object.lastPli !== undefined && object.lastPli !== null) {
+            message.lastPli = fromJsonTimestamp(object.lastPli);
+        }
+        else {
+            message.lastPli = undefined;
+        }
+        if (object.firs !== undefined && object.firs !== null) {
+            message.firs = Number(object.firs);
+        }
+        else {
+            message.firs = 0;
+        }
+        if (object.lastFir !== undefined && object.lastFir !== null) {
+            message.lastFir = fromJsonTimestamp(object.lastFir);
+        }
+        else {
+            message.lastFir = undefined;
+        }
+        if (object.rttCurrent !== undefined && object.rttCurrent !== null) {
+            message.rttCurrent = Number(object.rttCurrent);
+        }
+        else {
+            message.rttCurrent = 0;
+        }
+        if (object.rttMax !== undefined && object.rttMax !== null) {
+            message.rttMax = Number(object.rttMax);
+        }
+        else {
+            message.rttMax = 0;
+        }
+        if (object.keyFrames !== undefined && object.keyFrames !== null) {
+            message.keyFrames = Number(object.keyFrames);
+        }
+        else {
+            message.keyFrames = 0;
+        }
+        if (object.lastKeyFrame !== undefined && object.lastKeyFrame !== null) {
+            message.lastKeyFrame = fromJsonTimestamp(object.lastKeyFrame);
+        }
+        else {
+            message.lastKeyFrame = undefined;
+        }
+        if (object.layerLockPlis !== undefined && object.layerLockPlis !== null) {
+            message.layerLockPlis = Number(object.layerLockPlis);
+        }
+        else {
+            message.layerLockPlis = 0;
+        }
+        if (object.lastLayerLockPli !== undefined &&
+            object.lastLayerLockPli !== null) {
+            message.lastLayerLockPli = fromJsonTimestamp(object.lastLayerLockPli);
+        }
+        else {
+            message.lastLayerLockPli = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.startTime !== undefined &&
+            (obj.startTime = message.startTime.toISOString());
+        message.endTime !== undefined &&
+            (obj.endTime = message.endTime.toISOString());
+        message.duration !== undefined && (obj.duration = message.duration);
+        message.packets !== undefined && (obj.packets = message.packets);
+        message.packetRate !== undefined && (obj.packetRate = message.packetRate);
+        message.bytes !== undefined && (obj.bytes = message.bytes);
+        message.bitrate !== undefined && (obj.bitrate = message.bitrate);
+        message.packetsLost !== undefined &&
+            (obj.packetsLost = message.packetsLost);
+        message.packetLossRate !== undefined &&
+            (obj.packetLossRate = message.packetLossRate);
+        message.packetLossPercentage !== undefined &&
+            (obj.packetLossPercentage = message.packetLossPercentage);
+        message.packetsDuplicate !== undefined &&
+            (obj.packetsDuplicate = message.packetsDuplicate);
+        message.packetDuplicateRate !== undefined &&
+            (obj.packetDuplicateRate = message.packetDuplicateRate);
+        message.bytesDuplicate !== undefined &&
+            (obj.bytesDuplicate = message.bytesDuplicate);
+        message.bitrateDuplicate !== undefined &&
+            (obj.bitrateDuplicate = message.bitrateDuplicate);
+        message.packetsPadding !== undefined &&
+            (obj.packetsPadding = message.packetsPadding);
+        message.packetPaddingRate !== undefined &&
+            (obj.packetPaddingRate = message.packetPaddingRate);
+        message.bytesPadding !== undefined &&
+            (obj.bytesPadding = message.bytesPadding);
+        message.bitratePadding !== undefined &&
+            (obj.bitratePadding = message.bitratePadding);
+        message.packetsOutOfOrder !== undefined &&
+            (obj.packetsOutOfOrder = message.packetsOutOfOrder);
+        message.frames !== undefined && (obj.frames = message.frames);
+        message.frameRate !== undefined && (obj.frameRate = message.frameRate);
+        message.jitterCurrent !== undefined &&
+            (obj.jitterCurrent = message.jitterCurrent);
+        message.jitterMax !== undefined && (obj.jitterMax = message.jitterMax);
+        obj.gapHistogram = {};
+        if (message.gapHistogram) {
+            Object.entries(message.gapHistogram).forEach(([k, v]) => {
+                obj.gapHistogram[k] = v;
+            });
+        }
+        message.nacks !== undefined && (obj.nacks = message.nacks);
+        message.nackMisses !== undefined && (obj.nackMisses = message.nackMisses);
+        message.plis !== undefined && (obj.plis = message.plis);
+        message.lastPli !== undefined &&
+            (obj.lastPli = message.lastPli.toISOString());
+        message.firs !== undefined && (obj.firs = message.firs);
+        message.lastFir !== undefined &&
+            (obj.lastFir = message.lastFir.toISOString());
+        message.rttCurrent !== undefined && (obj.rttCurrent = message.rttCurrent);
+        message.rttMax !== undefined && (obj.rttMax = message.rttMax);
+        message.keyFrames !== undefined && (obj.keyFrames = message.keyFrames);
+        message.lastKeyFrame !== undefined &&
+            (obj.lastKeyFrame = message.lastKeyFrame.toISOString());
+        message.layerLockPlis !== undefined &&
+            (obj.layerLockPlis = message.layerLockPlis);
+        message.lastLayerLockPli !== undefined &&
+            (obj.lastLayerLockPli = message.lastLayerLockPli.toISOString());
+        return obj;
+    },
+    fromPartial(object) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10;
+        const message = Object.assign({}, baseRTPStats);
+        message.startTime = (_a = object.startTime) !== null && _a !== void 0 ? _a : undefined;
+        message.endTime = (_b = object.endTime) !== null && _b !== void 0 ? _b : undefined;
+        message.duration = (_c = object.duration) !== null && _c !== void 0 ? _c : 0;
+        message.packets = (_d = object.packets) !== null && _d !== void 0 ? _d : 0;
+        message.packetRate = (_e = object.packetRate) !== null && _e !== void 0 ? _e : 0;
+        message.bytes = (_f = object.bytes) !== null && _f !== void 0 ? _f : 0;
+        message.bitrate = (_g = object.bitrate) !== null && _g !== void 0 ? _g : 0;
+        message.packetsLost = (_h = object.packetsLost) !== null && _h !== void 0 ? _h : 0;
+        message.packetLossRate = (_j = object.packetLossRate) !== null && _j !== void 0 ? _j : 0;
+        message.packetLossPercentage = (_k = object.packetLossPercentage) !== null && _k !== void 0 ? _k : 0;
+        message.packetsDuplicate = (_l = object.packetsDuplicate) !== null && _l !== void 0 ? _l : 0;
+        message.packetDuplicateRate = (_m = object.packetDuplicateRate) !== null && _m !== void 0 ? _m : 0;
+        message.bytesDuplicate = (_o = object.bytesDuplicate) !== null && _o !== void 0 ? _o : 0;
+        message.bitrateDuplicate = (_p = object.bitrateDuplicate) !== null && _p !== void 0 ? _p : 0;
+        message.packetsPadding = (_q = object.packetsPadding) !== null && _q !== void 0 ? _q : 0;
+        message.packetPaddingRate = (_r = object.packetPaddingRate) !== null && _r !== void 0 ? _r : 0;
+        message.bytesPadding = (_s = object.bytesPadding) !== null && _s !== void 0 ? _s : 0;
+        message.bitratePadding = (_t = object.bitratePadding) !== null && _t !== void 0 ? _t : 0;
+        message.packetsOutOfOrder = (_u = object.packetsOutOfOrder) !== null && _u !== void 0 ? _u : 0;
+        message.frames = (_v = object.frames) !== null && _v !== void 0 ? _v : 0;
+        message.frameRate = (_w = object.frameRate) !== null && _w !== void 0 ? _w : 0;
+        message.jitterCurrent = (_x = object.jitterCurrent) !== null && _x !== void 0 ? _x : 0;
+        message.jitterMax = (_y = object.jitterMax) !== null && _y !== void 0 ? _y : 0;
+        message.gapHistogram = {};
+        if (object.gapHistogram !== undefined && object.gapHistogram !== null) {
+            Object.entries(object.gapHistogram).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    message.gapHistogram[Number(key)] = Number(value);
+                }
+            });
+        }
+        message.nacks = (_z = object.nacks) !== null && _z !== void 0 ? _z : 0;
+        message.nackMisses = (_0 = object.nackMisses) !== null && _0 !== void 0 ? _0 : 0;
+        message.plis = (_1 = object.plis) !== null && _1 !== void 0 ? _1 : 0;
+        message.lastPli = (_2 = object.lastPli) !== null && _2 !== void 0 ? _2 : undefined;
+        message.firs = (_3 = object.firs) !== null && _3 !== void 0 ? _3 : 0;
+        message.lastFir = (_4 = object.lastFir) !== null && _4 !== void 0 ? _4 : undefined;
+        message.rttCurrent = (_5 = object.rttCurrent) !== null && _5 !== void 0 ? _5 : 0;
+        message.rttMax = (_6 = object.rttMax) !== null && _6 !== void 0 ? _6 : 0;
+        message.keyFrames = (_7 = object.keyFrames) !== null && _7 !== void 0 ? _7 : 0;
+        message.lastKeyFrame = (_8 = object.lastKeyFrame) !== null && _8 !== void 0 ? _8 : undefined;
+        message.layerLockPlis = (_9 = object.layerLockPlis) !== null && _9 !== void 0 ? _9 : 0;
+        message.lastLayerLockPli = (_10 = object.lastLayerLockPli) !== null && _10 !== void 0 ? _10 : undefined;
+        return message;
+    },
+};
+const baseRTPStats_GapHistogramEntry = { key: 0, value: 0 };
+exports.RTPStats_GapHistogramEntry = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.key !== 0) {
+            writer.uint32(8).int32(message.key);
+        }
+        if (message.value !== 0) {
+            writer.uint32(16).uint32(message.value);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseRTPStats_GapHistogramEntry);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.key = reader.int32();
+                    break;
+                case 2:
+                    message.value = reader.uint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseRTPStats_GapHistogramEntry);
+        if (object.key !== undefined && object.key !== null) {
+            message.key = Number(object.key);
+        }
+        else {
+            message.key = 0;
+        }
+        if (object.value !== undefined && object.value !== null) {
+            message.value = Number(object.value);
+        }
+        else {
+            message.value = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.key !== undefined && (obj.key = message.key);
+        message.value !== undefined && (obj.value = message.value);
+        return obj;
+    },
+    fromPartial(object) {
+        var _a, _b;
+        const message = Object.assign({}, baseRTPStats_GapHistogramEntry);
+        message.key = (_a = object.key) !== null && _a !== void 0 ? _a : 0;
+        message.value = (_b = object.value) !== null && _b !== void 0 ? _b : 0;
         return message;
     },
 };
@@ -3721,6 +4853,27 @@ function base64FromBytes(arr) {
     }
     return btoa(bin.join(""));
 }
+function toTimestamp(date) {
+    const seconds = date.getTime() / 1000;
+    const nanos = (date.getTime() % 1000) * 1000000;
+    return { seconds, nanos };
+}
+function fromTimestamp(t) {
+    let millis = t.seconds * 1000;
+    millis += t.nanos / 1000000;
+    return new Date(millis);
+}
+function fromJsonTimestamp(o) {
+    if (o instanceof Date) {
+        return o;
+    }
+    else if (typeof o === "string") {
+        return new Date(o);
+    }
+    else {
+        return fromTimestamp(timestamp_1.Timestamp.fromJSON(o));
+    }
+}
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
         throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
@@ -3744,7 +4897,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.SimulateScenario = exports.SyncState = exports.SubscriptionPermissionUpdate = exports.SubscriptionPermission = exports.TrackPermission = exports.SubscribedQualityUpdate = exports.SubscribedQuality = exports.StreamStateUpdate = exports.StreamStateInfo = exports.ConnectionQualityUpdate = exports.ConnectionQualityInfo = exports.RoomUpdate = exports.SpeakersChanged = exports.ICEServer = exports.UpdateVideoLayers = exports.LeaveRequest = exports.UpdateTrackSettings = exports.UpdateSubscription = exports.ParticipantUpdate = exports.SessionDescription = exports.TrackPublishedResponse = exports.JoinResponse = exports.MuteTrackRequest = exports.TrickleRequest = exports.AddTrackRequest = exports.SignalResponse = exports.SignalRequest = exports.streamStateToJSON = exports.streamStateFromJSON = exports.StreamState = exports.signalTargetToJSON = exports.signalTargetFromJSON = exports.SignalTarget = exports.protobufPackage = void 0;
+exports.SimulateScenario = exports.DataChannelInfo = exports.SyncState = exports.SubscriptionPermissionUpdate = exports.SubscriptionPermission = exports.TrackPermission = exports.SubscribedQualityUpdate = exports.SubscribedQuality = exports.StreamStateUpdate = exports.StreamStateInfo = exports.ConnectionQualityUpdate = exports.ConnectionQualityInfo = exports.RoomUpdate = exports.SpeakersChanged = exports.ICEServer = exports.UpdateVideoLayers = exports.LeaveRequest = exports.UpdateTrackSettings = exports.UpdateSubscription = exports.ParticipantUpdate = exports.SessionDescription = exports.TrackUnpublishedResponse = exports.TrackPublishedResponse = exports.JoinResponse = exports.MuteTrackRequest = exports.TrickleRequest = exports.AddTrackRequest = exports.SignalResponse = exports.SignalRequest = exports.streamStateToJSON = exports.streamStateFromJSON = exports.StreamState = exports.signalTargetToJSON = exports.signalTargetFromJSON = exports.SignalTarget = exports.protobufPackage = void 0;
 /* eslint-disable */
 const long_1 = __importDefault(__webpack_require__(3720));
 const minimal_1 = __importDefault(__webpack_require__(2100));
@@ -4160,6 +5313,9 @@ exports.SignalResponse = {
         if (message.refreshToken !== undefined) {
             writer.uint32(130).string(message.refreshToken);
         }
+        if (message.trackUnpublished !== undefined) {
+            exports.TrackUnpublishedResponse.encode(message.trackUnpublished, writer.uint32(138).fork()).ldelim();
+        }
         return writer;
     },
     decode(input, length) {
@@ -4214,6 +5370,9 @@ exports.SignalResponse = {
                     break;
                 case 16:
                     message.refreshToken = reader.string();
+                    break;
+                case 17:
+                    message.trackUnpublished = exports.TrackUnpublishedResponse.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -4320,6 +5479,13 @@ exports.SignalResponse = {
         else {
             message.refreshToken = undefined;
         }
+        if (object.trackUnpublished !== undefined &&
+            object.trackUnpublished !== null) {
+            message.trackUnpublished = exports.TrackUnpublishedResponse.fromJSON(object.trackUnpublished);
+        }
+        else {
+            message.trackUnpublished = undefined;
+        }
         return message;
     },
     toJSON(message) {
@@ -4380,6 +5546,10 @@ exports.SignalResponse = {
                 : undefined);
         message.refreshToken !== undefined &&
             (obj.refreshToken = message.refreshToken);
+        message.trackUnpublished !== undefined &&
+            (obj.trackUnpublished = message.trackUnpublished
+                ? exports.TrackUnpublishedResponse.toJSON(message.trackUnpublished)
+                : undefined);
         return obj;
     },
     fromPartial(object) {
@@ -4476,6 +5646,13 @@ exports.SignalResponse = {
             message.subscriptionPermissionUpdate = undefined;
         }
         message.refreshToken = (_a = object.refreshToken) !== null && _a !== void 0 ? _a : undefined;
+        if (object.trackUnpublished !== undefined &&
+            object.trackUnpublished !== null) {
+            message.trackUnpublished = exports.TrackUnpublishedResponse.fromPartial(object.trackUnpublished);
+        }
+        else {
+            message.trackUnpublished = undefined;
+        }
         return message;
     },
 };
@@ -4787,6 +5964,7 @@ const baseJoinResponse = {
     serverVersion: "",
     subscriberPrimary: false,
     alternativeUrl: "",
+    serverRegion: "",
 };
 exports.JoinResponse = {
     encode(message, writer = minimal_1.default.Writer.create()) {
@@ -4810,6 +5988,12 @@ exports.JoinResponse = {
         }
         if (message.alternativeUrl !== "") {
             writer.uint32(58).string(message.alternativeUrl);
+        }
+        if (message.clientConfiguration !== undefined) {
+            livekit_models_1.ClientConfiguration.encode(message.clientConfiguration, writer.uint32(66).fork()).ldelim();
+        }
+        if (message.serverRegion !== "") {
+            writer.uint32(74).string(message.serverRegion);
         }
         return writer;
     },
@@ -4842,6 +6026,12 @@ exports.JoinResponse = {
                     break;
                 case 7:
                     message.alternativeUrl = reader.string();
+                    break;
+                case 8:
+                    message.clientConfiguration = livekit_models_1.ClientConfiguration.decode(reader, reader.uint32());
+                    break;
+                case 9:
+                    message.serverRegion = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -4896,6 +6086,19 @@ exports.JoinResponse = {
         else {
             message.alternativeUrl = "";
         }
+        if (object.clientConfiguration !== undefined &&
+            object.clientConfiguration !== null) {
+            message.clientConfiguration = livekit_models_1.ClientConfiguration.fromJSON(object.clientConfiguration);
+        }
+        else {
+            message.clientConfiguration = undefined;
+        }
+        if (object.serverRegion !== undefined && object.serverRegion !== null) {
+            message.serverRegion = String(object.serverRegion);
+        }
+        else {
+            message.serverRegion = "";
+        }
         return message;
     },
     toJSON(message) {
@@ -4924,10 +6127,16 @@ exports.JoinResponse = {
             (obj.subscriberPrimary = message.subscriberPrimary);
         message.alternativeUrl !== undefined &&
             (obj.alternativeUrl = message.alternativeUrl);
+        message.clientConfiguration !== undefined &&
+            (obj.clientConfiguration = message.clientConfiguration
+                ? livekit_models_1.ClientConfiguration.toJSON(message.clientConfiguration)
+                : undefined);
+        message.serverRegion !== undefined &&
+            (obj.serverRegion = message.serverRegion);
         return obj;
     },
     fromPartial(object) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         const message = Object.assign({}, baseJoinResponse);
         if (object.room !== undefined && object.room !== null) {
             message.room = livekit_models_1.Room.fromPartial(object.room);
@@ -4957,6 +6166,14 @@ exports.JoinResponse = {
         }
         message.subscriberPrimary = (_b = object.subscriberPrimary) !== null && _b !== void 0 ? _b : false;
         message.alternativeUrl = (_c = object.alternativeUrl) !== null && _c !== void 0 ? _c : "";
+        if (object.clientConfiguration !== undefined &&
+            object.clientConfiguration !== null) {
+            message.clientConfiguration = livekit_models_1.ClientConfiguration.fromPartial(object.clientConfiguration);
+        }
+        else {
+            message.clientConfiguration = undefined;
+        }
+        message.serverRegion = (_d = object.serverRegion) !== null && _d !== void 0 ? _d : "";
         return message;
     },
 };
@@ -5024,6 +6241,53 @@ exports.TrackPublishedResponse = {
         else {
             message.track = undefined;
         }
+        return message;
+    },
+};
+const baseTrackUnpublishedResponse = { trackSid: "" };
+exports.TrackUnpublishedResponse = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.trackSid !== "") {
+            writer.uint32(10).string(message.trackSid);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseTrackUnpublishedResponse);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.trackSid = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseTrackUnpublishedResponse);
+        if (object.trackSid !== undefined && object.trackSid !== null) {
+            message.trackSid = String(object.trackSid);
+        }
+        else {
+            message.trackSid = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.trackSid !== undefined && (obj.trackSid = message.trackSid);
+        return obj;
+    },
+    fromPartial(object) {
+        var _a;
+        const message = Object.assign({}, baseTrackUnpublishedResponse);
+        message.trackSid = (_a = object.trackSid) !== null && _a !== void 0 ? _a : "";
         return message;
     },
 };
@@ -6351,6 +7615,9 @@ exports.SyncState = {
         for (const v of message.publishTracks) {
             exports.TrackPublishedResponse.encode(v, writer.uint32(26).fork()).ldelim();
         }
+        for (const v of message.dataChannels) {
+            exports.DataChannelInfo.encode(v, writer.uint32(34).fork()).ldelim();
+        }
         return writer;
     },
     decode(input, length) {
@@ -6358,6 +7625,7 @@ exports.SyncState = {
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = Object.assign({}, baseSyncState);
         message.publishTracks = [];
+        message.dataChannels = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -6370,6 +7638,9 @@ exports.SyncState = {
                 case 3:
                     message.publishTracks.push(exports.TrackPublishedResponse.decode(reader, reader.uint32()));
                     break;
+                case 4:
+                    message.dataChannels.push(exports.DataChannelInfo.decode(reader, reader.uint32()));
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -6380,6 +7651,7 @@ exports.SyncState = {
     fromJSON(object) {
         const message = Object.assign({}, baseSyncState);
         message.publishTracks = [];
+        message.dataChannels = [];
         if (object.answer !== undefined && object.answer !== null) {
             message.answer = exports.SessionDescription.fromJSON(object.answer);
         }
@@ -6395,6 +7667,11 @@ exports.SyncState = {
         if (object.publishTracks !== undefined && object.publishTracks !== null) {
             for (const e of object.publishTracks) {
                 message.publishTracks.push(exports.TrackPublishedResponse.fromJSON(e));
+            }
+        }
+        if (object.dataChannels !== undefined && object.dataChannels !== null) {
+            for (const e of object.dataChannels) {
+                message.dataChannels.push(exports.DataChannelInfo.fromJSON(e));
             }
         }
         return message;
@@ -6414,6 +7691,12 @@ exports.SyncState = {
         }
         else {
             obj.publishTracks = [];
+        }
+        if (message.dataChannels) {
+            obj.dataChannels = message.dataChannels.map((e) => e ? exports.DataChannelInfo.toJSON(e) : undefined);
+        }
+        else {
+            obj.dataChannels = [];
         }
         return obj;
     },
@@ -6437,6 +7720,73 @@ exports.SyncState = {
                 message.publishTracks.push(exports.TrackPublishedResponse.fromPartial(e));
             }
         }
+        message.dataChannels = [];
+        if (object.dataChannels !== undefined && object.dataChannels !== null) {
+            for (const e of object.dataChannels) {
+                message.dataChannels.push(exports.DataChannelInfo.fromPartial(e));
+            }
+        }
+        return message;
+    },
+};
+const baseDataChannelInfo = { label: "", id: 0 };
+exports.DataChannelInfo = {
+    encode(message, writer = minimal_1.default.Writer.create()) {
+        if (message.label !== "") {
+            writer.uint32(10).string(message.label);
+        }
+        if (message.id !== 0) {
+            writer.uint32(16).uint32(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof minimal_1.default.Reader ? input : new minimal_1.default.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = Object.assign({}, baseDataChannelInfo);
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.label = reader.string();
+                    break;
+                case 2:
+                    message.id = reader.uint32();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = Object.assign({}, baseDataChannelInfo);
+        if (object.label !== undefined && object.label !== null) {
+            message.label = String(object.label);
+        }
+        else {
+            message.label = "";
+        }
+        if (object.id !== undefined && object.id !== null) {
+            message.id = Number(object.id);
+        }
+        else {
+            message.id = 0;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.label !== undefined && (obj.label = message.label);
+        message.id !== undefined && (obj.id = message.id);
+        return obj;
+    },
+    fromPartial(object) {
+        var _a, _b;
+        const message = Object.assign({}, baseDataChannelInfo);
+        message.label = (_a = object.label) !== null && _a !== void 0 ? _a : "";
+        message.id = (_b = object.id) !== null && _b !== void 0 ? _b : 0;
         return message;
     },
 };
@@ -6755,7 +8105,7 @@ class RTCEngine extends events_1.EventEmitter {
         this.hasPublished = false;
         this.reconnectAttempts = 0;
         this.reconnectStart = 0;
-        this.fullReconnect = false;
+        this.fullReconnectOnNext = false;
         this.handleDataChannel = ({ channel }) => __awaiter(this, void 0, void 0, function* () {
             if (!channel) {
                 return;
@@ -6818,22 +8168,23 @@ class RTCEngine extends events_1.EventEmitter {
             }
             const delay = (this.reconnectAttempts * this.reconnectAttempts) * 300;
             setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                var _a;
                 if (this.isClosed) {
                     return;
                 }
-                if (utils_1.isFireFox()) {
-                    // FF does not support DTLS restart.
-                    this.fullReconnect = true;
+                if (utils_1.isFireFox() // TODO remove once clientConfiguration handles firefox case server side
+                    || ((_a = this.clientConfiguration) === null || _a === void 0 ? void 0 : _a.resumeConnection) === livekit_models_1.ClientConfigSetting.DISABLED) {
+                    this.fullReconnectOnNext = true;
                 }
                 try {
-                    if (this.fullReconnect) {
+                    if (this.fullReconnectOnNext) {
                         yield this.restartConnection();
                     }
                     else {
                         yield this.resumeConnection();
                     }
                     this.reconnectAttempts = 0;
-                    this.fullReconnect = false;
+                    this.fullReconnectOnNext = false;
                 }
                 catch (e) {
                     this.reconnectAttempts += 1;
@@ -6845,7 +8196,7 @@ class RTCEngine extends events_1.EventEmitter {
                     }
                     else if (!(e instanceof SignalReconnectError)) {
                         // cannot resume
-                        this.fullReconnect = true;
+                        this.fullReconnectOnNext = true;
                     }
                     const duration = Date.now() - this.reconnectStart;
                     if (this.reconnectAttempts >= maxReconnectRetries || duration > maxReconnectDuration) {
@@ -6879,6 +8230,7 @@ class RTCEngine extends events_1.EventEmitter {
             if (!this.subscriberPrimary) {
                 this.negotiate();
             }
+            this.clientConfiguration = joinResponse.clientConfiguration;
             return joinResponse;
         });
     }
@@ -6887,9 +8239,12 @@ class RTCEngine extends events_1.EventEmitter {
         this.removeAllListeners();
         if (this.publisher && this.publisher.pc.signalingState !== 'closed') {
             this.publisher.pc.getSenders().forEach((sender) => {
-                var _a;
+                var _a, _b;
                 try {
-                    (_a = this.publisher) === null || _a === void 0 ? void 0 : _a.pc.removeTrack(sender);
+                    // TODO: react-native-webrtc doesn't have removeTrack yet.
+                    if ((_a = this.publisher) === null || _a === void 0 ? void 0 : _a.pc.removeTrack) {
+                        (_b = this.publisher) === null || _b === void 0 ? void 0 : _b.pc.removeTrack(sender);
+                    }
                 }
                 catch (e) {
                     logger_1.default.warn('could not removeTrack', e);
@@ -6944,6 +8299,10 @@ class RTCEngine extends events_1.EventEmitter {
             });
             this.rtcConfig.iceServers = rtcIceServers;
         }
+        // @ts-ignore
+        this.rtcConfig.sdpSemantics = 'unified-plan';
+        // @ts-ignore
+        this.rtcConfig.continualGatheringPolicy = 'gather_continually';
         this.publisher = new PCTransport_1.default(this.rtcConfig);
         this.subscriber = new PCTransport_1.default(this.rtcConfig);
         this.emit(events_2.EngineEvent.TransportsCreated, this.publisher, this.subscriber);
@@ -6991,9 +8350,19 @@ class RTCEngine extends events_1.EventEmitter {
                 }
             }
         });
-        this.subscriber.pc.ontrack = (ev) => {
-            this.emit(events_2.EngineEvent.MediaTrackAdded, ev.track, ev.streams[0], ev.receiver);
-        };
+        if (utils_1.isWeb()) {
+            this.subscriber.pc.ontrack = (ev) => {
+                this.emit(events_2.EngineEvent.MediaTrackAdded, ev.track, ev.streams[0], ev.receiver);
+            };
+        }
+        else {
+            // TODO: react-native-webrtc doesn't have ontrack yet, replace when ready.
+            // @ts-ignore
+            this.subscriber.pc.onaddstream = (ev) => {
+                const track = ev.stream.getTracks()[0];
+                this.emit(events_2.EngineEvent.MediaTrackAdded, track, ev.stream);
+            };
+        }
         // data channels
         this.lossyDC = this.publisher.pc.createDataChannel(lossyDataChannel, {
             // will drop older packets that arrive
@@ -7060,7 +8429,7 @@ class RTCEngine extends events_1.EventEmitter {
         };
         this.client.onLeave = (leave) => {
             if (leave === null || leave === void 0 ? void 0 : leave.canReconnect) {
-                this.fullReconnect = true;
+                this.fullReconnectOnNext = true;
                 this.primaryPC = undefined;
             }
             else {
@@ -7093,6 +8462,7 @@ class RTCEngine extends events_1.EventEmitter {
                 throw new SignalReconnectError();
             }
             yield this.waitForPCConnected();
+            this.client.setReconnected();
             // reconnect success
             this.emit(events_2.EngineEvent.Restarted, joinResponse);
         });
@@ -7124,6 +8494,7 @@ class RTCEngine extends events_1.EventEmitter {
                 yield this.publisher.createAndSendOffer({ iceRestart: true });
             }
             yield this.waitForPCConnected();
+            this.client.setReconnected();
             // resume success
             this.emit(events_2.EngineEvent.Resumed);
         });
@@ -7307,7 +8678,8 @@ const RTCEngine_1 = __importStar(__webpack_require__(8947));
 const defaults_1 = __webpack_require__(1442);
 const RemoteTrackPublication_1 = __importDefault(__webpack_require__(297));
 const Track_1 = __webpack_require__(410);
-const utils_1 = __webpack_require__(1981);
+const utils_1 = __webpack_require__(9565);
+const utils_2 = __webpack_require__(1981);
 var RoomState;
 (function (RoomState) {
     RoomState["Disconnected"] = "disconnected";
@@ -7358,7 +8730,7 @@ class Room extends events_1.EventEmitter {
             this.connOptions = opts;
             try {
                 const joinResponse = yield this.engine.join(url, token, opts);
-                logger_1.default.debug('connected to Livekit Server', joinResponse.serverVersion);
+                logger_1.default.debug(`connected to Livekit Server version: ${joinResponse.serverVersion}, region: ${joinResponse.serverRegion}`);
                 if (!joinResponse.serverVersion) {
                     throw new errors_1.UnsupportedServer('unknown server version');
                 }
@@ -7370,7 +8742,8 @@ class Room extends events_1.EventEmitter {
                 this.state = RoomState.Connected;
                 this.emit(events_2.RoomEvent.StateChanged, this.state);
                 const pi = joinResponse.participant;
-                this.localParticipant = new LocalParticipant_1.default(pi.sid, pi.identity, this.engine, this.options);
+                this.localParticipant.sid = pi.sid;
+                this.localParticipant.identity = pi.identity;
                 this.localParticipant.updateInfo(pi);
                 // forward metadata changed for the local participant
                 this.localParticipant
@@ -7397,6 +8770,9 @@ class Room extends events_1.EventEmitter {
                 })
                     .on(events_2.ParticipantEvent.MediaDevicesError, (e) => {
                     this.emit(events_2.RoomEvent.MediaDevicesError, e);
+                })
+                    .on(events_2.ParticipantEvent.ParticipantPermissionsChanged, (prevPermissions) => {
+                    this.emit(events_2.RoomEvent.ParticipantPermissionsChanged, prevPermissions, this.localParticipant);
                 });
                 // populate remote participants, these should not trigger new events
                 joinResponse.otherParticipants.forEach((info) => {
@@ -7420,8 +8796,10 @@ class Room extends events_1.EventEmitter {
                 this.engine.once(events_2.EngineEvent.Connected, () => {
                     clearTimeout(connectTimeout);
                     // also hook unload event
-                    window.addEventListener('beforeunload', this.onBeforeUnload);
-                    navigator.mediaDevices.addEventListener('devicechange', this.handleDeviceChange);
+                    if (utils_2.isWeb()) {
+                        window.addEventListener('beforeunload', this.onBeforeUnload);
+                        navigator.mediaDevices.addEventListener('devicechange', this.handleDeviceChange);
+                    }
                     resolve(this);
                 });
             });
@@ -7452,6 +8830,7 @@ class Room extends events_1.EventEmitter {
             }
         };
         this.handleRestarted = (joinResponse) => __awaiter(this, void 0, void 0, function* () {
+            logger_1.default.debug('reconnected to server region', joinResponse.serverRegion);
             this.state = RoomState.Connected;
             this.emit(events_2.RoomEvent.Reconnected);
             this.emit(events_2.RoomEvent.StateChanged, this.state);
@@ -7820,13 +9199,22 @@ class Room extends events_1.EventEmitter {
         });
     }
     onTrackAdded(mediaTrack, stream, receiver) {
-        const parts = utils_1.unpackStreamId(stream.id);
+        const parts = utils_2.unpackStreamId(stream.id);
         const participantId = parts[0];
         let trackId = parts[1];
         if (!trackId || trackId === '')
             trackId = mediaTrack.id;
         const participant = this.getOrCreateParticipant(participantId);
-        participant.addSubscribedMediaTrack(mediaTrack, trackId, stream, receiver, this.options.adaptiveStream);
+        let adaptiveStreamSettings;
+        if (this.options.adaptiveStream) {
+            if (typeof this.options.adaptiveStream === 'object') {
+                adaptiveStreamSettings = this.options.adaptiveStream;
+            }
+            else {
+                adaptiveStreamSettings = {};
+            }
+        }
+        participant.addSubscribedMediaTrack(mediaTrack, trackId, stream, receiver, adaptiveStreamSettings);
     }
     handleDisconnect(shouldStopTracks = true) {
         if (this.state === RoomState.Disconnected) {
@@ -7853,8 +9241,10 @@ class Room extends events_1.EventEmitter {
             this.audioContext.close();
             this.audioContext = undefined;
         }
-        window.removeEventListener('beforeunload', this.onBeforeUnload);
-        navigator.mediaDevices.removeEventListener('devicechange', this.handleDeviceChange);
+        if (utils_2.isWeb()) {
+            window.removeEventListener('beforeunload', this.onBeforeUnload);
+            navigator.mediaDevices.removeEventListener('devicechange', this.handleDeviceChange);
+        }
         this.state = RoomState.Disconnected;
         this.emit(events_2.RoomEvent.Disconnected);
         this.emit(events_2.RoomEvent.StateChanged, this.state);
@@ -7876,10 +9266,9 @@ class Room extends events_1.EventEmitter {
         }
         // by using an AudioContext, it reduces lag on audio elements
         // https://stackoverflow.com/questions/9811429/html5-audio-tag-on-safari-has-a-delay/54119854#54119854
-        // @ts-ignore
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (AudioContext) {
-            this.audioContext = new AudioContext();
+        const ctx = utils_1.getNewAudioContext();
+        if (ctx) {
+            this.audioContext = ctx;
         }
     }
     createParticipant(id, info) {
@@ -7938,6 +9327,9 @@ class Room extends events_1.EventEmitter {
         })
             .on(events_2.ParticipantEvent.ConnectionQualityChanged, (quality) => {
             this.emit(events_2.RoomEvent.ConnectionQualityChanged, quality, participant);
+        })
+            .on(events_2.ParticipantEvent.ParticipantPermissionsChanged, (prevPermissions) => {
+            this.emit(events_2.RoomEvent.ParticipantPermissionsChanged, prevPermissions, participant);
         });
         return participant;
     }
@@ -7973,6 +9365,7 @@ class Room extends events_1.EventEmitter {
                 participantTracks: [],
             },
             publishTracks: this.localParticipant.publishedTracksInfo(),
+            dataChannels: this.localParticipant.dataChannelsInfo(),
         });
     }
     /**
@@ -8246,7 +9639,7 @@ var RoomEvent;
      */
     RoomEvent["ConnectionQualityChanged"] = "connectionQualityChanged";
     /**
-     * StreamState indicates if a subscribed track has been paused by the SFU
+     * StreamState indicates if a subscribed (remote) track has been paused by the SFU
      * (typically this happens because of subscriber's bandwidth constraints)
      *
      * When bandwidth conditions allow, the track will be resumed automatically.
@@ -8283,6 +9676,11 @@ var RoomEvent;
      * args: (error: Error)
      */
     RoomEvent["MediaDevicesError"] = "mediaDevicesError";
+    /**
+     * A participant's permission has changed. Currently only fired on LocalParticipant.
+     * args: (prevPermissions: [[ParticipantPermission]], participant: [[Participant]])
+     */
+    RoomEvent["ParticipantPermissionsChanged"] = "participantPermissionsChanged";
 })(RoomEvent = exports.RoomEvent || (exports.RoomEvent = {}));
 var ParticipantEvent;
 (function (ParticipantEvent) {
@@ -8412,6 +9810,11 @@ var ParticipantEvent;
     // fired only on LocalParticipant
     /** @internal */
     ParticipantEvent["MediaDevicesError"] = "mediaDevicesError";
+    /**
+     * A participant's permission has changed. Currently only fired on LocalParticipant.
+     * args: (prevPermissions: [[ParticipantPermission]])
+     */
+    ParticipantEvent["ParticipantPermissionsChanged"] = "participantPermissionsChanged";
 })(ParticipantEvent = exports.ParticipantEvent || (exports.ParticipantEvent = {}));
 /** @internal */
 var EngineEvent;
@@ -8442,6 +9845,11 @@ var TrackEvent;
     TrackEvent["AudioPlaybackStarted"] = "audioPlaybackStarted";
     /** @internal */
     TrackEvent["AudioPlaybackFailed"] = "audioPlaybackFailed";
+    /**
+     * @internal
+     * Only fires on LocalAudioTrack instances
+    */
+    TrackEvent["AudioSilenceDetected"] = "audioSilenceDetected";
     /** @internal */
     TrackEvent["VisibilityChanged"] = "visibilityChanged";
     /** @internal */
@@ -8489,6 +9897,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const logger_1 = __importDefault(__webpack_require__(2662));
+const livekit_models_1 = __webpack_require__(8983);
 const livekit_rtc_1 = __webpack_require__(4658);
 const errors_1 = __webpack_require__(7650);
 const events_1 = __webpack_require__(8911);
@@ -8498,6 +9907,7 @@ const LocalVideoTrack_1 = __importStar(__webpack_require__(6887));
 const options_1 = __webpack_require__(6669);
 const Track_1 = __webpack_require__(410);
 const utils_1 = __webpack_require__(9565);
+const utils_2 = __webpack_require__(1981);
 const Participant_1 = __importDefault(__webpack_require__(2070));
 const ParticipantTrackPermission_1 = __webpack_require__(8792);
 const publishUtils_1 = __webpack_require__(5482);
@@ -8535,6 +9945,14 @@ class LocalParticipant extends Participant_1.default {
             }
             (_b = pub.videoTrack) === null || _b === void 0 ? void 0 : _b.setPublishingLayers(update.subscribedQualities);
         };
+        this.handleLocalTrackUnpublished = (unpublished) => {
+            const track = this.tracks.get(unpublished.trackSid);
+            if (!track) {
+                logger_1.default.warn('handleLocalTrackUnpublished', 'received unpublished event for unknown track', unpublished.trackSid);
+                return;
+            }
+            this.unpublishTrack(track.track);
+        };
         this.onTrackUnpublish = (track) => {
             this.unpublishTrack(track);
         };
@@ -8556,6 +9974,7 @@ class LocalParticipant extends Participant_1.default {
             }
         };
         this.engine.client.onSubscribedQualityUpdate = this.handleSubscribedQualityUpdate;
+        this.engine.client.onLocalTrackUnpublished = this.handleLocalTrackUnpublished;
     }
     get lastCameraError() {
         return this.cameraError;
@@ -8596,6 +10015,15 @@ class LocalParticipant extends Participant_1.default {
      */
     setScreenShareEnabled(enabled) {
         return this.setTrackEnabled(Track_1.Track.Source.ScreenShare, enabled);
+    }
+    /** @internal */
+    setPermissions(permissions) {
+        const prevPermissions = this.permissions;
+        const changed = super.setPermissions(permissions);
+        if (changed && prevPermissions) {
+            this.emit(events_1.ParticipantEvent.ParticipantPermissionsChanged, prevPermissions);
+        }
+        return changed;
     }
     /**
      * Enable or disable publishing for a track by source. This serves as a simple
@@ -8734,6 +10162,7 @@ class LocalParticipant extends Participant_1.default {
                 else if (track.kind === Track_1.Track.Kind.Audio) {
                     track.source = Track_1.Track.Source.Microphone;
                 }
+                track.mediaStream = stream;
                 return track;
             });
         });
@@ -8750,7 +10179,7 @@ class LocalParticipant extends Participant_1.default {
                 options = {};
             }
             if (options.resolution === undefined) {
-                options.resolution = options_1.VideoPresets.fhd.resolution;
+                options.resolution = options_1.ScreenSharePresets.h1080fps15.resolution;
             }
             let videoConstraints = true;
             if (options.resolution) {
@@ -8820,6 +10249,11 @@ class LocalParticipant extends Participant_1.default {
             }
             if (opts.stopMicTrackOnMute && track instanceof LocalAudioTrack_1.default) {
                 track.stopOnMute = true;
+            }
+            if (track.source === Track_1.Track.Source.ScreenShare && utils_2.isFireFox()) {
+                // Firefox does not work well with simulcasted screen share
+                // we frequently get no data on layer 0 when enabled
+                opts.simulcast = false;
             }
             // handle track actions
             track.on(events_1.TrackEvent.Muted, this.onTrackMuted);
@@ -9058,6 +10492,21 @@ class LocalParticipant extends Participant_1.default {
         });
         return infos;
     }
+    /** @internal */
+    dataChannelsInfo() {
+        const infos = [];
+        const getInfo = (dc) => {
+            if ((dc === null || dc === void 0 ? void 0 : dc.id) !== undefined && dc.id !== null) {
+                infos.push({
+                    label: dc.label,
+                    id: dc.id,
+                });
+            }
+        };
+        getInfo(this.engine.dataChannelForKind(livekit_models_1.DataPacket_Kind.LOSSY));
+        getInfo(this.engine.dataChannelForKind(livekit_models_1.DataPacket_Kind.RELIABLE));
+        return infos;
+    }
 }
 exports["default"] = LocalParticipant;
 //# sourceMappingURL=LocalParticipant.js.map
@@ -9184,18 +10633,32 @@ class Participant extends events_1.EventEmitter {
         this.sid = info.sid;
         this.name = info.name;
         this.setMetadata(info.metadata);
+        if (info.permission) {
+            this.setPermissions(info.permission);
+        }
         // set this last so setMetadata can detect changes
         this.participantInfo = info;
     }
     /** @internal */
     setMetadata(md) {
-        const changed = !this.participantInfo || this.participantInfo.metadata !== md;
+        const changed = this.metadata !== md;
         const prevMetadata = this.metadata;
         this.metadata = md;
         if (changed) {
             this.emit(events_2.ParticipantEvent.MetadataChanged, prevMetadata);
             this.emit(events_2.ParticipantEvent.ParticipantMetadataChanged, prevMetadata);
         }
+    }
+    /** @internal */
+    setPermissions(permissions) {
+        var _a, _b, _c, _d, _e;
+        const changed = permissions.canPublish !== ((_a = this.permissions) === null || _a === void 0 ? void 0 : _a.canPublish)
+            || permissions.canSubscribe !== ((_b = this.permissions) === null || _b === void 0 ? void 0 : _b.canSubscribe)
+            || permissions.canPublishData !== ((_c = this.permissions) === null || _c === void 0 ? void 0 : _c.canPublishData)
+            || permissions.hidden !== ((_d = this.permissions) === null || _d === void 0 ? void 0 : _d.hidden)
+            || permissions.recorder !== ((_e = this.permissions) === null || _e === void 0 ? void 0 : _e.recorder);
+        this.permissions = permissions;
+        return changed;
     }
     /** @internal */
     setIsSpeaking(speaking) {
@@ -9329,7 +10792,7 @@ class RemoteParticipant extends Participant_1.default {
         }
     }
     /** @internal */
-    addSubscribedMediaTrack(mediaTrack, sid, mediaStream, receiver, adaptiveStream, triesLeft) {
+    addSubscribedMediaTrack(mediaTrack, sid, mediaStream, receiver, adaptiveStreamSettings, triesLeft) {
         // find the track publication
         // it's possible for the media track to arrive before participant info
         let publication = this.getTrackPublication(sid);
@@ -9356,14 +10819,14 @@ class RemoteParticipant extends Participant_1.default {
             if (triesLeft === undefined)
                 triesLeft = 20;
             setTimeout(() => {
-                this.addSubscribedMediaTrack(mediaTrack, sid, mediaStream, receiver, adaptiveStream, triesLeft - 1);
+                this.addSubscribedMediaTrack(mediaTrack, sid, mediaStream, receiver, adaptiveStreamSettings, triesLeft - 1);
             }, 150);
             return;
         }
         const isVideo = mediaTrack.kind === 'video';
         let track;
         if (isVideo) {
-            track = new RemoteVideoTrack_1.default(mediaTrack, sid, receiver, adaptiveStream);
+            track = new RemoteVideoTrack_1.default(mediaTrack, sid, receiver, adaptiveStreamSettings);
         }
         else {
             track = new RemoteAudioTrack_1.default(mediaTrack, sid, receiver);
@@ -9479,7 +10942,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.presetsForResolution = exports.determineAppropriateEncoding = exports.computeVideoEncodings = exports.presetsScreenShare = exports.presets43 = exports.presets169 = exports.mediaTrackToLocalTrack = void 0;
+exports.sortPresets = exports.defaultSimulcastLayers = exports.presetsForResolution = exports.determineAppropriateEncoding = exports.computeVideoEncodings = exports.computeDefaultScreenShareSimulcastPresets = exports.defaultSimulcastPresets43 = exports.defaultSimulcastPresets169 = exports.presetsScreenShare = exports.presets43 = exports.presets169 = exports.mediaTrackToLocalTrack = void 0;
 const logger_1 = __importDefault(__webpack_require__(2662));
 const errors_1 = __webpack_require__(7650);
 const LocalAudioTrack_1 = __importDefault(__webpack_require__(8669));
@@ -9498,37 +10961,40 @@ function mediaTrackToLocalTrack(mediaStreamTrack, constraints) {
 }
 exports.mediaTrackToLocalTrack = mediaTrackToLocalTrack;
 /* @internal */
-exports.presets169 = [
-    options_1.VideoPresets.qvga,
-    options_1.VideoPresets.vga,
-    options_1.VideoPresets.qhd,
-    options_1.VideoPresets.hd,
-    options_1.VideoPresets.fhd,
+exports.presets169 = Object.values(options_1.VideoPresets);
+/* @internal */
+exports.presets43 = Object.values(options_1.VideoPresets43);
+/* @internal */
+exports.presetsScreenShare = Object.values(options_1.ScreenSharePresets);
+/* @internal */
+exports.defaultSimulcastPresets169 = [
+    options_1.VideoPresets.h180,
+    options_1.VideoPresets.h360,
 ];
 /* @internal */
-exports.presets43 = [
-    options_1.VideoPresets43.qvga,
-    options_1.VideoPresets43.vga,
-    options_1.VideoPresets43.qhd,
-    options_1.VideoPresets43.hd,
-    options_1.VideoPresets43.fhd,
+exports.defaultSimulcastPresets43 = [
+    options_1.VideoPresets43.h180,
+    options_1.VideoPresets43.h360,
 ];
 /* @internal */
-exports.presetsScreenShare = [
-    options_1.ScreenSharePresets.vga,
-    options_1.ScreenSharePresets.hd_8,
-    options_1.ScreenSharePresets.hd_15,
-    options_1.ScreenSharePresets.fhd_15,
-    options_1.ScreenSharePresets.fhd_30,
-];
+const computeDefaultScreenShareSimulcastPresets = (fromPreset) => {
+    const layers = [{ scaleResolutionDownBy: 2, fps: 3 }];
+    return layers.map((t) => {
+        var _a;
+        return new options_1.VideoPreset(Math.floor(fromPreset.width / t.scaleResolutionDownBy), Math.floor(fromPreset.height / t.scaleResolutionDownBy), Math.max(150000, Math.floor(fromPreset.encoding.maxBitrate
+            / (Math.pow(t.scaleResolutionDownBy, 2) * (((_a = fromPreset.encoding.maxFramerate) !== null && _a !== void 0 ? _a : 30) / t.fps)))), t.fps);
+    });
+};
+exports.computeDefaultScreenShareSimulcastPresets = computeDefaultScreenShareSimulcastPresets;
 const videoRids = ['q', 'h', 'f'];
 /* @internal */
 function computeVideoEncodings(isScreenShare, width, height, options) {
+    var _a, _b;
     let videoEncoding = options === null || options === void 0 ? void 0 : options.videoEncoding;
     if (isScreenShare) {
         videoEncoding = options === null || options === void 0 ? void 0 : options.screenShareEncoding;
     }
-    const useSimulcast = !isScreenShare && (options === null || options === void 0 ? void 0 : options.simulcast);
+    const useSimulcast = options === null || options === void 0 ? void 0 : options.simulcast;
     if ((!videoEncoding && !useSimulcast) || !width || !height) {
         // when we aren't simulcasting, will need to return a single encoding without
         // capping bandwidth. we always require a encoding for dynacast
@@ -9542,13 +11008,19 @@ function computeVideoEncodings(isScreenShare, width, height, options) {
     if (!useSimulcast) {
         return [videoEncoding];
     }
-    const presets = presetsForResolution(isScreenShare, width, height);
+    const original = new options_1.VideoPreset(width, height, videoEncoding.maxBitrate, videoEncoding.maxFramerate);
+    let presets = [];
+    if (isScreenShare) {
+        presets = (_a = sortPresets(options === null || options === void 0 ? void 0 : options.screenShareSimulcastLayers)) !== null && _a !== void 0 ? _a : defaultSimulcastLayers(isScreenShare, original);
+    }
+    else {
+        presets = (_b = sortPresets(options === null || options === void 0 ? void 0 : options.videoSimulcastLayers)) !== null && _b !== void 0 ? _b : defaultSimulcastLayers(isScreenShare, original);
+    }
     let midPreset;
     const lowPreset = presets[0];
     if (presets.length > 1) {
         [, midPreset] = presets;
     }
-    const original = new options_1.VideoPreset(width, height, videoEncoding.maxBitrate, videoEncoding.maxFramerate);
     // NOTE:
     //   1. Ordering of these encodings is important. Chrome seems
     //      to use the index into encodings to decide which layer
@@ -9564,7 +11036,7 @@ function computeVideoEncodings(isScreenShare, width, height, options) {
             lowPreset, midPreset, original,
         ]);
     }
-    if (size >= 500) {
+    if (size >= 480) {
         return encodingsFromPresets(width, height, [
             lowPreset, original,
         ]);
@@ -9602,6 +11074,19 @@ function presetsForResolution(isScreenShare, width, height) {
     return exports.presets43;
 }
 exports.presetsForResolution = presetsForResolution;
+/* @internal */
+function defaultSimulcastLayers(isScreenShare, original) {
+    if (isScreenShare) {
+        return exports.computeDefaultScreenShareSimulcastPresets(original);
+    }
+    const { width, height } = original;
+    const aspect = width > height ? width / height : height / width;
+    if (Math.abs(aspect - 16.0 / 9) < Math.abs(aspect - 4.0 / 3)) {
+        return exports.defaultSimulcastPresets169;
+    }
+    return exports.defaultSimulcastPresets43;
+}
+exports.defaultSimulcastLayers = defaultSimulcastLayers;
 // presets should be ordered by low, medium, high
 function encodingsFromPresets(width, height, presets) {
     const encodings = [];
@@ -9621,6 +11106,25 @@ function encodingsFromPresets(width, height, presets) {
     });
     return encodings;
 }
+/** @internal */
+function sortPresets(presets) {
+    if (!presets)
+        return;
+    return presets.sort((a, b) => {
+        const { encoding: aEnc } = a;
+        const { encoding: bEnc } = b;
+        if (aEnc.maxBitrate > bEnc.maxBitrate) {
+            return 1;
+        }
+        if (aEnc.maxBitrate < bEnc.maxBitrate)
+            return -1;
+        if (aEnc.maxBitrate === bEnc.maxBitrate && aEnc.maxFramerate && bEnc.maxFramerate) {
+            return aEnc.maxFramerate > bEnc.maxFramerate ? 1 : -1;
+        }
+        return 0;
+    });
+}
+exports.sortPresets = sortPresets;
 //# sourceMappingURL=publishUtils.js.map
 
 /***/ }),
@@ -9677,6 +11181,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const logger_1 = __importDefault(__webpack_require__(2662));
+const events_1 = __webpack_require__(8911);
 const stats_1 = __webpack_require__(4448);
 const LocalTrack_1 = __importDefault(__webpack_require__(5728));
 const Track_1 = __webpack_require__(410);
@@ -9707,6 +11212,7 @@ class LocalAudioTrack extends LocalTrack_1.default {
                 this.monitorSender();
             }, stats_1.monitorFrequency);
         });
+        this.checkForSilence();
     }
     setDeviceId(deviceId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -9759,6 +11265,16 @@ class LocalAudioTrack extends LocalTrack_1.default {
             yield this.restart(constraints);
         });
     }
+    restart(constraints) {
+        const _super = Object.create(null, {
+            restart: { get: () => super.restart }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            const track = yield _super.restart.call(this, constraints);
+            this.checkForSilence();
+            return track;
+        });
+    }
     /* @internal */
     startMonitor() {
         setTimeout(() => {
@@ -9789,6 +11305,17 @@ class LocalAudioTrack extends LocalTrack_1.default {
             return audioStats;
         });
     }
+    checkForSilence() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const trackIsSilent = yield utils_1.detectSilence(this);
+            if (trackIsSilent) {
+                if (!this.isMuted) {
+                    logger_1.default.warn('silence detected on local audio track');
+                }
+                this.emit(events_1.TrackEvent.AudioSilenceDetected);
+            }
+        });
+    }
 }
 exports["default"] = LocalAudioTrack;
 //# sourceMappingURL=LocalAudioTrack.js.map
@@ -9817,15 +11344,21 @@ const logger_1 = __importDefault(__webpack_require__(2662));
 const DeviceManager_1 = __importDefault(__webpack_require__(1480));
 const errors_1 = __webpack_require__(7650);
 const events_1 = __webpack_require__(8911);
+const utils_1 = __webpack_require__(1981);
 const Track_1 = __webpack_require__(410);
 class LocalTrack extends Track_1.Track {
     constructor(mediaTrack, kind, constraints) {
         super(mediaTrack, kind);
         this.handleEnded = () => {
+            if (this.isInBackground) {
+                this.reacquireTrack = true;
+            }
             this.emit(events_1.TrackEvent.Ended, this);
         };
         this.mediaStreamTrack.addEventListener('ended', this.handleEnded);
         this.constraints = constraints !== null && constraints !== void 0 ? constraints : mediaTrack.getConstraints();
+        this.reacquireTrack = false;
+        this.wasMuted = false;
     }
     get id() {
         return this.mediaStreamTrack.id;
@@ -9907,6 +11440,7 @@ class LocalTrack extends Track_1.Track {
             this.attachedElements.forEach((el) => {
                 Track_1.attachToElement(newTrack, el);
             });
+            this.mediaStream = mediaStream;
             this.constraints = constraints;
             return this;
         });
@@ -9918,6 +11452,34 @@ class LocalTrack extends Track_1.Track {
         this.isMuted = muted;
         this.mediaStreamTrack.enabled = !muted;
         this.emit(muted ? events_1.TrackEvent.Muted : events_1.TrackEvent.Unmuted, this);
+    }
+    get needsReAcquisition() {
+        return this.mediaStreamTrack.readyState !== 'live'
+            || this.mediaStreamTrack.muted
+            || !this.mediaStreamTrack.enabled
+            || this.reacquireTrack;
+    }
+    handleAppVisibilityChanged() {
+        const _super = Object.create(null, {
+            handleAppVisibilityChanged: { get: () => super.handleAppVisibilityChanged }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _super.handleAppVisibilityChanged.call(this);
+            if (!utils_1.isMobile())
+                return;
+            logger_1.default.debug('visibility changed, is in Background: ', this.isInBackground);
+            if (!this.isInBackground && this.needsReAcquisition) {
+                logger_1.default.debug('track needs to be reaquired, restarting', this.source);
+                yield this.restart();
+                this.reacquireTrack = false;
+                // Restore muted state if had to be restarted
+                this.setTrackMuted(this.wasMuted);
+            }
+            // store muted state each time app goes to background
+            if (this.isInBackground) {
+                this.wasMuted = this.isMuted;
+            }
+        });
     }
 }
 exports["default"] = LocalTrack;
@@ -10240,6 +11802,19 @@ class LocalVideoTrack extends LocalTrack_1.default {
             }
         });
     }
+    handleAppVisibilityChanged() {
+        const _super = Object.create(null, {
+            handleAppVisibilityChanged: { get: () => super.handleAppVisibilityChanged }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _super.handleAppVisibilityChanged.call(this);
+            if (!utils_1.isMobile())
+                return;
+            if (this.isInBackground && this.source === Track_1.Track.Source.Camera) {
+                this.mediaStreamTrack.enabled = false;
+            }
+        });
+    }
 }
 exports["default"] = LocalVideoTrack;
 function videoQualityForRid(rid) {
@@ -10370,6 +11945,7 @@ const Track_1 = __webpack_require__(410);
 class RemoteTrack extends Track_1.Track {
     constructor(mediaTrack, sid, kind, receiver) {
         super(mediaTrack, kind);
+        this.streamState = Track_1.Track.StreamState.Active;
         this.sid = sid;
         this.receiver = receiver;
     }
@@ -10385,6 +11961,7 @@ class RemoteTrack extends Track_1.Track {
         // this is needed to determine when the track is finished
         // we send each track down in its own MediaStream, so we can assume the
         // current track is the only one that can be removed.
+        this.mediaStream = stream;
         stream.onremovetrack = () => {
             this.receiver = undefined;
             this._currentBitrate = 0;
@@ -10623,7 +12200,7 @@ const RemoteTrack_1 = __importDefault(__webpack_require__(5785));
 const Track_1 = __webpack_require__(410);
 const REACTION_DELAY = 100;
 class RemoteVideoTrack extends RemoteTrack_1.default {
-    constructor(mediaTrack, sid, receiver, adaptiveStream) {
+    constructor(mediaTrack, sid, receiver, adaptiveStreamSettings) {
         super(mediaTrack, sid, Track_1.Track.Kind.Video, receiver);
         this.elementInfos = [];
         this.monitorReceiver = () => __awaiter(this, void 0, void 0, function* () {
@@ -10652,11 +12229,10 @@ class RemoteVideoTrack extends RemoteTrack_1.default {
         this.debouncedHandleResize = ts_debounce_1.debounce(() => {
             this.updateDimensions();
         }, REACTION_DELAY);
-        this.adaptiveStream = adaptiveStream;
+        this.adaptiveStreamSettings = adaptiveStreamSettings;
     }
     get isAdaptiveStream() {
-        var _a;
-        return (_a = this.adaptiveStream) !== null && _a !== void 0 ? _a : false;
+        return this.adaptiveStreamSettings !== undefined;
     }
     /** @internal */
     setMuted(muted) {
@@ -10680,7 +12256,7 @@ class RemoteVideoTrack extends RemoteTrack_1.default {
         }
         // It's possible attach is called multiple times on an element. When that's
         // the case, we'd want to avoid adding duplicate elementInfos
-        if (this.adaptiveStream
+        if (this.adaptiveStreamSettings
             && this.elementInfos.find((info) => info.element === element) === undefined) {
             this.elementInfos.push({
                 element,
@@ -10747,9 +12323,23 @@ class RemoteVideoTrack extends RemoteTrack_1.default {
         (_b = utils_1.getResizeObserver()) === null || _b === void 0 ? void 0 : _b.unobserve(element);
         this.elementInfos = this.elementInfos.filter((info) => info.element !== element);
     }
+    handleAppVisibilityChanged() {
+        const _super = Object.create(null, {
+            handleAppVisibilityChanged: { get: () => super.handleAppVisibilityChanged }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            yield _super.handleAppVisibilityChanged.call(this);
+            if (!this.isAdaptiveStream)
+                return;
+            // on desktop don't pause when tab is backgrounded
+            if (!utils_1.isMobile())
+                return;
+            this.updateVisibility();
+        });
+    }
     updateVisibility() {
         const lastVisibilityChange = this.elementInfos.reduce((prev, info) => Math.max(prev, info.visibilityChangedAt || 0), 0);
-        const isVisible = this.elementInfos.some((info) => info.visible);
+        const isVisible = this.elementInfos.some((info) => info.visible) && !this.isInBackground;
         if (this.lastVisible === isVisible) {
             return;
         }
@@ -10764,16 +12354,20 @@ class RemoteVideoTrack extends RemoteTrack_1.default {
         this.emit(events_1.TrackEvent.VisibilityChanged, isVisible, this);
     }
     updateDimensions() {
-        var _a, _b;
+        var _a, _b, _c, _d;
         let maxWidth = 0;
         let maxHeight = 0;
         for (const info of this.elementInfos) {
-            if (info.element.clientWidth + info.element.clientHeight > maxWidth + maxHeight) {
-                maxWidth = info.element.clientWidth;
-                maxHeight = info.element.clientHeight;
+            const pixelDensity = (_b = (_a = this.adaptiveStreamSettings) === null || _a === void 0 ? void 0 : _a.pixelDensity) !== null && _b !== void 0 ? _b : 1;
+            const pixelDensityValue = pixelDensity === 'screen' ? window.devicePixelRatio : pixelDensity;
+            const currentElementWidth = info.element.clientWidth * pixelDensityValue;
+            const currentElementHeight = info.element.clientHeight * pixelDensityValue;
+            if (currentElementWidth + currentElementHeight > maxWidth + maxHeight) {
+                maxWidth = currentElementWidth;
+                maxHeight = currentElementHeight;
             }
         }
-        if (((_a = this.lastDimensions) === null || _a === void 0 ? void 0 : _a.width) === maxWidth && ((_b = this.lastDimensions) === null || _b === void 0 ? void 0 : _b.height) === maxHeight) {
+        if (((_c = this.lastDimensions) === null || _c === void 0 ? void 0 : _c.width) === maxWidth && ((_d = this.lastDimensions) === null || _d === void 0 ? void 0 : _d.height) === maxHeight) {
             return;
         }
         this.lastDimensions = {
@@ -10793,6 +12387,15 @@ exports["default"] = RemoteVideoTrack;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.detachTrack = exports.attachToElement = exports.Track = void 0;
 const events_1 = __webpack_require__(7187);
@@ -10808,11 +12411,15 @@ class Track extends events_1.EventEmitter {
         super();
         this.attachedElements = [];
         this.isMuted = false;
-        this.streamState = Track.StreamState.Active;
         this._currentBitrate = 0;
+        this.appVisibilityChangedListener = () => {
+            this.handleAppVisibilityChanged();
+        };
         this.kind = kind;
         this.mediaStreamTrack = mediaTrack;
         this.source = Track.Source.Unknown;
+        this.isInBackground = document.visibilityState === 'hidden';
+        document.addEventListener('visibilitychange', this.appVisibilityChangedListener);
     }
     /** current receive bits per second */
     get currentBitrate() {
@@ -10881,6 +12488,7 @@ class Track extends events_1.EventEmitter {
     }
     stop() {
         this.mediaStreamTrack.stop();
+        document.removeEventListener('visibilitychange', this.appVisibilityChangedListener);
     }
     enable() {
         this.mediaStreamTrack.enabled = true;
@@ -10902,6 +12510,11 @@ class Track extends events_1.EventEmitter {
                 recycledElements.push(element);
             }
         }
+    }
+    handleAppVisibilityChanged() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.isInBackground = document.visibilityState === 'hidden';
+        });
     }
 }
 exports.Track = Track;
@@ -11212,6 +12825,7 @@ function createLocalTracks(options) {
             else if (track.kind === Track_1.Track.Kind.Audio) {
                 track.source = Track_1.Track.Source.Microphone;
             }
+            track.mediaStream = stream;
             return track;
         });
     });
@@ -11300,7 +12914,7 @@ exports.publishDefaults = {
     audioBitrate: options_1.AudioPresets.speech.maxBitrate,
     dtx: true,
     simulcast: true,
-    screenShareEncoding: options_1.ScreenSharePresets.hd_15.encoding,
+    screenShareEncoding: options_1.ScreenSharePresets.h1080fps15.encoding,
     stopMicTrackOnMute: false,
 };
 exports.audioDefaults = {
@@ -11310,7 +12924,7 @@ exports.audioDefaults = {
     noiseSuppression: true,
 };
 exports.videoDefaults = {
-    resolution: options_1.VideoPresets.qhd.resolution,
+    resolution: options_1.VideoPresets.h540.resolution,
 };
 //# sourceMappingURL=defaults.js.map
 
@@ -11358,27 +12972,65 @@ var AudioPresets;
  * Sane presets for video resolution/encoding
  */
 exports.VideoPresets = {
+    h90: new VideoPreset(160, 90, 60000, 15),
+    h180: new VideoPreset(320, 180, 120000, 15),
+    h216: new VideoPreset(384, 216, 180000, 15),
+    h360: new VideoPreset(640, 360, 300000, 20),
+    h540: new VideoPreset(960, 540, 600000, 25),
+    h720: new VideoPreset(1280, 720, 2000000, 30),
+    h1080: new VideoPreset(1920, 1080, 3000000, 30),
+    h1440: new VideoPreset(2560, 1440, 5000000, 30),
+    h2160: new VideoPreset(3840, 2160, 8000000, 30),
+    /** @deprecated */
     qvga: new VideoPreset(320, 180, 120000, 10),
+    /** @deprecated */
     vga: new VideoPreset(640, 360, 300000, 20),
+    /** @deprecated */
     qhd: new VideoPreset(960, 540, 600000, 25),
+    /** @deprecated */
     hd: new VideoPreset(1280, 720, 2000000, 30),
+    /** @deprecated */
     fhd: new VideoPreset(1920, 1080, 3000000, 30),
 };
 /**
  * Four by three presets
  */
 exports.VideoPresets43 = {
+    h120: new VideoPreset(160, 120, 80000, 15),
+    h180: new VideoPreset(240, 180, 100000, 15),
+    h240: new VideoPreset(320, 240, 150000, 15),
+    h360: new VideoPreset(480, 360, 225000, 20),
+    h480: new VideoPreset(640, 480, 300000, 20),
+    h540: new VideoPreset(720, 540, 450000, 25),
+    h720: new VideoPreset(960, 720, 1500000, 30),
+    h1080: new VideoPreset(1440, 1080, 2500000, 30),
+    h1440: new VideoPreset(1920, 1440, 3500000, 30),
+    /** @deprecated */
     qvga: new VideoPreset(240, 180, 90000, 10),
+    /** @deprecated */
     vga: new VideoPreset(480, 360, 225000, 20),
+    /** @deprecated */
     qhd: new VideoPreset(720, 540, 450000, 25),
+    /** @deprecated */
     hd: new VideoPreset(960, 720, 1500000, 30),
+    /** @deprecated */
     fhd: new VideoPreset(1440, 1080, 2800000, 30),
 };
 exports.ScreenSharePresets = {
+    h360fps3: new VideoPreset(640, 360, 200000, 3),
+    h720fps5: new VideoPreset(1280, 720, 400000, 5),
+    h720fps15: new VideoPreset(1280, 720, 1000000, 15),
+    h1080fps15: new VideoPreset(1920, 1080, 1500000, 15),
+    h1080fps30: new VideoPreset(1920, 1080, 3000000, 30),
+    /** @deprecated */
     vga: new VideoPreset(640, 360, 200000, 3),
+    /** @deprecated */
     hd_8: new VideoPreset(1280, 720, 400000, 5),
+    /** @deprecated */
     hd_15: new VideoPreset(1280, 720, 1000000, 15),
+    /** @deprecated */
     fhd_15: new VideoPreset(1920, 1080, 1500000, 15),
+    /** @deprecated */
     fhd_30: new VideoPreset(1920, 1080, 3000000, 30),
 };
 //# sourceMappingURL=options.js.map
@@ -11396,12 +13048,22 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 /***/ }),
 
 /***/ 9565:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.constraintsForOptions = exports.mergeDefaultOptions = void 0;
+exports.getNewAudioContext = exports.detectSilence = exports.constraintsForOptions = exports.mergeDefaultOptions = void 0;
+const utils_1 = __webpack_require__(1981);
 function mergeDefaultOptions(options, audioDefaults, videoDefaults) {
     const opts = Object.assign({}, options);
     if (opts.audio === true)
@@ -11466,6 +13128,41 @@ function constraintsForOptions(options) {
     return constraints;
 }
 exports.constraintsForOptions = constraintsForOptions;
+/**
+ * This function detects silence on a given [[Track]] instance.
+ * Returns true if the track seems to be entirely silent.
+ */
+function detectSilence(track, timeOffset = 200) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const ctx = getNewAudioContext();
+        if (ctx) {
+            const analyser = ctx.createAnalyser();
+            analyser.fftSize = 2048;
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            const source = ctx.createMediaStreamSource(new MediaStream([track.mediaStreamTrack]));
+            source.connect(analyser);
+            yield utils_1.sleep(timeOffset);
+            analyser.getByteTimeDomainData(dataArray);
+            const someNoise = dataArray.some((sample) => sample !== 128 && sample !== 0);
+            ctx.close();
+            return !someNoise;
+        }
+        return false;
+    });
+}
+exports.detectSilence = detectSilence;
+/**
+ * @internal
+ */
+function getNewAudioContext() {
+    // @ts-ignore
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+        return new AudioContext();
+    }
+}
+exports.getNewAudioContext = getNewAudioContext;
 //# sourceMappingURL=utils.js.map
 
 /***/ }),
@@ -11485,7 +13182,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getClientInfo = exports.getIntersectionObserver = exports.getResizeObserver = exports.isSafari = exports.isFireFox = exports.sleep = exports.unpackStreamId = void 0;
+exports.getClientInfo = exports.getIntersectionObserver = exports.getResizeObserver = exports.isWeb = exports.isMobile = exports.isSafari = exports.isFireFox = exports.sleep = exports.unpackStreamId = void 0;
 const livekit_models_1 = __webpack_require__(8983);
 const version_1 = __webpack_require__(6942);
 const separator = '|';
@@ -11511,6 +13208,14 @@ function isSafari() {
     return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 }
 exports.isSafari = isSafari;
+function isMobile() {
+    return /Tablet|iPad|Mobile|Android|BlackBerry/.test(navigator.userAgent);
+}
+exports.isMobile = isMobile;
+function isWeb() {
+    return typeof document !== 'undefined';
+}
+exports.isWeb = isWeb;
 function roDispatchCallback(entries) {
     for (const entry of entries) {
         entry.target.handleResize(entry);
@@ -11555,8 +13260,8 @@ exports.getClientInfo = getClientInfo;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.protocolVersion = exports.version = void 0;
-exports.version = '0.16.6';
-exports.protocolVersion = 6;
+exports.version = '0.17.3';
+exports.protocolVersion = 7;
 //# sourceMappingURL=version.js.map
 
 /***/ }),

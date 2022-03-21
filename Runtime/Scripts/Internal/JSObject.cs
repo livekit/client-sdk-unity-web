@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -8,8 +9,6 @@ namespace LiveKit
      */
     public class JSObject : JSRef
     {
-
-
         [Preserve]
         public JSObject(IntPtr ptr) : base(ptr)
         {

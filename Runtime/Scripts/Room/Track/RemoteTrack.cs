@@ -6,6 +6,16 @@ namespace LiveKit
 
     public class RemoteTrack : Track
     {
+        public TrackStreamState StreamState
+        {
+            get
+            {
+                JSNative.PushString("streamState");
+                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
+                return Utils.ToEnum<TrackStreamState>(ptr.ToString());
+            }
+        }
+        
         [Preserve]
         public RemoteTrack(IntPtr ptr) : base(ptr)
         {

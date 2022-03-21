@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AOT;
 using UnityEngine.Scripting;
@@ -155,11 +156,10 @@ namespace LiveKit
             }
         }
 
-
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventReceiver<ParticipantEvent>>(iptr);
+            var evRef = Acquire<JSEventListener<ParticipantEvent>>(iptr);
             evRef.JSRef.TryGetTarget(out var jsRef);
             var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
             
@@ -285,19 +285,15 @@ namespace LiveKit
             }
         }
 
+        private List<JSEventListener<ParticipantEvent>> m_Listeners = new List<JSEventListener<ParticipantEvent>>();
+
         [Preserve]
         public Participant(IntPtr ptr) : base(ptr)
         {
-
+            foreach (var e in Enum.GetValues(typeof(ParticipantEvent)))
+                m_Listeners.Add(new JSEventListener<ParticipantEvent>(this, (ParticipantEvent) e, EventReceived));
         }
-
-        internal void RegisterEvents()
-        {
-            foreach(var e in Enum.GetValues(typeof(ParticipantEvent))){
-                JSEventReceiver<ParticipantEvent>.ListenEvent(this, (ParticipantEvent) e, EventReceived);
-            }
-        }
-
+        
         public JSArray<TrackPublication> GetTracks()
         {
             return Acquire<JSArray<TrackPublication>>(JSNative.CallMethod(NativePtr, "getTracks"));

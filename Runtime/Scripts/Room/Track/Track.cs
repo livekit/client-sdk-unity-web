@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AOT;
 using UnityEngine.Scripting;
@@ -102,16 +103,6 @@ namespace LiveKit
             }
         }
 
-        public TrackStreamState StreamState
-        {
-            get
-            {
-                JSNative.PushString("streamState");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackStreamState>(ptr.ToString());
-            }
-        }
-
         public TrackSource Source
         {
             get
@@ -135,7 +126,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventReceiver<TrackEvent>>(iptr);
+            var evRef = Acquire<JSEventListener<TrackEvent>>(iptr);
             evRef.JSRef.TryGetTarget(out var jsRef);
             var track = Acquire<Track>(JSNative.GetFunctionInstance());
             
@@ -169,17 +160,13 @@ namespace LiveKit
             }
         }
         
+        private List<JSEventListener<TrackEvent>> m_Listeners = new List<JSEventListener<TrackEvent>>();
+
         [Preserve]
         public Track(IntPtr ptr) : base(ptr)
         {
-            
-        }
-
-        internal void RegisterEvents()
-        {
-            foreach(var e in Enum.GetValues(typeof(TrackEvent))){
-                JSEventReceiver<TrackEvent>.ListenEvent(this, (TrackEvent) e, EventReceived);
-            }            
+            foreach(var e in Enum.GetValues(typeof(TrackEvent)))
+                m_Listeners.Add(new JSEventListener<TrackEvent>(this, (TrackEvent) e, EventReceived));
         }
 
         public HTMLMediaElement Attach()

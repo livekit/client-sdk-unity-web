@@ -94,8 +94,14 @@ namespace LiveKit
 
         ~JSRef()
         {
+            Free();
+        }
+
+        internal void Free()
+        {
             JSNative.RemoveRefCounter(NativePtr);
             BridgeData.Remove(NativePtr);
+            GC.SuppressFinalize(this);
         }
     }
 }
