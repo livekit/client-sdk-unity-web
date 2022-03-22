@@ -9,6 +9,13 @@ namespace LiveKit
      */
     public class JSObject : JSRef
     {
+        public static HashSet<JSObject> s_Cache = new HashSet<JSObject>();
+
+        public static void KeepAlive(JSObject obj)
+        {
+            s_Cache.Add(obj);
+        }
+
         [Preserve]
         public JSObject(IntPtr ptr) : base(ptr)
         {

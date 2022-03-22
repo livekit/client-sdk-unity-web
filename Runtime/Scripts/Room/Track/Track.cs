@@ -126,37 +126,45 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventListener<TrackEvent>>(iptr);
-            evRef.JSRef.TryGetTarget(out var jsRef);
-            var track = Acquire<Track>(JSNative.GetFunctionInstance());
-            
-            switch (evRef.Event)
+            try
             {
-                case TrackEvent.Message:
-                    track.Message?.Invoke();
-                    Log.Info($"Track: Message()");
-                    break;
-                case TrackEvent.Muted:
+                var evRef = Acquire<JSEventListener<TrackEvent>>(iptr);
+                evRef.JSRef.TryGetTarget(out var jsRef);
+                var track = Acquire<Track>(JSNative.GetFunctionInstance());
+            
+                switch (evRef.Event)
                 {
-                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                    Log.Info($"Track: Muted({t})");
-                    track.Muted?.Invoke(t);
-                    break;
-                }
-                case TrackEvent.Unmuted:
-                {
-                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                    Log.Info($"Track: Unmuted({t})");
-                    track.Unmuted?.Invoke(t);
-                    break;
-                }
-                case TrackEvent.Ended:
-                {
-                    var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                    Log.Info($"Track: Ended({t})");
-                    track.Ended?.Invoke(t);
-                    break;
-                }
+                    case TrackEvent.Message:
+                        track.Message?.Invoke();
+                        Log.Info($"Track: Message()");
+                        break;
+                    case TrackEvent.Muted:
+                    {
+                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        Log.Info($"Track: Muted({t})");
+                        track.Muted?.Invoke(t);
+                        break;
+                    }
+                    case TrackEvent.Unmuted:
+                    {
+                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        Log.Info($"Track: Unmuted({t})");
+                        track.Unmuted?.Invoke(t);
+                        break;
+                    }
+                    case TrackEvent.Ended:
+                    {
+                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        Log.Info($"Track: Ended({t})");
+                        track.Ended?.Invoke(t);
+                        break;
+                    }
+                } 
+            }
+            catch (Exception e)
+            {
+                Log.Info(e.Message);
+                throw;
             }
         }
         
@@ -165,6 +173,8 @@ namespace LiveKit
         [Preserve]
         public Track(IntPtr ptr) : base(ptr)
         {
+            KeepAlive(this);
+            
             foreach(var e in Enum.GetValues(typeof(TrackEvent)))
                 m_Listeners.Add(new JSEventListener<TrackEvent>(this, (TrackEvent) e, EventReceived));
         }

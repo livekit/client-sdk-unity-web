@@ -159,129 +159,137 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventListener<ParticipantEvent>>(iptr);
-            evRef.JSRef.TryGetTarget(out var jsRef);
-            var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
-            
-            switch (evRef.Event)
+            try
             {
-                case ParticipantEvent.TrackPublished:
+                var evRef = Acquire<JSEventListener<ParticipantEvent>>(iptr);
+                evRef.JSRef.TryGetTarget(out var jsRef);
+                var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
+                
+                switch (evRef.Event)
                 {
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackPublished({publication})");
-                    participant.TrackPublished?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.TrackSubscribed:
-                {
-                    var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackSubscribed({track.Sid}, {publication})");
-                    participant.TrackSubscribed?.Invoke(track, publication);
-                    break;
-                }
-                case ParticipantEvent.TrackSubscriptionFailed:
-                {
-                    var trackSid = Acquire<JSString>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackSubscriptionFailed(\"{trackSid}\"");
-                    participant.TrackSubscriptionFailed?.Invoke(trackSid.ToString());
-                    break;
-                }
-                case ParticipantEvent.TrackUnpublished:
-                {
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackUnpublished({publication})");
-                    participant.TrackUnpublished?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.TrackUnsubscribed:
-                {
-                    var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackUnsubscribed({track.Sid}, {publication})");
-                    participant.TrackUnsubscribed?.Invoke(track, publication);
-                    break;
-                }
-                case ParticipantEvent.TrackMuted:
-                {
-                    var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackMuted({publication})");
-                    participant.TrackMuted?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.TrackUnmuted:
-                {
-                    var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: TrackUnmuted({publication})");
-                    participant.TrackUnmuted?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.LocalTrackPublished:
-                {
-                    var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: LocalTrackPublished({publication})");
-                    participant.LocalTrackPublished?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.LocalTrackUnpublished:
-                {
-                    var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                    Log.Info($"Participant: LocalTrackUnpublished({publication})");
-                    participant.LocalTrackUnpublished?.Invoke(publication);
-                    break;
-                }
-                case ParticipantEvent.ParticipantMetadataChanged:
-                {
-                    var prevMetadata = AcquireOrNull<JSString>(JSNative.ShiftStack())?.ToString();
-                    Log.Info($"Participant: ParticipantMetadataChanged({prevMetadata})");
-                    participant.ParticipantMetadataChanged?.Invoke(prevMetadata);
-                    break;
-                }
-                case ParticipantEvent.DataReceived:
-                {
-                    var dataref = Acquire<JSRef>(JSNative.ShiftStack());
-                    var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
-                    var data = JSNative.GetData(dataPtr);
+                    case ParticipantEvent.TrackPublished:
+                    {
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackPublished({publication})");
+                        participant.TrackPublished?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.TrackSubscribed:
+                    {
+                        var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackSubscribed({track.Sid}, {publication})");
+                        participant.TrackSubscribed?.Invoke(track, publication);
+                        break;
+                    }
+                    case ParticipantEvent.TrackSubscriptionFailed:
+                    {
+                        var trackSid = Acquire<JSString>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackSubscriptionFailed(\"{trackSid}\"");
+                        participant.TrackSubscriptionFailed?.Invoke(trackSid.ToString());
+                        break;
+                    }
+                    case ParticipantEvent.TrackUnpublished:
+                    {
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackUnpublished({publication})");
+                        participant.TrackUnpublished?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.TrackUnsubscribed:
+                    {
+                        var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackUnsubscribed({track.Sid}, {publication})");
+                        participant.TrackUnsubscribed?.Invoke(track, publication);
+                        break;
+                    }
+                    case ParticipantEvent.TrackMuted:
+                    {
+                        var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackMuted({publication})");
+                        participant.TrackMuted?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.TrackUnmuted:
+                    {
+                        var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: TrackUnmuted({publication})");
+                        participant.TrackUnmuted?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.LocalTrackPublished:
+                    {
+                        var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: LocalTrackPublished({publication})");
+                        participant.LocalTrackPublished?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.LocalTrackUnpublished:
+                    {
+                        var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
+                        Log.Info($"Participant: LocalTrackUnpublished({publication})");
+                        participant.LocalTrackUnpublished?.Invoke(publication);
+                        break;
+                    }
+                    case ParticipantEvent.ParticipantMetadataChanged:
+                    {
+                        var prevMetadata = AcquireOrNull<JSString>(JSNative.ShiftStack())?.ToString();
+                        Log.Info($"Participant: ParticipantMetadataChanged({prevMetadata})");
+                        participant.ParticipantMetadataChanged?.Invoke(prevMetadata);
+                        break;
+                    }
+                    case ParticipantEvent.DataReceived:
+                    {
+                        var dataref = Acquire<JSRef>(JSNative.ShiftStack());
+                        var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
+                        var data = JSNative.GetData(dataPtr);
 
-                    var kind = (DataPacketKind) Acquire<JSNumber>(JSNative.ShiftStack()).ToNumber();
-                    Log.Info($"Participant: DataReceived({data}, {kind})");
-                    participant.DataReceived?.Invoke(data, kind);
-                    break;
-                }
-                case ParticipantEvent.IsSpeakingChanged:
-                {
-                    var isSpeaking = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
-                    Log.Info($"Participant: IsSpeakingChanged({isSpeaking})");
-                    participant.IsSpeakingChanged?.Invoke(isSpeaking);
-                    break;
-                }
-                case ParticipantEvent.ConnectionQualityChanged:
-                {
-                    var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
-                    Log.Info($"Participant: ConnectionQualityChanged({quality})");
-                    participant.ConnectionQualityChanged?.Invoke(quality);
-                    break;
-                }
-                case ParticipantEvent.TrackStreamStateChanged:
-                {
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    var stateref = Acquire<JSString>(JSNative.ShiftStack());
+                        var kind = (DataPacketKind) Acquire<JSNumber>(JSNative.ShiftStack()).ToNumber();
+                        Log.Info($"Participant: DataReceived({data}, {kind})");
+                        participant.DataReceived?.Invoke(data, kind);
+                        break;
+                    }
+                    case ParticipantEvent.IsSpeakingChanged:
+                    {
+                        var isSpeaking = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
+                        Log.Info($"Participant: IsSpeakingChanged({isSpeaking})");
+                        participant.IsSpeakingChanged?.Invoke(isSpeaking);
+                        break;
+                    }
+                    case ParticipantEvent.ConnectionQualityChanged:
+                    {
+                        var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
+                        Log.Info($"Participant: ConnectionQualityChanged({quality})");
+                        participant.ConnectionQualityChanged?.Invoke(quality);
+                        break;
+                    }
+                    case ParticipantEvent.TrackStreamStateChanged:
+                    {
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        var stateref = Acquire<JSString>(JSNative.ShiftStack());
 
-                    var state = Utils.ToEnum<TrackStreamState>(stateref.ToString());
-                    Log.Info($"Participant: TrackStreamStateChanged({publication}, {state})");
-                    participant.TrackStreamStateChanged?.Invoke(publication, state);
-                    break;
-                }
-                case ParticipantEvent.TrackSubscriptionPermissionChanged:
-                {
-                    var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                    var stateref = Acquire<JSString>(JSNative.ShiftStack());
+                        var state = Utils.ToEnum<TrackStreamState>(stateref.ToString());
+                        Log.Info($"Participant: TrackStreamStateChanged({publication}, {state})");
+                        participant.TrackStreamStateChanged?.Invoke(publication, state);
+                        break;
+                    }
+                    case ParticipantEvent.TrackSubscriptionPermissionChanged:
+                    {
+                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                        var stateref = Acquire<JSString>(JSNative.ShiftStack());
 
-                    var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
-                    Log.Info($"Participant: TrackStreamStateChanged({publication}, {status})");
-                    participant.TrackSubscriptionPermissionChanged?.Invoke(publication, status);
-                    break;
+                        var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
+                        Log.Info($"Participant: TrackStreamStateChanged({publication}, {status})");
+                        participant.TrackSubscriptionPermissionChanged?.Invoke(publication, status);
+                        break;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Log.Info(e.Message);
+                throw;
             }
         }
 
@@ -290,6 +298,8 @@ namespace LiveKit
         [Preserve]
         public Participant(IntPtr ptr) : base(ptr)
         {
+            KeepAlive(this);
+            
             foreach (var e in Enum.GetValues(typeof(ParticipantEvent)))
                 m_Listeners.Add(new JSEventListener<ParticipantEvent>(this, (ParticipantEvent) e, EventReceived));
         }

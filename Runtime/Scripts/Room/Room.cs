@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -75,206 +76,214 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var evRef = Acquire<JSEventListener<RoomEvent>>(iptr);
-            evRef.JSRef.TryGetTarget(out var jsRef);
-            var room = Acquire<Room>(JSNative.GetFunctionInstance());
-
-            switch (evRef.Event)
+            try
             {
-                case RoomEvent.Reconnecting:
-                    Log.Info("Room: Received Reconnecting");
-                    room.Reconnecting?.Invoke();
-                    break;
-                case RoomEvent.Reconnected:
-                    Log.Info("Room: Received Reconnected");
-                    room.Reconnected?.Invoke();
-                    break;
-                case RoomEvent.Disconnected:
-                    Log.Info("Room: Received Disconnected");
-                    room.Disconnected?.Invoke();
-                    break;
-                case RoomEvent.StateChanged:
-                    {
-                        var str = Acquire<JSString>(JSNative.ShiftStack()).ToString();
-                        Log.Info($"Room: Received StateChanged(\"{str}\"");
-                        room.StateChanged?.Invoke(Utils.ToEnum<RoomState>(str));
-                        break;
-                    }
-                case RoomEvent.MediaDevicesChanged:
-                    Log.Info($"Room: Received MediaDevicesChanged");
-                    room.MediaDevicesChanged?.Invoke();
-                    break;
-                case RoomEvent.ParticipantConnected:
-                    {
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received ParticipantConnected({participant.Sid})");
-                        room.ParticipantConnected?.Invoke(participant);
-                        break;
-                    }
-                case RoomEvent.ParticipantDisconnected:
-                    {
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received ParticipantDisconnected({participant.Sid})");
-                        room.ParticipantDisconnected?.Invoke(participant);
-                        break;
-                    }
-                case RoomEvent.TrackPublished:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackPublished({publication}, {participant.Sid})");
-                        room.TrackPublished?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.TrackSubscribed:
-                    {
-                        var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackSubscribed({track.Sid}, {publication}, {participant.Sid})");
-                        room.TrackSubscribed?.Invoke(track, publication, participant);
-                        break;
-                    }
-                case RoomEvent.TrackSubscriptionFailed:
-                    {
-                        var sid = Acquire<JSString>(JSNative.ShiftStack()).ToString();
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackSubscriptionFailed({sid}, {participant.Sid})");
-                        room.TrackSubscriptionFailed?.Invoke(sid, participant);
-                        break;
-                    }
-                case RoomEvent.TrackUnpublished:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackUnpublished({publication}, {participant.Sid})");
-                        room.TrackUnpublished?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.TrackUnsubscribed:
-                    {
-                        var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackUnsubscribed({track}, {publication}, {participant.Sid})");
-                        room.TrackUnsubscribed?.Invoke(track, publication, participant);
-                        break;
-                    }
-                case RoomEvent.TrackMuted:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<Participant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackMuted({publication}, {participant.Sid})");
-                        room.TrackMuted?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.TrackUnmuted:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<Participant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received TrackUnmuted({publication}, {participant.Sid})");
-                        room.TrackUnmuted?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.LocalTrackPublished:
-                    {
-                        var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<LocalParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received LocalTrackPublished({publication}, {participant.Sid})");
-                        room.LocalTrackPublished?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.LocalTrackUnpublished:
-                    {
-                        var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                        var participant = Acquire<LocalParticipant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received LocalTrackUnpublished({publication}, {participant.Sid})");
-                        room.LocalTrackUnpublished?.Invoke(publication, participant);
-                        break;
-                    }
-                case RoomEvent.ParticipantMetadataChanged:
-                    {
-                        var metadata = AcquireOrNull<JSString>(JSNative.ShiftStack());
-                        var participant = Acquire<Participant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received ParticipantMetadataChanged(\"{metadata}\", {participant.Sid})");
-                        room.ParticipantMetadataChanged?.Invoke(metadata?.ToString(), participant);
-                        break;
-                    }
-                case RoomEvent.ActiveSpeakersChanged:
-                    {
-                        var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received ActiveSpeakersChanged({jsarray})");
-                        room.ActiveSpeakersChanged?.Invoke(jsarray);
-                        break;
-                    }
-                case RoomEvent.RoomMetadataChanged:
-                    {
-                        var metadata = Acquire<JSString>(JSNative.ShiftStack()).ToString();
-                        Log.Info($"Room: Received ActiveSpeakersChanged(\"{metadata}\")");
-                        room.RoomMetadataChanged?.Invoke(metadata);
-                        break;
-                    }
-                case RoomEvent.DataReceived:
-                    {
-                        var dataref = Acquire<JSRef>(JSNative.ShiftStack());
-                        var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
-                        var data = JSNative.GetData(dataPtr);
+                var evRef = Acquire<JSEventListener<RoomEvent>>(iptr);
+                evRef.JSRef.TryGetTarget(out var jsRef);
+                var room = Acquire<Room>(JSNative.GetFunctionInstance());
 
-                        var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
-
-                        var kindObj = AcquireOrNull<JSNumber>(JSNative.ShiftStack());
-                        var kind = kindObj != null ? (DataPacketKind?) kindObj.ToNumber() : null;
-
-                        Log.Info($"Room: Received DataReceived({data}, {participant.Sid}, {kind})");
-                        room.DataReceived?.Invoke(data, participant, kind);
+                switch (evRef.Event)
+                {
+                    case RoomEvent.Reconnecting:
+                        Log.Info("Room: Received Reconnecting");
+                        room.Reconnecting?.Invoke();
                         break;
-                    }
-                case RoomEvent.ConnectionQualityChanged:
-                    {
-                        var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
-                        var participant = Acquire<Participant>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received ConnectionQualityChanged({quality}, {participant.Sid})");
-                        room.ConnectionQualityChanged?.Invoke(quality, participant);
+                    case RoomEvent.Reconnected:
+                        Log.Info("Room: Received Reconnected");
+                        room.Reconnected?.Invoke();
                         break;
-                    }
-                case RoomEvent.MediaDevicesError:
-                    {
-                        var error = Acquire<JSError>(JSNative.ShiftStack());
-                        Log.Info($"Room: Received MediaDevicesError({error.Message})");
-                        room.MediaDevicesError?.Invoke(error);
+                    case RoomEvent.Disconnected:
+                        Log.Info("Room: Received Disconnected");
+                        room.Disconnected?.Invoke();
                         break;
-                    }
-                case RoomEvent.TrackStreamStateChanged:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var stateref = Acquire(JSNative.ShiftStack());
+                    case RoomEvent.StateChanged:
+                        {
+                            var str = Acquire<JSString>(JSNative.ShiftStack()).ToString();
+                            Log.Info($"Room: Received StateChanged(\"{str}\"");
+                            room.StateChanged?.Invoke(Utils.ToEnum<RoomState>(str));
+                            break;
+                        }
+                    case RoomEvent.MediaDevicesChanged:
+                        Log.Info($"Room: Received MediaDevicesChanged");
+                        room.MediaDevicesChanged?.Invoke();
+                        break;
+                    case RoomEvent.ParticipantConnected:
+                        {
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received ParticipantConnected({participant.Sid})");
+                            room.ParticipantConnected?.Invoke(participant);
+                            break;
+                        }
+                    case RoomEvent.ParticipantDisconnected:
+                        {
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received ParticipantDisconnected({participant.Sid})");
+                            room.ParticipantDisconnected?.Invoke(participant);
+                            break;
+                        }
+                    case RoomEvent.TrackPublished:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackPublished({publication}, {participant.Sid})");
+                            room.TrackPublished?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackSubscribed:
+                        {
+                            var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackSubscribed({track.Sid}, {publication}, {participant.Sid})");
+                            room.TrackSubscribed?.Invoke(track, publication, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackSubscriptionFailed:
+                        {
+                            var sid = Acquire<JSString>(JSNative.ShiftStack()).ToString();
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackSubscriptionFailed({sid}, {participant.Sid})");
+                            room.TrackSubscriptionFailed?.Invoke(sid, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackUnpublished:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackUnpublished({publication}, {participant.Sid})");
+                            room.TrackUnpublished?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackUnsubscribed:
+                        {
+                            var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackUnsubscribed({track}, {publication}, {participant.Sid})");
+                            room.TrackUnsubscribed?.Invoke(track, publication, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackMuted:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<Participant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackMuted({publication}, {participant.Sid})");
+                            room.TrackMuted?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackUnmuted:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<Participant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received TrackUnmuted({publication}, {participant.Sid})");
+                            room.TrackUnmuted?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.LocalTrackPublished:
+                        {
+                            var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<LocalParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received LocalTrackPublished({publication}, {participant.Sid})");
+                            room.LocalTrackPublished?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.LocalTrackUnpublished:
+                        {
+                            var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
+                            var participant = Acquire<LocalParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received LocalTrackUnpublished({publication}, {participant.Sid})");
+                            room.LocalTrackUnpublished?.Invoke(publication, participant);
+                            break;
+                        }
+                    case RoomEvent.ParticipantMetadataChanged:
+                        {
+                            var metadata = AcquireOrNull<JSString>(JSNative.ShiftStack());
+                            var participant = Acquire<Participant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received ParticipantMetadataChanged(\"{metadata}\", {participant.Sid})");
+                            room.ParticipantMetadataChanged?.Invoke(metadata?.ToString(), participant);
+                            break;
+                        }
+                    case RoomEvent.ActiveSpeakersChanged:
+                        {
+                            var jsarray = Acquire<JSArray<Participant>>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received ActiveSpeakersChanged({jsarray})");
+                            room.ActiveSpeakersChanged?.Invoke(jsarray);
+                            break;
+                        }
+                    case RoomEvent.RoomMetadataChanged:
+                        {
+                            var metadata = Acquire<JSString>(JSNative.ShiftStack()).ToString();
+                            Log.Info($"Room: Received ActiveSpeakersChanged(\"{metadata}\")");
+                            room.RoomMetadataChanged?.Invoke(metadata);
+                            break;
+                        }
+                    case RoomEvent.DataReceived:
+                        {
+                            var dataref = Acquire<JSRef>(JSNative.ShiftStack());
+                            var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
+                            var data = JSNative.GetData(dataPtr);
 
-                        var state = Utils.ToEnum<TrackStreamState>(JSNative.GetString(stateref.NativePtr));
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
 
-                        Log.Info($"Room: Received TrackStreamStateChanged({publication}, {state}, {participant.Sid})");
-                        room.TrackStreamStateChanged?.Invoke(publication, state, participant);
-                        break;
-                    }
-                case RoomEvent.TrackSubscriptionPermissionChanged:
-                    {
-                        var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var stateref = Acquire<JSString>(JSNative.ShiftStack());
+                            var kindObj = AcquireOrNull<JSNumber>(JSNative.ShiftStack());
+                            var kind = kindObj != null ? (DataPacketKind?) kindObj.ToNumber() : null;
 
-                        var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
-                        var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received DataReceived({data}, {participant.Sid}, {kind})");
+                            room.DataReceived?.Invoke(data, participant, kind);
+                            break;
+                        }
+                    case RoomEvent.ConnectionQualityChanged:
+                        {
+                            var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
+                            var participant = Acquire<Participant>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received ConnectionQualityChanged({quality}, {participant.Sid})");
+                            room.ConnectionQualityChanged?.Invoke(quality, participant);
+                            break;
+                        }
+                    case RoomEvent.MediaDevicesError:
+                        {
+                            var error = Acquire<JSError>(JSNative.ShiftStack());
+                            Log.Info($"Room: Received MediaDevicesError({error.Message})");
+                            room.MediaDevicesError?.Invoke(error);
+                            break;
+                        }
+                    case RoomEvent.TrackStreamStateChanged:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var stateref = Acquire(JSNative.ShiftStack());
 
-                        Log.Info($"Room: Received TrackSubscriptionPermissionChanged({publication}, {status}, {participant.Sid})");
-                        room.TrackSubscriptionPermissionChanged?.Invoke(publication, status, participant);
-                        break;
-                    }
-                case RoomEvent.AudioPlaybackStatusChanged:
-                    {
-                        bool status = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
-                        Log.Info($"Room: Received AudioPlaybackChanged({status})");
-                        room.AudioPlaybackChanged?.Invoke(status);
-                        break;
-                    }
+                            var state = Utils.ToEnum<TrackStreamState>(JSNative.GetString(stateref.NativePtr));
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+
+                            Log.Info($"Room: Received TrackStreamStateChanged({publication}, {state}, {participant.Sid})");
+                            room.TrackStreamStateChanged?.Invoke(publication, state, participant);
+                            break;
+                        }
+                    case RoomEvent.TrackSubscriptionPermissionChanged:
+                        {
+                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var stateref = Acquire<JSString>(JSNative.ShiftStack());
+
+                            var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
+                            var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
+
+                            Log.Info($"Room: Received TrackSubscriptionPermissionChanged({publication}, {status}, {participant.Sid})");
+                            room.TrackSubscriptionPermissionChanged?.Invoke(publication, status, participant);
+                            break;
+                        }
+                    case RoomEvent.AudioPlaybackStatusChanged:
+                        {
+                            bool status = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
+                            Log.Info($"Room: Received AudioPlaybackChanged({status})");
+                            room.AudioPlaybackChanged?.Invoke(status);
+                            break;
+                        }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Info(e.Message);
+                throw;
             }
         }
         
@@ -363,7 +372,6 @@ namespace LiveKit
             }
         }
 
-        private List<JSObject> m_Cache = new List<JSObject>();
         private List<JSEventListener<RoomEvent>> m_Listeners = new List<JSEventListener<RoomEvent>>();
         
         [Preserve]
@@ -385,21 +393,10 @@ namespace LiveKit
 
         private void Init()
         {
-            m_Cache.Add(this);
+            KeepAlive(this);
             
             foreach(var e in Enum.GetValues(typeof(RoomEvent)))
                 m_Listeners.Add(new JSEventListener<RoomEvent>(this, (RoomEvent) e, EventReceived));
-
-            foreach (var p in Participants)
-                m_Cache.Add(p.Value);
-            
-            m_Cache.Add(LocalParticipant);
-            ParticipantConnected += p => m_Cache.Add(p);
-            ParticipantDisconnected += p => m_Cache.Remove(p);
-            
-            // TODO Find a reliable way to remove unused tracks
-            TrackSubscribed += (track, publication, participant) => m_Cache.Add(track);
-            LocalTrackPublished += (publication, participant) => m_Cache.Add(publication.Track);
         }
 
         public ConnectOperation Connect(string url, string token, RoomConnectOptions? options = null)
