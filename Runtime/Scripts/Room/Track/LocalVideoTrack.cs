@@ -17,11 +17,10 @@ namespace LiveKit
             }
         }
 
-
         [Preserve]
         public LocalVideoTrack(JSHandle ptr) : base(ptr)
         {
-
+            
         }
 
         public void SetPublishingQuality(VideoQuality maxQuality)

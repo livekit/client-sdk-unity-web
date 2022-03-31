@@ -10,9 +10,9 @@ namespace LiveKit
      */
     public class JSObject : JSRef
     {
-        public static HashSet<JSObject> s_Cache = new HashSet<JSObject>();
+        internal static HashSet<JSObject> s_Cache = new HashSet<JSObject>();
 
-        public static void KeepAlive(JSObject obj)
+        internal static void KeepAlive(JSObject obj)
         {
             s_Cache.Add(obj);
         }
@@ -24,10 +24,9 @@ namespace LiveKit
                 throw new ArgumentException($"An object reference cannot be null, {GetType()}");
         }
 
-        internal JSObject() : base(JSNative.NewRef())
+        internal JSObject()
         {
-            Debug.Log("Base has been called");
-            JSNative.AddRef(NativePtr);
+            
         }
     }
 }

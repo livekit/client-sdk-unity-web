@@ -9,28 +9,28 @@ var NativeLib = {
         StackCSharp: [],
         FunctionInstance: null, // Current instance in a callback ( = this )
         NullPtr: 0,
-        
-        DynCall: function(sig, fnc, args){
+
+        DynCall: function (sig, fnc, args) {
             if (typeof Runtime !== 'undefined') {
                 Runtime.dynCall(sig, fnc, args); // Old Unity version
             } else {
                 dynCall(sig, fnc, args);
             }
         },
-        
+
         NewRef: function () {
             var nPtr = LKBridge.RefIndex++;
             LKBridge.RefCount.set(nPtr, 0)
             return nPtr;
         },
-        
+
         FreeRef: function (ptr) {
             var obj = LKBridge.Data.get(ptr);
             LKBridge.Data.delete(ptr);
             LKBridge.RefCount.delete(ptr);
             LKBridge.Pointers.delete(obj);
         },
-        
+
         SetRef: function (ptr, obj) {
             LKBridge.Data.set(ptr, obj);
 
@@ -38,7 +38,7 @@ var NativeLib = {
                 LKBridge.Pointers.set(obj, ptr);
             }
         },
-        
+
         GetOrNewRef: function (obj) {
             var ptr = LKBridge.Pointers.get(obj);
             if (ptr === undefined || typeof obj !== 'object' || obj === null) {
@@ -48,39 +48,33 @@ var NativeLib = {
 
             return ptr;
         },
-        
-        AddRef: function(ptr) {
+
+        AddRef: function (ptr) {
             LKBridge.RefCount.set(ptr, LKBridge.RefCount.get(ptr) + 1);
             return ptr;
         },
-        
-        RemRef: function(ptr){
+
+        RemRef: function (ptr) {
             var count = LKBridge.RefCount.get(ptr) - 1;
             LKBridge.RefCount.set(ptr, count);
 
-            console.log("Free ref " + ptr)
-            if(count <= 0) {
+            if (count === 0) {
                 LKBridge.FreeRef(ptr);
             }
-            
-            return ptr;
 
-            /*if(count <= 0) {
-                setTimeout(function(){
-                    if(LKBridge.RefCount.get(ptr) <= 0) {
-                        LKBridge.FreeRef(ptr);
-                    }
-                }, 0);
-            }*/
+            if (LKBridge.Debug && count < 0) {
+                console.warn(`LKBridge: The ref count of ${ptr} is negative ( Ptr management is wrong ! )`);
+            }
+
+            return ptr;
         }
-        
     },
-    
-    AddRef: function(ptr) {
+
+    AddRef: function (ptr) {
         LKBridge.AddRef(ptr);
     },
-    
-    RemRef: function(ptr) {
+
+    RemRef: function (ptr) {
         LKBridge.RemRef(ptr);
         return true;
     },
@@ -197,13 +191,7 @@ var NativeLib = {
             LKBridge.StackCSharp = Array.from(arguments);
             LKBridge.FunctionInstance = this;
 
-            console.log(ptr);
-            console.log(this, LKBridge.StackCSharp);
-            
             LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
-
-            console.log("Callback sent");
-
 
             LKBridge.FunctionInstance = null;
             LKBridge.StackCSharp = [];
@@ -244,7 +232,7 @@ var NativeLib = {
         var v = LKBridge.FunctionInstance;
         return LKBridge.AddRef(LKBridge.GetOrNewRef(v));
     },
-    
+
     GetString: function (ptr) {
         var value = LKBridge.Data.get(ptr);
         if (value === undefined || value === null)

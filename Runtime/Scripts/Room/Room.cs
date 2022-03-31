@@ -339,9 +339,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("localParticipant");
-                var ptr = JSNative.GetProperty(NativePtr);
-                Debug.Log($"LocalParticipant {ptr.DangerousGetHandle()}");
-                return Acquire<LocalParticipant>(ptr);
+                return Acquire<LocalParticipant>(JSNative.GetProperty(NativePtr));
             }
         }
 

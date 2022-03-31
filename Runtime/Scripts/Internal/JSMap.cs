@@ -72,7 +72,7 @@ namespace LiveKit
             }
         }
 
-        public JSMap() : this(JSNative.NewRef())
+        public JSMap()
         {
             JSNative.NewInstance(JSHandle.Zero, NativePtr, "Map");
         }

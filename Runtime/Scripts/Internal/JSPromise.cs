@@ -1,7 +1,6 @@
 using AOT;
 using System;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -24,12 +23,10 @@ namespace LiveKit
         private static void PromiseReject(IntPtr id)
         {
             var handle = new JSHandle(id);
-            Debug.Log($"Failed {id}");
-            
             var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return;
-
+            
             promise.OnReject();
             promise.IsDone = true;
             promise.IsError = true;

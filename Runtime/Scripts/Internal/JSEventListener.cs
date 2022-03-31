@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace LiveKit
 {
-    internal class JSEventListener<T> : JSRef
+    internal class JSEventListener<T> : JSObject
     {
         public readonly WeakReference<JSRef> JSRef;
         public readonly T Event;
 
-        public JSEventListener(JSRef jsRef, T e, JSNative.JSDelegate receiver) : base(JSNative.NewRef())
+        public JSEventListener(JSRef jsRef, T e, JSNative.JSDelegate receiver)
         {
             JSRef = new WeakReference<JSRef>(jsRef);
             Event = e;

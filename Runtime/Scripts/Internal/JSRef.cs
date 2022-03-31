@@ -7,7 +7,6 @@ namespace LiveKit
 {
     public class JSRef : CriticalFinalizerObject
     {
-        // Used to maintain class hierarchy
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
             {"Number", typeof(JSNumber)},
@@ -37,18 +36,18 @@ namespace LiveKit
             {"HTMLVideoElement", typeof(HTMLVideoElement)},
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
-
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
+        
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
 
         internal JSHandle NativePtr { get; }
 
         internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
-            if (handle.IsClosed)
+            if (handle.IsClosed || handle.IsInvalid)
                 throw new Exception("Trying to acquire an invalid handle");
 
             var ptr = handle.DangerousGetHandle();
-            if (BridgeData.TryGetValue(ptr, out var wRef) && wRef.TryGetTarget(out JSRef jsRef))
+            if (Cache.TryGetValue(ptr, out var wRef) && wRef.TryGetTarget(out JSRef jsRef))
                 return jsRef as T;
 
             var type = typeof(T);
@@ -65,10 +64,8 @@ namespace LiveKit
                     type = correctType;
             }
 
-            var i = Activator.CreateInstance(type, handle) as T;
-            return i;
+            return Activator.CreateInstance(type, handle) as T;
         }
-
         internal static JSRef Acquire(JSHandle ptr)
         {
             return Acquire<JSRef>(ptr);
@@ -94,7 +91,28 @@ namespace LiveKit
         public JSRef(JSHandle ptr)
         {
             NativePtr = ptr;
-            BridgeData.Add(ptr.DangerousGetHandle(), new WeakReference<JSRef>(this));
+            
+            // We add the instantiated object into the cache se we can retrieve later if not garbage collected.
+            // Note that if JSRef has been garbage collected, it doesn't mean that the key doesn't exists on this map
+            Cache[ptr.DangerousGetHandle()] = new WeakReference<JSRef>(this);
+        }
+
+        internal JSRef() : this(JSNative.NewRef())
+        {
+            JSNative.AddRef(NativePtr);
+        }
+
+        ~JSRef()
+        {
+            var ptr = NativePtr.DangerousGetHandle();
+            if (Cache[ptr].TryGetTarget(out var _))
+            {
+                // It means that another instance has been created after this one being GC
+                // il2cpp doesn't support Long WeakReference
+                return;
+            }
+
+            Cache.Remove(ptr);
         }
     }
 }
