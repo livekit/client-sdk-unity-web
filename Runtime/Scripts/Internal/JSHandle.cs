@@ -5,15 +5,21 @@ namespace LiveKit
 {
     public class JSHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        public JSHandle(IntPtr handle) : base(true)
+        public static JSHandle Zero = new JSHandle();
+        
+        private JSHandle() : base(true)
         {
-            SetHandle(handle);
+            
+        }
+
+        internal JSHandle(IntPtr ptr) : base(true)
+        {
+            SetHandle(ptr);
         }
 
         protected override bool ReleaseHandle()
         {
-            JSNative.RemoveRefCounter(handle);
-            return true;            
+            return JSNative.RemRef(handle);
         }
     }
 }

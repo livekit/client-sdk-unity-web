@@ -31,7 +31,7 @@ namespace LiveKit
 
 
         [Preserve]
-        public RemoteTrackPublication(IntPtr ptr) : base(ptr)
+        public RemoteTrackPublication(JSHandle ptr) : base(ptr)
         {
 
         }

@@ -126,9 +126,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
+            var handle = new JSHandle(iptr);
             try
             {
-                var evRef = Acquire<JSEventListener<TrackEvent>>(iptr);
+                var evRef = Acquire<JSEventListener<TrackEvent>>(handle);
                 evRef.JSRef.TryGetTarget(out var jsRef);
                 var track = Acquire<Track>(JSNative.GetFunctionInstance());
             
@@ -171,7 +172,7 @@ namespace LiveKit
         private List<JSEventListener<TrackEvent>> m_Listeners = new List<JSEventListener<TrackEvent>>();
 
         [Preserve]
-        public Track(IntPtr ptr) : base(ptr)
+        public Track(JSHandle ptr) : base(ptr)
         {
             KeepAlive(this);
             

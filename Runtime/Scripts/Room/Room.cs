@@ -76,9 +76,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
+            var handle = new JSHandle(iptr);
             try
             {
-                var evRef = Acquire<JSEventListener<RoomEvent>>(iptr);
+                var evRef = Acquire<JSEventListener<RoomEvent>>(handle);
                 evRef.JSRef.TryGetTarget(out var jsRef);
                 var room = Acquire<Room>(JSNative.GetFunctionInstance());
 
@@ -338,7 +339,9 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("localParticipant");
-                return Acquire<LocalParticipant>(JSNative.GetProperty(NativePtr));
+                var ptr = JSNative.GetProperty(NativePtr);
+                Debug.Log($"LocalParticipant {ptr.DangerousGetHandle()}");
+                return Acquire<LocalParticipant>(ptr);
             }
         }
 
@@ -375,9 +378,9 @@ namespace LiveKit
         private List<JSEventListener<RoomEvent>> m_Listeners = new List<JSEventListener<RoomEvent>>();
         
         [Preserve]
-        public Room(IntPtr ptr) : base(ptr)
+        public Room(JSHandle ptr) : base(ptr)
         {
-            Init();
+            //Init();
         }
 
         public Room(RoomOptions? options = null)
@@ -394,7 +397,6 @@ namespace LiveKit
         private void Init()
         {
             KeepAlive(this);
-            
             foreach(var e in Enum.GetValues(typeof(RoomEvent)))
                 m_Listeners.Add(new JSEventListener<RoomEvent>(this, (RoomEvent) e, EventReceived));
         }

@@ -156,12 +156,13 @@ namespace LiveKit
             }
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
         {
+            var handle = new JSHandle(iptr);
             try
             {
-                var evRef = Acquire<JSEventListener<ParticipantEvent>>(iptr);
+                var evRef = Acquire<JSEventListener<ParticipantEvent>>(handle);
                 evRef.JSRef.TryGetTarget(out var jsRef);
                 var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
                 
@@ -296,7 +297,7 @@ namespace LiveKit
         private List<JSEventListener<ParticipantEvent>> m_Listeners = new List<JSEventListener<ParticipantEvent>>();
 
         [Preserve]
-        public Participant(IntPtr ptr) : base(ptr)
+        public Participant(JSHandle ptr) : base(ptr)
         {
             KeepAlive(this);
             

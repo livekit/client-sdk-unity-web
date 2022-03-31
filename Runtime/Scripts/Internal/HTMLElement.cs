@@ -6,18 +6,18 @@ namespace LiveKit
     public abstract class HTMLElement : JSObject
     {
         [Preserve]
-        public HTMLElement(IntPtr ptr) : base(ptr)
+        public HTMLElement(JSHandle ptr) : base(ptr)
         {
-
+        
         }
 
-        public void AddEventListener(string e, Action<IntPtr> callback, IntPtr? identifier = null)
+        internal void AddEventListener(string e, JSNative.JSDelegate callback, JSHandle identifier = null)
         {
             if (identifier == null)
                 identifier = NativePtr;
 
             JSNative.PushString(e);
-            JSNative.PushFunction(identifier.Value, callback);
+            JSNative.PushFunction(identifier, callback);
             Acquire(JSNative.CallMethod(NativePtr, "addEventListener"));
         }
     }

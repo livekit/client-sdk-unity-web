@@ -1,13 +1,17 @@
 using System.Runtime.InteropServices;
 using System;
+using System.Runtime.ConstrainedExecution;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
+using System.Security;
 using Newtonsoft.Json.Utilities;
 using UnityEngine;
 
 namespace LiveKit
 {
+    
+    [SuppressUnmanagedCodeSecurity]
     internal static class JSNative
     {
         internal static JSRef LiveKit { get; private set; }
@@ -22,8 +26,8 @@ namespace LiveKit
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void InitJSNative()
         {
-#if !UNITY_EDITOR && UNITY_WEBGL
             AotHelper.EnsureType<StringEnumConverter>();
+#if !UNITY_EDITOR && UNITY_WEBGL
 
 #if LK_DEBUG
             InitLiveKit(true);
@@ -32,32 +36,36 @@ namespace LiveKit
 #endif
 
             PushString("livekit");
-            LiveKit = JSRef.Acquire(GetProperty(IntPtr.Zero));
+            LiveKit = JSRef.Acquire(GetProperty(JSHandle.Zero));
 
             PushString("lkbridge");
-            LKBridge = JSRef.Acquire(GetProperty(IntPtr.Zero));
+            LKBridge = JSRef.Acquire(GetProperty(JSHandle.Zero));
 
             JSBridge.SendReady();
 #endif
         }
 
+        // JSHandle can't be marshalled in a delegate
+        // JSHandle must be created with ptr when the callback is called
+        public delegate void JSDelegate(IntPtr ptr);
+
         [DllImport("__Internal")]
         internal static extern void InitLiveKit(bool debug);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr NewRef();
-
-        [DllImport("__Internal")]
-        internal static extern void AddRefCounter(IntPtr ptr);
+        internal static extern JSHandle NewRef();
+        
+        [DllImport("__Internal"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+        internal static extern void AddRef(JSHandle ptr);
         
         [DllImport("__Internal")]
-        internal static extern void RemoveRefCounter(IntPtr ptr);
+        internal static extern bool RemRef(IntPtr ptr);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetProperty(IntPtr ptr);
+        internal static extern JSHandle GetProperty(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern void SetProperty(IntPtr ptr);
+        internal static extern void SetProperty(JSHandle ptr);
 
         [DllImport("__Internal")]
         internal static extern void PushNull();
@@ -81,52 +89,52 @@ namespace LiveKit
         internal static extern void PushData(byte[] data, int size);
 
         [DllImport("__Internal")]
-        internal static extern void PushObject(IntPtr ptr);
+        internal static extern void PushObject(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern void PushFunction(IntPtr ptr, Action<IntPtr> action);
+        internal static extern void PushFunction(JSHandle ptr, JSDelegate action);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr CallMethod(IntPtr ptr, string fnc);
+        internal static extern JSHandle CallMethod(JSHandle ptr, string fnc);
 
         [DllImport("__Internal")]
-        internal static extern void NewInstance(IntPtr ptr, IntPtr toPtr, string clazz);
+        internal static extern void NewInstance(JSHandle ptr, JSHandle toPtr, string clazz);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr ShiftStack();
+        internal static extern JSHandle ShiftStack();
         
         [DllImport("__Internal")]
-        internal static extern IntPtr GetFunctionInstance();
+        internal static extern JSHandle GetFunctionInstance();
 
         [DllImport("__Internal")]
-        internal static extern bool IsString(IntPtr ptr);
+        internal static extern bool IsString(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool IsNull(IntPtr ptr);
+        internal static extern bool IsNull(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool IsUndefined(IntPtr ptr);
+        internal static extern bool IsUndefined(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool IsObject(IntPtr ptr);
+        internal static extern bool IsObject(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool IsNumber(IntPtr ptr);
+        internal static extern bool IsNumber(JSHandle ptr);
         
         [DllImport("__Internal")]
-        internal static extern bool IsBoolean(IntPtr ptr);
+        internal static extern bool IsBoolean(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern string GetString(IntPtr ptr);
+        internal static extern string GetString(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern double GetNumber(IntPtr ptr);
+        internal static extern double GetNumber(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern bool GetBoolean(IntPtr ptr);
+        internal static extern bool GetBoolean(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetDataPtr(IntPtr ptr);
+        internal static extern IntPtr GetDataPtr(JSHandle ptr);
 
         [DllImport("__Internal")]
         internal static extern int NewTexture();
@@ -135,7 +143,7 @@ namespace LiveKit
         internal static extern void DestroyTexture(int id);
 
         [DllImport("__Internal")]
-        internal static extern IntPtr AttachVideo(int texId, IntPtr videoPtr);
+        internal static extern JSHandle AttachVideo(int texId, JSHandle videoPtr);
 
         internal static unsafe byte[] GetData(IntPtr ptr)
         {
@@ -145,10 +153,10 @@ namespace LiveKit
             return data;
         }
 
-        internal static T GetStruct<T>(IntPtr ptr)
+        internal static T GetStruct<T>(JSHandle ptr)
         {
             PushString("JSON");
-            var json = JSRef.Acquire(GetProperty(IntPtr.Zero));
+            var json = JSRef.Acquire(GetProperty(JSHandle.Zero));
 
             PushObject(ptr);
             var r = JSRef.AcquireOrNull<JSString>(CallMethod(json.NativePtr, "stringify"));
@@ -172,7 +180,7 @@ namespace LiveKit
                 throw new ArgumentException("Unsupported type");
         }
 
-        internal static object GetPrimitive(IntPtr ptr)
+        internal static object GetPrimitive(JSHandle ptr)
         {
             if (IsString(ptr))
                 return GetString(ptr);

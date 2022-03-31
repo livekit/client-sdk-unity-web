@@ -9,7 +9,7 @@ namespace LiveKit
         public readonly WeakReference<JSRef> JSRef;
         public readonly T Event;
 
-        public JSEventListener(JSRef jsRef, T e, Action<IntPtr> receiver) : base(JSNative.NewRef())
+        public JSEventListener(JSRef jsRef, T e, JSNative.JSDelegate receiver) : base(JSNative.NewRef())
         {
             JSRef = new WeakReference<JSRef>(jsRef);
             Event = e;

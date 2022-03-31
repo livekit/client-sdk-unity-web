@@ -8,7 +8,7 @@ namespace LiveKit
     {
 
         [Preserve]
-        public RemoteAudioTrack(IntPtr ptr) : base(ptr)
+        public RemoteAudioTrack(JSHandle ptr) : base(ptr)
         {
 
         }

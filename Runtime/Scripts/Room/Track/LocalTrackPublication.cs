@@ -24,7 +24,7 @@ namespace LiveKit
 
 
         [Preserve]
-        public LocalTrackPublication(IntPtr ptr) : base(ptr)
+        public LocalTrackPublication(JSHandle ptr) : base(ptr)
         {
 
         }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSRef
+    public class JSRef : CriticalFinalizerObject
     {
         // Used to maintain class hierarchy
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
@@ -39,19 +40,23 @@ namespace LiveKit
 
         private static readonly Dictionary<IntPtr, WeakReference<JSRef>> BridgeData = new Dictionary<IntPtr, WeakReference<JSRef>>();
 
-        internal IntPtr NativePtr { get; }
+        internal JSHandle NativePtr { get; }
 
-        internal static T Acquire<T>(IntPtr ptr) where T : JSRef
+        internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
+            if (handle.IsClosed)
+                throw new Exception("Trying to acquire an invalid handle");
+
+            var ptr = handle.DangerousGetHandle();
             if (BridgeData.TryGetValue(ptr, out var wRef) && wRef.TryGetTarget(out JSRef jsRef))
                 return jsRef as T;
 
             var type = typeof(T);
-            if (JSNative.IsObject(ptr))
+            if (JSNative.IsObject(handle))
             {
                 // Maintain class hierarchy 
                 JSNative.PushString("constructor");
-                var ctor = Acquire(JSNative.GetProperty(ptr));
+                var ctor = Acquire(JSNative.GetProperty(handle));
 
                 JSNative.PushString("name");
                 var typeName = Acquire<JSString>(JSNative.GetProperty(ctor.NativePtr));
@@ -60,15 +65,16 @@ namespace LiveKit
                     type = correctType;
             }
 
-            return Activator.CreateInstance(type, ptr) as T;
+            var i = Activator.CreateInstance(type, handle) as T;
+            return i;
         }
 
-        internal static JSRef Acquire(IntPtr ptr)
+        internal static JSRef Acquire(JSHandle ptr)
         {
             return Acquire<JSRef>(ptr);
         }
 
-        internal static T AcquireOrNull<T>(IntPtr ptr) where T : JSRef
+        internal static T AcquireOrNull<T>(JSHandle ptr) where T : JSRef
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
             {
@@ -79,29 +85,16 @@ namespace LiveKit
             return Acquire<T>(ptr);
         }
 
-        internal static JSRef AcquireOrNull(IntPtr ptr)
+        internal static JSRef AcquireOrNull(JSHandle ptr)
         {
             return AcquireOrNull<JSRef>(ptr);
         }
 
         [Preserve]
-        public JSRef(IntPtr ptr)
+        public JSRef(JSHandle ptr)
         {
             NativePtr = ptr;
-            JSNative.AddRefCounter(ptr);
-            BridgeData.Add(NativePtr, new WeakReference<JSRef>(this));
-        }
-
-        ~JSRef()
-        {
-            Free();
-        }
-
-        internal void Free()
-        {
-            JSNative.RemoveRefCounter(NativePtr);
-            BridgeData.Remove(NativePtr);
-            GC.SuppressFinalize(this);
+            BridgeData.Add(ptr.DangerousGetHandle(), new WeakReference<JSRef>(this));
         }
     }
 }

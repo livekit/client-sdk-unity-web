@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -17,7 +18,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public JSObject(IntPtr ptr) : base(ptr)
+        public JSObject(JSHandle ptr) : base(ptr)
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
                 throw new ArgumentException($"An object reference cannot be null, {GetType()}");
@@ -25,7 +26,8 @@ namespace LiveKit
 
         internal JSObject() : base(JSNative.NewRef())
         {
-            
+            Debug.Log("Base has been called");
+            JSNative.AddRef(NativePtr);
         }
     }
 }

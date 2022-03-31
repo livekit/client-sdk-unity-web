@@ -8,10 +8,11 @@ namespace LiveKit
 {
     public class JSPromise : JSObject, IEnumerator
     {
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseResolve(IntPtr id)
         {
-            var promise = AcquireOrNull<JSPromise>(id);
+            var handle = new JSHandle(id);
+            var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return; // The promise can be garbage collected before completed (When ignoring Promise)
             
@@ -19,10 +20,13 @@ namespace LiveKit
             promise.IsDone = true;
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseReject(IntPtr id)
         {
-            var promise = AcquireOrNull<JSPromise>(id);
+            var handle = new JSHandle(id);
+            Debug.Log($"Failed {id}");
+            
+            var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return;
 
@@ -37,7 +41,7 @@ namespace LiveKit
         public JSRef RejectValue { get; protected set; }
 
         [Preserve]
-        public JSPromise(IntPtr ptr) : base(ptr)
+        public JSPromise(JSHandle ptr) : base(ptr)
         {
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
@@ -73,7 +77,7 @@ namespace LiveKit
         public new T ResolveValue => base.ResolveValue as T;
 
         [Preserve]
-        public JSPromise(IntPtr ptr) : base(ptr)
+        public JSPromise(JSHandle ptr) : base(ptr)
         {
 
         }
