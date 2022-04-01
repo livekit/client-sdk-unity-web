@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -8,9 +9,9 @@ using System.Security;
 using Newtonsoft.Json.Utilities;
 using UnityEngine;
 
+[assembly: InternalsVisibleTo("LiveKit.BridgeTests")] 
 namespace LiveKit
 {
-    
     [SuppressUnmanagedCodeSecurity]
     internal static class JSNative
     {
@@ -44,6 +45,7 @@ namespace LiveKit
             JSBridge.SendReady();
 #endif
         }
+        
 
         // JSHandle can't be marshalled in a delegate
         // JSHandle must be created with ptr when the callback is called
