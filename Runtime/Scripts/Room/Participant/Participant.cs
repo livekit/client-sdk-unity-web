@@ -159,7 +159,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
         {
-            var handle = new JSHandle(iptr);
+            var handle = new JSHandle(iptr, true);
             try
             {
                 var evRef = Acquire<EventWrapper>(handle);
@@ -293,9 +293,13 @@ namespace LiveKit
             }
         }
 
-
         [Preserve]
         public Participant(JSHandle ptr) : base(ptr)
+        {
+            RegisterEvents();
+        }
+        
+        internal void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(ParticipantEvent)))
                 SetListener((ParticipantEvent) e, EventReceived);

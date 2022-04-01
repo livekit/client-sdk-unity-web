@@ -1,7 +1,6 @@
 using AOT;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -15,7 +14,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EmptiedEvent(IntPtr ptr)
         {
-            var handle = new JSHandle(ptr);
+            var handle = new JSHandle(ptr, true);
             var el = AcquireOrNull<HTMLMediaElement>(handle);
             if (el == null)
                 return;

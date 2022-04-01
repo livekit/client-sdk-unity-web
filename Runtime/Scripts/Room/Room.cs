@@ -77,7 +77,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var handle = new JSHandle(iptr);
+            var handle = new JSHandle(iptr, true);
             try
             {
                 var evRef = Acquire<EventWrapper>(handle);
@@ -375,7 +375,7 @@ namespace LiveKit
         [Preserve]
         public Room(JSHandle ptr) : base(ptr)
         {
-            Init();
+            RegisterEvents();
         }
 
         public Room(RoomOptions? options = null)
@@ -384,12 +384,12 @@ namespace LiveKit
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
             JSNative.NewInstance(JSNative.LiveKit, NativePtr, "Room");
-            Init();
+            RegisterEvents();
 
             JSBridge.SendRoomCreated(this);
         }
 
-        private void Init()
+        internal void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(RoomEvent)))
                 SetListener((RoomEvent) e, EventReceived);
@@ -402,8 +402,8 @@ namespace LiveKit
             LocalTrackPublished += (publication, _) => SetKeepAlive(publication.Track, true);
             LocalTrackUnpublished += (publication, _) => SetKeepAlive(publication.Track, false);
             
-            TrackPublished += (publication, _) => SetKeepAlive(publication.Track, true);
-            TrackUnpublished += (publication, _) => SetKeepAlive(publication.Track, false);
+            TrackSubscribed += (track, _, _) => SetKeepAlive(track, true);
+            TrackUnsubscribed += (track, _, _) => SetKeepAlive(track, false);
         }
 
         ~Room()

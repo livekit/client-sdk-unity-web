@@ -38,7 +38,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void ResizeEvent(IntPtr ptr)
         {
-            var handle = new JSHandle(ptr);
+            var handle = new JSHandle(ptr, true);
             var el = Acquire<HTMLVideoElement>(handle);
             var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));
             el.VideoReceived?.Invoke(tex);

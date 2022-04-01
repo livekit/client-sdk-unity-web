@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -38,11 +39,8 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache =
-            new Dictionary<IntPtr, WeakReference<JSRef>>();
-
-        private static readonly HashSet<JSRef>
-            AliveCache = new HashSet<JSRef>(); // Used to hold a reference and release it manually
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
+        private static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
 
         internal JSHandle NativePtr { get; } // Own the handle
 
@@ -85,13 +83,17 @@ namespace LiveKit
             return AcquireOrNull<JSRef>(ptr);
         }
 
-        internal static void SetKeepAlive(JSRef jRef, bool keepAlive)
+        internal static void SetKeepAlive([NotNull] object reff, bool keepAlive)
         {
-            Debug.Log(jRef);
+            if (reff == null)
+                throw new ArgumentNullException(nameof(reff));
+            
+            Log.Info($"SetKeepAlive of {reff} to {keepAlive}");
+            
             if (keepAlive)
-                AliveCache.Add(jRef);
+                AliveCache.Add(reff);
             else
-                AliveCache.Remove(jRef);
+                AliveCache.Remove(reff);
         }
 
         [Preserve]
@@ -106,7 +108,7 @@ namespace LiveKit
 
         internal JSRef() : this(JSNative.NewRef())
         {
-            JSNative.AddRef(NativePtr);
+            
         }
 
         ~JSRef()

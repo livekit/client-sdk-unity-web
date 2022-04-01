@@ -126,7 +126,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
-            var handle = new JSHandle(iptr);
+            var handle = new JSHandle(iptr, true);
             try
             {
                 var evRef = Acquire<EventWrapper>(handle);
@@ -170,6 +170,11 @@ namespace LiveKit
         
         [Preserve]
         public Track(JSHandle ptr) : base(ptr)
+        {
+            RegisterEvents();
+        }
+        
+        internal void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(TrackEvent)))
                 SetListener((TrackEvent) e, EventReceived);

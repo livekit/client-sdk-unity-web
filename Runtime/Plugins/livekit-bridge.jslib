@@ -58,12 +58,12 @@ var NativeLib = {
             var count = LKBridge.RefCount.get(ptr) - 1;
             LKBridge.RefCount.set(ptr, count);
 
-            if (count === 0) {
-                LKBridge.FreeRef(ptr);
-            }
-
             if (LKBridge.Debug && count < 0) {
                 console.warn(`LKBridge: The ref count of ${ptr} is negative ( Ptr management is wrong ! )`);
+            }
+            
+            if (count <= 0) {
+                LKBridge.FreeRef(ptr);
             }
 
             return ptr;
@@ -71,7 +71,7 @@ var NativeLib = {
     },
 
     NewRef: function () {
-        return LKBridge.NewRef();
+        return LKBridge.AddRef(LKBridge.NewRef());
     },
     
     AddRef: function (ptr) {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -11,50 +12,56 @@ namespace LiveKit
             public JSRef FncRef;
         }
         
-        private readonly Dictionary<T, EventWrapper> m_Events = new Dictionary<T, EventWrapper>();
+        internal readonly Dictionary<T, EventWrapper> m_Events = new Dictionary<T, EventWrapper>();
 
         [Preserve]
         public JSEventEmitter(JSHandle ptr) : base(ptr)
         {
-            
+            SetKeepAlive(NativePtr, true);
         }
 
         internal JSEventEmitter()
         {
-            
+            SetKeepAlive(NativePtr, true);
         }
-
+        
         ~JSEventEmitter()
         {
-            foreach (var k in m_Events.Keys)
-                RemoveListener(k);
+            // Clear events automatically 
+            foreach(var k in m_Events.Keys.ToList())
+                RemoveListener(k);                
+            
+            SetKeepAlive(NativePtr, false);
         }
 
         // Similar to "on" but we only accepts one listener (No need for multiple in internal use)
         internal void SetListener(T eventt, JSNative.JSDelegate fnc)
         {
-            var fncRef = new JSRef();
             var wrapper = new EventWrapper()
             {
                 Event = eventt,
-                FncRef = fncRef
+                FncRef = new JSRef()
             };
             
+            SetKeepAlive(wrapper.FncRef, true);
+            
+            m_Events.Add(eventt, wrapper);
+            
             JSNative.PushFunction(wrapper.NativePtr, fnc);
-            JSNative.SetRef(fncRef.NativePtr);
+            JSNative.SetRef(wrapper.FncRef.NativePtr);
             
             JSNative.PushString(Utils.ToEnumString(eventt));
-            JSNative.PushObject(fncRef.NativePtr);
+            JSNative.PushObject(wrapper.FncRef.NativePtr);
             JSNative.CallMethod(NativePtr, "on");
-
-            m_Events.Add(eventt, wrapper);
         }
 
         internal void RemoveListener(T eventt)
         {
-            Log.Info($"Removing listener {eventt} for {GetType()}");
+            if (!m_Events.TryGetValue(eventt, out var wrapper))
+                return;
             
-            var wrapper = m_Events[eventt];
+            SetKeepAlive(wrapper.FncRef, false);
+            
             JSNative.PushString(Utils.ToEnumString(eventt));
             JSNative.PushObject(wrapper.FncRef.NativePtr);
             JSNative.CallMethod(NativePtr, "removeListener");

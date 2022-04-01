@@ -12,7 +12,7 @@ namespace LiveKit
             
         }
 
-        internal JSHandle(IntPtr ptr) : base(true)
+        internal JSHandle(IntPtr ptr, bool ownsHandle) : base(ownsHandle)
         {
             SetHandle(ptr);
         }

@@ -10,7 +10,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseResolve(IntPtr id)
         {
-            var handle = new JSHandle(id);
+            var handle = new JSHandle(id, true);
             var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return; // The promise can be garbage collected before completed (When ignoring Promise)
@@ -22,7 +22,7 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseReject(IntPtr id)
         {
-            var handle = new JSHandle(id);
+            var handle = new JSHandle(id, true);
             var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return;
