@@ -133,7 +133,7 @@ namespace LiveKit
             JSNative.PushBoolean(allParticipantsAllowed);
             JSNative.PushObject(new JSArray<ParticipantTrackPermission>(participantTrackPermissions).NativePtr);
 
-            Acquire(JSNative.CallMethod(NativePtr, "setTrackSubscriptionPermissions"));
+            JSNative.CallMethod(NativePtr, "setTrackSubscriptionPermissions");
         }
     }
 }

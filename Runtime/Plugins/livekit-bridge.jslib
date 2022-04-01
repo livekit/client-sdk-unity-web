@@ -70,6 +70,10 @@ var NativeLib = {
         }
     },
 
+    NewRef: function () {
+        return LKBridge.NewRef();
+    },
+    
     AddRef: function (ptr) {
         LKBridge.AddRef(ptr);
     },
@@ -77,6 +81,12 @@ var NativeLib = {
     RemRef: function (ptr) {
         LKBridge.RemRef(ptr);
         return true;
+    },
+    
+    SetRef: function(ptr){
+        var value = LKBridge.Stack[0];
+        LKBridge.Stack = [];
+        LKBridge.SetRef(ptr, value);
     },
 
     InitLiveKit: function (debug) {
@@ -89,10 +99,6 @@ var NativeLib = {
         if (LKBridge.Debug) {
             window.lkinternal = LKBridge;
         }
-    },
-
-    NewRef: function () {
-        return LKBridge.NewRef();
     },
 
     GetProperty: function (ptr) {

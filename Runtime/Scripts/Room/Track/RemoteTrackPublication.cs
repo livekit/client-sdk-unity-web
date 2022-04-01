@@ -39,25 +39,25 @@ namespace LiveKit
         public void SetSubscribed(bool subscribed)
         {
             JSNative.PushBoolean(subscribed);
-            Acquire(JSNative.CallMethod(NativePtr, "setSubscribed"));
+            JSNative.CallMethod(NativePtr, "setSubscribed");
         }
 
         public void SetEnabled(bool enabled)
         {
             JSNative.PushBoolean(enabled);
-            Acquire(JSNative.CallMethod(NativePtr, "setEnabled"));
+            JSNative.CallMethod(NativePtr, "setEnabled");
         }
 
         public void SetVideoQuality(VideoQuality quality)
         {
             JSNative.PushNumber((double)quality);
-            Acquire(JSNative.CallMethod(NativePtr, "setVideoQuality"));
+            JSNative.CallMethod(NativePtr, "setVideoQuality");
         }
 
         public void SetVideoDimensions(TrackDimensions dimensions)
         {
             JSNative.PushStruct(JsonConvert.SerializeObject(dimensions, JSNative.JsonSettings));
-            Acquire(JSNative.CallMethod(NativePtr, "setVideoDimensions"));
+            JSNative.CallMethod(NativePtr, "setVideoDimensions");
         }
 
         public void SetTrack(Track track = null)
@@ -65,7 +65,7 @@ namespace LiveKit
             if (track != null)
                 JSNative.PushObject(track.NativePtr);
 
-            Acquire(JSNative.CallMethod(NativePtr, "setTrack"));
+            JSNative.CallMethod(NativePtr, "setTrack");
         }
     }
 }

@@ -26,7 +26,7 @@ namespace LiveKit
         public void SetPublishingQuality(VideoQuality maxQuality)
         {
             JSNative.PushNumber((double)maxQuality);
-            Acquire(JSNative.CallMethod(NativePtr, "setPublishingQuality"));
+            JSNative.CallMethod(NativePtr, "setPublishingQuality");
         }
 
         public JSPromise SetDeviceId(string deviceId)

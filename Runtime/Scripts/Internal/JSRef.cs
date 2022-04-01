@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -36,10 +37,14 @@ namespace LiveKit
             {"HTMLVideoElement", typeof(HTMLVideoElement)},
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
-        
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
 
-        internal JSHandle NativePtr { get; }
+        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache =
+            new Dictionary<IntPtr, WeakReference<JSRef>>();
+
+        private static readonly HashSet<JSRef>
+            AliveCache = new HashSet<JSRef>(); // Used to hold a reference and release it manually
+
+        internal JSHandle NativePtr { get; } // Own the handle
 
         internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
@@ -55,10 +60,10 @@ namespace LiveKit
             {
                 // Maintain class hierarchy 
                 JSNative.PushString("constructor");
-                var ctor = Acquire(JSNative.GetProperty(handle));
+                var ctor = JSNative.GetProperty(handle);
 
                 JSNative.PushString("name");
-                var typeName = Acquire<JSString>(JSNative.GetProperty(ctor.NativePtr));
+                var typeName = Acquire<JSString>(JSNative.GetProperty(ctor));
 
                 if (s_TypeMap.TryGetValue(typeName.ToString(), out Type correctType))
                     type = correctType;
@@ -66,18 +71,11 @@ namespace LiveKit
 
             return Activator.CreateInstance(type, handle) as T;
         }
-        internal static JSRef Acquire(JSHandle ptr)
-        {
-            return Acquire<JSRef>(ptr);
-        }
 
         internal static T AcquireOrNull<T>(JSHandle ptr) where T : JSRef
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
-            {
-                Acquire(ptr);
                 return null;
-            }
 
             return Acquire<T>(ptr);
         }
@@ -87,13 +85,22 @@ namespace LiveKit
             return AcquireOrNull<JSRef>(ptr);
         }
 
+        internal static void SetKeepAlive(JSRef jRef, bool keepAlive)
+        {
+            Debug.Log(jRef);
+            if (keepAlive)
+                AliveCache.Add(jRef);
+            else
+                AliveCache.Remove(jRef);
+        }
+
         [Preserve]
         public JSRef(JSHandle ptr)
         {
             NativePtr = ptr;
-            
-            // We add the instantiated object into the cache se we can retrieve later if not garbage collected.
-            // Note that if JSRef has been garbage collected, it doesn't mean that the key doesn't exists on this map
+
+            // We add the instantiated object into the cache se we can retrieve it later if not garbage collected.
+            // Note that if JSRef has been garbage collected, it doesn't mean that the key doesn't exists on this map ( Finalizer is unpredictable )
             Cache[ptr.DangerousGetHandle()] = new WeakReference<JSRef>(this);
         }
 

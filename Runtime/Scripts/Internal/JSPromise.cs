@@ -42,7 +42,7 @@ namespace LiveKit
         {
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
-            Acquire(JSNative.CallMethod(NativePtr, "then"));
+            JSNative.CallMethod(NativePtr, "then");
         }
 
         protected virtual void OnResolve()

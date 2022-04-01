@@ -21,7 +21,7 @@ namespace LiveKit
         Unknown
     }
 
-    public class Participant : JSObject
+    public class Participant : JSEventEmitter<ParticipantEvent>
     {
         public delegate void TrackPublishedDelegate(RemoteTrackPublication publication);
         public delegate void TrackSubscribedDelegate(RemoteTrack track, RemoteTrackPublication publication);
@@ -162,8 +162,7 @@ namespace LiveKit
             var handle = new JSHandle(iptr);
             try
             {
-                var evRef = Acquire<JSEventListener<ParticipantEvent>>(handle);
-                evRef.JSRef.TryGetTarget(out var jsRef);
+                var evRef = Acquire<EventWrapper>(handle);
                 var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
                 
                 switch (evRef.Event)
@@ -294,17 +293,14 @@ namespace LiveKit
             }
         }
 
-        private List<JSEventListener<ParticipantEvent>> m_Listeners = new List<JSEventListener<ParticipantEvent>>();
 
         [Preserve]
         public Participant(JSHandle ptr) : base(ptr)
         {
-            KeepAlive(this);
-            
             foreach (var e in Enum.GetValues(typeof(ParticipantEvent)))
-                m_Listeners.Add(new JSEventListener<ParticipantEvent>(this, (ParticipantEvent) e, EventReceived));
+                SetListener((ParticipantEvent) e, EventReceived);
         }
-        
+
         public JSArray<TrackPublication> GetTracks()
         {
             return Acquire<JSArray<TrackPublication>>(JSNative.CallMethod(NativePtr, "getTracks"));

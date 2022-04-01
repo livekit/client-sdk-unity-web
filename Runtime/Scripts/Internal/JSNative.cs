@@ -14,8 +14,8 @@ namespace LiveKit
     [SuppressUnmanagedCodeSecurity]
     internal static class JSNative
     {
-        internal static JSRef LiveKit { get; private set; }
-        internal static JSRef LKBridge { get; private set; }
+        internal static JSHandle LiveKit { get; private set; }
+        internal static JSHandle LKBridge { get; private set; }
 
         internal static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
@@ -36,10 +36,10 @@ namespace LiveKit
 #endif
 
             PushString("livekit");
-            LiveKit = JSRef.Acquire(GetProperty(JSHandle.Zero));
+            LiveKit = GetProperty(JSHandle.Zero);
 
             PushString("lkbridge");
-            LKBridge = JSRef.Acquire(GetProperty(JSHandle.Zero));
+            LKBridge = GetProperty(JSHandle.Zero);
 
             JSBridge.SendReady();
 #endif
@@ -55,12 +55,15 @@ namespace LiveKit
         [DllImport("__Internal")]
         internal static extern JSHandle NewRef();
         
-        [DllImport("__Internal"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+        [DllImport("__Internal")]
         internal static extern void AddRef(JSHandle ptr);
         
-        [DllImport("__Internal")]
+        [DllImport("__Internal"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
         internal static extern bool RemRef(IntPtr ptr);
 
+        [DllImport("__Internal")]
+        internal static extern void SetRef(JSHandle ptr);
+        
         [DllImport("__Internal")]
         internal static extern JSHandle GetProperty(JSHandle ptr);
 
@@ -156,10 +159,11 @@ namespace LiveKit
         internal static T GetStruct<T>(JSHandle ptr)
         {
             PushString("JSON");
-            var json = JSRef.Acquire(GetProperty(JSHandle.Zero));
+            var json = GetProperty(JSHandle.Zero);
 
             PushObject(ptr);
-            var r = JSRef.AcquireOrNull<JSString>(CallMethod(json.NativePtr, "stringify"));
+            var r = JSRef.AcquireOrNull<JSString>(CallMethod(json, "stringify"));
+            
             if (r == null)
                 return default(T);
 

@@ -24,7 +24,7 @@ namespace LiveKit
 
         public void Start()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "start"));
+            JSNative.CallMethod(NativePtr, "start");
         }
     }
 }

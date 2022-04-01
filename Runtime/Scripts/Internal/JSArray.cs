@@ -77,20 +77,20 @@ namespace LiveKit
             JSNative.PushNumber(index);
             JSNative.PushNumber(0);
             PushValue(item);
-            Acquire(JSNative.CallMethod(NativePtr, "push"));
+            JSNative.CallMethod(NativePtr, "push");
         }
 
         public void RemoveAt(int index)
         {
             JSNative.PushNumber(index);
             JSNative.PushNumber(1);
-            Acquire(JSNative.CallMethod(NativePtr, "splice"));
+            JSNative.CallMethod(NativePtr, "splice");
         }
 
         public void Add(T obj)
         {
             PushValue(obj);
-            Acquire(JSNative.CallMethod(NativePtr, "push"));
+            JSNative.CallMethod(NativePtr, "push");
         }
 
         public void Clear()

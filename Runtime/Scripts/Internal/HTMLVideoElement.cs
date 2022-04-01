@@ -9,7 +9,7 @@ namespace LiveKit
 
     public class HTMLVideoElement : HTMLMediaElement
     {
-        private JSRef m_AttachRef; // Keep a reference
+        private JSHandle m_AttachRef; // Keep a reference
         private int m_TexId;
 
         public int VideoWidth
@@ -48,7 +48,7 @@ namespace LiveKit
         public HTMLVideoElement(JSHandle ptr) : base(ptr)
         {
             m_TexId = JSNative.NewTexture();
-            m_AttachRef = Acquire(JSNative.AttachVideo(m_TexId, NativePtr));
+            m_AttachRef = JSNative.AttachVideo(m_TexId, NativePtr);
             AddEventListener("resize", ResizeEvent);
         }
 

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -10,13 +8,6 @@ namespace LiveKit
      */
     public class JSObject : JSRef
     {
-        internal static HashSet<JSObject> s_Cache = new HashSet<JSObject>();
-
-        internal static void KeepAlive(JSObject obj)
-        {
-            s_Cache.Add(obj);
-        }
-
         [Preserve]
         public JSObject(JSHandle ptr) : base(ptr)
         {
