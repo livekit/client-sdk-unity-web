@@ -15,16 +15,20 @@ namespace LiveKit
     [SuppressUnmanagedCodeSecurity]
     internal static class JSNative
     {
-        internal static JSHandle LiveKit { get; private set; }
-        internal static JSHandle BridgeInterface { get; private set; } // TypeScript interface
-        internal static JSHandle Window { get; private set; }
-        internal static JSHandle BridgeData { get; private set; }
+        // JSHandle can't be marshalled in a delegate
+        // JSHandle must be created with ptr when the callback is called
+        public delegate void JSDelegate(IntPtr ptr);
 
         internal static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore,
         };
+
+        internal static JSHandle LiveKit { get; private set; }
+        internal static JSHandle BridgeInterface { get; private set; } // TypeScript interface
+        internal static JSHandle Window { get; private set; }
+        internal static JSHandle BridgeData { get; private set; }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static void InitJSNative()
@@ -50,27 +54,22 @@ namespace LiveKit
             JSBridge.SendReady();
 #endif
         }
-        
-
-        // JSHandle can't be marshalled in a delegate
-        // JSHandle must be created with ptr when the callback is called
-        public delegate void JSDelegate(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern void InitLiveKit(bool debug);
 
         [DllImport("__Internal")]
         internal static extern JSHandle NewRef();
-        
+
         [DllImport("__Internal")]
         internal static extern void AddRef(JSHandle ptr);
-        
+
         [DllImport("__Internal"), ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
         internal static extern bool RemRef(IntPtr ptr);
 
         [DllImport("__Internal")]
         internal static extern void SetRef(JSHandle ptr);
-        
+
         [DllImport("__Internal")]
         internal static extern JSHandle GetProperty(JSHandle ptr);
 
@@ -112,7 +111,7 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern JSHandle ShiftStack();
-        
+
         [DllImport("__Internal")]
         internal static extern JSHandle GetFunctionInstance();
 
@@ -130,7 +129,7 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern bool IsNumber(JSHandle ptr);
-        
+
         [DllImport("__Internal")]
         internal static extern bool IsBoolean(JSHandle ptr);
 
@@ -148,10 +147,10 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern JSHandle RetrieveBridgeObject();
-        
+
         [DllImport("__Internal")]
         internal static extern JSHandle RetrieveWindowObject();
-        
+
         [DllImport("__Internal")]
         internal static extern int NewTexture();
 
