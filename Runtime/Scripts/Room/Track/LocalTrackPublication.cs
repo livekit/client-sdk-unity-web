@@ -21,7 +21,6 @@ namespace LiveKit
             }
         }
 
-
         [Preserve]
         public LocalTrackPublication(JSHandle ptr) : base(ptr)
         {

@@ -16,7 +16,9 @@ namespace LiveKit
     internal static class JSNative
     {
         internal static JSHandle LiveKit { get; private set; }
-        internal static JSHandle LKBridge { get; private set; }
+        internal static JSHandle BridgeInterface { get; private set; } // TypeScript interface
+        internal static JSHandle Window { get; private set; }
+        internal static JSHandle BridgeData { get; private set; }
 
         internal static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
@@ -36,11 +38,14 @@ namespace LiveKit
             InitLiveKit(false);
 #endif
 
+            Window = RetrieveWindowObject();
+            BridgeData = RetrieveBridgeObject();
+
             PushString("livekit");
-            LiveKit = GetProperty(JSHandle.Zero);
+            LiveKit = GetProperty(Window);
 
             PushString("lkbridge");
-            LKBridge = GetProperty(JSHandle.Zero);
+            BridgeInterface = GetProperty(Window);
 
             JSBridge.SendReady();
 #endif
@@ -142,6 +147,12 @@ namespace LiveKit
         internal static extern IntPtr GetDataPtr(JSHandle ptr);
 
         [DllImport("__Internal")]
+        internal static extern JSHandle RetrieveBridgeObject();
+        
+        [DllImport("__Internal")]
+        internal static extern JSHandle RetrieveWindowObject();
+        
+        [DllImport("__Internal")]
         internal static extern int NewTexture();
 
         [DllImport("__Internal")]
@@ -161,13 +172,13 @@ namespace LiveKit
         internal static T GetStruct<T>(JSHandle ptr)
         {
             PushString("JSON");
-            var json = GetProperty(JSHandle.Zero);
+            var json = GetProperty(Window);
 
             PushObject(ptr);
             var r = JSRef.AcquireOrNull<JSString>(CallMethod(json, "stringify"));
-            
+
             if (r == null)
-                return default(T);
+                throw new Exception($"Failed to bridge {typeof(T)}");
 
             return JsonConvert.DeserializeObject<T>(r.ToString());
         }

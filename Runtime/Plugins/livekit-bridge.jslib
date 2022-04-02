@@ -20,7 +20,8 @@ var NativeLib = {
 
         NewRef: function () {
             var nPtr = LKBridge.RefIndex++;
-            LKBridge.RefCount.set(nPtr, 0)
+            LKBridge.RefCount.set(nPtr, 0);
+            LKBridge.SetRef(nPtr, null); // Set to null by default
             return nPtr;
         },
 
@@ -105,16 +106,8 @@ var NativeLib = {
         var key = LKBridge.Stack[0];
         LKBridge.Stack = [];
 
-        var obj;
-        if (ptr === LKBridge.NullPtr) {
-            obj = window[key];
-        } else {
-            var p = LKBridge.Data.get(ptr);
-            if (p === undefined)
-                return LKBridge.NullPtr;
-
-            obj = p[key];
-        }
+        var p = LKBridge.Data.get(ptr);
+        var obj = p[key];
 
         return LKBridge.AddRef(LKBridge.GetOrNewRef(obj));
     },
@@ -124,15 +117,7 @@ var NativeLib = {
         var value = LKBridge.Stack[1];
         LKBridge.Stack = [];
 
-        var obj;
-        if (ptr === LKBridge.NullPtr) {
-            obj = window;
-        } else {
-            obj = LKBridge.Data.get(ptr);
-            if (obj === undefined)
-                return;
-        }
-
+        var obj = LKBridge.Data.get(ptr);
         obj[key] = value;
     },
 
@@ -268,6 +253,14 @@ var NativeLib = {
             _free(ptr);
         }, 0);
         return ptr;
+    },
+    
+    RetrieveBridgeObject: function(){
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(LKBridge));
+    },
+    
+    RetrieveWindowObject: function(){
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(window));
     },
 
     // Video Receive

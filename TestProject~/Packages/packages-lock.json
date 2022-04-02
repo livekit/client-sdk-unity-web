@@ -154,7 +154,7 @@
       "url": "https://packages.unity.com"
     },
     "io.livekit.unity": {
-      "version": "file:../../../",
+      "version": "file:../../",
       "depth": 0,
       "source": "local",
       "dependencies": {

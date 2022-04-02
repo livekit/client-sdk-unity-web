@@ -87,7 +87,7 @@ namespace LiveKit
         public static MediaDeviceFailure? GetFailure(JSError error)
         {
             JSNative.PushString("MediaDeviceFailure");
-            var ptr = JSNative.GetProperty(JSHandle.Zero);
+            var ptr = JSNative.GetProperty(JSNative.Window);
 
             JSNative.PushObject(error.NativePtr);
             var rPtr = JSRef.AcquireOrNull<JSString>(JSNative.CallMethod(ptr, "getFailure"));

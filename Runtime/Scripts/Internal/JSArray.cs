@@ -17,7 +17,7 @@ namespace LiveKit
 
         public JSArray()
         {
-            JSNative.NewInstance(JSHandle.Zero, NativePtr, "Array");
+            JSNative.NewInstance(JSNative.Window, NativePtr, "Array");
         }
 
         public JSArray(IEnumerable<T> f) : this()

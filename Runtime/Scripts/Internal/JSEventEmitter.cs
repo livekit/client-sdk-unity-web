@@ -12,7 +12,7 @@ namespace LiveKit
             public JSRef FncRef;
         }
         
-        internal readonly Dictionary<T, EventWrapper> m_Events = new Dictionary<T, EventWrapper>();
+        internal readonly Dictionary<T, EventWrapper> Events = new Dictionary<T, EventWrapper>();
 
         [Preserve]
         public JSEventEmitter(JSHandle ptr) : base(ptr)
@@ -28,7 +28,7 @@ namespace LiveKit
         ~JSEventEmitter()
         {
             // Clear events automatically 
-            foreach(var k in m_Events.Keys.ToList())
+            foreach(var k in Events.Keys.ToList())
                 RemoveListener(k);                
             
             SetKeepAlive(NativePtr, false);
@@ -45,7 +45,7 @@ namespace LiveKit
             
             SetKeepAlive(wrapper.FncRef, true);
             
-            m_Events.Add(eventt, wrapper);
+            Events.Add(eventt, wrapper);
             
             JSNative.PushFunction(wrapper.NativePtr, fnc);
             JSNative.SetRef(wrapper.FncRef.NativePtr);
@@ -57,7 +57,7 @@ namespace LiveKit
 
         internal void RemoveListener(T eventt)
         {
-            if (!m_Events.TryGetValue(eventt, out var wrapper))
+            if (!Events.TryGetValue(eventt, out var wrapper))
                 return;
             
             SetKeepAlive(wrapper.FncRef, false);
@@ -66,7 +66,7 @@ namespace LiveKit
             JSNative.PushObject(wrapper.FncRef.NativePtr);
             JSNative.CallMethod(NativePtr, "removeListener");
 
-            m_Events.Remove(eventt);
+            Events.Remove(eventt);
         }
     }
 }

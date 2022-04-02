@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ConstrainedExecution;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -39,7 +38,7 @@ namespace LiveKit
             {"HTMLAudioElement", typeof(HTMLAudioElement)},
         };
 
-        private static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
+        internal static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
         private static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
 
         internal JSHandle NativePtr { get; } // Own the handle
@@ -121,7 +120,17 @@ namespace LiveKit
                 return;
             }
 
+            Free();
+        }
+
+        internal void Free()
+        {
+            if(!NativePtr.IsClosed)
+                NativePtr.Close();
+            
+            var ptr = NativePtr.DangerousGetHandle();
             Cache.Remove(ptr);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace LiveKit
         {
 #if !UNITY_EDITOR && UNITY_WEBGL
             JSNative.PushString("UnityBridge");
-            var ptr = JSNative.GetProperty(JSNative.LKBridge);
+            var ptr = JSNative.GetProperty(JSNative.BridgeInterface);
 
             JSNative.PushString("instance");
             JSUnityBridge = JSNative.GetProperty(ptr);

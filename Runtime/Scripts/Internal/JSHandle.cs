@@ -5,8 +5,6 @@ namespace LiveKit
 {
     public class JSHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        public static readonly JSHandle Zero = new JSHandle();
-        
         private JSHandle() : base(true)
         {
             
