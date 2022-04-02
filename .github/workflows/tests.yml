@@ -1,0 +1,18 @@
+name: UnityBridge Tests
+on: [push, pull_request]
+
+jobs:
+  run_tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+    - uses: game-ci/unity-test-runner@v2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      with:
+        projectPath: TestProject~
+        testMode: playmode
+        githubToken: ${{ secrets.GITHUB_TOKEN }}

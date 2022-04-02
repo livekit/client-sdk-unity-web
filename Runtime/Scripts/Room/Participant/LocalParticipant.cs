@@ -8,7 +8,7 @@ namespace LiveKit
     public class LocalParticipant : Participant
     {
         [Preserve]
-        public LocalParticipant(IntPtr ptr) : base(ptr)
+        public LocalParticipant(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -133,7 +133,7 @@ namespace LiveKit
             JSNative.PushBoolean(allParticipantsAllowed);
             JSNative.PushObject(new JSArray<ParticipantTrackPermission>(participantTrackPermissions).NativePtr);
 
-            Acquire(JSNative.CallMethod(NativePtr, "setTrackSubscriptionPermissions"));
+            JSNative.CallMethod(NativePtr, "setTrackSubscriptionPermissions");
         }
     }
 }

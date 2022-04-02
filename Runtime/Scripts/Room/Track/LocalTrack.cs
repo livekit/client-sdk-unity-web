@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -6,7 +5,7 @@ namespace LiveKit
     public class LocalTrack : Track
     {
         [Preserve]
-        public LocalTrack(IntPtr ptr) : base(ptr)
+        public LocalTrack(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -53,12 +52,12 @@ namespace LiveKit
 
         public override void OnDone()
         {
-            if (!m_Promise.IsError)
-            {
-                var ptr = m_Promise.ResolveValue.NativePtr;
-                if (!JSNative.IsUndefined(ptr))
-                    DeviceId = JSNative.GetString(ptr);
-            }
+            if (m_Promise.IsError) 
+                return;
+            
+            var ptr = m_Promise.ResolveValue.NativePtr;
+            if (!JSNative.IsUndefined(ptr))
+                DeviceId = JSNative.GetString(ptr);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -16,7 +15,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public RemoteVideoTrack(IntPtr ptr) : base(ptr)
+        public RemoteVideoTrack(JSHandle ptr) : base(ptr)
         {
 
         }

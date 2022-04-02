@@ -9,7 +9,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit.NativePtr, "createLocalTracks"));
+            return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalTracks"));
         }
 
         public static JSPromise<LocalVideoTrack> CreateLocalVideoTrack(VideoCaptureOptions? options = null)
@@ -17,7 +17,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return JSRef.Acquire<JSPromise<LocalVideoTrack>>(JSNative.CallMethod(JSNative.LiveKit.NativePtr, "createLocalVideoTrack"));
+            return JSRef.Acquire<JSPromise<LocalVideoTrack>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalVideoTrack"));
         }
 
         public static JSPromise<LocalAudioTrack> CreateLocalAudioTrack(AudioCaptureOptions? options = null)
@@ -25,7 +25,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return JSRef.Acquire<JSPromise<LocalAudioTrack>>(JSNative.CallMethod(JSNative.LiveKit.NativePtr, "createLocalAudioTrack"));
+            return JSRef.Acquire<JSPromise<LocalAudioTrack>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalAudioTrack"));
         }
 
         public static JSPromise<JSArray<LocalTrack>> CreateLocalScreenTracks(ScreenShareCaptureOptions? options)
@@ -33,7 +33,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit.NativePtr, "createLocalScreenTracks"));
+            return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalScreenTracks"));
         }
 
         public static ConnectOperation Connect(string url, string token, ConnectOptions? options)
@@ -44,7 +44,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return new ConnectOperation(JSRef.Acquire<JSPromise<Room>>(JSNative.CallMethod(JSNative.LiveKit.NativePtr, "connect")));
+            return new ConnectOperation(JSRef.Acquire<JSPromise<Room>>(JSNative.CallMethod(JSNative.LiveKit, "connect")));
         }
     }
 }

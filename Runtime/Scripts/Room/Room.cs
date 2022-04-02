@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Scripting;
+using UnityEngine.SocialPlatforms;
 
 namespace LiveKit
 {
@@ -19,7 +20,7 @@ namespace LiveKit
         Reconnecting
     }
 
-    public class Room : JSObject
+    public class Room : JSEventEmitter<RoomEvent>
     {
         public delegate void ReconnectingDelegate();
         public delegate void ReconnectedDelegate();
@@ -76,10 +77,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
+            var handle = new JSHandle(iptr, true);
             try
             {
-                var evRef = Acquire<JSEventListener<RoomEvent>>(iptr);
-                evRef.JSRef.TryGetTarget(out var jsRef);
+                var evRef = Acquire<EventWrapper>(handle);
                 var room = Acquire<Room>(JSNative.GetFunctionInstance());
 
                 switch (evRef.Event)
@@ -250,9 +251,9 @@ namespace LiveKit
                     case RoomEvent.TrackStreamStateChanged:
                         {
                             var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                            var stateref = Acquire(JSNative.ShiftStack());
+                            var stateref = JSNative.ShiftStack();
 
-                            var state = Utils.ToEnum<TrackStreamState>(JSNative.GetString(stateref.NativePtr));
+                            var state = Utils.ToEnum<TrackStreamState>(JSNative.GetString(stateref));
                             var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
 
                             Log.Info($"Room: Received TrackStreamStateChanged({publication}, {state}, {participant.Sid})");
@@ -357,8 +358,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("options");
-                var ptr = Acquire(JSNative.GetProperty(NativePtr));
-                return JSNative.GetStruct<RoomOptions>(ptr.NativePtr);
+                return JSNative.GetStruct<RoomOptions>(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -372,12 +372,10 @@ namespace LiveKit
             }
         }
 
-        private List<JSEventListener<RoomEvent>> m_Listeners = new List<JSEventListener<RoomEvent>>();
-        
         [Preserve]
-        public Room(IntPtr ptr) : base(ptr)
+        public Room(JSHandle ptr) : base(ptr)
         {
-            Init();
+            RegisterEvents();
         }
 
         public Room(RoomOptions? options = null)
@@ -385,18 +383,32 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            JSNative.NewInstance(JSNative.LiveKit.NativePtr, NativePtr, "Room");
-            Init();
+            JSNative.NewInstance(JSNative.LiveKit, NativePtr, "Room");
+            RegisterEvents();
 
             JSBridge.SendRoomCreated(this);
         }
 
-        private void Init()
+        internal void RegisterEvents()
         {
-            KeepAlive(this);
+            foreach (var e in Enum.GetValues(typeof(RoomEvent)))
+                SetListener((RoomEvent) e, EventReceived);
+
+            SetKeepAlive(LocalParticipant, true);
             
-            foreach(var e in Enum.GetValues(typeof(RoomEvent)))
-                m_Listeners.Add(new JSEventListener<RoomEvent>(this, (RoomEvent) e, EventReceived));
+            ParticipantConnected += (p) => SetKeepAlive(p, true);
+            ParticipantDisconnected += (p) => SetKeepAlive(p, false);
+            
+            LocalTrackPublished += (publication, _) => SetKeepAlive(publication.Track, true);
+            LocalTrackUnpublished += (publication, _) => SetKeepAlive(publication.Track, false);
+            
+            TrackSubscribed += (track, _, _) => SetKeepAlive(track, true);
+            TrackUnsubscribed += (track, _, _) => SetKeepAlive(track, false);
+        }
+
+        ~Room()
+        {
+            SetKeepAlive(LocalParticipant, false);
         }
 
         public ConnectOperation Connect(string url, string token, RoomConnectOptions? options = null)
@@ -413,7 +425,7 @@ namespace LiveKit
         public void Disconnect(bool stopTracks = true)
         {
             JSNative.PushBoolean(stopTracks);
-            Acquire(JSNative.CallMethod(NativePtr, "disconnect"));
+            JSNative.CallMethod(NativePtr, "disconnect");
         }
 
         public Participant GetParticipantByIdentity(string identity)

@@ -6,7 +6,7 @@ namespace LiveKit
     public class JSNumber : JSObject
     {
         [Preserve]
-        public JSNumber(IntPtr ptr) : base(ptr)
+        public JSNumber(JSHandle ptr) : base(ptr)
         {
 
         }

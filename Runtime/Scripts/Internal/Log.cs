@@ -9,7 +9,7 @@ namespace LiveKit
         private const string LK_DEBUG = "LK_DEBUG";
 
         [Conditional(LK_DEBUG)]
-        public static void Info(string msg)
+        public static void Info(object msg)
         {
             Debug.unityLogger.Log(LogType.Log, $"LKBridge: {msg}");
         }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -6,7 +5,7 @@ namespace LiveKit
     public class JSString : JSObject
     {
         [Preserve]
-        public JSString(IntPtr ptr) : base(ptr)
+        public JSString(JSHandle ptr) : base(ptr)
         {
 
         }

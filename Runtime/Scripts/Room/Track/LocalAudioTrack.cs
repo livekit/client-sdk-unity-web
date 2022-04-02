@@ -7,7 +7,7 @@ namespace LiveKit
     public class LocalAudioTrack : LocalTrack
     {
         [Preserve]
-        public LocalAudioTrack(IntPtr ptr) : base(ptr)
+        public LocalAudioTrack(JSHandle ptr) : base(ptr)
         {
 
         }

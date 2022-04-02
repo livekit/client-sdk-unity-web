@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -11,14 +10,14 @@ namespace LiveKit
         private object m_Lock = new object();
 
         [Preserve]
-        public JSArray(IntPtr ptr) : base(ptr)
+        public JSArray(JSHandle ptr) : base(ptr)
         {
 
         }
 
         public JSArray()
         {
-            JSNative.NewInstance(IntPtr.Zero, NativePtr, "Array");
+            JSNative.NewInstance(JSNative.Window, NativePtr, "Array");
         }
 
         public JSArray(IEnumerable<T> f) : this()
@@ -78,20 +77,20 @@ namespace LiveKit
             JSNative.PushNumber(index);
             JSNative.PushNumber(0);
             PushValue(item);
-            Acquire(JSNative.CallMethod(NativePtr, "push"));
+            JSNative.CallMethod(NativePtr, "push");
         }
 
         public void RemoveAt(int index)
         {
             JSNative.PushNumber(index);
             JSNative.PushNumber(1);
-            Acquire(JSNative.CallMethod(NativePtr, "splice"));
+            JSNative.CallMethod(NativePtr, "splice");
         }
 
         public void Add(T obj)
         {
             PushValue(obj);
-            Acquire(JSNative.CallMethod(NativePtr, "push"));
+            JSNative.CallMethod(NativePtr, "push");
         }
 
         public void Clear()

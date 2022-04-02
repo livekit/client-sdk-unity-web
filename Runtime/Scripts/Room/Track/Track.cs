@@ -53,7 +53,7 @@ namespace LiveKit
         public int Height;
     }
 
-    public class Track : JSObject
+    public class Track : JSEventEmitter<TrackEvent>
     {
         public delegate void MessageDelegate();
         public delegate void MutedDelegate(Track track);
@@ -126,10 +126,10 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
         {
+            var handle = new JSHandle(iptr, true);
             try
             {
-                var evRef = Acquire<JSEventListener<TrackEvent>>(iptr);
-                evRef.JSRef.TryGetTarget(out var jsRef);
+                var evRef = Acquire<EventWrapper>(handle);
                 var track = Acquire<Track>(JSNative.GetFunctionInstance());
             
                 switch (evRef.Event)
@@ -168,15 +168,16 @@ namespace LiveKit
             }
         }
         
-        private List<JSEventListener<TrackEvent>> m_Listeners = new List<JSEventListener<TrackEvent>>();
-
         [Preserve]
-        public Track(IntPtr ptr) : base(ptr)
+        public Track(JSHandle ptr) : base(ptr)
         {
-            KeepAlive(this);
-            
-            foreach(var e in Enum.GetValues(typeof(TrackEvent)))
-                m_Listeners.Add(new JSEventListener<TrackEvent>(this, (TrackEvent) e, EventReceived));
+            RegisterEvents();
+        }
+        
+        internal void RegisterEvents()
+        {
+            foreach (var e in Enum.GetValues(typeof(TrackEvent)))
+                SetListener((TrackEvent) e, EventReceived);
         }
 
         public HTMLMediaElement Attach()
@@ -191,7 +192,7 @@ namespace LiveKit
 
         public void Stop()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "stop"));
+            JSNative.CallMethod(NativePtr, "stop");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public LivekitError(IntPtr ptr) : base(ptr)
+        public LivekitError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -28,7 +28,7 @@ namespace LiveKit
     public class ConnectionError : LivekitError
     {
         [Preserve]
-        public ConnectionError(IntPtr ptr) : base(ptr)
+        public ConnectionError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -37,7 +37,7 @@ namespace LiveKit
     public class TrackInvalidError : LivekitError
     {
         [Preserve]
-        public TrackInvalidError(IntPtr ptr) : base(ptr)
+        public TrackInvalidError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -45,7 +45,7 @@ namespace LiveKit
     public class UnsupportedServer : LivekitError
     {
         [Preserve]
-        public UnsupportedServer(IntPtr ptr) : base(ptr)
+        public UnsupportedServer(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -54,7 +54,7 @@ namespace LiveKit
     public class UnexpectedConnectionState : LivekitError
     {
         [Preserve]
-        public UnexpectedConnectionState(IntPtr ptr) : base(ptr)
+        public UnexpectedConnectionState(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -63,7 +63,7 @@ namespace LiveKit
     public class PublishDataError : LivekitError
     {
         [Preserve]
-        public PublishDataError(IntPtr ptr) : base(ptr)
+        public PublishDataError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -87,10 +87,10 @@ namespace LiveKit
         public static MediaDeviceFailure? GetFailure(JSError error)
         {
             JSNative.PushString("MediaDeviceFailure");
-            var ptr = JSRef.Acquire(JSNative.GetProperty(IntPtr.Zero));
+            var ptr = JSNative.GetProperty(JSNative.Window);
 
             JSNative.PushObject(error.NativePtr);
-            var rPtr = JSRef.AcquireOrNull<JSString>(JSNative.CallMethod(ptr.NativePtr, "getFailure"));
+            var rPtr = JSRef.AcquireOrNull<JSString>(JSNative.CallMethod(ptr, "getFailure"));
             if (rPtr == null)
                 return null;
 

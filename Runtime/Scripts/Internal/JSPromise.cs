@@ -1,17 +1,17 @@
 using AOT;
 using System;
 using System.Collections;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
     public class JSPromise : JSObject, IEnumerator
     {
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseResolve(IntPtr id)
         {
-            var promise = AcquireOrNull<JSPromise>(id);
+            var handle = new JSHandle(id, true);
+            var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return; // The promise can be garbage collected before completed (When ignoring Promise)
             
@@ -19,13 +19,14 @@ namespace LiveKit
             promise.IsDone = true;
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseReject(IntPtr id)
         {
-            var promise = AcquireOrNull<JSPromise>(id);
+            var handle = new JSHandle(id, true);
+            var promise = AcquireOrNull<JSPromise>(handle);
             if (promise == null)
                 return;
-
+            
             promise.OnReject();
             promise.IsDone = true;
             promise.IsError = true;
@@ -37,11 +38,11 @@ namespace LiveKit
         public JSRef RejectValue { get; protected set; }
 
         [Preserve]
-        public JSPromise(IntPtr ptr) : base(ptr)
+        public JSPromise(JSHandle ptr) : base(ptr)
         {
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
-            Acquire(JSNative.CallMethod(NativePtr, "then"));
+            JSNative.CallMethod(NativePtr, "then");
         }
 
         protected virtual void OnResolve()
@@ -73,7 +74,7 @@ namespace LiveKit
         public new T ResolveValue => base.ResolveValue as T;
 
         [Preserve]
-        public JSPromise(IntPtr ptr) : base(ptr)
+        public JSPromise(JSHandle ptr) : base(ptr)
         {
 
         }

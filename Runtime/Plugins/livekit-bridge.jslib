@@ -9,28 +9,29 @@ var NativeLib = {
         StackCSharp: [],
         FunctionInstance: null, // Current instance in a callback ( = this )
         NullPtr: 0,
-        
-        DynCall: function(sig, fnc, args){
+
+        DynCall: function (sig, fnc, args) {
             if (typeof Runtime !== 'undefined') {
                 Runtime.dynCall(sig, fnc, args); // Old Unity version
             } else {
                 dynCall(sig, fnc, args);
             }
         },
-        
+
         NewRef: function () {
             var nPtr = LKBridge.RefIndex++;
-            LKBridge.RefCount.set(nPtr, 0)
+            LKBridge.RefCount.set(nPtr, 0);
+            LKBridge.SetRef(nPtr, null); // Set to null by default
             return nPtr;
         },
-        
+
         FreeRef: function (ptr) {
             var obj = LKBridge.Data.get(ptr);
             LKBridge.Data.delete(ptr);
             LKBridge.RefCount.delete(ptr);
             LKBridge.Pointers.delete(obj);
         },
-        
+
         SetRef: function (ptr, obj) {
             LKBridge.Data.set(ptr, obj);
 
@@ -38,7 +39,7 @@ var NativeLib = {
                 LKBridge.Pointers.set(obj, ptr);
             }
         },
-        
+
         GetOrNewRef: function (obj) {
             var ptr = LKBridge.Pointers.get(obj);
             if (ptr === undefined || typeof obj !== 'object' || obj === null) {
@@ -48,23 +49,45 @@ var NativeLib = {
 
             return ptr;
         },
-    },
-    
-    AddRefCounter: function(ptr) {
-        LKBridge.RefCount.set(ptr, LKBridge.RefCount.get(ptr) + 1);
-    },
-    
-    RemoveRefCounter: function(ptr) {
-        var count = LKBridge.RefCount.get(ptr) - 1;
-        LKBridge.RefCount.set(ptr, count);
-        
-        if(count <= 0) {
-            setTimeout(function(){
-                if(LKBridge.RefCount.get(ptr) <= 0) {
-                    LKBridge.FreeRef(ptr);
-                }                
-            }, 0);
+
+        AddRef: function (ptr) {
+            LKBridge.RefCount.set(ptr, LKBridge.RefCount.get(ptr) + 1);
+            return ptr;
+        },
+
+        RemRef: function (ptr) {
+            var count = LKBridge.RefCount.get(ptr) - 1;
+            LKBridge.RefCount.set(ptr, count);
+
+            if (LKBridge.Debug && count < 0) {
+                console.warn(`LKBridge: The ref count of ${ptr} is negative ( Ptr management is wrong ! )`);
+            }
+            
+            if (count <= 0) {
+                LKBridge.FreeRef(ptr);
+            }
+
+            return ptr;
         }
+    },
+
+    NewRef: function () {
+        return LKBridge.AddRef(LKBridge.NewRef());
+    },
+    
+    AddRef: function (ptr) {
+        LKBridge.AddRef(ptr);
+    },
+
+    RemRef: function (ptr) {
+        LKBridge.RemRef(ptr);
+        return true;
+    },
+    
+    SetRef: function(ptr){
+        var value = LKBridge.Stack[0];
+        LKBridge.Stack = [];
+        LKBridge.SetRef(ptr, value);
     },
 
     InitLiveKit: function (debug) {
@@ -75,30 +98,18 @@ var NativeLib = {
         LKBridge.RefCount = new Map();
 
         if (LKBridge.Debug) {
-            window.LKInternalBridge = LKBridge;
+            window.lkinternal = LKBridge;
         }
-    },
-
-    NewRef: function () {
-        return LKBridge.NewRef();
     },
 
     GetProperty: function (ptr) {
         var key = LKBridge.Stack[0];
         LKBridge.Stack = [];
 
-        var obj;
-        if (ptr === LKBridge.NullPtr) {
-            obj = window[key];
-        } else {
-            var p = LKBridge.Data.get(ptr);
-            if (p === undefined)
-                return LKBridge.NullPtr;
+        var p = LKBridge.Data.get(ptr);
+        var obj = p[key];
 
-            obj = p[key];
-        }
-
-        return LKBridge.GetOrNewRef(obj);
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(obj));
     },
 
     SetProperty: function (ptr) {
@@ -106,15 +117,7 @@ var NativeLib = {
         var value = LKBridge.Stack[1];
         LKBridge.Stack = [];
 
-        var obj;
-        if (ptr === LKBridge.NullPtr) {
-            obj = window;
-        } else {
-            obj = LKBridge.Data.get(ptr);
-            if (obj === undefined)
-                return;
-        }
-
+        var obj = LKBridge.Data.get(ptr);
         obj[key] = value;
     },
 
@@ -178,7 +181,9 @@ var NativeLib = {
         LKBridge.Stack.push(function () {
             LKBridge.StackCSharp = Array.from(arguments);
             LKBridge.FunctionInstance = this;
-            LKBridge.DynCall('vi', fnc, [ptr]);
+
+            LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
+
             LKBridge.FunctionInstance = null;
             LKBridge.StackCSharp = [];
         });
@@ -193,7 +198,7 @@ var NativeLib = {
         var fnc = obj[UTF8ToString(str)];
         var result = fnc.apply(obj, LKBridge.Stack);
         LKBridge.Stack = [];
-        return LKBridge.GetOrNewRef(result);
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(result));
     },
 
     NewInstance: function (ptr, toPtr, clazz) {
@@ -211,14 +216,14 @@ var NativeLib = {
 
     ShiftStack: function () {
         var v = LKBridge.StackCSharp.shift();
-        return LKBridge.GetOrNewRef(v);
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(v));
     },
 
     GetFunctionInstance: function () {
         var v = LKBridge.FunctionInstance;
-        return LKBridge.GetOrNewRef(v);
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(v));
     },
-    
+
     GetString: function (ptr) {
         var value = LKBridge.Data.get(ptr);
         if (value === undefined || value === null)
@@ -248,6 +253,14 @@ var NativeLib = {
             _free(ptr);
         }, 0);
         return ptr;
+    },
+    
+    RetrieveBridgeObject: function(){
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(LKBridge));
+    },
+    
+    RetrieveWindowObject: function(){
+        return LKBridge.AddRef(LKBridge.GetOrNewRef(window));
     },
 
     // Video Receive

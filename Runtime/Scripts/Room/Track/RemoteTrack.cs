@@ -17,14 +17,14 @@ namespace LiveKit
         }
         
         [Preserve]
-        public RemoteTrack(IntPtr ptr) : base(ptr)
+        public RemoteTrack(JSHandle ptr) : base(ptr)
         {
 
         }
 
         public void Start()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "start"));
+            JSNative.CallMethod(NativePtr, "start");
         }
     }
 }

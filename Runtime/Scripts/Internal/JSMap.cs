@@ -11,13 +11,13 @@ namespace LiveKit
         {
             get 
             {
-                var keys = Acquire(JSNative.CallMethod(NativePtr, "keys"));
+                var keys = JSNative.CallMethod(NativePtr, "keys");
                 
                 JSNative.PushString("Array");
-                var array = Acquire(JSNative.GetProperty(IntPtr.Zero));
+                var array = JSNative.GetProperty(JSNative.Window);
 
-                JSNative.PushObject(keys.NativePtr);
-                return Acquire<JSArray<TKey>>(JSNative.CallMethod(array.NativePtr, "from"));
+                JSNative.PushObject(keys);
+                return Acquire<JSArray<TKey>>(JSNative.CallMethod(array, "from"));
             }
         }
 
@@ -25,13 +25,13 @@ namespace LiveKit
         {
             get
             {
-                var values = Acquire(JSNative.CallMethod(NativePtr, "values"));
+                var values = JSNative.CallMethod(NativePtr, "values");
 
                 JSNative.PushString("Array");
-                var array = Acquire(JSNative.GetProperty(IntPtr.Zero));
+                var array = JSNative.GetProperty(JSNative.Window);
 
-                JSNative.PushObject(values.NativePtr);
-                return Acquire<JSArray<TValue>>(JSNative.CallMethod(array.NativePtr, "from"));
+                JSNative.PushObject(values);
+                return Acquire<JSArray<TValue>>(JSNative.CallMethod(array, "from"));
             }
         }
 
@@ -68,17 +68,17 @@ namespace LiveKit
             {
                 PushKey(key);
                 PushValue(value);
-                Acquire(JSNative.CallMethod(NativePtr, "set"));
+                JSNative.CallMethod(NativePtr, "set");
             }
         }
 
-        public JSMap() : this(JSNative.NewRef())
+        public JSMap()
         {
-            JSNative.NewInstance(IntPtr.Zero, NativePtr, "Map");
+            JSNative.NewInstance(JSNative.Window, NativePtr, "Map");
         }
 
         [Preserve]
-        public JSMap(IntPtr ptr) : base(ptr)
+        public JSMap(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -122,7 +122,7 @@ namespace LiveKit
 
         public void Clear()
         {
-            Acquire(JSNative.CallMethod(NativePtr, "clear"));
+            JSNative.CallMethod(NativePtr, "clear");
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)

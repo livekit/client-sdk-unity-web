@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -14,17 +13,16 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
-                if (ptr == null)
+                var handle = JSNative.GetProperty(NativePtr);
+                if (JSNative.IsUndefined(handle) || JSNative.IsNull(handle))
                     return null;
 
-                return JSNative.GetStruct<TrackPublishOptions>(ptr.NativePtr);
+                return JSNative.GetStruct<TrackPublishOptions>(handle);
             }
         }
 
-
         [Preserve]
-        public LocalTrackPublication(IntPtr ptr) : base(ptr)
+        public LocalTrackPublication(JSHandle ptr) : base(ptr)
         {
 
         }

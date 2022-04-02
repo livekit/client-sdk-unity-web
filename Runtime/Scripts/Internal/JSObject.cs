@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -9,21 +8,14 @@ namespace LiveKit
      */
     public class JSObject : JSRef
     {
-        public static HashSet<JSObject> s_Cache = new HashSet<JSObject>();
-
-        public static void KeepAlive(JSObject obj)
-        {
-            s_Cache.Add(obj);
-        }
-
         [Preserve]
-        public JSObject(IntPtr ptr) : base(ptr)
+        public JSObject(JSHandle ptr) : base(ptr)
         {
             if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
                 throw new ArgumentException($"An object reference cannot be null, {GetType()}");
         }
 
-        internal JSObject() : base(JSNative.NewRef())
+        internal JSObject()
         {
             
         }

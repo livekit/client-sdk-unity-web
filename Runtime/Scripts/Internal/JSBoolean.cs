@@ -6,7 +6,7 @@ namespace LiveKit
     public class JSBoolean : JSObject
     {
         [Preserve]
-        public JSBoolean(IntPtr ptr) : base(ptr)
+        public JSBoolean(JSHandle ptr) : base(ptr)
         {
 
         }

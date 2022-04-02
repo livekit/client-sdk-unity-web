@@ -15,30 +15,30 @@ namespace LiveKit
 
     internal class JSBridge
     {
-        private static JSRef JSUnityBridge;
+        private static JSHandle JSUnityBridge;
 
         static JSBridge()
         {
 #if !UNITY_EDITOR && UNITY_WEBGL
             JSNative.PushString("UnityBridge");
-            var ptr = JSRef.Acquire(JSNative.GetProperty(JSNative.LKBridge.NativePtr));
+            var ptr = JSNative.GetProperty(JSNative.BridgeInterface);
 
             JSNative.PushString("instance");
-            JSUnityBridge = JSRef.Acquire(JSNative.GetProperty(ptr.NativePtr));
+            JSUnityBridge = JSNative.GetProperty(ptr);
 #endif
         }
 
         internal static void SendReady()
         {
             JSNative.PushString(Utils.ToEnumString(JSUnityEvent.BridgeReady));
-            JSRef.Acquire(JSNative.CallMethod(JSUnityBridge.NativePtr, "emit"));
+            JSNative.CallMethod(JSUnityBridge, "emit");
         }
 
         public static void SendRoomCreated(Room room)
         {
             JSNative.PushString(Utils.ToEnumString(JSUnityEvent.RoomCreated));
             JSNative.PushObject(room.NativePtr);
-            JSRef.Acquire(JSNative.CallMethod(JSUnityBridge.NativePtr, "emit"));
+            JSNative.CallMethod(JSUnityBridge, "emit");
         }
     }
 }

@@ -146,7 +146,7 @@ namespace LiveKit
 
 
         [Preserve]
-        public TrackPublication(IntPtr ptr) : base(ptr)
+        public TrackPublication(JSHandle ptr) : base(ptr)
         {
 
         }
