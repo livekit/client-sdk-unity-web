@@ -6,12 +6,18 @@ namespace LiveKit
 {
     internal static class Log
     {
+        private const string PREFIX = "LKBridge:";
         private const string LK_DEBUG = "LK_DEBUG";
 
         [Conditional(LK_DEBUG)]
-        public static void Info(object msg)
+        public static void Debug(object msg)
         {
-            Debug.unityLogger.Log(LogType.Log, $"LKBridge: {msg}");
+            UnityEngine.Debug.unityLogger.Log(LogType.Log, $"{PREFIX} {msg}");
+        }
+
+        public static void Error(object msg)
+        {
+            UnityEngine.Debug.unityLogger.Log(LogType.Error, $"{PREFIX} {msg}");
         }
     }
 }

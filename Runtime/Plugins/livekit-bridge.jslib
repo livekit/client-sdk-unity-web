@@ -108,7 +108,7 @@ var NativeLib = {
 
         var p = LKBridge.Data.get(ptr);
         var obj = p[key];
-
+        
         return LKBridge.AddRef(LKBridge.GetOrNewRef(obj));
     },
 
@@ -181,7 +181,7 @@ var NativeLib = {
         LKBridge.Stack.push(function () {
             LKBridge.StackCSharp = Array.from(arguments);
             LKBridge.FunctionInstance = this;
-
+            
             LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
 
             LKBridge.FunctionInstance = null;

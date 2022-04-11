@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AOT;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -160,9 +161,10 @@ namespace LiveKit
         private static void EventReceived(IntPtr iptr)
         {
             var handle = new JSHandle(iptr, true);
+            var evRef = Acquire<EventWrapper>(handle);
+
             try
             {
-                var evRef = Acquire<EventWrapper>(handle);
                 var participant = Acquire<Participant>(JSNative.GetFunctionInstance());
                 
                 switch (evRef.Event)
@@ -170,7 +172,7 @@ namespace LiveKit
                     case ParticipantEvent.TrackPublished:
                     {
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackPublished({publication})");
+                        Log.Debug($"Participant: TrackPublished({publication})");
                         participant.TrackPublished?.Invoke(publication);
                         break;
                     }
@@ -178,21 +180,21 @@ namespace LiveKit
                     {
                         var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackSubscribed({track.Sid}, {publication})");
+                        Log.Debug($"Participant: TrackSubscribed({track.Sid}, {publication})");
                         participant.TrackSubscribed?.Invoke(track, publication);
                         break;
                     }
                     case ParticipantEvent.TrackSubscriptionFailed:
                     {
                         var trackSid = Acquire<JSString>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackSubscriptionFailed(\"{trackSid}\"");
+                        Log.Debug($"Participant: TrackSubscriptionFailed(\"{trackSid}\"");
                         participant.TrackSubscriptionFailed?.Invoke(trackSid.ToString());
                         break;
                     }
                     case ParticipantEvent.TrackUnpublished:
                     {
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackUnpublished({publication})");
+                        Log.Debug($"Participant: TrackUnpublished({publication})");
                         participant.TrackUnpublished?.Invoke(publication);
                         break;
                     }
@@ -200,42 +202,42 @@ namespace LiveKit
                     {
                         var track = Acquire<RemoteTrack>(JSNative.ShiftStack());
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackUnsubscribed({track.Sid}, {publication})");
+                        Log.Debug($"Participant: TrackUnsubscribed({track.Sid}, {publication})");
                         participant.TrackUnsubscribed?.Invoke(track, publication);
                         break;
                     }
                     case ParticipantEvent.TrackMuted:
                     {
                         var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackMuted({publication})");
+                        Log.Debug($"Participant: TrackMuted({publication})");
                         participant.TrackMuted?.Invoke(publication);
                         break;
                     }
                     case ParticipantEvent.TrackUnmuted:
                     {
                         var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: TrackUnmuted({publication})");
+                        Log.Debug($"Participant: TrackUnmuted({publication})");
                         participant.TrackUnmuted?.Invoke(publication);
                         break;
                     }
                     case ParticipantEvent.LocalTrackPublished:
                     {
                         var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: LocalTrackPublished({publication})");
+                        Log.Debug($"Participant: LocalTrackPublished({publication})");
                         participant.LocalTrackPublished?.Invoke(publication);
                         break;
                     }
                     case ParticipantEvent.LocalTrackUnpublished:
                     {
                         var publication = Acquire<LocalTrackPublication>(JSNative.ShiftStack());
-                        Log.Info($"Participant: LocalTrackUnpublished({publication})");
+                        Log.Debug($"Participant: LocalTrackUnpublished({publication})");
                         participant.LocalTrackUnpublished?.Invoke(publication);
                         break;
                     }
                     case ParticipantEvent.ParticipantMetadataChanged:
                     {
                         var prevMetadata = AcquireOrNull<JSString>(JSNative.ShiftStack())?.ToString();
-                        Log.Info($"Participant: ParticipantMetadataChanged({prevMetadata})");
+                        Log.Debug($"Participant: ParticipantMetadataChanged({prevMetadata})");
                         participant.ParticipantMetadataChanged?.Invoke(prevMetadata);
                         break;
                     }
@@ -246,21 +248,21 @@ namespace LiveKit
                         var data = JSNative.GetData(dataPtr);
 
                         var kind = (DataPacketKind) Acquire<JSNumber>(JSNative.ShiftStack()).ToNumber();
-                        Log.Info($"Participant: DataReceived({data}, {kind})");
+                        Log.Debug($"Participant: DataReceived({data}, {kind})");
                         participant.DataReceived?.Invoke(data, kind);
                         break;
                     }
                     case ParticipantEvent.IsSpeakingChanged:
                     {
                         var isSpeaking = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
-                        Log.Info($"Participant: IsSpeakingChanged({isSpeaking})");
+                        Log.Debug($"Participant: IsSpeakingChanged({isSpeaking})");
                         participant.IsSpeakingChanged?.Invoke(isSpeaking);
                         break;
                     }
                     case ParticipantEvent.ConnectionQualityChanged:
                     {
                         var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
-                        Log.Info($"Participant: ConnectionQualityChanged({quality})");
+                        Log.Debug($"Participant: ConnectionQualityChanged({quality})");
                         participant.ConnectionQualityChanged?.Invoke(quality);
                         break;
                     }
@@ -270,7 +272,7 @@ namespace LiveKit
                         var stateref = Acquire<JSString>(JSNative.ShiftStack());
 
                         var state = Utils.ToEnum<TrackStreamState>(stateref.ToString());
-                        Log.Info($"Participant: TrackStreamStateChanged({publication}, {state})");
+                        Log.Debug($"Participant: TrackStreamStateChanged({publication}, {state})");
                         participant.TrackStreamStateChanged?.Invoke(publication, state);
                         break;
                     }
@@ -280,7 +282,7 @@ namespace LiveKit
                         var stateref = Acquire<JSString>(JSNative.ShiftStack());
 
                         var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
-                        Log.Info($"Participant: TrackStreamStateChanged({publication}, {status})");
+                        Log.Debug($"Participant: TrackStreamStateChanged({publication}, {status})");
                         participant.TrackSubscriptionPermissionChanged?.Invoke(publication, status);
                         break;
                     }
@@ -288,7 +290,7 @@ namespace LiveKit
             }
             catch (Exception e)
             {
-                Log.Info(e.Message);
+                Log.Error($"Error happened on ParticipantEvent.{evRef.Event} ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
                 throw;
             }
         }

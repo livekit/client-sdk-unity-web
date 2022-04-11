@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ConstrainedExecution;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -87,7 +88,7 @@ namespace LiveKit
             if (reff == null)
                 throw new ArgumentNullException(nameof(reff));
             
-            Log.Info($"SetKeepAlive of {reff} to {keepAlive}");
+            Log.Debug($"SetKeepAlive of {reff} to {keepAlive}");
             
             if (keepAlive)
                 AliveCache.Add(reff);

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AOT;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -127,35 +128,35 @@ namespace LiveKit
         private static void EventReceived(IntPtr iptr)
         {
             var handle = new JSHandle(iptr, true);
+            var evRef = Acquire<EventWrapper>(handle);
             try
             {
-                var evRef = Acquire<EventWrapper>(handle);
                 var track = Acquire<Track>(JSNative.GetFunctionInstance());
             
                 switch (evRef.Event)
                 {
                     case TrackEvent.Message:
                         track.Message?.Invoke();
-                        Log.Info($"Track: Message()");
+                        Log.Debug($"Track: Message()");
                         break;
                     case TrackEvent.Muted:
                     {
                         var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                        Log.Info($"Track: Muted({t})");
+                        Log.Debug($"Track: Muted({t})");
                         track.Muted?.Invoke(t);
                         break;
                     }
                     case TrackEvent.Unmuted:
                     {
                         var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                        Log.Info($"Track: Unmuted({t})");
+                        Log.Debug($"Track: Unmuted({t})");
                         track.Unmuted?.Invoke(t);
                         break;
                     }
                     case TrackEvent.Ended:
                     {
                         var t = AcquireOrNull<Track>(JSNative.ShiftStack());
-                        Log.Info($"Track: Ended({t})");
+                        Log.Debug($"Track: Ended({t})");
                         track.Ended?.Invoke(t);
                         break;
                     }
@@ -163,7 +164,7 @@ namespace LiveKit
             }
             catch (Exception e)
             {
-                Log.Info(e.Message);
+                Log.Error($"Error happened on TrackEvent.{evRef.Event} ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
                 throw;
             }
         }
