@@ -1,6 +1,7 @@
 using AOT;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -42,7 +43,7 @@ namespace LiveKit
         public HTMLMediaElement(JSHandle ptr) : base(ptr)
         {
             m_Attached.Add(this);
-            AddEventListener("emptied", EmptiedEvent);
+            //AddEventListener("emptied", EmptiedEvent); // TODO This is breaking VideoTrack on mute
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -164,7 +165,7 @@ namespace LiveKit
                         }
                     case RoomEvent.TrackMuted:
                         {
-                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             Log.Debug($"Room: Received TrackMuted({publication}, {participant.Sid})");
                             room.TrackMuted?.Invoke(publication, participant);
@@ -172,7 +173,7 @@ namespace LiveKit
                         }
                     case RoomEvent.TrackUnmuted:
                         {
-                            var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
+                            var publication = Acquire<TrackPublication>(JSNative.ShiftStack());
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             Log.Debug($"Room: Received TrackUnmuted({publication}, {participant.Sid})");
                             room.TrackUnmuted?.Invoke(publication, participant);

@@ -34,14 +34,24 @@ namespace LiveKit
 
         public event VideoReceivedDelegate VideoReceived;
 
-
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void ResizeEvent(IntPtr ptr)
         {
-            var handle = new JSHandle(ptr, true);
-            var el = Acquire<HTMLVideoElement>(handle);
-            var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));
-            el.VideoReceived?.Invoke(tex);
+            try
+            {
+                var handle = new JSHandle(ptr, true);
+                var el = AcquireOrNull<HTMLVideoElement>(handle);
+                if (el == null)
+                    return;
+                
+                var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));
+                el.VideoReceived?.Invoke(tex);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error happened on HTMLVideoElement.VideoReceived ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
+                throw;
+            }
         }
 
         [Preserve]
