@@ -1,6 +1,6 @@
 {
   "name": "io.livekit.unity",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "displayName": "LiveKit WebGL SDK",
   "description": "LiveKit Unity Bridge for WebGL",
   "unity": "2021.3",

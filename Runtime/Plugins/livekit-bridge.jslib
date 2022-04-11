@@ -181,7 +181,7 @@ var NativeLib = {
         LKBridge.Stack.push(function () {
             LKBridge.StackCSharp = Array.from(arguments);
             LKBridge.FunctionInstance = this;
-            
+
             LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
 
             LKBridge.FunctionInstance = null;
@@ -194,14 +194,19 @@ var NativeLib = {
     },
 
     CallMethod: function (ptr, str) {
+        var stack = LKBridge.Stack;
+        LKBridge.Stack = [];
+
         var obj = LKBridge.Data.get(ptr);
         var fnc = obj[UTF8ToString(str)];
-        var result = fnc.apply(obj, LKBridge.Stack);
-        LKBridge.Stack = [];
+        var result = fnc.apply(obj, stack);
         return LKBridge.AddRef(LKBridge.GetOrNewRef(result));
     },
 
     NewInstance: function (ptr, toPtr, clazz) {
+        var stack = LKBridge.Stack;
+        LKBridge.Stack = [];
+
         var obj;
         if (ptr === 0) {
             obj = window;
@@ -209,9 +214,8 @@ var NativeLib = {
             obj = LKBridge.Data.get(ptr);
         }
 
-        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], LKBridge.Stack));
+        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], stack));
         LKBridge.SetRef(toPtr, inst);
-        LKBridge.Stack = [];
     },
 
     ShiftStack: function () {
