@@ -399,11 +399,11 @@ namespace LiveKit
             ParticipantConnected += (p) => SetKeepAlive(p, true);
             ParticipantDisconnected += (p) => SetKeepAlive(p, false);
             
-            LocalTrackPublished += (publication, _) => SetKeepAlive(publication.Track, true);
-            LocalTrackUnpublished += (publication, _) => SetKeepAlive(publication.Track, false);
+            LocalTrackPublished += (publication, participant) => SetKeepAlive(publication.Track, true);
+            LocalTrackUnpublished += (publication, participant) => SetKeepAlive(publication.Track, false);
             
-            TrackSubscribed += (track, _, _) => SetKeepAlive(track, true);
-            TrackUnsubscribed += (track, _, _) => SetKeepAlive(track, false);
+            TrackSubscribed += (track, publication, participant) => SetKeepAlive(track, true);
+            TrackUnsubscribed += (track, publication, participant) => SetKeepAlive(track, false);
         }
 
         ~Room()
