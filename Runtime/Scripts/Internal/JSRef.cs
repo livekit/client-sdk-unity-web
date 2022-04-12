@@ -83,7 +83,7 @@ namespace LiveKit
             return AcquireOrNull<JSRef>(ptr);
         }
 
-        internal static void SetKeepAlive([NotNull] object reff, bool keepAlive)
+        internal static void SetKeepAlive(object reff, bool keepAlive)
         {
             if (reff == null)
                 throw new ArgumentNullException(nameof(reff));
