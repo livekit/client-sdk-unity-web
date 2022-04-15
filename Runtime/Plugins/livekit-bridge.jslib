@@ -60,7 +60,7 @@ var NativeLib = {
             LKBridge.RefCount.set(ptr, count);
 
             if (LKBridge.Debug && count < 0) {
-                console.warn(`LKBridge: The ref count of ${ptr} (obj: ${LKBridge.Data.get(ptr)}) is negative ( Ptr management is wrong ! )`);
+                console.warn('LKBridge: The ref count of ' + ptr +  '(obj: ' + LKBridge.Data.get(ptr) + ') is negative ( Ptr management is wrong ! )');
             }
             
             if (count <= 0) {

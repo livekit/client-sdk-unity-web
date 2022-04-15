@@ -1,6 +1,6 @@
 {
   "name": "@livekit/livekit-unity",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "LiveKit Unity Bridge for WebGL",
   "main": "dist/index.js",
   "source": "src/index.ts",
