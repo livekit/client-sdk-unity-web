@@ -12,7 +12,7 @@ namespace LiveKit
 
         public string GetId()
         {
-            return Acquire<JSString>(JSNative.CallMethod(NativePtr, "id")).ToString();
+            return JSNative.GetString(JSNative.CallMethod(NativePtr, "id"));
         }
 
         public TrackDimensions? GetDimensions()

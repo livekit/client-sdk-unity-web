@@ -12,8 +12,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isSimulcast");
-                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
-                return ptr.ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 

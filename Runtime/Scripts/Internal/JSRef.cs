@@ -11,9 +11,6 @@ namespace LiveKit
     {
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
-            {"Number", typeof(JSNumber)},
-            {"String", typeof(JSString)},
-            {"Boolean", typeof(JSBoolean)},
             {"Error", typeof(JSError)},
             {"LivekitError", typeof(LivekitError)},
             {"ConnectionError", typeof(ConnectionError)},
@@ -61,9 +58,9 @@ namespace LiveKit
                 var ctor = JSNative.GetProperty(handle);
 
                 JSNative.PushString("name");
-                var typeName = Acquire<JSString>(JSNative.GetProperty(ctor));
+                var typeName = JSNative.GetString(JSNative.GetProperty(ctor));
 
-                if (s_TypeMap.TryGetValue(typeName.ToString(), out Type correctType))
+                if (s_TypeMap.TryGetValue(typeName, out Type correctType))
                     type = correctType;
             }
 

@@ -40,8 +40,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("size");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (int)ptr.ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -94,13 +93,13 @@ namespace LiveKit
         public bool ContainsKey(TKey key)
         {
             PushKey(key);
-            return Acquire<JSBoolean>(JSNative.CallMethod(NativePtr, "has")).ToBool();
+            return JSNative.GetBoolean(JSNative.CallMethod(NativePtr, "has"));
         }
 
         public bool Remove(TKey key)
         {
             PushKey(key);
-            return Acquire<JSBoolean>(JSNative.CallMethod(NativePtr, "delete")).ToBool();
+            return JSNative.GetBoolean(JSNative.CallMethod(NativePtr, "delete"));
         }
 
         public bool TryGetValue(TKey key, out TValue value)

@@ -1,7 +1,6 @@
 using AOT;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -28,8 +27,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("volume");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (float) ptr.ToNumber();
+                return (float) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
             set
             {

@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
@@ -13,8 +12,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("code");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (int)ptr.ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -90,11 +88,11 @@ namespace LiveKit
             var ptr = JSNative.GetProperty(JSNative.Window);
 
             JSNative.PushObject(error.NativePtr);
-            var rPtr = JSRef.AcquireOrNull<JSString>(JSNative.CallMethod(ptr, "getFailure"));
-            if (rPtr == null)
+            var rPtr = JSNative.CallMethod(ptr, "getFailure");
+            if (!JSNative.IsString(rPtr))
                 return null;
-
-            return Utils.ToEnum<MediaDeviceFailure>(rPtr.ToString());
+            
+            return Utils.ToEnum<MediaDeviceFailure>(JSNative.GetString(rPtr));
         }
     }
 }

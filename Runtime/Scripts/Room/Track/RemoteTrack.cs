@@ -11,8 +11,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("streamState");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackStreamState>(ptr.ToString());
+                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
         

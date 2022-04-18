@@ -174,12 +174,12 @@ namespace LiveKit
             var json = GetProperty(Window);
 
             PushObject(ptr);
-            var r = JSRef.AcquireOrNull<JSString>(CallMethod(json, "stringify"));
+            var strifyPtr = CallMethod(json, "stringify");
 
-            if (r == null)
+            if(!IsString(strifyPtr))
                 throw new Exception($"Failed to bridge {typeof(T)}");
 
-            return JsonConvert.DeserializeObject<T>(r.ToString());
+            return JsonConvert.DeserializeObject<T>(GetString(strifyPtr));
         }
 
         internal static void PushPrimitive(object obj)

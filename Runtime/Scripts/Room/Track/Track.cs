@@ -71,8 +71,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("kind");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackKind>(ptr.ToString());
+                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
 
@@ -99,8 +98,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
-                return ptr.ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -109,8 +107,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackSource>(ptr.ToString());
+                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
 
@@ -119,8 +116,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("sid");
-                var ptr = AcquireOrNull<JSString>(JSNative.GetProperty(NativePtr));
-                return ptr?.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 

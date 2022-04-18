@@ -13,8 +13,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("subscriptionStatus");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<SubscriptionStatus>(ptr.ToString());
+                return Utils.ToEnum<SubscriptionStatus>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
 
@@ -23,8 +22,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoQuality");
-                var ptr = AcquireOrNull<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (VideoQuality?)ptr?.ToNumber();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsNumber(ptr))
+                    return null;
+
+                return (VideoQuality?) JSNative.GetNumber(ptr);
             }
         }
 

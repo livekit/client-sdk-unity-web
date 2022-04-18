@@ -34,7 +34,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("length");
-                return (int) Acquire<JSNumber>(JSNative.GetProperty(NativePtr)).ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -69,7 +69,7 @@ namespace LiveKit
         public int IndexOf(T item)
         {
             PushValue(item);
-            return (int) Acquire<JSNumber>(JSNative.CallMethod(NativePtr, "indexOf")).ToNumber();
+            return (int) JSNative.GetNumber(JSNative.CallMethod(NativePtr, "indexOf"));
         }
 
         public void Insert(int index, T item)

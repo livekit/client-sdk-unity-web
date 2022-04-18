@@ -88,8 +88,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("audioLevel");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (int) ptr.ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -98,8 +97,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isSpeaking");
-                var ptr = Acquire<JSBoolean>(JSNative.GetProperty(NativePtr));
-                return ptr.ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -108,8 +106,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("sid");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return ptr.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 
@@ -118,8 +119,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("identity");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return ptr.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 
@@ -128,8 +132,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("name");
-                var ptr = AcquireOrNull<JSString>(JSNative.GetProperty(NativePtr));
-                return ptr?.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 
@@ -138,8 +145,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("metadata");
-                var ptr = AcquireOrNull<JSString>(JSNative.GetProperty(NativePtr));
-                return ptr?.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 
@@ -152,8 +162,8 @@ namespace LiveKit
                 if(ptr == null)
                     return null;
 
-                var tPtr = Acquire<JSNumber>(JSNative.CallMethod(ptr.NativePtr, "getTime"));
-                return new DateTime((long) tPtr.ToNumber());
+                var tPtr = JSNative.GetNumber(JSNative.CallMethod(ptr.NativePtr, "getTime"));
+                return new DateTime((long) tPtr);
             }
         }
 
@@ -186,9 +196,9 @@ namespace LiveKit
                     }
                     case ParticipantEvent.TrackSubscriptionFailed:
                     {
-                        var trackSid = Acquire<JSString>(JSNative.ShiftStack());
+                        var trackSid = JSNative.GetString(JSNative.ShiftStack());
                         Log.Debug($"Participant: TrackSubscriptionFailed(\"{trackSid}\"");
-                        participant.TrackSubscriptionFailed?.Invoke(trackSid.ToString());
+                        participant.TrackSubscriptionFailed?.Invoke(trackSid);
                         break;
                     }
                     case ParticipantEvent.TrackUnpublished:
@@ -236,7 +246,11 @@ namespace LiveKit
                     }
                     case ParticipantEvent.ParticipantMetadataChanged:
                     {
-                        var prevMetadata = AcquireOrNull<JSString>(JSNative.ShiftStack())?.ToString();
+                        var pmPtr = JSNative.ShiftStack();
+                        string prevMetadata = null;
+                        if (JSNative.IsString(pmPtr))
+                            prevMetadata = JSNative.GetString(pmPtr);
+                        
                         Log.Debug($"Participant: ParticipantMetadataChanged({prevMetadata})");
                         participant.ParticipantMetadataChanged?.Invoke(prevMetadata);
                         break;
@@ -247,21 +261,21 @@ namespace LiveKit
                         var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
                         var data = JSNative.GetData(dataPtr);
 
-                        var kind = (DataPacketKind) Acquire<JSNumber>(JSNative.ShiftStack()).ToNumber();
+                        var kind = (DataPacketKind) JSNative.GetNumber(JSNative.ShiftStack());
                         Log.Debug($"Participant: DataReceived({data}, {kind})");
                         participant.DataReceived?.Invoke(data, kind);
                         break;
                     }
                     case ParticipantEvent.IsSpeakingChanged:
                     {
-                        var isSpeaking = Acquire<JSBoolean>(JSNative.ShiftStack()).ToBool();
+                        var isSpeaking = JSNative.GetBoolean(JSNative.ShiftStack());
                         Log.Debug($"Participant: IsSpeakingChanged({isSpeaking})");
                         participant.IsSpeakingChanged?.Invoke(isSpeaking);
                         break;
                     }
                     case ParticipantEvent.ConnectionQualityChanged:
                     {
-                        var quality = Utils.ToEnum<ConnectionQuality>(Acquire<JSString>(JSNative.ShiftStack()).ToString());
+                        var quality = Utils.ToEnum<ConnectionQuality>(JSNative.GetString(JSNative.ShiftStack()));
                         Log.Debug($"Participant: ConnectionQualityChanged({quality})");
                         participant.ConnectionQualityChanged?.Invoke(quality);
                         break;
@@ -269,7 +283,7 @@ namespace LiveKit
                     case ParticipantEvent.TrackStreamStateChanged:
                     {
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var stateref = Acquire<JSString>(JSNative.ShiftStack());
+                        var stateref = JSNative.GetString(JSNative.ShiftStack());
 
                         var state = Utils.ToEnum<TrackStreamState>(stateref.ToString());
                         Log.Debug($"Participant: TrackStreamStateChanged({publication}, {state})");
@@ -279,7 +293,7 @@ namespace LiveKit
                     case ParticipantEvent.TrackSubscriptionPermissionChanged:
                     {
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
-                        var stateref = Acquire<JSString>(JSNative.ShiftStack());
+                        var stateref = JSNative.GetString(JSNative.ShiftStack());
 
                         var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
                         Log.Debug($"Participant: TrackStreamStateChanged({publication}, {status})");

@@ -17,8 +17,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoWidth");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (int)ptr.ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -27,8 +26,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoHeight");
-                var ptr = Acquire<JSNumber>(JSNative.GetProperty(NativePtr));
-                return (int)ptr.ToNumber();
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -43,6 +41,8 @@ namespace LiveKit
                 var el = AcquireOrNull<HTMLVideoElement>(handle);
                 if (el == null)
                     return;
+                
+                Log.Debug($"Received HTMLVideoElement.Resize {el.VideoWidth}x{el.VideoHeight}");
                 
                 var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));
                 el.VideoReceived?.Invoke(tex);

@@ -24,8 +24,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("kind");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackKind>(ptr.ToString());
+                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
 
@@ -34,7 +33,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackName");
-                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
+                return JSNative.GetString(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -43,7 +42,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackSid");
-                return Acquire<JSString>(JSNative.GetProperty(NativePtr)).ToString();
+                return JSNative.GetString(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -61,8 +60,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                var ptr = Acquire<JSString>(JSNative.GetProperty(NativePtr));
-                return Utils.ToEnum<TrackSource>(ptr.ToString());
+                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
             }
         }
 
@@ -94,8 +92,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("simulcasted");
-                var ptr = AcquireOrNull<JSBoolean>(JSNative.GetProperty(NativePtr));
-                return ptr?.ToBool();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.GetBoolean(ptr))
+                    return null;
+
+                return JSNative.GetBoolean(ptr);
             }
         }
 
@@ -104,7 +105,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -113,7 +114,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isEnabled");
-                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 
@@ -122,7 +123,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isSubscribed");
-                return Acquire<JSBoolean>(JSNative.GetProperty(NativePtr)).ToBool();
+                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
             }
         }
 
