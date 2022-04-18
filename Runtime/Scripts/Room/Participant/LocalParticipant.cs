@@ -111,7 +111,7 @@ namespace LiveKit
             return AcquireOrNull<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
         }
 
-        public JSPromise<JSRef> PublishData(byte[] data, DataPacketKind kind, RemoteParticipant[] participants = null)
+        public JSPromise<JSRef> PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)
         {
             JSArray<RemoteParticipant> arr = null;
             if(participants != null)
