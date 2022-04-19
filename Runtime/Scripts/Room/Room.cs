@@ -223,14 +223,12 @@ namespace LiveKit
                         }
                     case RoomEvent.DataReceived:
                         {
-                            var dataref = Acquire<JSRef>(JSNative.ShiftStack());
-                            var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
-                            var data = JSNative.GetData(dataPtr);
+                            var data = Acquire<JSUint8Array>(JSNative.ShiftStack());
 
                             var pPtr = JSNative.ShiftStack();
                             RemoteParticipant participant = null;
                             if(JSNative.IsObject(pPtr))
-                                Acquire<RemoteParticipant>(pPtr);
+                                participant = Acquire<RemoteParticipant>(pPtr);
 
                             var kindPtr = JSNative.ShiftStack();
                             DataPacketKind? kind = null;
@@ -238,7 +236,7 @@ namespace LiveKit
                                 kind = (DataPacketKind?) JSNative.GetNumber(kindPtr);
                             
                             Log.Debug($"Room: Received DataReceived({data}, {participant?.Sid}, {kind})");
-                            room.DataReceived?.Invoke(data, participant, kind);
+                            room.DataReceived?.Invoke(data.ToArray(), participant, kind);
                             break;
                         }
                     case RoomEvent.ConnectionQualityChanged:

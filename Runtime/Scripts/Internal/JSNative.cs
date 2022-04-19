@@ -95,7 +95,7 @@ namespace LiveKit
         internal static extern void PushStruct(string json);
 
         [DllImport("__Internal")]
-        internal static extern void PushData(byte[] data, int size);
+        internal static extern void PushData(byte[] data, int offset, int size);
 
         [DllImport("__Internal")]
         internal static extern void PushObject(JSHandle ptr);
@@ -141,9 +141,9 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern bool GetBoolean(JSHandle ptr);
-
+        
         [DllImport("__Internal")]
-        internal static extern IntPtr GetDataPtr(JSHandle ptr);
+        internal static extern bool CopyData(JSHandle ptr, [Out] byte[] data, int offset, int count);
 
         [DllImport("__Internal")]
         internal static extern JSHandle RetrieveBridgeObject();
@@ -159,14 +159,6 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern JSHandle AttachVideo(int texId, JSHandle videoPtr);
-
-        internal static unsafe byte[] GetData(IntPtr ptr)
-        {
-            var length = *(int*) ptr;
-            var data = new byte[length];
-            Marshal.Copy(ptr + 4, data, 0, length); // TODO Maybe not copy ?
-            return data;
-        }
 
         internal static T GetStruct<T>(JSHandle ptr)
         {

@@ -257,13 +257,10 @@ namespace LiveKit
                     }
                     case ParticipantEvent.DataReceived:
                     {
-                        var dataref = Acquire<JSRef>(JSNative.ShiftStack());
-                        var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
-                        var data = JSNative.GetData(dataPtr);
-
+                        var data = Acquire<JSUint8Array>(JSNative.ShiftStack());
                         var kind = (DataPacketKind) JSNative.GetNumber(JSNative.ShiftStack());
                         Log.Debug($"Participant: DataReceived({data}, {kind})");
-                        participant.DataReceived?.Invoke(data, kind);
+                        participant.DataReceived?.Invoke(data.ToArray(), kind);
                         break;
                     }
                     case ParticipantEvent.IsSpeakingChanged:

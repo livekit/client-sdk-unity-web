@@ -173,8 +173,9 @@ var NativeLib = {
         LKBridge.Stack.push(JSON.parse(UTF8ToString(json)));
     },
 
-    PushData: function (data, size) {
-        LKBridge.Stack.push(HEAPU8.subarray(data, data + size));
+    PushData: function (data, offset, size) {
+        var of = data + offset;
+        LKBridge.Stack.push(HEAPU8.subarray(of, of + size));
     },
 
     PushFunction: function (ptr, fnc) {
@@ -246,19 +247,13 @@ var NativeLib = {
     GetBoolean: function (ptr) {
         return LKBridge.Data.get(ptr);
     },
-
-    GetDataPtr: function (pptr) {
-        var value = LKBridge.Data.get(pptr);
-        var arr = new Uint8Array(value);
-        var ptr = _malloc(arr.byteLength + 4);
-        HEAP32.set([arr.length], ptr >> 2); // First 4 bytes is the size of the array 
-        HEAPU8.set(arr, ptr + 4);
-        setTimeout(function () {
-            _free(ptr);
-        }, 0);
-        return ptr;
-    },
     
+    CopyData: function(ptr, buff, offset, count) {
+        var value = LKBridge.Data.get(ptr);
+        var arr = new Uint8Array(value, offset, count);
+        HEAPU8.set(arr, buff);
+    },
+
     RetrieveBridgeObject: function(){
         return LKBridge.AddRef(LKBridge.GetOrNewRef(LKBridge));
     },

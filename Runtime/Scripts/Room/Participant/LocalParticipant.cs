@@ -127,13 +127,19 @@ namespace LiveKit
             return Acquire<LocalTrackPublication>(ptr);
         }
 
+        // TODO Support unsafe ptr
         public JSPromise PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)
+        {
+            return PublishData(data, 0, data.Length, kind, participants);
+        }
+        
+        public JSPromise PublishData(byte[] data, int offset, int size, DataPacketKind kind, params RemoteParticipant[] participants)
         {
             JSArray<RemoteParticipant> arr = null;
             if(participants != null)
                 arr = new JSArray<RemoteParticipant>(participants);
 
-            JSNative.PushData(data, data.Length);
+            JSNative.PushData(data, offset, size);
             JSNative.PushNumber((double)kind);
 
             if (participants == null)
@@ -143,7 +149,7 @@ namespace LiveKit
 
             return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "publishData"));
         }
-
+        
         public void SetTrackSubscriptionPermissions(bool allParticipantsAllowed, ParticipantTrackPermission[] participantTrackPermissions)
         {
             JSNative.PushBoolean(allParticipantsAllowed);

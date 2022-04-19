@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ConstrainedExecution;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -12,6 +10,7 @@ namespace LiveKit
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
             {"Error", typeof(JSError)},
+            {"Uint8Array", typeof(JSUint8Array)},
             {"LivekitError", typeof(LivekitError)},
             {"ConnectionError", typeof(ConnectionError)},
             {"TrackInvalidError", typeof(TrackInvalidError)},
