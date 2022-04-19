@@ -15,10 +15,10 @@ namespace LiveKit
         private static void EmptiedEvent(IntPtr ptr)
         {
             var handle = new JSHandle(ptr, true);
-            var el = AcquireOrNull<HTMLMediaElement>(handle);
-            if (el == null)
+            if (!JSNative.IsObject(handle))
                 return;
-
+            
+            var el = Acquire<HTMLMediaElement>(handle);
             m_Attached.Remove(el);
         }
         

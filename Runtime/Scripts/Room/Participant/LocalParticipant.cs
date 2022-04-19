@@ -15,12 +15,20 @@ namespace LiveKit
 
         public JSError LastCameraError()
         {
-            return AcquireOrNull<JSError>(JSNative.CallMethod(NativePtr, "lastCameraError")); ;
+            var ptr = JSNative.CallMethod(NativePtr, "lastCameraError");
+            if (JSNative.IsObject(ptr))
+                return null;
+
+            return Acquire<JSError>(ptr);
         }
 
         public JSError LastMicrophoneError()
         {
-            return AcquireOrNull<JSError>(JSNative.CallMethod(NativePtr, "lastMicrophoneError"));
+            var ptr = JSNative.CallMethod(NativePtr, "lastMicrophoneError");
+            if (JSNative.IsObject(ptr))
+                return null;
+
+            return Acquire<JSError>(ptr);
         }
 
         public new LocalTrackPublication GetTrack(TrackSource source)
@@ -98,7 +106,11 @@ namespace LiveKit
             if(stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            return AcquireOrNull<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
+            var ptr = JSNative.CallMethod(NativePtr, "unpublishTrack");
+            if (JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<LocalTrackPublication>(ptr);
         }
 
         public LocalTrackPublication UnpublishTrack(MediaStreamTrack track, bool? stopOnUnpublish)
@@ -108,10 +120,14 @@ namespace LiveKit
             if (stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            return AcquireOrNull<LocalTrackPublication>(JSNative.CallMethod(NativePtr, "unpublishTrack"));
+            var ptr = JSNative.CallMethod(NativePtr, "unpublishTrack");
+            if (JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<LocalTrackPublication>(ptr);
         }
 
-        public JSPromise<JSRef> PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)
+        public JSPromise PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)
         {
             JSArray<RemoteParticipant> arr = null;
             if(participants != null)
@@ -125,7 +141,7 @@ namespace LiveKit
             else
                 JSNative.PushObject(arr.NativePtr);
 
-            return Acquire<JSPromise<JSRef>>(JSNative.CallMethod(NativePtr, "publishData"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "publishData"));
         }
 
         public void SetTrackSubscriptionPermissions(bool allParticipantsAllowed, ParticipantTrackPermission[] participantTrackPermissions)

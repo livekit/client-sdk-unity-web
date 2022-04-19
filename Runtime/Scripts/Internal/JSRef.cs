@@ -67,19 +67,6 @@ namespace LiveKit
             return Activator.CreateInstance(type, handle) as T;
         }
 
-        internal static T AcquireOrNull<T>(JSHandle ptr) where T : JSRef
-        {
-            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
-                return null;
-
-            return Acquire<T>(ptr);
-        }
-
-        internal static JSRef AcquireOrNull(JSHandle ptr)
-        {
-            return AcquireOrNull<JSRef>(ptr);
-        }
-
         internal static void SetKeepAlive(object reff, bool keepAlive)
         {
             if (reff == null)

@@ -158,12 +158,12 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("lastSpokeAt");
-                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
-                if(ptr == null)
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsObject(ptr))
                     return null;
-
-                var tPtr = JSNative.GetNumber(JSNative.CallMethod(ptr.NativePtr, "getTime"));
-                return new DateTime((long) tPtr);
+                
+                var time = JSNative.GetNumber(JSNative.CallMethod(ptr, "getTime"));
+                return new DateTime((long) time);
             }
         }
 
@@ -329,13 +329,23 @@ namespace LiveKit
         public TrackPublication GetTrack(TrackSource source)
         {
             JSNative.PushString(Utils.ToEnumString(source));
-            return AcquireOrNull<TrackPublication>(JSNative.CallMethod(NativePtr, "getTrack"));
+
+            var ptr = JSNative.CallMethod(NativePtr, "getTrack");
+            if (!JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<TrackPublication>(ptr);
         }
 
         public TrackPublication GetTrackByName(string name)
         {
             JSNative.PushString(name);
-            return AcquireOrNull<TrackPublication>(JSNative.CallMethod(NativePtr, "getTrackByName"));
+
+            var ptr = JSNative.CallMethod(NativePtr, "getTrackByName");
+            if (!JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<TrackPublication>(ptr);
         }
     }
 }

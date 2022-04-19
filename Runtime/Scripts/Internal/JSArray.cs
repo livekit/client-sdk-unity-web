@@ -50,14 +50,11 @@ namespace LiveKit
                     throw new IndexOutOfRangeException();
 
                 JSNative.PushNumber(index);
-                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
-                if(ptr == null)
-                    return default(T);
-
+                var ptr = JSNative.GetProperty(NativePtr);
                 if (JSNative.IsPrimitive(typeof(T)))
-                    return (T) JSNative.GetPrimitive(ptr.NativePtr);
-                else
-                    return (T)(object) ptr;
+                    return (T) JSNative.GetPrimitive(ptr);
+                
+                return (T)(object) Acquire<JSRef>(ptr);
             }
             set {
                 JSNative.PushNumber(index);

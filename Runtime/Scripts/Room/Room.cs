@@ -226,7 +226,11 @@ namespace LiveKit
                             var dataref = Acquire<JSRef>(JSNative.ShiftStack());
                             var dataPtr = JSNative.GetDataPtr(dataref.NativePtr);
                             var data = JSNative.GetData(dataPtr);
-                            var participant = AcquireOrNull<RemoteParticipant>(JSNative.ShiftStack());
+
+                            var pPtr = JSNative.ShiftStack();
+                            RemoteParticipant participant = null;
+                            if(JSNative.IsObject(pPtr))
+                                Acquire<RemoteParticipant>(pPtr);
 
                             var kindPtr = JSNative.ShiftStack();
                             DataPacketKind? kind = null;
@@ -436,7 +440,12 @@ namespace LiveKit
         public Participant GetParticipantByIdentity(string identity)
         {
             JSNative.PushString(identity);
-            return AcquireOrNull<Participant>(JSNative.CallMethod(NativePtr, "getParticipantByIdentity"));
+
+            var ptr = JSNative.CallMethod(NativePtr, "getParticipantByIdentity");
+            if (!JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<Participant>(ptr);
         }
 
         public JSPromise StartAudio()

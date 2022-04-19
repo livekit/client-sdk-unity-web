@@ -38,10 +38,10 @@ namespace LiveKit
             try
             {
                 var handle = new JSHandle(ptr, true);
-                var el = AcquireOrNull<HTMLVideoElement>(handle);
-                if (el == null)
+                if (!JSNative.IsObject(handle))
                     return;
-                
+            
+                var el = Acquire<HTMLVideoElement>(handle);
                 Log.Debug($"Received HTMLVideoElement.Resize {el.VideoWidth}x{el.VideoHeight}");
                 
                 var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));

@@ -51,7 +51,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("track");
-                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsObject(ptr))
+                    return null;
+                
+                return Acquire<Track>(ptr);
             }
         }
 
@@ -69,8 +73,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("mimeType");
-                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
-                return ptr?.ToString();
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsString(ptr))
+                    return null;
+
+                return JSNative.GetString(ptr);
             }
         }
 
@@ -79,11 +86,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var ptr = AcquireOrNull(JSNative.GetProperty(NativePtr));
-                if (ptr == null)
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsObject(ptr))
                     return null;
 
-                return JSNative.GetStruct<TrackDimensions>(ptr.NativePtr);
+                return JSNative.GetStruct<TrackDimensions>(ptr);
             }
         }
 
@@ -132,7 +139,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("audioTrack");
-                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsObject(ptr))
+                    return null;
+                
+                return Acquire<Track>(ptr);
             }
         }
 
@@ -141,7 +152,11 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoTrack");
-                return AcquireOrNull<Track>(JSNative.GetProperty(NativePtr));
+                var ptr = JSNative.GetProperty(NativePtr);
+                if (!JSNative.IsObject(ptr))
+                    return null;
+                
+                return Acquire<Track>(ptr);
             }
         }
 

@@ -11,10 +11,10 @@ namespace LiveKit
         private static void PromiseResolve(IntPtr id)
         {
             var handle = new JSHandle(id, true);
-            var promise = AcquireOrNull<JSPromise>(handle);
-            if (promise == null)
+            if (!JSNative.IsObject(handle))
                 return; // The promise can be garbage collected before completed (When ignoring Promise)
             
+            var promise = Acquire<JSPromise>(handle);
             promise.OnResolve();
             promise.IsDone = true;
         }
@@ -23,10 +23,10 @@ namespace LiveKit
         private static void PromiseReject(IntPtr id)
         {
             var handle = new JSHandle(id, true);
-            var promise = AcquireOrNull<JSPromise>(handle);
-            if (promise == null)
+            if (!JSNative.IsObject(handle))
                 return;
             
+            var promise = Acquire<JSPromise>(handle);
             promise.OnReject();
             promise.IsDone = true;
             promise.IsError = true;
@@ -47,12 +47,12 @@ namespace LiveKit
 
         protected virtual void OnResolve()
         {
-            ResolveValue = AcquireOrNull(JSNative.ShiftStack());
+            ResolveValue = Acquire<JSRef>(JSNative.ShiftStack());
         }
 
         protected virtual void OnReject()
         {
-            RejectValue = AcquireOrNull(JSNative.ShiftStack());
+            RejectValue = Acquire<JSRef>(JSNative.ShiftStack());
         }
 
         // Coroutines impl
@@ -81,7 +81,7 @@ namespace LiveKit
 
         protected override void OnResolve()
         {
-            base.ResolveValue = AcquireOrNull<T>(JSNative.ShiftStack());
+            base.ResolveValue = Acquire<T>(JSNative.ShiftStack());
         }
     }
 

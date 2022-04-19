@@ -17,11 +17,11 @@ namespace LiveKit
 
         public TrackDimensions? GetDimensions()
         {
-            var ptr = AcquireOrNull(JSNative.CallMethod(NativePtr, "dimensions"));
-            if (ptr == null)
+            var ptr = JSNative.CallMethod(NativePtr, "dimensions");
+            if (!JSNative.IsObject(ptr))
                 return null;
 
-            return JSNative.GetStruct<TrackDimensions>(ptr.NativePtr);
+            return JSNative.GetStruct<TrackDimensions>(ptr);
         }
     
         public GetDeviceIdOperation GetDeviceId()

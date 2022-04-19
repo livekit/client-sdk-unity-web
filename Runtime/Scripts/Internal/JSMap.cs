@@ -54,14 +54,11 @@ namespace LiveKit
                     throw new KeyNotFoundException();
 
                 PushKey(key);
-                var ptr = AcquireOrNull(JSNative.CallMethod(NativePtr, "get"));
-                if (ptr == null)
-                    return default;
-
+                var ptr = JSNative.CallMethod(NativePtr, "get");
                 if(JSNative.IsPrimitive(typeof(TValue)))
-                    return (TValue) JSNative.GetPrimitive(ptr.NativePtr);
+                    return (TValue) JSNative.GetPrimitive(ptr);
 
-                return (TValue)(object)ptr;
+                return (TValue)(object) Acquire<JSRef>(ptr);
             }
             set
             {

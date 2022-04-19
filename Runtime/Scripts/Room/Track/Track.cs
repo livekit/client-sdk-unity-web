@@ -141,21 +141,33 @@ namespace LiveKit
                         break;
                     case TrackEvent.Muted:
                     {
-                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        var ptr = JSNative.ShiftStack();
+                        Track t = null;
+                        if(JSNative.IsObject(ptr))
+                            t = Acquire<Track>(JSNative.ShiftStack());
+                        
                         Log.Debug($"Track: Muted({t})");
                         track.Muted?.Invoke(t);
                         break;
                     }
                     case TrackEvent.Unmuted:
                     {
-                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        var ptr = JSNative.ShiftStack();
+                        Track t = null;
+                        if(JSNative.IsObject(ptr))
+                            t = Acquire<Track>(JSNative.ShiftStack());
+                        
                         Log.Debug($"Track: Unmuted({t})");
                         track.Unmuted?.Invoke(t);
                         break;
                     }
                     case TrackEvent.Ended:
                     {
-                        var t = AcquireOrNull<Track>(JSNative.ShiftStack());
+                        var ptr = JSNative.ShiftStack();
+                        Track t = null;
+                        if(JSNative.IsObject(ptr))
+                            t = Acquire<Track>(JSNative.ShiftStack());
+                        
                         Log.Debug($"Track: Ended({t})");
                         track.Ended?.Invoke(t);
                         break;

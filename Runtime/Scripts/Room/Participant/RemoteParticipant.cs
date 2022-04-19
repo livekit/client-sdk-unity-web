@@ -24,7 +24,12 @@ namespace LiveKit
         public RemoteTrackPublication GetTrackPublication(string sid)
         {
             JSNative.PushString(sid);
-            return AcquireOrNull<RemoteTrackPublication>(JSNative.CallMethod(NativePtr, "getTrackPublication"));
+
+            var ptr = JSNative.CallMethod(NativePtr, "getTrackPublication");
+            if (!JSNative.IsObject(ptr))
+                return null;
+            
+            return Acquire<RemoteTrackPublication>(ptr);
         }
     }
 }
