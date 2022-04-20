@@ -10,6 +10,17 @@ namespace LiveKit
         {
 
         }
+        
+        public void SetVolume(float volume)
+        {
+            JSNative.PushNumber(volume);
+            JSNative.CallMethod(NativePtr, "setVolume");
+        }
+
+        public float GetVolume()
+        {
+            return (float) JSNative.GetNumber(JSNative.CallMethod(NativePtr, "getVolume"));
+        }
 
         public new RemoteTrackPublication GetTrack(TrackSource source)
         {

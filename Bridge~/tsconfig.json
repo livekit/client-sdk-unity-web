@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "outDir": "dist",
     "declaration": true,
     "sourceMap": true,
@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
   }
 }

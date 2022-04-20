@@ -104,6 +104,12 @@ namespace LiveKit
         [EnumMember(Value = "unmuted")]
         Unmuted,
         [EnumMember(Value = "ended")]
-        Ended
+        Ended,
+        
+        // Internals
+        [EnumMember(Value = "elementAttached")]
+        ElementAttached,
+        [EnumMember(Value = "elementDetached")]
+        ElementDetached
     }
 }

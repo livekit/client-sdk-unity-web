@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace LiveKit
@@ -36,6 +37,7 @@ namespace LiveKit
             return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalScreenTracks"));
         }
 
+        [Obsolete("Use room.connect() instead")]
         public static ConnectOperation Connect(string url, string token, ConnectOptions? options)
         {
             JSNative.PushString(url);

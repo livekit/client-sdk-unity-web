@@ -1,17 +1,13 @@
-using AOT;
 using System;
+using AOT;
 using UnityEngine;
 using UnityEngine.Scripting;
+using Object = UnityEngine.Object;
 
 namespace LiveKit
 {
-    public delegate void VideoReceivedDelegate(Texture2D tex);
-
     public class HTMLVideoElement : HTMLMediaElement
     {
-        private JSHandle m_AttachRef; // Keep a reference
-        private int m_TexId;
-
         public int VideoWidth
         {
             get
@@ -20,7 +16,7 @@ namespace LiveKit
                 return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
-
+        
         public int VideoHeight
         {
             get
@@ -29,10 +25,8 @@ namespace LiveKit
                 return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
             }
         }
-
-        public event VideoReceivedDelegate VideoReceived;
-
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void ResizeEvent(IntPtr ptr)
         {
             try
@@ -40,12 +34,12 @@ namespace LiveKit
                 var handle = new JSHandle(ptr, true);
                 if (!JSNative.IsObject(handle))
                     return;
-            
+                
                 var el = Acquire<HTMLVideoElement>(handle);
                 Log.Debug($"Received HTMLVideoElement.Resize {el.VideoWidth}x{el.VideoHeight}");
                 
-                var tex = Texture2D.CreateExternalTexture(el.VideoWidth, el.VideoHeight, TextureFormat.RGBA32, false, false, new IntPtr(el.m_TexId));
-                el.VideoReceived?.Invoke(tex);
+                el.SetupTexture();
+                el.VideoReceived?.Invoke(el.Texture);
             }
             catch (Exception e)
             {
@@ -53,18 +47,34 @@ namespace LiveKit
                 throw;
             }
         }
+        
+        public delegate void VideoReceivedDelegate(Texture2D tex);
+        public event VideoReceivedDelegate VideoReceived;
+        
+        public Texture2D Texture { get; private set; }
+        private readonly int m_TextureId;
 
         [Preserve]
         public HTMLVideoElement(JSHandle ptr) : base(ptr)
         {
-            m_TexId = JSNative.NewTexture();
-            m_AttachRef = JSNative.AttachVideo(m_TexId, NativePtr);
+            m_TextureId = JSNative.NewTexture();
+            SetupTexture();
+            JSNative.AttachVideo(NativePtr, m_TextureId);
             AddEventListener("resize", ResizeEvent);
         }
 
         ~HTMLVideoElement()
         {
-            JSNative.DestroyTexture(m_TexId);
+            Object.Destroy(Texture);
+            JSNative.DestroyTexture(m_TextureId);
+        }
+
+        void SetupTexture()
+        {
+            if (Texture != null)
+                Object.Destroy(Texture);
+            
+            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, false, (IntPtr) m_TextureId);
         }
     }
 }

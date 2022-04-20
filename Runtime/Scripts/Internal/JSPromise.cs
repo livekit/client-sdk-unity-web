@@ -47,12 +47,20 @@ namespace LiveKit
 
         protected virtual void OnResolve()
         {
-            ResolveValue = Acquire<JSRef>(JSNative.ShiftStack());
+            var ptr = JSNative.ShiftStack();
+            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+                return;
+            
+            ResolveValue = Acquire<JSRef>(ptr);
         }
 
         protected virtual void OnReject()
         {
-            RejectValue = Acquire<JSRef>(JSNative.ShiftStack());
+            var ptr = JSNative.ShiftStack();
+            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+                return;
+            
+            RejectValue = Acquire<JSRef>(ptr);
         }
 
         // Coroutines impl
@@ -81,7 +89,11 @@ namespace LiveKit
 
         protected override void OnResolve()
         {
-            base.ResolveValue = Acquire<T>(JSNative.ShiftStack());
+            var ptr = JSNative.ShiftStack();
+            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+                return;
+            
+            base.ResolveValue = Acquire<T>(ptr);
         }
     }
 

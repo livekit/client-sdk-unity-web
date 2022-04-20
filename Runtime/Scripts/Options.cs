@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
@@ -49,6 +50,8 @@ namespace LiveKit
         [JsonProperty("rtcConfig")]
         public RTCConfiguration? RTCConfig;
     }
+    
+    [Obsolete("Use new Room(RoomOptions) and room.connect(RoomConnectOptions) instead")]
     public struct ConnectOptions
     {
         [JsonProperty("autoSubscribe")]

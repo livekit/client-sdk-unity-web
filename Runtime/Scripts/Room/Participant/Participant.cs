@@ -282,7 +282,7 @@ namespace LiveKit
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
                         var stateref = JSNative.GetString(JSNative.ShiftStack());
 
-                        var state = Utils.ToEnum<TrackStreamState>(stateref.ToString());
+                        var state = Utils.ToEnum<TrackStreamState>(stateref);
                         Log.Debug($"Participant: TrackStreamStateChanged({publication}, {state})");
                         participant.TrackStreamStateChanged?.Invoke(publication, state);
                         break;
@@ -292,7 +292,7 @@ namespace LiveKit
                         var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
                         var stateref = JSNative.GetString(JSNative.ShiftStack());
 
-                        var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
+                        var status = Utils.ToEnum<SubscriptionStatus>(stateref);
                         Log.Debug($"Participant: TrackStreamStateChanged({publication}, {status})");
                         participant.TrackSubscriptionPermissionChanged?.Invoke(publication, status);
                         break;
@@ -312,7 +312,7 @@ namespace LiveKit
             RegisterEvents();
         }
         
-        internal void RegisterEvents()
+        private void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(ParticipantEvent)))
                 SetListener((ParticipantEvent) e, EventReceived);

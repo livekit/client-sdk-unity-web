@@ -278,23 +278,22 @@ var NativeLib = {
         GLctx.deleteTexture(GL.textures[id]);
     },
 
-    AttachVideo: function (texId, videoPtr) {
-        var attachPtr = LKBridge.NewRef();
-        LKBridge.SetRef(attachPtr, true);
-
+    AttachVideo: function (videoPtr, texId) {
         var tex = GL.textures[texId];
-        var video = LKBridge.Data.get(videoPtr);
         var lastTime = -1;
-
+        
         var updateVideo = function () {
-            if (!LKBridge.Data.get(attachPtr))
-                return; // Detached
-
+            var video = LKBridge.Data.get(videoPtr);
+            if (video === undefined)
+                return;
+            
             var time = video.currentTime;
             if (!video.paused && video.srcObject !== null && time !== lastTime) {
-                GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
+                lastTime = time;
 
-                // Flip
+                GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
+                
+                // Flip Y
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
                 GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, false);
@@ -303,16 +302,12 @@ var NativeLib = {
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.LINEAR);
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_S, GLctx.CLAMP_TO_EDGE);
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_WRAP_T, GLctx.CLAMP_TO_EDGE);
-                GLctx.bindTexture(GLctx.TEXTURE_2D, null);
-
-                lastTime = time;
             }
-
+            
             requestAnimationFrame(updateVideo);
         };
-
+        
         requestAnimationFrame(updateVideo);
-        return attachPtr;
     },
 };
 

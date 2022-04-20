@@ -156,9 +156,9 @@ namespace LiveKit
 
         [DllImport("__Internal")]
         internal static extern void DestroyTexture(int id);
-
+        
         [DllImport("__Internal")]
-        internal static extern JSHandle AttachVideo(int texId, JSHandle videoPtr);
+        internal static extern void AttachVideo(JSHandle video, int texId);
 
         internal static T GetStruct<T>(JSHandle ptr)
         {

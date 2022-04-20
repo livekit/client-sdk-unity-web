@@ -204,7 +204,7 @@ namespace LiveKit
                             
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             Log.Debug($"Room: Received ParticipantMetadataChanged(\"{metadata}\", {participant.Sid})");
-                            room.ParticipantMetadataChanged?.Invoke(metadata?.ToString(), participant);
+                            room.ParticipantMetadataChanged?.Invoke(metadata, participant);
                             break;
                         }
                     case RoomEvent.ActiveSpeakersChanged:
@@ -271,7 +271,7 @@ namespace LiveKit
                             var publication = Acquire<RemoteTrackPublication>(JSNative.ShiftStack());
                             var stateref = JSNative.GetString(JSNative.ShiftStack());
 
-                            var status = Utils.ToEnum<SubscriptionStatus>(stateref.ToString());
+                            var status = Utils.ToEnum<SubscriptionStatus>(stateref);
                             var participant = Acquire<RemoteParticipant>(JSNative.ShiftStack());
 
                             Log.Debug($"Room: Received TrackSubscriptionPermissionChanged({publication}, {status}, {participant.Sid})");
@@ -396,7 +396,7 @@ namespace LiveKit
             JSBridge.SendRoomCreated(this);
         }
 
-        internal void RegisterEvents()
+        private void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(RoomEvent)))
                 SetListener((RoomEvent) e, EventReceived);
@@ -412,7 +412,7 @@ namespace LiveKit
             TrackSubscribed += (track, publication, participant) => SetKeepAlive(track, true);
             TrackUnsubscribed += (track, publication, participant) => SetKeepAlive(track, false);
         }
-
+        
         ~Room()
         {
             SetKeepAlive(LocalParticipant, false);

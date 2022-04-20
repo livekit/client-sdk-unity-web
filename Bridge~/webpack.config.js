@@ -16,7 +16,7 @@ module.exports = {
     },
     mode: 'production',
     devtool: 'inline-source-map',
-    target: ["web", "es5"],
+    target: ["web"],
     module: {
         rules: [
             {
@@ -33,6 +33,7 @@ module.exports = {
         minimize: true,
         minimizer: [
             new TerserPlugin({
+                extractComments: false,
                 test: /\.jspre(\?.*)?$/i,
                 terserOptions: {
                     keep_classnames: true,

@@ -72,7 +72,7 @@ public class ExampleRoom : MonoBehaviour
 
     private void HandleRemovedTrack(Track track, TrackPublication publication)
     {
-        track?.Detach();
+        track.Detach();
 
         if (m_Videos.TryGetValue(publication, out var view))
             Destroy(view.gameObject);

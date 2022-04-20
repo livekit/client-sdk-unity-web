@@ -60,11 +60,15 @@ namespace LiveKit
         public delegate void MutedDelegate(Track track);
         public delegate void UnmutedDelegate(Track track);
         public delegate void EndedDelegate(Track track);
+        internal delegate void ElementAttachedDelegate(HTMLMediaElement element);
+        internal delegate void ElementDetachedDelegate(HTMLMediaElement element);
 
         public event MessageDelegate Message;
         public event MutedDelegate Muted;
         public event UnmutedDelegate Unmuted;
         public event EndedDelegate Ended;
+        internal event ElementAttachedDelegate ElementAttached;
+        internal event ElementDetachedDelegate ElementDetached;
         
         public TrackKind Kind
         {
@@ -144,7 +148,7 @@ namespace LiveKit
                         var ptr = JSNative.ShiftStack();
                         Track t = null;
                         if(JSNative.IsObject(ptr))
-                            t = Acquire<Track>(JSNative.ShiftStack());
+                            t = Acquire<Track>(ptr);
                         
                         Log.Debug($"Track: Muted({t})");
                         track.Muted?.Invoke(t);
@@ -155,7 +159,7 @@ namespace LiveKit
                         var ptr = JSNative.ShiftStack();
                         Track t = null;
                         if(JSNative.IsObject(ptr))
-                            t = Acquire<Track>(JSNative.ShiftStack());
+                            t = Acquire<Track>(ptr);
                         
                         Log.Debug($"Track: Unmuted({t})");
                         track.Unmuted?.Invoke(t);
@@ -166,10 +170,24 @@ namespace LiveKit
                         var ptr = JSNative.ShiftStack();
                         Track t = null;
                         if(JSNative.IsObject(ptr))
-                            t = Acquire<Track>(JSNative.ShiftStack());
+                            t = Acquire<Track>(ptr);
                         
                         Log.Debug($"Track: Ended({t})");
                         track.Ended?.Invoke(t);
+                        break;
+                    }
+                    case TrackEvent.ElementAttached:
+                    {
+                        var element = Acquire<HTMLMediaElement>(JSNative.ShiftStack());
+                        Log.Debug($"Track: ElementAttached({element})");
+                        track.ElementAttached?.Invoke(element);                        
+                        break;
+                    }
+                    case TrackEvent.ElementDetached:
+                    {
+                        var element = Acquire<HTMLMediaElement>(JSNative.ShiftStack());
+                        Log.Debug($"Track: ElementDetached({element})");
+                        track.ElementDetached?.Invoke(element);                        
                         break;
                     }
                 } 
@@ -185,9 +203,14 @@ namespace LiveKit
         public Track(JSHandle ptr) : base(ptr)
         {
             RegisterEvents();
+            
+            // This is required for video because in finalization of HTMLVideoElement, we destroy the
+            // WebGL texture
+            ElementAttached += element => SetKeepAlive(element, true);
+            ElementDetached += element => SetKeepAlive(element, false);
         }
-        
-        internal void RegisterEvents()
+
+        private void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(TrackEvent)))
                 SetListener((TrackEvent) e, EventReceived);
