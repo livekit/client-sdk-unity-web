@@ -1,6 +1,4 @@
 using Newtonsoft.Json;
-using System;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -64,7 +62,7 @@ namespace LiveKit
             return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "enableCameraAndMicrophone"));
         }
 
-        public JSPromise<JSArray<LocalTrack>> CreateTracks(CreateLocalTracksOptions? options)
+        public JSPromise<JSArray<LocalTrack>> CreateTracks(CreateLocalTracksOptions? options = null)
         {
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
@@ -72,7 +70,7 @@ namespace LiveKit
             return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativePtr, "createTracks"));
         }
 
-        public JSPromise<JSArray<LocalTrack>> CreateScreenTracks(ScreenShareCaptureOptions? options)
+        public JSPromise<JSArray<LocalTrack>> CreateScreenTracks(ScreenShareCaptureOptions? options = null)
         {
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
@@ -80,7 +78,7 @@ namespace LiveKit
             return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativePtr, "createScreenTracks"));
         }
 
-        public JSPromise<LocalTrackPublication> PublishTrack(LocalTrack track, TrackPublishOptions? options)
+        public JSPromise<LocalTrackPublication> PublishTrack(LocalTrack track, TrackPublishOptions? options = null)
         {
             JSNative.PushObject(track.NativePtr);
             if (options != null)
@@ -90,7 +88,7 @@ namespace LiveKit
             return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "publishTrack"));
         }
 
-        public JSPromise<LocalTrackPublication> PublishTrack(MediaStreamTrack track, TrackPublishOptions? options)
+        public JSPromise<LocalTrackPublication> PublishTrack(MediaStreamTrack track, TrackPublishOptions? options = null)
         {
             JSNative.PushObject(track.NativePtr);
             if (options != null)
@@ -99,7 +97,7 @@ namespace LiveKit
             return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "publishTrack"));
         }
 
-        public LocalTrackPublication UnpublishTrack(LocalTrack track, bool? stopOnUnpublish)
+        public LocalTrackPublication UnpublishTrack(LocalTrack track, bool? stopOnUnpublish = null)
         {
             JSNative.PushObject(track.NativePtr);
 
@@ -113,7 +111,7 @@ namespace LiveKit
             return Acquire<LocalTrackPublication>(ptr);
         }
 
-        public LocalTrackPublication UnpublishTrack(MediaStreamTrack track, bool? stopOnUnpublish)
+        public LocalTrackPublication UnpublishTrack(MediaStreamTrack track, bool? stopOnUnpublish = null)
         {
             JSNative.PushObject(track.NativePtr);
 

@@ -4,6 +4,87 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
+    // https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints
+    public struct ConstrainBoolean
+    {
+        [JsonProperty("exact")]
+        public bool Exact;
+        [JsonProperty("ideal")]
+        public bool Ideal;
+        
+        public static implicit operator ConstrainBoolean(bool value)
+        {
+            return new ConstrainBoolean()
+            {
+                Exact = value
+            };
+        }
+    }
+
+    public struct ConstrainDOMString
+    {
+        [JsonProperty("exact")] 
+        public string[] Exact;
+        [JsonProperty("ideal")]
+        public string[] Ideal;
+        
+        public static implicit operator ConstrainDOMString(string value)
+        {
+            return new ConstrainDOMString()
+            {
+                Exact = new string[] {value}
+            };
+        }
+        
+        public static implicit operator ConstrainDOMString(string[] value)
+        {
+            return new ConstrainDOMString()
+            {
+                Exact = value
+            };
+        }
+    }
+
+    public struct ConstrainULong
+    {
+        [JsonProperty("exact")]
+        public ulong Exact;
+        [JsonProperty("ideal")]
+        public ulong Ideal;
+        [JsonProperty("min")]
+        public ulong Min;
+        [JsonProperty("max")]
+        public ulong Max;
+        
+        public static implicit operator ConstrainULong(ulong value)
+        {
+            return new ConstrainULong()
+            {
+                Exact = value
+            };
+        }
+    }
+
+    public struct ConstrainDouble
+    {
+        [JsonProperty("exact")]
+        public double Exact;
+        [JsonProperty("ideal")]
+        public double Ideal;
+        [JsonProperty("min")]
+        public double Min;
+        [JsonProperty("max")]
+        public double Max;
+        
+        public static implicit operator ConstrainDouble(double value)
+        {
+            return new ConstrainDouble()
+            {
+                Exact = value
+            };
+        }
+    }
+    
     [JsonConverter(typeof(StringEnumConverter))]
     public enum RTCIceCredentialType
     {

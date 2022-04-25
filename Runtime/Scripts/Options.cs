@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-
     [JsonConverter(typeof(StringEnumConverter))]
     public enum LogLevel
     {
@@ -39,8 +38,6 @@ namespace LiveKit
         public bool StopLocalTrackOnUnpublish;
         [JsonProperty("expDisableLayerPause")]
         public bool ExpDisableLayerPause;
-        [JsonProperty("expSignalLatency")]
-        public double ExpSignalLatency;
     }
 
     public struct RoomConnectOptions
@@ -49,6 +46,8 @@ namespace LiveKit
         public bool AutoSubscribe;
         [JsonProperty("rtcConfig")]
         public RTCConfiguration? RTCConfig;
+        [JsonProperty("publishOnly")]
+        public string PublishOnly;
     }
     
     [Obsolete("Use new Room(RoomOptions) and room.connect(RoomConnectOptions) instead")]

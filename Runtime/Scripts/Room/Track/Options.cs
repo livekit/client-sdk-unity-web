@@ -5,57 +5,12 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-    public struct ConstrainBoolean
+    public class FacingMode
     {
-        [JsonProperty("exact")]
-        public bool Exact;
-        [JsonProperty("ideal")]
-        public bool Ideal;
-    }
-
-    public struct ConstrainDOMString
-    {
-        [JsonProperty("exact")]
-        public string[] Exact;
-        [JsonProperty("ideal")]
-        public string[] Ideal;
-    }
-
-    public struct ConstrainULong
-    {
-        [JsonProperty("exact")]
-        public int Exact;
-        [JsonProperty("ideal")]
-        public int Ideal;
-        [JsonProperty("min")]
-        public int Min;
-        [JsonProperty("max")]
-        public int Max;
-    }
-
-    public struct ConstrainDouble
-    {
-        [JsonProperty("exact")]
-        public double Exact;
-        [JsonProperty("ideal")]
-        public double Ideal;
-        [JsonProperty("min")]
-        public double Min;
-        [JsonProperty("max")]
-        public double Max;
-    }
-
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum FacingMode
-    {
-        [EnumMember(Value = "user")]
-        User,
-        [EnumMember(Value = "environment")]
-        Environment,
-        [EnumMember(Value = "left")]
-        Left,
-        [EnumMember(Value = "right")]
-        Right
+        public static readonly string User = "user";
+        public static readonly string Environment = "environment";
+        public static readonly string Left = "left";
+        public static readonly string Right = "right";
     }
 
     [JsonConverter(typeof(CreateLocalTracksOptionsWriter))]
@@ -107,6 +62,7 @@ namespace LiveKit
         }
     }
 
+    // NOTE This struct is copied (See below)
     public struct TrackPublishDefaults
     {
         [JsonProperty("videoEncoding")]
@@ -123,6 +79,10 @@ namespace LiveKit
         public bool? Simulcast;
         [JsonProperty("stopMicTrackOnMute")]
         public bool? StopMicTrackOnMute;
+        [JsonProperty("videoSimulcastLayers")]
+        public VideoPreset[] VideoSimulcastLayers;
+        [JsonProperty("screenShareSimulcastLayers")]
+        public VideoPreset[] ScreenShareSimulcastLayers;
     }
 
     public struct TrackPublishOptions
@@ -147,6 +107,10 @@ namespace LiveKit
         public bool? Simulcast;
         [JsonProperty("stopMicTrackOnMute")]
         public bool? StopMicTrackOnMute;
+        [JsonProperty("videoSimulcastLayers")]
+        public VideoPreset[] VideoSimulcastLayers;
+        [JsonProperty("screenShareSimulcastLayers")]
+        public VideoPreset[] ScreenShareSimulcastLayers;
     }
 
     public struct VideoCaptureOptions
@@ -154,7 +118,7 @@ namespace LiveKit
         [JsonProperty("deviceId")]
         public ConstrainDOMString DeviceId;
         [JsonProperty("facingMode")]
-        public FacingMode? facingMode;
+        public ConstrainDOMString? FacingMode;
         [JsonProperty("resolution")]
         public VideoResolution? Resolution;
     }
@@ -230,7 +194,7 @@ namespace LiveKit
             };
         }
 
-        VideoResolution GetResolution()
+        public readonly VideoResolution GetResolution()
         {
             return new VideoResolution
             {
@@ -254,7 +218,11 @@ namespace LiveKit
         [EnumMember(Value = "vp8")]
         VP8,
         [EnumMember(Value = "h264")]
-        H264
+        H264,
+        [EnumMember(Value = "av1")]
+        AV1,
+        [EnumMember(Value = "vp9")]
+        VP9
     }
 
     public class AudioPresets
@@ -266,28 +234,51 @@ namespace LiveKit
 
     public class VideoPresets
     {
-        public static readonly VideoPreset QVGA = new VideoPreset(320, 180, 120_000, 10);
-        public static readonly VideoPreset VGA = new VideoPreset(320, 180, 120_000, 10);
-        public static readonly VideoPreset QHD = new VideoPreset(320, 180, 120_000, 10);
-        public static readonly VideoPreset HD = new VideoPreset(320, 180, 120_000, 10);
-        public static readonly VideoPreset FHD = new VideoPreset(320, 180, 120_000, 10);
+        public static readonly VideoPreset H90 = new VideoPreset(160, 90, 60_000, 15);
+        public static readonly VideoPreset H180 = new VideoPreset(320, 180, 120_000, 15);
+        public static readonly VideoPreset H216 = new VideoPreset(384, 216, 180_000, 15);
+        public static readonly VideoPreset H360 = new VideoPreset(640, 360, 300_000, 20);
+        public static readonly VideoPreset H540 = new VideoPreset(960, 540, 600_000, 25);
+        public static readonly VideoPreset H720 = new VideoPreset(1280, 720, 2_000_000, 30);
+        public static readonly VideoPreset H1080 = new VideoPreset(1920, 1080, 3_000_000, 30);
+        public static readonly VideoPreset H1440 = new VideoPreset(2560, 1440, 5_000_000, 30);
+        public static readonly VideoPreset H2160 = new VideoPreset(3840, 2160, 8_000_000, 30);
+        [Obsolete] public static readonly VideoPreset QVGA = new VideoPreset(320, 180, 120_000, 10);
+        [Obsolete] public static readonly VideoPreset VGA = new VideoPreset(320, 180, 120_000, 10);
+        [Obsolete] public static readonly VideoPreset QHD = new VideoPreset(320, 180, 120_000, 10);
+        [Obsolete] public static readonly VideoPreset HD = new VideoPreset(320, 180, 120_000, 10);
+        [Obsolete] public static readonly VideoPreset FHD = new VideoPreset(320, 180, 120_000, 10);
     }
-
+        
     public class VideoPresets43
     {
-        public static readonly VideoPreset QVGA = new VideoPreset(240, 180, 90_000, 10);
-        public static readonly VideoPreset VGA = new VideoPreset(480, 360, 225_000, 20);
-        public static readonly VideoPreset QHD = new VideoPreset(720, 540, 450_000, 25);
-        public static readonly VideoPreset HD = new VideoPreset(960, 720, 1_500_000, 30);
-        public static readonly VideoPreset FHD = new VideoPreset(1440, 1080, 2_800_000, 30);
+        public static readonly VideoPreset H120 = new VideoPreset(160, 120, 80_000, 15);
+        public static readonly VideoPreset H180 = new VideoPreset(240, 180, 100_000, 15);
+        public static readonly VideoPreset H240 = new VideoPreset(320, 240, 150_000, 15);
+        public static readonly VideoPreset H360 = new VideoPreset(480, 360, 225_000, 20);
+        public static readonly VideoPreset H480 = new VideoPreset(640, 480, 300_000, 20);
+        public static readonly VideoPreset H540 = new VideoPreset(720, 540, 450_000, 25);
+        public static readonly VideoPreset H720 = new VideoPreset(960, 720, 1_500_000, 30);
+        public static readonly VideoPreset H1080 = new VideoPreset(1440, 1080, 2_500_000, 30);
+        public static readonly VideoPreset H1440 = new VideoPreset(1920, 1440, 3_500_000, 30);
+        [Obsolete] public static readonly VideoPreset QVGA = new VideoPreset(240, 180, 90_000, 10);
+        [Obsolete] public static readonly VideoPreset VGA = new VideoPreset(480, 360, 225_000, 20);
+        [Obsolete] public static readonly VideoPreset QHD = new VideoPreset(720, 540, 450_000, 25);
+        [Obsolete] public static readonly VideoPreset HD = new VideoPreset(960, 720, 1_500_000, 30);
+        [Obsolete] public static readonly VideoPreset FHD = new VideoPreset(1440, 1080, 2_800_000, 30);
     }
 
     public class ScreenSharePresets
     {
-        public static readonly VideoPreset VGA = new VideoPreset(640, 360, 200_000, 3);
-        public static readonly VideoPreset HD_8 = new VideoPreset(1280, 720, 400_000, 5);
-        public static readonly VideoPreset HD_15 = new VideoPreset(1280, 720, 1_000_000, 15);
-        public static readonly VideoPreset FHD_15 = new VideoPreset(1920, 1080, 1_500_000, 15);
-        public static readonly VideoPreset FHD_30 = new VideoPreset(1920, 1080, 3_000_000, 30);
+        public static readonly VideoPreset H360_FPS3 = new VideoPreset(640, 360, 200_000, 3);
+        public static readonly VideoPreset H720_FPS5 = new VideoPreset(1280, 720, 400_000, 5);
+        public static readonly VideoPreset H720_FPS15 = new VideoPreset(1280, 720, 1_000_000, 15);
+        public static readonly VideoPreset H1080_FPS15 = new VideoPreset(1920, 1080, 1_500_000, 15);
+        public static readonly VideoPreset H1080_FPS30 = new VideoPreset(1920, 1080, 3_000_000, 30);
+        [Obsolete] public static readonly VideoPreset VGA = new VideoPreset(640, 360, 200_000, 3);
+        [Obsolete] public static readonly VideoPreset HD_8 = new VideoPreset(1280, 720, 400_000, 5);
+        [Obsolete] public static readonly VideoPreset HD_15 = new VideoPreset(1280, 720, 1_000_000, 15);
+        [Obsolete] public static readonly VideoPreset FHD_15 = new VideoPreset(1920, 1080, 1_500_000, 15);
+        [Obsolete] public static readonly VideoPreset FHD_30 = new VideoPreset(1920, 1080, 3_000_000, 30);
     }
 }
