@@ -51,6 +51,10 @@ namespace LiveKit
             PushString("lkbridge");
             BridgeInterface = GetProperty(Window);
 
+#if LK_DEBUG
+            Client.SetLogLevel(LogLevel.Debug);
+#endif
+
             JSBridge.SendReady();
 #endif
         }
