@@ -5,7 +5,7 @@ namespace LiveKit
     public class JSUint8Array : JSObject
     {
         [Preserve]
-        internal JSUint8Array(JSHandle ptr) : base(ptr)
+        internal JSUint8Array(JSHandle handle) : base(handle)
         {
             
         }
@@ -15,14 +15,14 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("byteLength");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
 
         public byte[] ToArray()
         {
             var buff = new byte[Length];
-            JSNative.CopyData(NativePtr, buff, 0, buff.Length);
+            JSNative.CopyData(NativeHandle, buff, 0, buff.Length);
             return buff;
         }
     }

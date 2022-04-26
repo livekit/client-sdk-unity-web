@@ -6,7 +6,7 @@ namespace LiveKit
     public class RemoteParticipant : Participant
     {
         [Preserve]
-        internal RemoteParticipant(JSHandle ptr) : base(ptr)
+        internal RemoteParticipant(JSHandle handle) : base(handle)
         {
 
         }
@@ -14,12 +14,12 @@ namespace LiveKit
         public void SetVolume(float volume)
         {
             JSNative.PushNumber(volume);
-            JSNative.CallMethod(NativePtr, "setVolume");
+            JSNative.CallMethod(NativeHandle, "setVolume");
         }
 
         public float GetVolume()
         {
-            return (float) JSNative.GetNumber(JSNative.CallMethod(NativePtr, "getVolume"));
+            return (float) JSNative.GetNumber(JSNative.CallMethod(NativeHandle, "getVolume"));
         }
 
         public new RemoteTrackPublication GetTrack(TrackSource source)
@@ -36,7 +36,7 @@ namespace LiveKit
         {
             JSNative.PushString(sid);
 
-            var ptr = JSNative.CallMethod(NativePtr, "getTrackPublication");
+            var ptr = JSNative.CallMethod(NativeHandle, "getTrackPublication");
             if (!JSNative.IsObject(ptr))
                 return null;
             

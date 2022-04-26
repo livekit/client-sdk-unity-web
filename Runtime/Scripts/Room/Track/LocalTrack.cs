@@ -5,19 +5,19 @@ namespace LiveKit
     public class LocalTrack : Track
     {
         [Preserve]
-        internal LocalTrack(JSHandle ptr) : base(ptr)
+        internal LocalTrack(JSHandle handle) : base(handle)
         {
 
         }
 
         public string GetId()
         {
-            return JSNative.GetString(JSNative.CallMethod(NativePtr, "id"));
+            return JSNative.GetString(JSNative.CallMethod(NativeHandle, "id"));
         }
 
         public TrackDimensions? GetDimensions()
         {
-            var ptr = JSNative.CallMethod(NativePtr, "dimensions");
+            var ptr = JSNative.CallMethod(NativeHandle, "dimensions");
             if (!JSNative.IsObject(ptr))
                 return null;
 
@@ -26,17 +26,17 @@ namespace LiveKit
     
         public DeviceIdPromise GetDeviceId()
         {
-            return Acquire<DeviceIdPromise>(JSNative.CallMethod(NativePtr, "getDeviceId"));
+            return Acquire<DeviceIdPromise>(JSNative.CallMethod(NativeHandle, "getDeviceId"));
         }
 
         public JSPromise<LocalTrack> Mute()
         {
-            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativePtr, "mute"));
+            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativeHandle, "mute"));
         }
 
         public JSPromise<LocalTrack> Unmute()
         {
-            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativePtr, "unmute"));
+            return Acquire<JSPromise<LocalTrack>>(JSNative.CallMethod(NativeHandle, "unmute"));
         }
     }
 
@@ -45,7 +45,7 @@ namespace LiveKit
         public string DeviceId { get; private set; }
 
         [Preserve]
-        internal DeviceIdPromise(JSHandle ptr) : base(ptr)
+        internal DeviceIdPromise(JSHandle handle) : base(handle)
         {
 
         }

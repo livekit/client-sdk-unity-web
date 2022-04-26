@@ -40,7 +40,7 @@ namespace LiveKit
         internal static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
         private static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
 
-        internal JSHandle NativePtr { get; } // Own the handle
+        internal JSHandle NativeHandle { get; } // Own the handle
 
         internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
@@ -82,13 +82,13 @@ namespace LiveKit
         }
 
         [Preserve]
-        internal JSRef(JSHandle ptr)
+        internal JSRef(JSHandle handle)
         {
-            NativePtr = ptr;
+            NativeHandle = handle;
 
             // We add the instantiated object into the cache se we can retrieve it later if not garbage collected.
             // Note that if JSRef has been garbage collected, it doesn't mean that the key doesn't exists on this map ( Finalizer is unpredictable )
-            Cache[ptr.DangerousGetHandle()] = new WeakReference<JSRef>(this);
+            Cache[handle.DangerousGetHandle()] = new WeakReference<JSRef>(this);
         }
 
         internal JSRef() : this(JSNative.NewRef())
@@ -98,7 +98,7 @@ namespace LiveKit
 
         ~JSRef()
         {
-            var ptr = NativePtr.DangerousGetHandle();
+            var ptr = NativeHandle.DangerousGetHandle();
             if (Cache[ptr].TryGetTarget(out var _))
             {
                 // It means that another instance has been created after this one being GC
@@ -111,10 +111,10 @@ namespace LiveKit
 
         internal void Free()
         {
-            if(!NativePtr.IsClosed)
-                NativePtr.Close();
+            if(!NativeHandle.IsClosed)
+                NativeHandle.Close();
             
-            var ptr = NativePtr.DangerousGetHandle();
+            var ptr = NativeHandle.DangerousGetHandle();
             Cache.Remove(ptr);
             GC.SuppressFinalize(this);
         }

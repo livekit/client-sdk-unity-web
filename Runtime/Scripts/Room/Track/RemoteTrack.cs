@@ -10,19 +10,19 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("streamState");
-                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
         
         [Preserve]
-        internal RemoteTrack(JSHandle ptr) : base(ptr)
+        internal RemoteTrack(JSHandle handle) : base(handle)
         {
 
         }
 
         public void Start()
         {
-            JSNative.CallMethod(NativePtr, "start");
+            JSNative.CallMethod(NativeHandle, "start");
         }
     }
 }

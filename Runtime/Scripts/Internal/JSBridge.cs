@@ -37,7 +37,7 @@ namespace LiveKit
         public static void SendRoomCreated(Room room)
         {
             JSNative.PushString(Utils.ToEnumString(JSUnityEvent.RoomCreated));
-            JSNative.PushObject(room.NativePtr);
+            JSNative.PushObject(room.NativeHandle);
             JSNative.CallMethod(JSUnityBridge, "emit");
         }
     }

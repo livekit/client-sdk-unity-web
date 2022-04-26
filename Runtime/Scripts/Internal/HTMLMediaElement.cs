@@ -10,18 +10,18 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("volume");
-                return (float) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (float) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
             set
             {
                 JSNative.PushString("volume");
                 JSNative.PushNumber(value);
-                JSNative.SetProperty(NativePtr);
+                JSNative.SetProperty(NativeHandle);
             }
         }
 
         [Preserve]
-        internal HTMLMediaElement(JSHandle ptr) : base(ptr)
+        internal HTMLMediaElement(JSHandle handle) : base(handle)
         {
             
         }

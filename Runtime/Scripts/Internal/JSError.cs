@@ -10,7 +10,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("name");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -19,13 +19,13 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("message");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
 
         [Preserve]
-        internal JSError(JSHandle ptr) : base(ptr)
+        internal JSError(JSHandle handle) : base(handle)
         {
 
         }

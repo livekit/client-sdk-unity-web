@@ -5,7 +5,7 @@ namespace LiveKit
     public abstract class HTMLElement : JSObject
     {
         [Preserve]
-        internal HTMLElement(JSHandle ptr) : base(ptr)
+        internal HTMLElement(JSHandle handle) : base(handle)
         {
         
         }
@@ -13,11 +13,11 @@ namespace LiveKit
         internal void AddEventListener(string e, JSNative.JSDelegate callback, JSHandle identifier = null)
         {
             if (identifier == null)
-                identifier = NativePtr;
+                identifier = NativeHandle;
 
             JSNative.PushString(e);
             JSNative.PushFunction(identifier, callback);
-            JSNative.CallMethod(NativePtr, "addEventListener");
+            JSNative.CallMethod(NativeHandle, "addEventListener");
         }
     }
 }

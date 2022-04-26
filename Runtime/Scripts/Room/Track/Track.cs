@@ -75,7 +75,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("kind");
-                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -84,7 +84,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("mediaStreamTrack");
-                return Acquire<MediaStreamTrack>(JSNative.GetProperty(NativePtr));
+                return Acquire<MediaStreamTrack>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -93,7 +93,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("attachedElements");
-                return Acquire<JSArray<HTMLMediaElement>>(JSNative.GetProperty(NativePtr));
+                return Acquire<JSArray<HTMLMediaElement>>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -102,7 +102,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -111,7 +111,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -120,7 +120,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("sid");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsString(ptr))
                     return null;
 
@@ -200,7 +200,7 @@ namespace LiveKit
         }
         
         [Preserve]
-        internal Track(JSHandle ptr) : base(ptr)
+        internal Track(JSHandle handle) : base(handle)
         {
             RegisterEvents();
             
@@ -218,17 +218,17 @@ namespace LiveKit
 
         public HTMLMediaElement Attach()
         {
-            return Acquire<HTMLMediaElement>(JSNative.CallMethod(NativePtr, "attach"));
+            return Acquire<HTMLMediaElement>(JSNative.CallMethod(NativeHandle, "attach"));
         }
 
         public JSArray<HTMLMediaElement> Detach()
         {
-            return Acquire<JSArray<HTMLMediaElement>>(JSNative.CallMethod(NativePtr, "detach"));
+            return Acquire<JSArray<HTMLMediaElement>>(JSNative.CallMethod(NativeHandle, "detach"));
         }
 
         public void Stop()
         {
-            JSNative.CallMethod(NativePtr, "stop");
+            JSNative.CallMethod(NativeHandle, "stop");
         }
     }
 }

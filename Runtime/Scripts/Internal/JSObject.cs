@@ -9,9 +9,9 @@ namespace LiveKit
     public class JSObject : JSRef
     {
         [Preserve]
-        internal JSObject(JSHandle ptr) : base(ptr)
+        internal JSObject(JSHandle handle) : base(handle)
         {
-            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+            if (JSNative.IsUndefined(handle) || JSNative.IsNull(handle))
                 throw new ArgumentException($"An object reference cannot be null, {GetType()}");
         }
 

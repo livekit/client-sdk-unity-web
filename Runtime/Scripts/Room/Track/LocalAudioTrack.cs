@@ -7,7 +7,7 @@ namespace LiveKit
     public class LocalAudioTrack : LocalTrack
     {
         [Preserve]
-        internal LocalAudioTrack(JSHandle ptr) : base(ptr)
+        internal LocalAudioTrack(JSHandle handle) : base(handle)
         {
 
         }
@@ -15,7 +15,7 @@ namespace LiveKit
         public JSPromise SetDeviceId(string deviceId)
         {
             JSNative.PushString(deviceId);
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "setDeviceId"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setDeviceId"));
         }
 
         public JSPromise RestartTrack(AudioCaptureOptions? options = null)
@@ -23,7 +23,7 @@ namespace LiveKit
             if(options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "restartTrack"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "restartTrack"));
         }
     }
 }

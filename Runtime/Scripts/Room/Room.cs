@@ -299,7 +299,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("state");
-                return Utils.ToEnum<RoomState>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<RoomState>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -308,7 +308,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("participants");
-                return Acquire<JSMap<string, RemoteParticipant>>(JSNative.GetProperty(NativePtr));
+                return Acquire<JSMap<string, RemoteParticipant>>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -317,7 +317,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("activeSpeakers");
-                return Acquire<JSArray<Participant>>(JSNative.GetProperty(NativePtr));
+                return Acquire<JSArray<Participant>>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -326,7 +326,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("sid");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -335,7 +335,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("name");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -344,7 +344,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("localParticipant");
-                return Acquire<LocalParticipant>(JSNative.GetProperty(NativePtr));
+                return Acquire<LocalParticipant>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -353,7 +353,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("metadata");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsString(ptr))
                     return null;
 
@@ -366,7 +366,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("options");
-                return JSNative.GetStruct<RoomOptions>(JSNative.GetProperty(NativePtr));
+                return JSNative.GetStruct<RoomOptions>(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -375,12 +375,12 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("canPlaybackAudio");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
         [Preserve]
-        internal Room(JSHandle ptr) : base(ptr)
+        internal Room(JSHandle handle) : base(handle)
         {
             RegisterEvents();
         }
@@ -390,7 +390,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            JSNative.NewInstance(JSNative.LiveKit, NativePtr, "Room");
+            JSNative.NewInstance(JSNative.LiveKit, NativeHandle, "Room");
             RegisterEvents();
 
             JSBridge.SendRoomCreated(this);
@@ -426,20 +426,20 @@ namespace LiveKit
             if(options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return Acquire<ConnectOperation>(JSNative.CallMethod(NativePtr, "connect"));
+            return Acquire<ConnectOperation>(JSNative.CallMethod(NativeHandle, "connect"));
         }
 
         public void Disconnect(bool stopTracks = true)
         {
             JSNative.PushBoolean(stopTracks);
-            JSNative.CallMethod(NativePtr, "disconnect");
+            JSNative.CallMethod(NativeHandle, "disconnect");
         }
 
         public Participant GetParticipantByIdentity(string identity)
         {
             JSNative.PushString(identity);
 
-            var ptr = JSNative.CallMethod(NativePtr, "getParticipantByIdentity");
+            var ptr = JSNative.CallMethod(NativeHandle, "getParticipantByIdentity");
             if (!JSNative.IsObject(ptr))
                 return null;
             
@@ -448,14 +448,14 @@ namespace LiveKit
 
         public JSPromise StartAudio()
         {
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "startAudio"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "startAudio"));
         }
 
         public JSPromise SwitchActiveDevice(MediaDeviceKind kind, string deviceId)
         {
             JSNative.PushString(Utils.ToEnumString(kind));
             JSNative.PushString(deviceId);
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "switchActiveDevice"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "switchActiveDevice"));
         }
     }
 
@@ -465,7 +465,7 @@ namespace LiveKit
         public JSError Error { get; private set; }
 
         [Preserve]
-        internal ConnectOperation(JSHandle ptr) : base(ptr)
+        internal ConnectOperation(JSHandle handle) : base(handle)
         {
 
         }

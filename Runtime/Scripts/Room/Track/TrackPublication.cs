@@ -24,7 +24,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("kind");
-                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<TrackKind>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -33,7 +33,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackName");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -42,7 +42,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("trackSid");
-                return JSNative.GetString(JSNative.GetProperty(NativePtr));
+                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -51,7 +51,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("track");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsObject(ptr))
                     return null;
                 
@@ -64,7 +64,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("source");
-                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<TrackSource>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -73,7 +73,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("mimeType");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsString(ptr))
                     return null;
 
@@ -86,7 +86,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsObject(ptr))
                     return null;
 
@@ -99,7 +99,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("simulcasted");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.GetBoolean(ptr))
                     return null;
 
@@ -112,7 +112,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isMuted");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -121,7 +121,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isEnabled");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -130,7 +130,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isSubscribed");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -139,7 +139,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("audioTrack");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsObject(ptr))
                     return null;
                 
@@ -152,7 +152,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoTrack");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsObject(ptr))
                     return null;
                 
@@ -162,7 +162,7 @@ namespace LiveKit
 
 
         [Preserve]
-        internal TrackPublication(JSHandle ptr) : base(ptr)
+        internal TrackPublication(JSHandle handle) : base(handle)
         {
 
         }

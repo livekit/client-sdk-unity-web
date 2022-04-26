@@ -6,14 +6,14 @@ namespace LiveKit
     public class LocalParticipant : Participant
     {
         [Preserve]
-        internal LocalParticipant(JSHandle ptr) : base(ptr)
+        internal LocalParticipant(JSHandle handle) : base(handle)
         {
 
         }
 
         public JSError LastCameraError()
         {
-            var ptr = JSNative.CallMethod(NativePtr, "lastCameraError");
+            var ptr = JSNative.CallMethod(NativeHandle, "lastCameraError");
             if (JSNative.IsObject(ptr))
                 return null;
 
@@ -22,7 +22,7 @@ namespace LiveKit
 
         public JSError LastMicrophoneError()
         {
-            var ptr = JSNative.CallMethod(NativePtr, "lastMicrophoneError");
+            var ptr = JSNative.CallMethod(NativeHandle, "lastMicrophoneError");
             if (JSNative.IsObject(ptr))
                 return null;
 
@@ -42,24 +42,24 @@ namespace LiveKit
         public JSPromise<LocalTrackPublication> SetCameraEnabled(bool enabled)
         {
             JSNative.PushBoolean(enabled);
-            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "setCameraEnabled"));
+            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setCameraEnabled"));
         }
 
         public JSPromise<LocalTrackPublication> SetMicrophoneEnabled(bool enabled)
         {
             JSNative.PushBoolean(enabled);
-            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "setMicrophoneEnabled"));
+            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setMicrophoneEnabled"));
         }
 
         public JSPromise<LocalTrackPublication> SetScreenShareEnabled(bool enabled)
         {
             JSNative.PushBoolean(enabled);
-            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "setScreenShareEnabled"));
+            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setScreenShareEnabled"));
         }
 
         public JSPromise EnableCameraAndMicrophone()
         {
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "enableCameraAndMicrophone"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "enableCameraAndMicrophone"));
         }
 
         public JSPromise<JSArray<LocalTrack>> CreateTracks(CreateLocalTracksOptions? options = null)
@@ -67,7 +67,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativePtr, "createTracks"));
+            return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativeHandle, "createTracks"));
         }
 
         public JSPromise<JSArray<LocalTrack>> CreateScreenTracks(ScreenShareCaptureOptions? options = null)
@@ -75,36 +75,36 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativePtr, "createScreenTracks"));
+            return Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(NativeHandle, "createScreenTracks"));
         }
 
         public JSPromise<LocalTrackPublication> PublishTrack(LocalTrack track, TrackPublishOptions? options = null)
         {
-            JSNative.PushObject(track.NativePtr);
+            JSNative.PushObject(track.NativeHandle);
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
 
-            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "publishTrack"));
+            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "publishTrack"));
         }
 
         public JSPromise<LocalTrackPublication> PublishTrack(MediaStreamTrack track, TrackPublishOptions? options = null)
         {
-            JSNative.PushObject(track.NativePtr);
+            JSNative.PushObject(track.NativeHandle);
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativePtr, "publishTrack"));
+            return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "publishTrack"));
         }
 
         public LocalTrackPublication UnpublishTrack(LocalTrack track, bool? stopOnUnpublish = null)
         {
-            JSNative.PushObject(track.NativePtr);
+            JSNative.PushObject(track.NativeHandle);
 
             if(stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            var ptr = JSNative.CallMethod(NativePtr, "unpublishTrack");
+            var ptr = JSNative.CallMethod(NativeHandle, "unpublishTrack");
             if (JSNative.IsObject(ptr))
                 return null;
             
@@ -113,12 +113,12 @@ namespace LiveKit
 
         public LocalTrackPublication UnpublishTrack(MediaStreamTrack track, bool? stopOnUnpublish = null)
         {
-            JSNative.PushObject(track.NativePtr);
+            JSNative.PushObject(track.NativeHandle);
 
             if (stopOnUnpublish != null)
                 JSNative.PushBoolean(stopOnUnpublish.Value);
 
-            var ptr = JSNative.CallMethod(NativePtr, "unpublishTrack");
+            var ptr = JSNative.CallMethod(NativeHandle, "unpublishTrack");
             if (JSNative.IsObject(ptr))
                 return null;
             
@@ -143,17 +143,17 @@ namespace LiveKit
             if (participants == null)
                 JSNative.PushUndefined();
             else
-                JSNative.PushObject(arr.NativePtr);
+                JSNative.PushObject(arr.NativeHandle);
 
-            return Acquire<JSPromise>(JSNative.CallMethod(NativePtr, "publishData"));
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "publishData"));
         }
         
         public void SetTrackSubscriptionPermissions(bool allParticipantsAllowed, ParticipantTrackPermission[] participantTrackPermissions)
         {
             JSNative.PushBoolean(allParticipantsAllowed);
-            JSNative.PushObject(new JSArray<ParticipantTrackPermission>(participantTrackPermissions).NativePtr);
+            JSNative.PushObject(new JSArray<ParticipantTrackPermission>(participantTrackPermissions).NativeHandle);
 
-            JSNative.CallMethod(NativePtr, "setTrackSubscriptionPermissions");
+            JSNative.CallMethod(NativeHandle, "setTrackSubscriptionPermissions");
         }
     }
 }

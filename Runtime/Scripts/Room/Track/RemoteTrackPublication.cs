@@ -13,7 +13,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("subscriptionStatus");
-                return Utils.ToEnum<SubscriptionStatus>(JSNative.GetString(JSNative.GetProperty(NativePtr)));
+                return Utils.ToEnum<SubscriptionStatus>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 
@@ -22,7 +22,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoQuality");
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (!JSNative.IsNumber(ptr))
                     return null;
 
@@ -32,7 +32,7 @@ namespace LiveKit
 
 
         [Preserve]
-        internal RemoteTrackPublication(JSHandle ptr) : base(ptr)
+        internal RemoteTrackPublication(JSHandle handle) : base(handle)
         {
 
         }
@@ -40,33 +40,33 @@ namespace LiveKit
         public void SetSubscribed(bool subscribed)
         {
             JSNative.PushBoolean(subscribed);
-            JSNative.CallMethod(NativePtr, "setSubscribed");
+            JSNative.CallMethod(NativeHandle, "setSubscribed");
         }
 
         public void SetEnabled(bool enabled)
         {
             JSNative.PushBoolean(enabled);
-            JSNative.CallMethod(NativePtr, "setEnabled");
+            JSNative.CallMethod(NativeHandle, "setEnabled");
         }
 
         public void SetVideoQuality(VideoQuality quality)
         {
             JSNative.PushNumber((double)quality);
-            JSNative.CallMethod(NativePtr, "setVideoQuality");
+            JSNative.CallMethod(NativeHandle, "setVideoQuality");
         }
 
         public void SetVideoDimensions(TrackDimensions dimensions)
         {
             JSNative.PushStruct(JsonConvert.SerializeObject(dimensions, JSNative.JsonSettings));
-            JSNative.CallMethod(NativePtr, "setVideoDimensions");
+            JSNative.CallMethod(NativeHandle, "setVideoDimensions");
         }
 
         public void SetTrack(Track track = null)
         {
             if (track != null)
-                JSNative.PushObject(track.NativePtr);
+                JSNative.PushObject(track.NativeHandle);
 
-            JSNative.CallMethod(NativePtr, "setTrack");
+            JSNative.CallMethod(NativeHandle, "setTrack");
         }
     }
 }

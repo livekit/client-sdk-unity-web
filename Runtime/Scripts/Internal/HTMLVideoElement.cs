@@ -13,7 +13,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoWidth");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
         
@@ -22,7 +22,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoHeight");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
         
@@ -55,11 +55,11 @@ namespace LiveKit
         private readonly int m_TextureId;
 
         [Preserve]
-        internal HTMLVideoElement(JSHandle ptr) : base(ptr)
+        internal HTMLVideoElement(JSHandle handle) : base(handle)
         {
             m_TextureId = JSNative.NewTexture();
             SetupTexture();
-            JSNative.AttachVideo(NativePtr, m_TextureId);
+            JSNative.AttachVideo(NativeHandle, m_TextureId);
             AddEventListener("resize", ResizeEvent);
         }
 

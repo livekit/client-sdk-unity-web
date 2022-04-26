@@ -13,7 +13,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("dimensions");
-                var handle = JSNative.GetProperty(NativePtr);
+                var handle = JSNative.GetProperty(NativeHandle);
                 if (JSNative.IsUndefined(handle) || JSNative.IsNull(handle))
                     return null;
 
@@ -22,7 +22,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        internal LocalTrackPublication(JSHandle ptr) : base(ptr)
+        internal LocalTrackPublication(JSHandle handle) : base(handle)
         {
 
         }

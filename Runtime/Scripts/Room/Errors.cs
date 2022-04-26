@@ -12,12 +12,12 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("code");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
 
         [Preserve]
-        internal LivekitError(JSHandle ptr) : base(ptr)
+        internal LivekitError(JSHandle handle) : base(handle)
         {
 
         }
@@ -26,7 +26,7 @@ namespace LiveKit
     public class ConnectionError : LivekitError
     {
         [Preserve]
-        internal ConnectionError(JSHandle ptr) : base(ptr)
+        internal ConnectionError(JSHandle handle) : base(handle)
         {
 
         }
@@ -35,7 +35,7 @@ namespace LiveKit
     public class TrackInvalidError : LivekitError
     {
         [Preserve]
-        internal TrackInvalidError(JSHandle ptr) : base(ptr)
+        internal TrackInvalidError(JSHandle handle) : base(handle)
         {
 
         }
@@ -43,7 +43,7 @@ namespace LiveKit
     public class UnsupportedServer : LivekitError
     {
         [Preserve]
-        internal UnsupportedServer(JSHandle ptr) : base(ptr)
+        internal UnsupportedServer(JSHandle handle) : base(handle)
         {
 
         }
@@ -52,7 +52,7 @@ namespace LiveKit
     public class UnexpectedConnectionState : LivekitError
     {
         [Preserve]
-        internal UnexpectedConnectionState(JSHandle ptr) : base(ptr)
+        internal UnexpectedConnectionState(JSHandle handle) : base(handle)
         {
 
         }
@@ -61,7 +61,7 @@ namespace LiveKit
     public class PublishDataError : LivekitError
     {
         [Preserve]
-        internal PublishDataError(JSHandle ptr) : base(ptr)
+        internal PublishDataError(JSHandle handle) : base(handle)
         {
 
         }
@@ -87,7 +87,7 @@ namespace LiveKit
             JSNative.PushString("MediaDeviceFailure");
             var ptr = JSNative.GetProperty(JSNative.Window);
 
-            JSNative.PushObject(error.NativePtr);
+            JSNative.PushObject(error.NativeHandle);
             var rPtr = JSNative.CallMethod(ptr, "getFailure");
             if (!JSNative.IsString(rPtr))
                 return null;

@@ -15,14 +15,14 @@ namespace LiveKit
         internal readonly Dictionary<T, EventWrapper> Events = new Dictionary<T, EventWrapper>();
 
         [Preserve]
-        internal JSEventEmitter(JSHandle ptr) : base(ptr)
+        internal JSEventEmitter(JSHandle handle) : base(handle)
         {
-            SetKeepAlive(NativePtr, true);
+            SetKeepAlive(NativeHandle, true);
         }
 
         internal JSEventEmitter()
         {
-            SetKeepAlive(NativePtr, true);
+            SetKeepAlive(NativeHandle, true);
         }
         
         ~JSEventEmitter()
@@ -31,7 +31,7 @@ namespace LiveKit
             foreach(var k in Events.Keys.ToList())
                 RemoveListener(k);                
             
-            SetKeepAlive(NativePtr, false);
+            SetKeepAlive(NativeHandle, false);
         }
 
         // Similar to "on" but we only accepts one listener (No need for multiple in internal use)
@@ -47,12 +47,12 @@ namespace LiveKit
             
             Events.Add(eventt, wrapper);
             
-            JSNative.PushFunction(wrapper.NativePtr, fnc);
-            JSNative.SetRef(wrapper.FncRef.NativePtr);
+            JSNative.PushFunction(wrapper.NativeHandle, fnc);
+            JSNative.SetRef(wrapper.FncRef.NativeHandle);
             
             JSNative.PushString(Utils.ToEnumString(eventt));
-            JSNative.PushObject(wrapper.FncRef.NativePtr);
-            JSNative.CallMethod(NativePtr, "on");
+            JSNative.PushObject(wrapper.FncRef.NativeHandle);
+            JSNative.CallMethod(NativeHandle, "on");
         }
 
         internal void RemoveListener(T eventt)
@@ -63,8 +63,8 @@ namespace LiveKit
             SetKeepAlive(wrapper.FncRef, false);
             
             JSNative.PushString(Utils.ToEnumString(eventt));
-            JSNative.PushObject(wrapper.FncRef.NativePtr);
-            JSNative.CallMethod(NativePtr, "removeListener");
+            JSNative.PushObject(wrapper.FncRef.NativeHandle);
+            JSNative.CallMethod(NativeHandle, "removeListener");
 
             Events.Remove(eventt);
         }

@@ -38,11 +38,11 @@ namespace LiveKit
         internal JSHandle RejectHandle { get; private set; }
 
         [Preserve]
-        internal JSPromise(JSHandle ptr) : base(ptr)
+        internal JSPromise(JSHandle handle) : base(handle)
         {
-            JSNative.PushFunction(NativePtr, PromiseResolve);
-            JSNative.PushFunction(NativePtr, PromiseReject);
-            JSNative.CallMethod(NativePtr, "then");
+            JSNative.PushFunction(NativeHandle, PromiseResolve);
+            JSNative.PushFunction(NativeHandle, PromiseReject);
+            JSNative.CallMethod(NativeHandle, "then");
         }
 
         protected virtual void OnResolve()
@@ -74,7 +74,7 @@ namespace LiveKit
         public T ResolveValue { get; private set; }
 
         [Preserve]
-        internal JSPromise(JSHandle ptr) : base(ptr)
+        internal JSPromise(JSHandle handle) : base(handle)
         {
 
         }

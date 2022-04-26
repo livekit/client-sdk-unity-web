@@ -11,7 +11,7 @@ namespace LiveKit
         {
             get 
             {
-                var keys = JSNative.CallMethod(NativePtr, "keys");
+                var keys = JSNative.CallMethod(NativeHandle, "keys");
                 
                 JSNative.PushString("Array");
                 var array = JSNative.GetProperty(JSNative.Window);
@@ -25,7 +25,7 @@ namespace LiveKit
         {
             get
             {
-                var values = JSNative.CallMethod(NativePtr, "values");
+                var values = JSNative.CallMethod(NativeHandle, "values");
 
                 JSNative.PushString("Array");
                 var array = JSNative.GetProperty(JSNative.Window);
@@ -40,7 +40,7 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("size");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -54,7 +54,7 @@ namespace LiveKit
                     throw new KeyNotFoundException();
 
                 PushKey(key);
-                var ptr = JSNative.CallMethod(NativePtr, "get");
+                var ptr = JSNative.CallMethod(NativeHandle, "get");
                 if(JSNative.IsPrimitive(typeof(TValue)))
                     return (TValue) JSNative.GetPrimitive(ptr);
 
@@ -64,17 +64,17 @@ namespace LiveKit
             {
                 PushKey(key);
                 PushValue(value);
-                JSNative.CallMethod(NativePtr, "set");
+                JSNative.CallMethod(NativeHandle, "set");
             }
         }
 
         public JSMap()
         {
-            JSNative.NewInstance(JSNative.Window, NativePtr, "Map");
+            JSNative.NewInstance(JSNative.Window, NativeHandle, "Map");
         }
 
         [Preserve]
-        internal JSMap(JSHandle ptr) : base(ptr)
+        internal JSMap(JSHandle handle) : base(handle)
         {
 
         }
@@ -90,13 +90,13 @@ namespace LiveKit
         public bool ContainsKey(TKey key)
         {
             PushKey(key);
-            return JSNative.GetBoolean(JSNative.CallMethod(NativePtr, "has"));
+            return JSNative.GetBoolean(JSNative.CallMethod(NativeHandle, "has"));
         }
 
         public bool Remove(TKey key)
         {
             PushKey(key);
-            return JSNative.GetBoolean(JSNative.CallMethod(NativePtr, "delete"));
+            return JSNative.GetBoolean(JSNative.CallMethod(NativeHandle, "delete"));
         }
 
         public bool TryGetValue(TKey key, out TValue value)
@@ -118,7 +118,7 @@ namespace LiveKit
 
         public void Clear()
         {
-            JSNative.CallMethod(NativePtr, "clear");
+            JSNative.CallMethod(NativeHandle, "clear");
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -159,7 +159,7 @@ namespace LiveKit
             if (JSNative.IsPrimitive(typeof(TKey)))
                 JSNative.PushPrimitive(key);
             else
-                JSNative.PushObject((key as JSRef).NativePtr);
+                JSNative.PushObject((key as JSRef).NativeHandle);
         }
 
         private void PushValue(TValue value)
@@ -167,7 +167,7 @@ namespace LiveKit
             if (JSNative.IsPrimitive(typeof(TValue)))
                 JSNative.PushPrimitive(value);
             else
-                JSNative.PushObject((value as JSRef).NativePtr);
+                JSNative.PushObject((value as JSRef).NativeHandle);
         }
     }
 }

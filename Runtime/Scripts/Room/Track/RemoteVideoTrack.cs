@@ -9,12 +9,12 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("isAdaptiveStream");
-                return JSNative.GetBoolean(JSNative.GetProperty(NativePtr));
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
 
         [Preserve]
-        internal RemoteVideoTrack(JSHandle ptr) : base(ptr)
+        internal RemoteVideoTrack(JSHandle handle) : base(handle)
         {
 
         }

@@ -10,14 +10,14 @@ namespace LiveKit
         private object m_Lock = new object();
 
         [Preserve]
-        internal JSArray(JSHandle ptr) : base(ptr)
+        internal JSArray(JSHandle handle) : base(handle)
         {
 
         }
 
         public JSArray()
         {
-            JSNative.NewInstance(JSNative.Window, NativePtr, "Array");
+            JSNative.NewInstance(JSNative.Window, NativeHandle, "Array");
         }
 
         public JSArray(IEnumerable<T> f) : this()
@@ -34,7 +34,7 @@ namespace LiveKit
             get 
             {
                 JSNative.PushString("length");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativePtr));
+                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
 
@@ -50,7 +50,7 @@ namespace LiveKit
                     throw new IndexOutOfRangeException();
 
                 JSNative.PushNumber(index);
-                var ptr = JSNative.GetProperty(NativePtr);
+                var ptr = JSNative.GetProperty(NativeHandle);
                 if (JSNative.IsPrimitive(typeof(T)))
                     return (T) JSNative.GetPrimitive(ptr);
                 
@@ -59,14 +59,14 @@ namespace LiveKit
             set {
                 JSNative.PushNumber(index);
                 PushValue(value);
-                JSNative.SetProperty(NativePtr);
+                JSNative.SetProperty(NativeHandle);
             }
         }
 
         public int IndexOf(T item)
         {
             PushValue(item);
-            return (int) JSNative.GetNumber(JSNative.CallMethod(NativePtr, "indexOf"));
+            return (int) JSNative.GetNumber(JSNative.CallMethod(NativeHandle, "indexOf"));
         }
 
         public void Insert(int index, T item)
@@ -74,27 +74,27 @@ namespace LiveKit
             JSNative.PushNumber(index);
             JSNative.PushNumber(0);
             PushValue(item);
-            JSNative.CallMethod(NativePtr, "push");
+            JSNative.CallMethod(NativeHandle, "push");
         }
 
         public void RemoveAt(int index)
         {
             JSNative.PushNumber(index);
             JSNative.PushNumber(1);
-            JSNative.CallMethod(NativePtr, "splice");
+            JSNative.CallMethod(NativeHandle, "splice");
         }
 
         public void Add(T obj)
         {
             PushValue(obj);
-            JSNative.CallMethod(NativePtr, "push");
+            JSNative.CallMethod(NativeHandle, "push");
         }
 
         public void Clear()
         {
             JSNative.PushString("length");
             JSNative.PushNumber(0);
-            JSNative.SetProperty(NativePtr);
+            JSNative.SetProperty(NativeHandle);
         }
 
         public bool Contains(T item)
@@ -136,7 +136,7 @@ namespace LiveKit
             if (JSNative.IsPrimitive(typeof(T)))
                 JSNative.PushPrimitive(value);
             else
-                JSNative.PushObject((value as JSRef).NativePtr);
+                JSNative.PushObject((value as JSRef).NativeHandle);
         }
     }
 }
