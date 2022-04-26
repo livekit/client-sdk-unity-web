@@ -21,7 +21,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public HTMLMediaElement(JSHandle ptr) : base(ptr)
+        internal HTMLMediaElement(JSHandle ptr) : base(ptr)
         {
             
         }

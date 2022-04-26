@@ -200,7 +200,7 @@ namespace LiveKit
         }
         
         [Preserve]
-        public Track(JSHandle ptr) : base(ptr)
+        internal Track(JSHandle ptr) : base(ptr)
         {
             RegisterEvents();
             

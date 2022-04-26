@@ -25,7 +25,7 @@ namespace LiveKit
 
 
         [Preserve]
-        public JSError(JSHandle ptr) : base(ptr)
+        internal JSError(JSHandle ptr) : base(ptr)
         {
 
         }

@@ -6,7 +6,7 @@ namespace LiveKit
     public class HTMLAudioElement : HTMLMediaElement
     {
         [Preserve]
-        public HTMLAudioElement(JSHandle ptr) : base(ptr)
+        internal HTMLAudioElement(JSHandle ptr) : base(ptr)
         {
 
         }

@@ -74,7 +74,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public JSMap(JSHandle ptr) : base(ptr)
+        internal JSMap(JSHandle ptr) : base(ptr)
         {
 
         }

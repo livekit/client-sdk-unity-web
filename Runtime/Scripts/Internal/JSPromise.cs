@@ -38,7 +38,7 @@ namespace LiveKit
         public JSRef RejectValue { get; protected set; }
 
         [Preserve]
-        public JSPromise(JSHandle ptr) : base(ptr)
+        internal JSPromise(JSHandle ptr) : base(ptr)
         {
             JSNative.PushFunction(NativePtr, PromiseResolve);
             JSNative.PushFunction(NativePtr, PromiseReject);
@@ -82,7 +82,7 @@ namespace LiveKit
         public new T ResolveValue => base.ResolveValue as T;
 
         [Preserve]
-        public JSPromise(JSHandle ptr) : base(ptr)
+        internal JSPromise(JSHandle ptr) : base(ptr)
         {
 
         }

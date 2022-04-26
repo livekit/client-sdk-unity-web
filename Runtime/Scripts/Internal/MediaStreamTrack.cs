@@ -8,7 +8,7 @@ namespace LiveKit
     {
 
         [Preserve]
-        public MediaStreamTrack(JSHandle ptr) : base(ptr) 
+        internal MediaStreamTrack(JSHandle ptr) : base(ptr) 
         {
 
         }

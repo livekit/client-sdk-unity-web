@@ -6,7 +6,7 @@ namespace LiveKit
     public class RemoteParticipant : Participant
     {
         [Preserve]
-        public RemoteParticipant(JSHandle ptr) : base(ptr)
+        internal RemoteParticipant(JSHandle ptr) : base(ptr)
         {
 
         }

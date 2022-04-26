@@ -10,7 +10,7 @@ namespace LiveKit
         private object m_Lock = new object();
 
         [Preserve]
-        public JSArray(JSHandle ptr) : base(ptr)
+        internal JSArray(JSHandle ptr) : base(ptr)
         {
 
         }

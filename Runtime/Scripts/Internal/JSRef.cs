@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
 using System.Runtime.ConstrainedExecution;
 using UnityEngine.Scripting;
 
@@ -63,7 +65,7 @@ namespace LiveKit
                     type = correctType;
             }
 
-            return Activator.CreateInstance(type, handle) as T;
+            return Activator.CreateInstance(type, BindingFlags.NonPublic | BindingFlags.Instance, null, new object[]{handle}, null) as T;
         }
 
         internal static void SetKeepAlive(object reff, bool keepAlive)
@@ -80,7 +82,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public JSRef(JSHandle ptr)
+        internal JSRef(JSHandle ptr)
         {
             NativePtr = ptr;
 

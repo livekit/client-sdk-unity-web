@@ -15,7 +15,7 @@ namespace LiveKit
         internal readonly Dictionary<T, EventWrapper> Events = new Dictionary<T, EventWrapper>();
 
         [Preserve]
-        public JSEventEmitter(JSHandle ptr) : base(ptr)
+        internal JSEventEmitter(JSHandle ptr) : base(ptr)
         {
             SetKeepAlive(NativePtr, true);
         }

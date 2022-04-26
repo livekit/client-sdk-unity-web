@@ -17,7 +17,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public LivekitError(JSHandle ptr) : base(ptr)
+        internal LivekitError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -26,7 +26,7 @@ namespace LiveKit
     public class ConnectionError : LivekitError
     {
         [Preserve]
-        public ConnectionError(JSHandle ptr) : base(ptr)
+        internal ConnectionError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -35,7 +35,7 @@ namespace LiveKit
     public class TrackInvalidError : LivekitError
     {
         [Preserve]
-        public TrackInvalidError(JSHandle ptr) : base(ptr)
+        internal TrackInvalidError(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -43,7 +43,7 @@ namespace LiveKit
     public class UnsupportedServer : LivekitError
     {
         [Preserve]
-        public UnsupportedServer(JSHandle ptr) : base(ptr)
+        internal UnsupportedServer(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -52,7 +52,7 @@ namespace LiveKit
     public class UnexpectedConnectionState : LivekitError
     {
         [Preserve]
-        public UnexpectedConnectionState(JSHandle ptr) : base(ptr)
+        internal UnexpectedConnectionState(JSHandle ptr) : base(ptr)
         {
 
         }
@@ -61,7 +61,7 @@ namespace LiveKit
     public class PublishDataError : LivekitError
     {
         [Preserve]
-        public PublishDataError(JSHandle ptr) : base(ptr)
+        internal PublishDataError(JSHandle ptr) : base(ptr)
         {
 
         }

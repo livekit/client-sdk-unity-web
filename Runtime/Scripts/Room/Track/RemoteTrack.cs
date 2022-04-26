@@ -15,7 +15,7 @@ namespace LiveKit
         }
         
         [Preserve]
-        public RemoteTrack(JSHandle ptr) : base(ptr)
+        internal RemoteTrack(JSHandle ptr) : base(ptr)
         {
 
         }

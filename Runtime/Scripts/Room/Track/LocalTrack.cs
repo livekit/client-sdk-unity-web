@@ -5,7 +5,7 @@ namespace LiveKit
     public class LocalTrack : Track
     {
         [Preserve]
-        public LocalTrack(JSHandle ptr) : base(ptr)
+        internal LocalTrack(JSHandle ptr) : base(ptr)
         {
 
         }

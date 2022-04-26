@@ -17,7 +17,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public LocalVideoTrack(JSHandle ptr) : base(ptr)
+        internal LocalVideoTrack(JSHandle ptr) : base(ptr)
         {
             
         }

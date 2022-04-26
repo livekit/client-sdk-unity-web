@@ -380,7 +380,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public Room(JSHandle ptr) : base(ptr)
+        internal Room(JSHandle ptr) : base(ptr)
         {
             RegisterEvents();
         }

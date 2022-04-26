@@ -5,7 +5,7 @@ namespace LiveKit
     public abstract class HTMLElement : JSObject
     {
         [Preserve]
-        public HTMLElement(JSHandle ptr) : base(ptr)
+        internal HTMLElement(JSHandle ptr) : base(ptr)
         {
         
         }

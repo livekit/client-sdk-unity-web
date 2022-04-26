@@ -6,7 +6,7 @@ namespace LiveKit
     public class LocalParticipant : Participant
     {
         [Preserve]
-        public LocalParticipant(JSHandle ptr) : base(ptr)
+        internal LocalParticipant(JSHandle ptr) : base(ptr)
         {
 
         }

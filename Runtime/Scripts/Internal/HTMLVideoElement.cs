@@ -55,7 +55,7 @@ namespace LiveKit
         private readonly int m_TextureId;
 
         [Preserve]
-        public HTMLVideoElement(JSHandle ptr) : base(ptr)
+        internal HTMLVideoElement(JSHandle ptr) : base(ptr)
         {
             m_TextureId = JSNative.NewTexture();
             SetupTexture();

@@ -307,7 +307,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public Participant(JSHandle ptr) : base(ptr)
+        internal Participant(JSHandle ptr) : base(ptr)
         {
             RegisterEvents();
         }

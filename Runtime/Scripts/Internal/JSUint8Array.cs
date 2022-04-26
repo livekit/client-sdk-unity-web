@@ -5,7 +5,7 @@ namespace LiveKit
     public class JSUint8Array : JSObject
     {
         [Preserve]
-        public JSUint8Array(JSHandle ptr) : base(ptr)
+        internal JSUint8Array(JSHandle ptr) : base(ptr)
         {
             
         }

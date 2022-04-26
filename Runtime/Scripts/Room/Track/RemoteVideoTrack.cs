@@ -14,7 +14,7 @@ namespace LiveKit
         }
 
         [Preserve]
-        public RemoteVideoTrack(JSHandle ptr) : base(ptr)
+        internal RemoteVideoTrack(JSHandle ptr) : base(ptr)
         {
 
         }
