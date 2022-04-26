@@ -426,7 +426,7 @@ namespace LiveKit
             if(options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return new ConnectOperation(Acquire<JSPromise<Room>>(JSNative.CallMethod(NativePtr, "connect")));
+            return Acquire<ConnectOperation>(JSNative.CallMethod(NativePtr, "connect"));
         }
 
         public void Disconnect(bool stopTracks = true)
@@ -459,22 +459,26 @@ namespace LiveKit
         }
     }
 
-    public class ConnectOperation : PromiseWrapper<Room>
+    public class ConnectOperation : JSPromise
     {
         public Room Room { get; private set; }
         public JSError Error { get; private set; }
 
-        public ConnectOperation(JSPromise<Room> promise) : base(promise)
+        [Preserve]
+        internal ConnectOperation(JSHandle ptr) : base(ptr)
         {
 
         }
 
-        public override void OnDone()
+        protected override void OnResolve()
         {
-            if (!m_Promise.IsError)
-                Room = m_Promise.ResolveValue;
-            else
-                Error = m_Promise.RejectValue as JSError;
+            base.OnResolve();
+            Room = Acquire<Room>(ResolveHandle);
+        }
+
+        protected override void OnReject()
+        {
+            Error = Acquire<JSError>(RejectHandle);
         }
     }
 }

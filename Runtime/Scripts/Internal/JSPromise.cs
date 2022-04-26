@@ -34,8 +34,8 @@ namespace LiveKit
 
         public bool IsDone { get; private set; }
         public bool IsError { get; private set; }
-        public JSRef ResolveValue { get; protected set; }
-        public JSRef RejectValue { get; protected set; }
+        internal JSHandle ResolveHandle { get; private set; }
+        internal JSHandle RejectHandle { get; private set; }
 
         [Preserve]
         internal JSPromise(JSHandle ptr) : base(ptr)
@@ -47,20 +47,12 @@ namespace LiveKit
 
         protected virtual void OnResolve()
         {
-            var ptr = JSNative.ShiftStack();
-            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
-                return;
-            
-            ResolveValue = Acquire<JSRef>(ptr);
+            ResolveHandle = JSNative.ShiftStack();
         }
 
         protected virtual void OnReject()
         {
-            var ptr = JSNative.ShiftStack();
-            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
-                return;
-            
-            RejectValue = Acquire<JSRef>(ptr);
+            RejectHandle = JSNative.ShiftStack();
         }
 
         // Coroutines impl
@@ -77,9 +69,9 @@ namespace LiveKit
         }
     }
 
-    public class JSPromise<T> : JSPromise where T : JSRef
+    public class JSPromise<T> : JSPromise where T : JSObject
     {
-        public new T ResolveValue => base.ResolveValue as T;
+        public T ResolveValue { get; private set; }
 
         [Preserve]
         internal JSPromise(JSHandle ptr) : base(ptr)
@@ -89,43 +81,11 @@ namespace LiveKit
 
         protected override void OnResolve()
         {
-            var ptr = JSNative.ShiftStack();
-            if (JSNative.IsUndefined(ptr) || JSNative.IsNull(ptr))
+            base.OnResolve();
+            if (JSNative.IsUndefined(ResolveHandle) || JSNative.IsNull(ResolveHandle))
                 return;
             
-            base.ResolveValue = Acquire<T>(ptr);
-        }
-    }
-
-    public abstract class PromiseWrapper<T> : IEnumerator where T : JSRef
-    {
-        protected JSPromise<T> m_Promise;
-        public bool IsError => m_Promise.IsError;
-        public bool IsDone => m_Promise.IsDone;
-        
-        protected PromiseWrapper(JSPromise<T> promise)
-        {
-            m_Promise = promise;
-        }
-
-        public abstract void OnDone();
-
-        public object Current => null;
-
-        public bool MoveNext()
-        {
-            if (m_Promise.IsDone)
-            {
-                OnDone();
-                return false;
-            }
-
-            return true;
-        }
-
-        public void Reset()
-        {
-            
+            ResolveValue = Acquire<T>(ResolveHandle);
         }
     }
 }

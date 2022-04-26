@@ -24,10 +24,9 @@ namespace LiveKit
             return JSNative.GetStruct<TrackDimensions>(ptr);
         }
     
-        public GetDeviceIdOperation GetDeviceId()
+        public DeviceIdPromise GetDeviceId()
         {
-            var ptr = Acquire<JSPromise<JSRef>>(JSNative.CallMethod(NativePtr, "getDeviceId"));
-            return new GetDeviceIdOperation(ptr);
+            return Acquire<DeviceIdPromise>(JSNative.CallMethod(NativePtr, "getDeviceId"));
         }
 
         public JSPromise<LocalTrack> Mute()
@@ -41,23 +40,21 @@ namespace LiveKit
         }
     }
 
-    public class GetDeviceIdOperation : PromiseWrapper<JSRef>
+    public class DeviceIdPromise : JSPromise
     {
         public string DeviceId { get; private set; }
 
-        public GetDeviceIdOperation(JSPromise<JSRef> promise) : base(promise)
+        [Preserve]
+        internal DeviceIdPromise(JSHandle ptr) : base(ptr)
         {
 
         }
-
-        public override void OnDone()
+        
+        protected virtual void OnResolve()
         {
-            if (m_Promise.IsError) 
-                return;
-            
-            var ptr = m_Promise.ResolveValue.NativePtr;
-            if (!JSNative.IsUndefined(ptr))
-                DeviceId = JSNative.GetString(ptr);
+            base.OnResolve();
+            if (!JSNative.IsUndefined(ResolveHandle))
+                DeviceId = JSNative.GetString(ResolveHandle);
         }
     }
 }

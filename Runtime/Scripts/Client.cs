@@ -52,7 +52,7 @@ namespace LiveKit
             if (options != null)
                 JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
 
-            return new ConnectOperation(JSRef.Acquire<JSPromise<Room>>(JSNative.CallMethod(JSNative.LiveKit, "connect")));
+            return JSRef.Acquire<ConnectOperation>(JSNative.CallMethod(JSNative.LiveKit, "connect"));
         }
     }
 }
