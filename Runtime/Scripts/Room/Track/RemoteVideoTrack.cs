@@ -2,7 +2,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class RemoteVideoTrack : RemoteTrack
+    public class RemoteVideoTrack : RemoteTrack, IVideoTrack
     {
         public bool IsAdaptiveStream
         {

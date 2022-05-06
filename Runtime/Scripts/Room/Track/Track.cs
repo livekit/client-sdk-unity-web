@@ -1,10 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AOT;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -54,21 +52,14 @@ namespace LiveKit
         public int Height;
     }
 
-    public class Track : JSEventEmitter<TrackEvent>
+    public class Track : JSEventEmitter<TrackEvent>, ITrack
     {
-        public delegate void MessageDelegate();
-        public delegate void MutedDelegate(Track track);
-        public delegate void UnmutedDelegate(Track track);
-        public delegate void EndedDelegate(Track track);
-        internal delegate void ElementAttachedDelegate(HTMLMediaElement element);
-        internal delegate void ElementDetachedDelegate(HTMLMediaElement element);
-
-        public event MessageDelegate Message;
-        public event MutedDelegate Muted;
-        public event UnmutedDelegate Unmuted;
-        public event EndedDelegate Ended;
-        internal event ElementAttachedDelegate ElementAttached;
-        internal event ElementDetachedDelegate ElementDetached;
+        public event ITrack.MessageDelegate Message;
+        public event ITrack.MutedDelegate Muted;
+        public event ITrack.UnmutedDelegate Unmuted;
+        public event ITrack.EndedDelegate Ended;
+        public event ITrack.ElementAttachedDelegate ElementAttached;
+        public event ITrack.ElementDetachedDelegate ElementDetached;
         
         public TrackKind Kind
         {
