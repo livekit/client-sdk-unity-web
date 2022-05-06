@@ -8,7 +8,7 @@ namespace LiveKit.Tests
         public static void TestHandleFree()
         {
             var room = new JSRef(); // There is only 1 reference to a JSHandle here
-            var ptr = room.NativePtr.DangerousGetHandle();
+            var ptr = room.NativeHandle.DangerousGetHandle();
             
             Assert.IsTrue(JSRef.Cache.ContainsKey(ptr), "Object isn't on the C# cache");
             Assert.IsTrue(LKTests.BridgeData.ContainsKey(ptr.ToInt64()), "Object isn't on the JS cache");
