@@ -1,10 +1,9 @@
 using Newtonsoft.Json;
-using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class LocalAudioTrack : LocalTrack
+    public class LocalAudioTrack : LocalTrack, IAudioTrack
     {
         [Preserve]
         internal LocalAudioTrack(JSHandle handle) : base(handle)

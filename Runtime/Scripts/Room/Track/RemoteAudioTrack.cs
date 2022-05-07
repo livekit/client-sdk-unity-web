@@ -2,7 +2,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class RemoteAudioTrack : RemoteTrack
+    public class RemoteAudioTrack : RemoteTrack, IAudioTrack
     {
         [Preserve]
         internal RemoteAudioTrack(JSHandle handle) : base(handle)

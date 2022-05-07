@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class LocalVideoTrack : LocalTrack
+    public class LocalVideoTrack : LocalTrack, IVideoTrack
     {
 
         public bool IsSimulcast
