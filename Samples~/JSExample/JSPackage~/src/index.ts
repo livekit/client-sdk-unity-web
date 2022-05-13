@@ -1,7 +1,12 @@
 import { UnityBridge, UnityEvent } from '@livekit/livekit-unity'
+import { Room } from 'livekit-client'
 
-UnityBridge.instance.on(UnityEvent.RoomCreated, async (room) => {
-    console.log('Received a room from Unity');
+var room : Room
+UnityBridge.instance.on(UnityEvent.RoomCreated, async (r) => {
+    room = r;
+});
 
-    await room.connect('<url>', '<your-token');
+var muteBtn = document.getElementById('mutebtn');
+muteBtn!.addEventListener('click', async () => {
+    await room.localParticipant.setMicrophoneEnabled(false);
 });

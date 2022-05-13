@@ -197,10 +197,17 @@ var NativeLib = {
     CallMethod: function (ptr, str) {
         var stack = LKBridge.Stack;
         LKBridge.Stack = [];
-
+        
         var obj = LKBridge.Data.get(ptr);
-        var fnc = obj[UTF8ToString(str)];
-        var result = fnc.apply(obj, stack);
+        var mName = UTF8ToString(str);
+        var fnc = obj[mName];
+        var result = undefined;
+        try{
+            result = fnc.apply(obj, stack);
+        }catch (e) {
+            console.error("Internal issue when calling " + mName + "\n", "Args: ", stack, e)
+        }
+        
         return LKBridge.AddRef(LKBridge.GetOrNewRef(result));
     },
 
@@ -215,7 +222,14 @@ var NativeLib = {
             obj = LKBridge.Data.get(ptr);
         }
 
-        var inst = new (Function.prototype.bind.apply(obj[UTF8ToString(clazz)], stack));
+        var clazz = UTF8ToString(clazz);
+        
+        var inst = undefined;
+        try{
+            inst = new (Function.prototype.bind.apply(obj[clazz], stack));
+        }catch (e) {
+            console.error("Internal issue when trying to instantiate " + clazz + "\n", "Args: ", stack, e)
+        }
         LKBridge.SetRef(toPtr, inst);
     },
 
@@ -265,8 +279,10 @@ var NativeLib = {
     // Video Receive
     NewTexture: function () {
         var tex = GLctx.createTexture();
-        if (!tex)
+        if (!tex){
+            console.error("Failed to create a new texture for VideoReceiving")
             return LKBridge.NullPtr;
+        }
 
         var id = GL.getNewId(GL.textures);
         tex.name = id;
@@ -290,7 +306,7 @@ var NativeLib = {
             var time = video.currentTime;
             if (!video.paused && video.srcObject !== null && time !== lastTime) {
                 lastTime = time;
-
+                
                 GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
                 
                 // Flip Y

@@ -38,9 +38,9 @@ namespace LiveKit
         };
 
         internal static readonly Dictionary<IntPtr, WeakReference<JSRef>> Cache = new Dictionary<IntPtr, WeakReference<JSRef>>();
-        private static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
+        internal static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
 
-        internal JSHandle NativeHandle { get; } // Own the handle
+        internal readonly JSHandle NativeHandle; // Own the handle
 
         internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
