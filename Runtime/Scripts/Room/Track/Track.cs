@@ -60,7 +60,7 @@ namespace LiveKit
         public event ITrack.EndedDelegate Ended;
         public event ITrack.ElementAttachedDelegate ElementAttached;
         public event ITrack.ElementDetachedDelegate ElementDetached;
-        
+
         public TrackKind Kind
         {
             get
