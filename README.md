@@ -22,7 +22,7 @@ There are two different ways to build an application using this package :
 To display internal LiveKit logs, add LK DEBUG to define symbols
 
 ## Examples
-For a complete example, look at our [demo](https://unity.livekit.io)
+For a complete example, look at our [demo](https://github.com/livekit/client-unity-demo)
 ### Connecting to a room
 ```cs
 public class MyObject : MonoBehaviour
