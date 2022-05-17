@@ -103,22 +103,6 @@ references:
   commentId: T:LiveKit.Client
   fullName: LiveKit.Client
   nameWithType: Client
-- uid: LiveKit.Client.Connect(System.String,System.String,System.Nullable{LiveKit.ConnectOptions})
-  name: Connect(String, String, Nullable<ConnectOptions>)
-  href: api/LiveKit.Client.html#LiveKit_Client_Connect_System_String_System_String_System_Nullable_LiveKit_ConnectOptions__
-  commentId: M:LiveKit.Client.Connect(System.String,System.String,System.Nullable{LiveKit.ConnectOptions})
-  name.vb: Connect(String, String, Nullable(Of ConnectOptions))
-  fullName: LiveKit.Client.Connect(System.String, System.String, System.Nullable<LiveKit.ConnectOptions>)
-  fullName.vb: LiveKit.Client.Connect(System.String, System.String, System.Nullable(Of LiveKit.ConnectOptions))
-  nameWithType: Client.Connect(String, String, Nullable<ConnectOptions>)
-  nameWithType.vb: Client.Connect(String, String, Nullable(Of ConnectOptions))
-- uid: LiveKit.Client.Connect*
-  name: Connect
-  href: api/LiveKit.Client.html#LiveKit_Client_Connect_
-  commentId: Overload:LiveKit.Client.Connect
-  isSpec: "True"
-  fullName: LiveKit.Client.Connect
-  nameWithType: Client.Connect
 - uid: LiveKit.Client.CreateLocalAudioTrack(System.Nullable{LiveKit.AudioCaptureOptions})
   name: CreateLocalAudioTrack(Nullable<AudioCaptureOptions>)
   href: api/LiveKit.Client.html#LiveKit_Client_CreateLocalAudioTrack_System_Nullable_LiveKit_AudioCaptureOptions__
@@ -232,6 +216,36 @@ references:
   commentId: F:LiveKit.ConnectionQuality.Unknown
   fullName: LiveKit.ConnectionQuality.Unknown
   nameWithType: ConnectionQuality.Unknown
+- uid: LiveKit.ConnectionState
+  name: ConnectionState
+  href: api/LiveKit.ConnectionState.html
+  commentId: T:LiveKit.ConnectionState
+  fullName: LiveKit.ConnectionState
+  nameWithType: ConnectionState
+- uid: LiveKit.ConnectionState.Connected
+  name: Connected
+  href: api/LiveKit.ConnectionState.html#LiveKit_ConnectionState_Connected
+  commentId: F:LiveKit.ConnectionState.Connected
+  fullName: LiveKit.ConnectionState.Connected
+  nameWithType: ConnectionState.Connected
+- uid: LiveKit.ConnectionState.Connecting
+  name: Connecting
+  href: api/LiveKit.ConnectionState.html#LiveKit_ConnectionState_Connecting
+  commentId: F:LiveKit.ConnectionState.Connecting
+  fullName: LiveKit.ConnectionState.Connecting
+  nameWithType: ConnectionState.Connecting
+- uid: LiveKit.ConnectionState.Disconnected
+  name: Disconnected
+  href: api/LiveKit.ConnectionState.html#LiveKit_ConnectionState_Disconnected
+  commentId: F:LiveKit.ConnectionState.Disconnected
+  fullName: LiveKit.ConnectionState.Disconnected
+  nameWithType: ConnectionState.Disconnected
+- uid: LiveKit.ConnectionState.Reconnecting
+  name: Reconnecting
+  href: api/LiveKit.ConnectionState.html#LiveKit_ConnectionState_Reconnecting
+  commentId: F:LiveKit.ConnectionState.Reconnecting
+  fullName: LiveKit.ConnectionState.Reconnecting
+  nameWithType: ConnectionState.Reconnecting
 - uid: LiveKit.ConnectOperation
   name: ConnectOperation
   href: api/LiveKit.ConnectOperation.html
@@ -290,96 +304,6 @@ references:
   isSpec: "True"
   fullName: LiveKit.ConnectOperation.Room
   nameWithType: ConnectOperation.Room
-- uid: LiveKit.ConnectOptions
-  name: ConnectOptions
-  href: api/LiveKit.ConnectOptions.html
-  commentId: T:LiveKit.ConnectOptions
-  fullName: LiveKit.ConnectOptions
-  nameWithType: ConnectOptions
-- uid: LiveKit.ConnectOptions.AdaptiveStream
-  name: AdaptiveStream
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_AdaptiveStream
-  commentId: F:LiveKit.ConnectOptions.AdaptiveStream
-  fullName: LiveKit.ConnectOptions.AdaptiveStream
-  nameWithType: ConnectOptions.AdaptiveStream
-- uid: LiveKit.ConnectOptions.AudioCaptureDefaults
-  name: AudioCaptureDefaults
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_AudioCaptureDefaults
-  commentId: F:LiveKit.ConnectOptions.AudioCaptureDefaults
-  fullName: LiveKit.ConnectOptions.AudioCaptureDefaults
-  nameWithType: ConnectOptions.AudioCaptureDefaults
-- uid: LiveKit.ConnectOptions.AutoManageVideo
-  name: AutoManageVideo
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_AutoManageVideo
-  commentId: F:LiveKit.ConnectOptions.AutoManageVideo
-  fullName: LiveKit.ConnectOptions.AutoManageVideo
-  nameWithType: ConnectOptions.AutoManageVideo
-- uid: LiveKit.ConnectOptions.AutoSubscribe
-  name: AutoSubscribe
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_AutoSubscribe
-  commentId: F:LiveKit.ConnectOptions.AutoSubscribe
-  fullName: LiveKit.ConnectOptions.AutoSubscribe
-  nameWithType: ConnectOptions.AutoSubscribe
-- uid: LiveKit.ConnectOptions.Dynacast
-  name: Dynacast
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_Dynacast
-  commentId: F:LiveKit.ConnectOptions.Dynacast
-  fullName: LiveKit.ConnectOptions.Dynacast
-  nameWithType: ConnectOptions.Dynacast
-- uid: LiveKit.ConnectOptions.ExpDisableLayerPause
-  name: ExpDisableLayerPause
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_ExpDisableLayerPause
-  commentId: F:LiveKit.ConnectOptions.ExpDisableLayerPause
-  fullName: LiveKit.ConnectOptions.ExpDisableLayerPause
-  nameWithType: ConnectOptions.ExpDisableLayerPause
-- uid: LiveKit.ConnectOptions.iceServers
-  name: iceServers
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_iceServers
-  commentId: F:LiveKit.ConnectOptions.iceServers
-  fullName: LiveKit.ConnectOptions.iceServers
-  nameWithType: ConnectOptions.iceServers
-- uid: LiveKit.ConnectOptions.LogLevel
-  name: LogLevel
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_LogLevel
-  commentId: F:LiveKit.ConnectOptions.LogLevel
-  fullName: LiveKit.ConnectOptions.LogLevel
-  nameWithType: ConnectOptions.LogLevel
-- uid: LiveKit.ConnectOptions.PublishAudio
-  name: PublishAudio
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_PublishAudio
-  commentId: F:LiveKit.ConnectOptions.PublishAudio
-  fullName: LiveKit.ConnectOptions.PublishAudio
-  nameWithType: ConnectOptions.PublishAudio
-- uid: LiveKit.ConnectOptions.PublishDefaults
-  name: PublishDefaults
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_PublishDefaults
-  commentId: F:LiveKit.ConnectOptions.PublishDefaults
-  fullName: LiveKit.ConnectOptions.PublishDefaults
-  nameWithType: ConnectOptions.PublishDefaults
-- uid: LiveKit.ConnectOptions.PublishVideo
-  name: PublishVideo
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_PublishVideo
-  commentId: F:LiveKit.ConnectOptions.PublishVideo
-  fullName: LiveKit.ConnectOptions.PublishVideo
-  nameWithType: ConnectOptions.PublishVideo
-- uid: LiveKit.ConnectOptions.RTCConfig
-  name: RTCConfig
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_RTCConfig
-  commentId: F:LiveKit.ConnectOptions.RTCConfig
-  fullName: LiveKit.ConnectOptions.RTCConfig
-  nameWithType: ConnectOptions.RTCConfig
-- uid: LiveKit.ConnectOptions.StopLocalTrackOnUnpublish
-  name: StopLocalTrackOnUnpublish
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_StopLocalTrackOnUnpublish
-  commentId: F:LiveKit.ConnectOptions.StopLocalTrackOnUnpublish
-  fullName: LiveKit.ConnectOptions.StopLocalTrackOnUnpublish
-  nameWithType: ConnectOptions.StopLocalTrackOnUnpublish
-- uid: LiveKit.ConnectOptions.VideoCaptureDefaults
-  name: VideoCaptureDefaults
-  href: api/LiveKit.ConnectOptions.html#LiveKit_ConnectOptions_VideoCaptureDefaults
-  commentId: F:LiveKit.ConnectOptions.VideoCaptureDefaults
-  fullName: LiveKit.ConnectOptions.VideoCaptureDefaults
-  nameWithType: ConnectOptions.VideoCaptureDefaults
 - uid: LiveKit.ConstrainBoolean
   name: ConstrainBoolean
   href: api/LiveKit.ConstrainBoolean.html
@@ -3371,6 +3295,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.Room.GetParticipantByIdentity
   nameWithType: Room.GetParticipantByIdentity
+- uid: LiveKit.Room.IsClosed
+  name: IsClosed
+  href: api/LiveKit.Room.html#LiveKit_Room_IsClosed
+  commentId: P:LiveKit.Room.IsClosed
+  fullName: LiveKit.Room.IsClosed
+  nameWithType: Room.IsClosed
+- uid: LiveKit.Room.IsClosed*
+  name: IsClosed
+  href: api/LiveKit.Room.html#LiveKit_Room_IsClosed_
+  commentId: Overload:LiveKit.Room.IsClosed
+  isSpec: "True"
+  fullName: LiveKit.Room.IsClosed
+  nameWithType: Room.IsClosed
 - uid: LiveKit.Room.LocalParticipant
   name: LocalParticipant
   href: api/LiveKit.Room.html#LiveKit_Room_LocalParticipant
@@ -3956,30 +3893,6 @@ references:
   commentId: F:LiveKit.RoomOptions.VideoCaptureDefaults
   fullName: LiveKit.RoomOptions.VideoCaptureDefaults
   nameWithType: RoomOptions.VideoCaptureDefaults
-- uid: LiveKit.RoomState
-  name: RoomState
-  href: api/LiveKit.RoomState.html
-  commentId: T:LiveKit.RoomState
-  fullName: LiveKit.RoomState
-  nameWithType: RoomState
-- uid: LiveKit.RoomState.Connected
-  name: Connected
-  href: api/LiveKit.RoomState.html#LiveKit_RoomState_Connected
-  commentId: F:LiveKit.RoomState.Connected
-  fullName: LiveKit.RoomState.Connected
-  nameWithType: RoomState.Connected
-- uid: LiveKit.RoomState.Disconnected
-  name: Disconnected
-  href: api/LiveKit.RoomState.html#LiveKit_RoomState_Disconnected
-  commentId: F:LiveKit.RoomState.Disconnected
-  fullName: LiveKit.RoomState.Disconnected
-  nameWithType: RoomState.Disconnected
-- uid: LiveKit.RoomState.Reconnecting
-  name: Reconnecting
-  href: api/LiveKit.RoomState.html#LiveKit_RoomState_Reconnecting
-  commentId: F:LiveKit.RoomState.Reconnecting
-  fullName: LiveKit.RoomState.Reconnecting
-  nameWithType: RoomState.Reconnecting
 - uid: LiveKit.RTCBundlePolicy
   name: RTCBundlePolicy
   href: api/LiveKit.RTCBundlePolicy.html
@@ -4154,18 +4067,6 @@ references:
   commentId: T:LiveKit.ScreenSharePresets
   fullName: LiveKit.ScreenSharePresets
   nameWithType: ScreenSharePresets
-- uid: LiveKit.ScreenSharePresets.FHD_15
-  name: FHD_15
-  href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_FHD_15
-  commentId: F:LiveKit.ScreenSharePresets.FHD_15
-  fullName: LiveKit.ScreenSharePresets.FHD_15
-  nameWithType: ScreenSharePresets.FHD_15
-- uid: LiveKit.ScreenSharePresets.FHD_30
-  name: FHD_30
-  href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_FHD_30
-  commentId: F:LiveKit.ScreenSharePresets.FHD_30
-  fullName: LiveKit.ScreenSharePresets.FHD_30
-  nameWithType: ScreenSharePresets.FHD_30
 - uid: LiveKit.ScreenSharePresets.H1080_FPS15
   name: H1080_FPS15
   href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_H1080_FPS15
@@ -4196,24 +4097,6 @@ references:
   commentId: F:LiveKit.ScreenSharePresets.H720_FPS5
   fullName: LiveKit.ScreenSharePresets.H720_FPS5
   nameWithType: ScreenSharePresets.H720_FPS5
-- uid: LiveKit.ScreenSharePresets.HD_15
-  name: HD_15
-  href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_HD_15
-  commentId: F:LiveKit.ScreenSharePresets.HD_15
-  fullName: LiveKit.ScreenSharePresets.HD_15
-  nameWithType: ScreenSharePresets.HD_15
-- uid: LiveKit.ScreenSharePresets.HD_8
-  name: HD_8
-  href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_HD_8
-  commentId: F:LiveKit.ScreenSharePresets.HD_8
-  fullName: LiveKit.ScreenSharePresets.HD_8
-  nameWithType: ScreenSharePresets.HD_8
-- uid: LiveKit.ScreenSharePresets.VGA
-  name: VGA
-  href: api/LiveKit.ScreenSharePresets.html#LiveKit_ScreenSharePresets_VGA
-  commentId: F:LiveKit.ScreenSharePresets.VGA
-  fullName: LiveKit.ScreenSharePresets.VGA
-  nameWithType: ScreenSharePresets.VGA
 - uid: LiveKit.SubscriptionStatus
   name: SubscriptionStatus
   href: api/LiveKit.SubscriptionStatus.html
@@ -4997,12 +4880,6 @@ references:
   commentId: T:LiveKit.VideoPresets
   fullName: LiveKit.VideoPresets
   nameWithType: VideoPresets
-- uid: LiveKit.VideoPresets.FHD
-  name: FHD
-  href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_FHD
-  commentId: F:LiveKit.VideoPresets.FHD
-  fullName: LiveKit.VideoPresets.FHD
-  nameWithType: VideoPresets.FHD
 - uid: LiveKit.VideoPresets.H1080
   name: H1080
   href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_H1080
@@ -5057,42 +4934,12 @@ references:
   commentId: F:LiveKit.VideoPresets.H90
   fullName: LiveKit.VideoPresets.H90
   nameWithType: VideoPresets.H90
-- uid: LiveKit.VideoPresets.HD
-  name: HD
-  href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_HD
-  commentId: F:LiveKit.VideoPresets.HD
-  fullName: LiveKit.VideoPresets.HD
-  nameWithType: VideoPresets.HD
-- uid: LiveKit.VideoPresets.QHD
-  name: QHD
-  href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_QHD
-  commentId: F:LiveKit.VideoPresets.QHD
-  fullName: LiveKit.VideoPresets.QHD
-  nameWithType: VideoPresets.QHD
-- uid: LiveKit.VideoPresets.QVGA
-  name: QVGA
-  href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_QVGA
-  commentId: F:LiveKit.VideoPresets.QVGA
-  fullName: LiveKit.VideoPresets.QVGA
-  nameWithType: VideoPresets.QVGA
-- uid: LiveKit.VideoPresets.VGA
-  name: VGA
-  href: api/LiveKit.VideoPresets.html#LiveKit_VideoPresets_VGA
-  commentId: F:LiveKit.VideoPresets.VGA
-  fullName: LiveKit.VideoPresets.VGA
-  nameWithType: VideoPresets.VGA
 - uid: LiveKit.VideoPresets43
   name: VideoPresets43
   href: api/LiveKit.VideoPresets43.html
   commentId: T:LiveKit.VideoPresets43
   fullName: LiveKit.VideoPresets43
   nameWithType: VideoPresets43
-- uid: LiveKit.VideoPresets43.FHD
-  name: FHD
-  href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_FHD
-  commentId: F:LiveKit.VideoPresets43.FHD
-  fullName: LiveKit.VideoPresets43.FHD
-  nameWithType: VideoPresets43.FHD
 - uid: LiveKit.VideoPresets43.H1080
   name: H1080
   href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_H1080
@@ -5147,30 +4994,6 @@ references:
   commentId: F:LiveKit.VideoPresets43.H720
   fullName: LiveKit.VideoPresets43.H720
   nameWithType: VideoPresets43.H720
-- uid: LiveKit.VideoPresets43.HD
-  name: HD
-  href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_HD
-  commentId: F:LiveKit.VideoPresets43.HD
-  fullName: LiveKit.VideoPresets43.HD
-  nameWithType: VideoPresets43.HD
-- uid: LiveKit.VideoPresets43.QHD
-  name: QHD
-  href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_QHD
-  commentId: F:LiveKit.VideoPresets43.QHD
-  fullName: LiveKit.VideoPresets43.QHD
-  nameWithType: VideoPresets43.QHD
-- uid: LiveKit.VideoPresets43.QVGA
-  name: QVGA
-  href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_QVGA
-  commentId: F:LiveKit.VideoPresets43.QVGA
-  fullName: LiveKit.VideoPresets43.QVGA
-  nameWithType: VideoPresets43.QVGA
-- uid: LiveKit.VideoPresets43.VGA
-  name: VGA
-  href: api/LiveKit.VideoPresets43.html#LiveKit_VideoPresets43_VGA
-  commentId: F:LiveKit.VideoPresets43.VGA
-  fullName: LiveKit.VideoPresets43.VGA
-  nameWithType: VideoPresets43.VGA
 - uid: LiveKit.VideoQuality
   name: VideoQuality
   href: api/LiveKit.VideoQuality.html

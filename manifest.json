@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Client.html",
-          "hash": "MtBLggat3PmTSyepag+0CpRfYvSq0BUYkUS0uKoueQg="
+          "hash": "UN8iGGXS1EYuOZJZ0DOcLKH/uBwIlavsd8VkFGhG+3s="
         }
       },
       "is_incremental": false,
@@ -70,18 +70,6 @@
         ".html": {
           "relative_path": "api/LiveKit.ConnectOperation.html",
           "hash": "qjmpKdUr6wp2G1IM26G1qEKHIa49nCi6cDx09PeWsBk="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/LiveKit.ConnectOptions.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/LiveKit.ConnectOptions.html",
-          "hash": "1dGEorwmbOqW+UecOm4c+W0IZjeVZ8spqe8g6Wb9EW0="
         }
       },
       "is_incremental": false,
@@ -106,6 +94,18 @@
         ".html": {
           "relative_path": "api/LiveKit.ConnectionQuality.html",
           "hash": "sk1F0zOoOItFqEcWUXVwpHrKkPXCNH+qAQlYkhk+ydE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConnectionState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConnectionState.html",
+          "hash": "NscZOYt7jnhE1UNC7xaPXAH3mtGdlCu2XaypOjmVKpQ="
         }
       },
       "is_incremental": false,
@@ -1185,7 +1185,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.StateChangedDelegate.html",
-          "hash": "0Fphq6cSPI3rwnNWolIu1iv4reyXnvLzV95Xps20+WY="
+          "hash": "Iz6W1ye3Soz9Tbq8F+eW3a84Dt0KRGliVLbhBuEbnVg="
         }
       },
       "is_incremental": false,
@@ -1305,7 +1305,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.html",
-          "hash": "4rSBqq5Uqo59ZYcHk89TFae91MD6Qcd1zJoZ4rUkARo="
+          "hash": "2eFbk2S4IObAK6ko2mE2EBViyMe6iAdBHwEbmUyOA+Q="
         }
       },
       "is_incremental": false,
@@ -1349,18 +1349,6 @@
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/LiveKit.RoomState.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/LiveKit.RoomState.html",
-          "hash": "4ckgvRhzp/W678rwOoGEXaJ/E77GzcAEcJT1F1LlfME="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.ScreenShareCaptureOptions.yml",
       "output": {
         ".html": {
@@ -1377,7 +1365,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.ScreenSharePresets.html",
-          "hash": "LAbIe3BFmt9xa4Kp5V34y/Tt+O+V4qzmH61yYdbCvtg="
+          "hash": "yVv9p7kAhiZegvsfLhvPP9U81bpiuIGa0XDZjBJLho4="
         }
       },
       "is_incremental": false,
@@ -1593,7 +1581,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.VideoPresets.html",
-          "hash": "ho2AETVAYzmfUdGGTZRiqFMp3pNlBhGJYpTAhNcz3Mc="
+          "hash": "YcW65X5i/BnY+H0IXxgZqRZ2Ly2kTtBHPzSoFQ6XhMk="
         }
       },
       "is_incremental": false,
@@ -1605,7 +1593,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.VideoPresets43.html",
-          "hash": "EwJs/uEP9V9QAwHi5sZo4xqtddz38uQyrhCjbPTyiGA="
+          "hash": "Wz6H5AdLQCN7+yeNPRog2lf7C/ZooNyFVr7GMLqepEE="
         }
       },
       "is_incremental": false,
@@ -1641,7 +1629,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "PwX6h7B04T7u2aVCGySn0XIeai1mRJigVbGFSf7qb5I="
+          "hash": "65xd4D1qer50FyMBbjF2HEiVSlDmv1ihXZFedEvjUDg="
         }
       },
       "is_incremental": false,
@@ -1665,7 +1653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "cPaKvHn1JkK44mj2NBGGXAKVyqEa5bWAGSwR2koTQgo="
+          "hash": "067p12ETHYfeBDGVo3ii6YAkjVmKTaKtiE8swgbq4T0="
         }
       },
       "is_incremental": false,
@@ -1677,7 +1665,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "ZgjTCimRTWZUNNQF3kOrWdVnOSQWFsoriItX12YM2T8="
+          "hash": "4zLWFqQJXJEY5xUsr32DXigBEPoA+ielFSJez67eCt8="
         }
       },
       "is_incremental": false,
@@ -1716,7 +1704,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 136,
+          "total_file_count": 135,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
