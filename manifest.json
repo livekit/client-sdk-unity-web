@@ -1,0 +1,1748 @@
+{
+  "sitemap": {
+    "baseUrl": "https://livekit.github.io/client-sdk-unity-web/"
+  },
+  "homepages": [],
+  "source_base_path": "D:/a/client-sdk-unity-web/client-sdk-unity-web/Documentation~",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.AudioCaptureOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.AudioCaptureOptions.html",
+          "hash": "GkeQAuOfbxTIuGxMHTvpT9QQjh5M87eDQZlzwVfo/s4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.AudioPreset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.AudioPreset.html",
+          "hash": "okD+OBnd+D9zB30A8AKXOjkg8o1ZMgQafwniY6zKtvM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.AudioPresets.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.AudioPresets.html",
+          "hash": "5pfnRyAxR2VAmvIykFNuaJsdA8LBmGRnueZBrFn2GhI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Client.html",
+          "hash": "MtBLggat3PmTSyepag+0CpRfYvSq0BUYkUS0uKoueQg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConnectOperation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConnectOperation.html",
+          "hash": "qjmpKdUr6wp2G1IM26G1qEKHIa49nCi6cDx09PeWsBk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConnectOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConnectOptions.html",
+          "hash": "1dGEorwmbOqW+UecOm4c+W0IZjeVZ8spqe8g6Wb9EW0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConnectionError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConnectionError.html",
+          "hash": "mzKD3DB5jglRuwUtH8+yaa3/oRZWc1IKdlxUN8uMZTE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConnectionQuality.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConnectionQuality.html",
+          "hash": "sk1F0zOoOItFqEcWUXVwpHrKkPXCNH+qAQlYkhk+ydE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConstrainBoolean.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConstrainBoolean.html",
+          "hash": "8h76nTWhGkrbOpwdUJwaAx58bNFRbggZ69fMoaQwRsc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConstrainDOMString.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConstrainDOMString.html",
+          "hash": "02sn5V2xk+XWJB+GIqsXdKDg2Szi1bOdhtzUPC0rZjs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConstrainDouble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConstrainDouble.html",
+          "hash": "ZRRZ9SvKWQN8MIjvpnGlzSqa6ygU7TAbnNvQpKpu50c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ConstrainULong.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ConstrainULong.html",
+          "hash": "kwL0xlqWj5mms96PhcOYfb+tie6NwT5BhRbhFQoE8nA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.CreateLocalTracksOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.CreateLocalTracksOptions.html",
+          "hash": "XCiiljcRNn2eo2s56n4fB0/jR5vSSBHPG0Eqst3eLWA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.CreateLocalTracksOptionsWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.CreateLocalTracksOptionsWriter.html",
+          "hash": "krz2KKVKOC78pdqNOFTYAhugzGQMZ/X5jiJvtQRN8rw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.DataPacketKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.DataPacketKind.html",
+          "hash": "mpNkWm3zOEOVfkSwnF3KcRQEvEnoIw+WIh2oIcKnF88="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.DeviceIdPromise.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.DeviceIdPromise.html",
+          "hash": "POPk1l+z4lN0829XaHAch7psX+S5ZNVGnxvNhBowtyk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Errors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Errors.html",
+          "hash": "qFQnsvikaunp8jGbXlPpMXjPk07+JHqoAxEeUfha8Xk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.FacingMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.FacingMode.html",
+          "hash": "BgFKOIao1DxMcOgDMOKuyrMuc8GRkr0Cwl79Lhvg7iY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.HTMLAudioElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.HTMLAudioElement.html",
+          "hash": "wxg49rohudd3rWlf/ttumE3xCWXqEwh3CRZFGPE5OIU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.HTMLElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.HTMLElement.html",
+          "hash": "7i/g5IqYo5Bh67waJq8gAlqfrEJiFcqoruRAx0kC4mI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.HTMLMediaElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.HTMLMediaElement.html",
+          "hash": "aieMEGVbX1QTUvlLCXn3u4I/SlDriLTmZBOZeDHkKqs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.HTMLVideoElement.VideoReceivedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.HTMLVideoElement.VideoReceivedDelegate.html",
+          "hash": "CHd2Hj6k8oGfVRUcVZRtBdCjY4BG9By29VKVW9AMYC8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.HTMLVideoElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.HTMLVideoElement.html",
+          "hash": "9nkZN9QrU20ZL7QlkaoPgeh87itq3mnzDP1M9oUxDEc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.IAudioTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.IAudioTrack.html",
+          "hash": "LAjgPH+peRiEXasndg7QJ98NRbFR0UYRPMnSzUsD5dg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.ElementAttachedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.ElementAttachedDelegate.html",
+          "hash": "lQLqNIO2srEIuJQErE9JErhFItKHWlr40YV+K6Q1CiE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.ElementDetachedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.ElementDetachedDelegate.html",
+          "hash": "ywNBj6JVHUO58MiYfVB7QOwLtAMaUz5w3kdufLaNI5E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.EndedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.EndedDelegate.html",
+          "hash": "M3j65WSFOXr6EG3SicIQjtGST0Ll1hZgbC5d6/ybW30="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.MessageDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.MessageDelegate.html",
+          "hash": "RE9Vkqrr+/w/oWctl3Gr/1v9dClkhMuPf1slJoMz4k4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.MutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.MutedDelegate.html",
+          "hash": "E9rLuwLX+MRcmz+oaAstWjSYVOjYotmd0LDQ3L2m/08="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.UnmutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.UnmutedDelegate.html",
+          "hash": "V7F9b/uDPc8uGx86rREthBGgsvP6A4gpJPr+5GAENlI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ITrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ITrack.html",
+          "hash": "fy5H/1aXkeAcxj+FgALrmLML7+MgldKfNmqi9IKLUzE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.IVideoTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.IVideoTrack.html",
+          "hash": "pGmKvRSPEJcPfBHv83ISZQ9Ce2SUdxSnS2aRO0Y0LeU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSArray-1.html",
+          "hash": "XcXgKitUrAM/XmZ4SheDnfxxmymPERBlGoauATFuBFg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSError.html",
+          "hash": "u9MXAT3L+UF+i4dsWve6qptXTBtsB0XlcZ4QNEHOPbQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSEventEmitter-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSEventEmitter-1.html",
+          "hash": "5Npue8iARdkLc32teIEGIfnV3xks7WzIV223nuK+vZU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSHandle.html",
+          "hash": "sHsGwg8kyCjiPpnqrtXCfoeFznyyp2pKtm3XnsMQ+HE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSMap-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSMap-2.html",
+          "hash": "FBGZFskrit5oGjtDH9I1nfer8YxLH2R2wwv6Reiqk6k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSObject.html",
+          "hash": "FfamkRJ2/S/mmJksLBsjVGQf5FHSv/CscOkCDElZ1z8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSPromise-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSPromise-1.html",
+          "hash": "wzvYqTDJDMa6w7IgeAf4fAiP5+HNcwWnpGvYjRIR41g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSPromise.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSPromise.html",
+          "hash": "OqERFIIz4njLMxHp6MsbMeL+RdcLtcoYwwJpkdfgr8Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSRef.html",
+          "hash": "FEKSYX7EHTZX4bnCre4LAOPNIRq+v/RhSqmHUIu8zE0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.JSUint8Array.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.JSUint8Array.html",
+          "hash": "KpdhcRL7A2ATHS/xSiVkahdKoqO3Z4VpFpmUpd39c14="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LivekitError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LivekitError.html",
+          "hash": "marOQhq4v8qPS7NYf+xbBL4IrSbs9NCPXmVBAceK6pM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LocalAudioTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LocalAudioTrack.html",
+          "hash": "DORp5M8GE4oSp/YeY9lorlGnDfW2s9dVUp6ES50Rhys="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LocalParticipant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LocalParticipant.html",
+          "hash": "Hy2DBNojJibBdqUAmKAvTamghsDR5nclGs2vtMntAlM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LocalTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LocalTrack.html",
+          "hash": "zAnlvD9j7kiK5gAe8mcAH0x/IDf5hLUtAGUnto76OqQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LocalTrackPublication.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LocalTrackPublication.html",
+          "hash": "mOTm4UAl479UXgAnCA0r7Xqh3a6lcbftOqNv8bWfBHw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LocalVideoTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LocalVideoTrack.html",
+          "hash": "2S1MGvNMwXNy8SUgCWHHGFMkFS/lZk4zOceJRANQ3l0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.LogLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.LogLevel.html",
+          "hash": "DFUnnqMSXjwAtSMRgcOTL2kQLPIT6mm4diWFZ2jnLZg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.MediaDeviceFailure.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.MediaDeviceFailure.html",
+          "hash": "jwUxxtapNnOoqgGDoGCRk2Xk1Oiole/FqA0QJPP6+Vc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.MediaDeviceKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.MediaDeviceKind.html",
+          "hash": "5g4pyOsV2StlFJOi5eyyNlVvJY232MyGs4BTpY8zUYo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.MediaStreamTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.MediaStreamTrack.html",
+          "hash": "pDObmIvdxr8KuHc+hCRPJhpZOY7D4N4fjlJNEVYFy4I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.ConnectionQualityChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.ConnectionQualityChangedDelegate.html",
+          "hash": "6G6ym8A2nJ9tFGY1ytqC6ffMx3QuG9ShgVXWcJvTFrM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.DataReceivedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.DataReceivedDelegate.html",
+          "hash": "kZyml6+rFhMBCXxA7RuArJNL3zAxjBRDZZyYRqYBitM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.IsSpeakingChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.IsSpeakingChangedDelegate.html",
+          "hash": "nhxV4My0asGrKVj4bRw1DLfESQwM9UcNSroxvsd7S0w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.LocalTrackPublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.LocalTrackPublishedDelegate.html",
+          "hash": "RJege/jwAC91fncGIsQLEG1+dE1FC5qJh2RNlXIpaxA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.LocalTrackUnpublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.LocalTrackUnpublishedDelegate.html",
+          "hash": "FkcWxcUvlqROtdTnmayKEutq+E+WFJ2OsII8W+ODW9o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.ParticipantMetadataChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.ParticipantMetadataChangedDelegate.html",
+          "hash": "1Ua0ELWNJ/PJRNt4gXr4zkQUKFQCqWvyYxfWiEdMbzo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackMutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackMutedDelegate.html",
+          "hash": "/aTuaYfc8oOdguOEkw4qTLKJgav8U84Sq34GLtP0Cac="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackPublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackPublishedDelegate.html",
+          "hash": "Qse5Hm0OokSAjllz0XbMIszGNTTLr3xm64HkgA6aWLQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackStreamStateChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackStreamStateChangedDelegate.html",
+          "hash": "h+tV+FfutaZJKwfeJYXlr59oVnDgz4iA2ksEpUeC7oQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackSubscribedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackSubscribedDelegate.html",
+          "hash": "00+PekgQUfYgg8mXAprwBkJC2hdyUAPYW6Qp1TX0pP8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackSubscriptionFailedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackSubscriptionFailedDelegate.html",
+          "hash": "Xo4si5Oq44YIVQNclIADiKqWzLG7IOA7hH8P2KZkzbQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackSubscriptionPermissionChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackSubscriptionPermissionChangedDelegate.html",
+          "hash": "+JheAdv1/PHKayZiobKHMMCROQsyhsAtgX0rik7aJNs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackUnmutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackUnmutedDelegate.html",
+          "hash": "7LopaacrQlkyvEgKSZCXpHoFXUwrD7GBJAeK9PfFfk8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackUnpublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackUnpublishedDelegate.html",
+          "hash": "lS3pWLbn6SPD9xssJBcSZKn0eeZut+VgOU1xAp0HW9A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.TrackUnsubscribedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.TrackUnsubscribedDelegate.html",
+          "hash": "NnaTqPHefVWYYPRolMUnZUAJNhwAZnj7c/fXT9/r0xg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Participant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Participant.html",
+          "hash": "7SnR4UChIqG3rXLJamP4luqlKgqYqBS+NyNUMM6HAzc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ParticipantEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ParticipantEvent.html",
+          "hash": "JaHWoPyJxN+KktcdKdAnmXkvNhKkX8Ndi0FspQnH0SQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ParticipantTrackPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ParticipantTrackPermission.html",
+          "hash": "IHObIDu7eY55ww8+YGuKwtsdSpIorBWgl16mzrIyuCA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.PublishDataError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.PublishDataError.html",
+          "hash": "K8uV/9TrfF9Pzhs2oPkcdozifB6D/2EsolWA5YFCtOA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCBundlePolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCBundlePolicy.html",
+          "hash": "caR0dKGfqJgWbjgEMgU/l1JfgwYAge+JUgDeqYrzWwI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCConfiguration.html",
+          "hash": "LR5rFVMYqrwbnQACLKIYKxZ4heL8x/U+olghOxceI1k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCIceCredentialType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCIceCredentialType.html",
+          "hash": "1Fg/yfTFkD90VzAEUfOSAp5gqKRNLLD0pmoQqe5uTIE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCIceServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCIceServer.html",
+          "hash": "w3kiK3cRPk16qXBet7cEZeCoeMyYIOjOyPBBDoNpNsw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCIceTransportPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCIceTransportPolicy.html",
+          "hash": "PFZHtbom4kYwO3A0bfN6YB830bFKq8/iH3fSsHo8Ogg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RTCRtcpMuxPolicy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RTCRtcpMuxPolicy.html",
+          "hash": "5baGHgnurN6ESy0qZba2D62ptNADLboINyj0+8xwR5Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RemoteAudioTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RemoteAudioTrack.html",
+          "hash": "BXACSZLw+XyCWwK1Q79vwfapXGQnmzKNHIIkAh9XyI8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RemoteParticipant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RemoteParticipant.html",
+          "hash": "otpJAcg1TCbKki7CoCqCzg7dkFp1uRNObGzhDFlYsQc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RemoteTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RemoteTrack.html",
+          "hash": "k4InmZdgj94ENBFICoW3bf6ACkGbF16m7DOG6NyHFdw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RemoteTrackPublication.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RemoteTrackPublication.html",
+          "hash": "EJqQqMx4UxJ1uJT6JA0Qpbeb8Sx9N09E73zixOfNJDk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RemoteVideoTrack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RemoteVideoTrack.html",
+          "hash": "WpwSa7cq0rjQQQDodYqE0c9cYIfEKwq2DlYOJeT4nZI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ActiveSpeakersChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ActiveSpeakersChangedDelegate.html",
+          "hash": "Cxrn5yvdZeIRJfvDmnQigHqDw1WpwdOGwKjZDaKn83w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.AudioPlaybackChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.AudioPlaybackChangedDelegate.html",
+          "hash": "pbosYhfeS04E7KcMyYgXxRbWNetELUcRMaCcLJXkYXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ConnectionQualityChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ConnectionQualityChangedDelegate.html",
+          "hash": "OfZ5afHWTKZo8/ueVoKfAI4Gur2mVxfp92A3hGtgERw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.DataReceivedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.DataReceivedDelegate.html",
+          "hash": "/R8NkKYb+7kZAlKBjOElafJE7NN+1WxCVfeZsr3+Zok="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.DisconnectedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.DisconnectedDelegate.html",
+          "hash": "rs1pxAgps0uZuKpPnY2IpB0oplG3BGqvD4fIKZddYbw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.LocalTrackPublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.LocalTrackPublishedDelegate.html",
+          "hash": "DUwhoISzDH3oEEPMh7TW0T3ISVOunN/hCUi+L4SxMKw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.LocalTrackUnpublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.LocalTrackUnpublishedDelegate.html",
+          "hash": "10OD2oLWXn/4xsrq4nxNDNoxkUl1KffRc9AsVaxJ2rQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.MediaDevicesChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.MediaDevicesChangedDelegate.html",
+          "hash": "mZ3P+5SYqZ7bHHv7ErmCrHmwFRhD+yHThLX4XZU9rXk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.MediaDevicesErrorDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.MediaDevicesErrorDelegate.html",
+          "hash": "1RhgoVjdtKC/IsdITW2fllyf9UsYssSS3kIO5QrRPb4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ParticipantConnectedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ParticipantConnectedDelegate.html",
+          "hash": "sasimkCtDIl3n5hk+pg1SgbNTjGNKU2Nunk+A4cXY9A="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ParticipantDisconnectedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ParticipantDisconnectedDelegate.html",
+          "hash": "XlXxVpS5awnzQ6qtmiFbI5oIH09MRYD0Lxn54SrQ4u0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ParticipantMetadataChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ParticipantMetadataChangedDelegate.html",
+          "hash": "LEdH0Cpx0pqPRYUNbnED691Yb4joTP3Z4NIUgnJoi/I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ReconnectedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ReconnectedDelegate.html",
+          "hash": "8alxfLRXD8Sbf7snQBuASAevvGVvSsIgC5owgB9fbRQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.ReconnectingDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.ReconnectingDelegate.html",
+          "hash": "9oeKQvAfZ4qY73diF99oTeqB+vwT46tjWW87JfFUSbc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.RoomMetadataChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.RoomMetadataChangedDelegate.html",
+          "hash": "yFNkPs31W77Z+wt/Rzo432O38gTJ3irSzpkDG5DCyDA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.StateChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.StateChangedDelegate.html",
+          "hash": "0Fphq6cSPI3rwnNWolIu1iv4reyXnvLzV95Xps20+WY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackMutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackMutedDelegate.html",
+          "hash": "+qR7ce0WW6qM+SgJRXWfIpamscb6rCO/xuVvfXECopA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackPublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackPublishedDelegate.html",
+          "hash": "kSX0JKxtqxVvEoqaC4zLvcedBuQ2/Im9bfgeHAsxsMw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackStreamStateChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackStreamStateChangedDelegate.html",
+          "hash": "kDF9skGk3ZgggR3qMZGj3BRJiXCUbueo/C6c0mdFCQw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackSubscribedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackSubscribedDelegate.html",
+          "hash": "VFg/rQSNoMDZZO/mmOavEwQ7BZzzlK0arMTDYq5ueI4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackSubscriptionFailedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackSubscriptionFailedDelegate.html",
+          "hash": "DpeRYhL93uHwnPMA7mX/OmjMomFcH1i3iWc8YY4jmNA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackSubscriptionPermissionChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackSubscriptionPermissionChangedDelegate.html",
+          "hash": "sB3HP+N8sTVuKhop1a3+cWGEcFwAXlgIaxpy9U8+h8g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackUnmutedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackUnmutedDelegate.html",
+          "hash": "29NMNOLY0eJGlDNLUmmvGzckK9AjiqC3ENf2Kjei4oI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackUnpublishedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackUnpublishedDelegate.html",
+          "hash": "HvDcxkIwdgtS2BTt8cT/qtFk++bVO7ZZP0xNdNvd/EY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.TrackUnsubscribedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.TrackUnsubscribedDelegate.html",
+          "hash": "rCN4ewegqnh4mgAybbdHQCwgYLbgYX9Mzh5Kb6kmfG0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.html",
+          "hash": "4rSBqq5Uqo59ZYcHk89TFae91MD6Qcd1zJoZ4rUkARo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RoomConnectOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RoomConnectOptions.html",
+          "hash": "HV7rWihdQeD9prozFsHB3BdzuiIhzBSteONqL7Z1GCg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RoomEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RoomEvent.html",
+          "hash": "SZNzYCN9yaP3LcCyJ5D9eAj0b5dhrD00FTrttcmmbOY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RoomOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RoomOptions.html",
+          "hash": "zz6lYbrb/shCavzRE7Qens9hM7vK8TgerLqBL5804e4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.RoomState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.RoomState.html",
+          "hash": "4ckgvRhzp/W678rwOoGEXaJ/E77GzcAEcJT1F1LlfME="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ScreenShareCaptureOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ScreenShareCaptureOptions.html",
+          "hash": "TnmQQ25+yEbgjaJfTxAckEPjRO49qg4HFuxCqwk2mow="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ScreenSharePresets.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ScreenSharePresets.html",
+          "hash": "LAbIe3BFmt9xa4Kp5V34y/Tt+O+V4qzmH61yYdbCvtg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.SubscriptionStatus.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.SubscriptionStatus.html",
+          "hash": "6+u6ii8/fgh11yWXZ8hsulFnv5EaxlG98u/Ap76NMoY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Track.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Track.html",
+          "hash": "WDNqx6icTsUOILyF08fXzNdDb9w14Mh+KeFsxq5HpCE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackDimensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackDimensions.html",
+          "hash": "FbK/+tEA8lHCw6ECv2STG+ywf58tLcPi6TafZvk628c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackEvent.html",
+          "hash": "UQFWQPaHTPE7PDC0HbBAz4pD6PnmGz6hUY1o1EcC6dw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackInvalidError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackInvalidError.html",
+          "hash": "1jO3u0wm3kFAdiKMk/Ut26qu6xHgpqqWMYguWTyHsxg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackKind.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackKind.html",
+          "hash": "8B47KooJH7m1/DUSy2YiQ7NgxwDEmRYl2JY649o1DTM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackPublication.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackPublication.html",
+          "hash": "yvxSKFrmoob+bLNnxOLDkD/e0N6RwISUjuApaIKdnXc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackPublishDefaults.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackPublishDefaults.html",
+          "hash": "WbKGlGLmsWkWm9Ou57wHwB6KKbbgLvBXZZdLJWNC8yA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackPublishOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackPublishOptions.html",
+          "hash": "s/geTYezuJVmH1NULY705ZPln6+jQUcOVLivNjp9FZY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackSource.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackSource.html",
+          "hash": "zHnnLD1d66g4lKVtS1/vEqjlB7LSrc200tmlQTLNQsQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.TrackStreamState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.TrackStreamState.html",
+          "hash": "RVN8oTEl72E18N6XsEHwqHNHT2UXD/fVbhzf/5ZjqLw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.UnexpectedConnectionState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.UnexpectedConnectionState.html",
+          "hash": "/QaFKIOKoMtlRPhzbQQgkb3mDaj7QiZiNpJorTKTdbU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.UnsupportedServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.UnsupportedServer.html",
+          "hash": "m9jsej80pAkE10wV80KKeg/G02MA510HWX010D4/5Yg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoCaptureOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoCaptureOptions.html",
+          "hash": "b19yDKi8mXG/NLDof/yXfSRDIqXzyScZy/J8Plj3oyI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoCodec.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoCodec.html",
+          "hash": "cxN6uY23mugR9F9X+plCYueQBIcnGmB7rmEhHyaqPG0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoEncoding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoEncoding.html",
+          "hash": "HRZerpxyz8jCf8sqmkRLfK3YHX/95h3qaBfLbQEPOdA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoPreset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoPreset.html",
+          "hash": "ilNgf5gHNn7JFTWM67jdsjSJeg22FaYkXeg1jDB5XFE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoPresets.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoPresets.html",
+          "hash": "ho2AETVAYzmfUdGGTZRiqFMp3pNlBhGJYpTAhNcz3Mc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoPresets43.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoPresets43.html",
+          "hash": "EwJs/uEP9V9QAwHi5sZo4xqtddz38uQyrhCjbPTyiGA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoQuality.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoQuality.html",
+          "hash": "eJNlp57h6z+zP2cX9s+FQSTOqeAmDfS30xyato5zloc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.VideoResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.VideoResolution.html",
+          "hash": "TrlBiU3Wy/VdalTUJ9Tqd5q68FgCcwIwDzhKIdBp4q8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.html",
+          "hash": "PwX6h7B04T7u2aVCGySn0XIeai1mRJigVbGFSf7qb5I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "zeU6h4d2LsqtlWlf/6ncIZA6QtHdoqQac6Rk/ukPADg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "cPaKvHn1JkK44mj2NBGGXAKVyqEa5bWAGSwR2koTQgo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "ZgjTCimRTWZUNNQF3kOrWdVnOSQWFsoriItX12YM2T8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "zpgyIMZxjX3S5iddowsbpKLK8h/NH7fF7Cg3sp4s1bA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 136,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

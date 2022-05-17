@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>LiveKit Unity SDK | LiveKit Unity SDK </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="LiveKit Unity SDK | LiveKit Unity SDK ">
+    <meta name="generator" content="docfx 2.59.2.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="livekit-unity-sdk">LiveKit Unity SDK</h1>
+
+<p>This package only works on the WebGL platform of Unity</p>
+<h2 id="docs">Docs</h2>
+<p>Docs and guides at <a href="https://docs.livekit.io">https://docs.livekit.io</a></p>
+<p>As this package is a bridge to <a href="https://github.com/livekit/client-sdk-js">client-sdk-js</a>, you can use its <a href="https://docs.livekit.io/client-sdk-js/">SDK reference</a></p>
+<h2 id="installation-">Installation :</h2>
+<p>Follow this <a href="https://docs.unity3d.com/Manual/upm-ui-giturl.html">unity tutorial</a> using the <code>https://github.com/livekit/client-sdk-unity-web.git</code> link.
+You can then directly import the samples into the package manager.</p>
+<p>If you want to write JavaScript code in your application (e.g. you want to use React for your UI), you can install our <a href="https://www.npmjs.com/package/@livekit/livekit-unity">TypeScript package</a> via npm.
+To avoid confusion, the npm package and the Unity package will always have the same version number.</p>
+<h2 id="usage-">Usage :</h2>
+<p>There are two different ways to build an application using this package :</p>
+<ol>
+<li>Write your application entirely in C# (e.g. <a href="https://github.com/livekit/client-sdk-unity-web/tree/main/Samples%7E/ExampleRoom">ExampleRoom</a>)</li>
+<li>Still use JS and be able to bridge the Room object by using our npm package. (e.g. <a href="https://github.com/livekit/client-sdk-unity-web/tree/main/Samples%7E/JSExample">JSExample</a>)</li>
+</ol>
+<h3 id="debugging">Debugging</h3>
+<p>To display internal LiveKit logs, add LK DEBUG to define symbols</p>
+<h2 id="examples">Examples</h2>
+<p>For a complete example, look at our <a href="https://github.com/livekit/client-unity-demo">demo</a></p>
+<h3 id="connecting-to-a-room">Connecting to a room</h3>
+<pre><code class="lang-cs">public class MyObject : MonoBehaviour
+{
+    public Room Room;
+
+    IEnumerator Start()
+    {
+        Room = new Room();
+        var c = Room.Connect(&quot;&lt;livekit-url&gt;&quot;, &quot;&lt;your-token&gt;&quot;);
+        yield return c;
+
+        if (!c.IsError) {
+            // Connected
+        }
+    }
+}
+
+</code></pre>
+<h3 id="publishing-video--audio">Publishing video &amp; audio</h3>
+<pre><code class="lang-cs">yield return Room.LocalParticipant.EnableCameraAndMicrophone();
+</code></pre>
+<h3 id="display-a-video-on-a-rawimage">Display a video on a RawImage</h3>
+<pre><code class="lang-cs">RawImage image = GetComponent&lt;RawImage&gt;();
+
+Room.TrackSubscribed += (track, publication, participant) =&gt;
+{
+    if(track.Kind == TrackKind.Video)
+    {
+        var video = track.Attach() as HTMLVideoElement;
+        video.VideoReceived += tex =&gt;
+        {
+            // VideoReceived is called every time the video resolution changes
+            image.texture = tex;
+        };
+    }
+};
+</code></pre>
+<h3 id="sendingreceiving-data">Sending/Receiving data</h3>
+<pre><code class="lang-cs">Room.DataReceived += (data, participant, kind) =&gt;
+{
+    Debug.Log(&quot;Received data : &quot; + Encoding.ASCII.GetString(data));
+};
+
+yield return Room.LocalParticipant.PublishData(Encoding.ASCII.GetBytes(&quot;This is as test&quot;), DataPacketKind.RELIABLE);
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/livekit/client-sdk-unity-web/blob/main/Documentation~/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            LiveKit Client SDK for Unity WebGL
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
