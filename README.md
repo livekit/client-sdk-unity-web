@@ -4,7 +4,7 @@ This package only works on the WebGL platform of Unity
 ## Docs
 Docs and guides at https://docs.livekit.io
 
-As this package is a bridge to [client-sdk-js](https://github.com/livekit/client-sdk-js), you can use its [SDK reference](https://docs.livekit.io/client-sdk-js/)
+[SDK reference](https://livekit.github.io/client-sdk-unity-web/)
 
 ## Installation :
 Follow this [unity tutorial](https://docs.unity3d.com/Manual/upm-ui-giturl.html) using the `https://github.com/livekit/client-sdk-unity-web.git` link.

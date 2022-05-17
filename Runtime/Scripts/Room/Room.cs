@@ -3,15 +3,16 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum RoomState {
+    public enum ConnectionState {
         [EnumMember(Value = "disconnected")]
         Disconnected,
+        [EnumMember(Value = "connecting")]
+        Connecting,
         [EnumMember(Value = "connected")]
         Connected,
         [EnumMember(Value = "reconnecting")]
@@ -23,7 +24,7 @@ namespace LiveKit
         public delegate void ReconnectingDelegate();
         public delegate void ReconnectedDelegate();
         public delegate void DisconnectedDelegate();
-        public delegate void StateChangedDelegate(RoomState state);
+        public delegate void StateChangedDelegate(ConnectionState state);
         public delegate void MediaDevicesChangedDelegate();
         public delegate void ParticipantConnectedDelegate(RemoteParticipant participant);
         public delegate void ParticipantDisconnectedDelegate(RemoteParticipant participant);
@@ -100,7 +101,7 @@ namespace LiveKit
                         {
                             var str = JSNative.GetString(JSNative.ShiftStack());
                             Log.Debug($"Room: Received StateChanged(\"{str}\"");
-                            room.StateChanged?.Invoke(Utils.ToEnum<RoomState>(str));
+                            room.StateChanged?.Invoke(Utils.ToEnum<ConnectionState>(str));
                             break;
                         }
                     case RoomEvent.MediaDevicesChanged:
@@ -293,13 +294,22 @@ namespace LiveKit
                 throw;
             }
         }
+                
+        public bool IsClosed
+        {
+            get
+            {
+                JSNative.PushString("isClosed");
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
+            }
+        }
         
-        public RoomState State
+        public ConnectionState State
         {
             get
             {
                 JSNative.PushString("state");
-                return Utils.ToEnum<RoomState>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
+                return Utils.ToEnum<ConnectionState>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
             }
         }
 

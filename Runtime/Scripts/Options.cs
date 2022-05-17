@@ -49,48 +49,4 @@ namespace LiveKit
         [JsonProperty("publishOnly")]
         public string PublishOnly;
     }
-    
-    [Obsolete("Use new Room(RoomOptions) and room.connect(RoomConnectOptions) instead")]
-    public struct ConnectOptions
-    {
-        [JsonProperty("autoSubscribe")]
-        public bool? AutoSubscribe;
-        [JsonProperty("adaptiveStream")]
-        public bool? AdaptiveStream;
-        [JsonProperty("autoManageVideo")]
-        public bool? AutoManageVideo;
-        [JsonProperty("dynacast")]
-        public bool? Dynacast;
-        [JsonProperty("logLevel")]
-        public LogLevel? LogLevel;
-        [JsonProperty("iceServers")]
-        public RTCIceServer[] iceServers;
-        [JsonProperty("rtcConfig")]
-        public RTCConfiguration? RTCConfig;
-        [JsonProperty("audio")]
-        public bool? PublishAudio;
-        [JsonProperty("video")]
-        public bool? PublishVideo;
-        [JsonProperty("audioCaptureDefaults")]
-        public AudioCaptureOptions? AudioCaptureDefaults;
-        [JsonProperty("videoCaptureDefaults")]
-        public VideoCaptureOptions? VideoCaptureDefaults;
-        [JsonProperty("publishDefaults")]
-        public TrackPublishDefaults? PublishDefaults;
-        [JsonProperty("stopLocalTrackOnUnpublish")]
-        public bool? StopLocalTrackOnUnpublish;
-        [JsonProperty("expDisableLayerPause")]
-        public bool? ExpDisableLayerPause;
-
-        // CreateLocalTracksOptions TODO
-        /*[JsonProperty("audio")]
-        public bool? AudioEnabled;
-        [JsonProperty("audio")]
-        public AudioCaptureOptions? Audio;
-
-        [JsonProperty("video")]
-        public bool? VideoEnabled;
-        [JsonProperty("video")]
-        public VideoCaptureOptions? Video;*/
-    }
 }

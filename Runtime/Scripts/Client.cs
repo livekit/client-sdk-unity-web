@@ -42,17 +42,5 @@ namespace LiveKit
 
             return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalScreenTracks"));
         }
-
-        [Obsolete("Use room.connect() instead")]
-        public static ConnectOperation Connect(string url, string token, ConnectOptions? options)
-        {
-            JSNative.PushString(url);
-            JSNative.PushString(token);
-
-            if (options != null)
-                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
-
-            return JSRef.Acquire<ConnectOperation>(JSNative.CallMethod(JSNative.LiveKit, "connect"));
-        }
     }
 }
