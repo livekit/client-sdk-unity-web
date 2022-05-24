@@ -166,7 +166,34 @@ namespace LiveKit
                 return new DateTime((long) time);
             }
         }
-
+        
+        public bool IsCameraEnabled
+        {
+            get
+            {
+                JSNative.PushString("isCameraEnabled");
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
+            }
+        }
+        
+        public bool IsMicrophoneEnabled
+        {
+            get
+            {
+                JSNative.PushString("isMicrophoneEnabled");
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
+            }
+        }
+        
+        public bool IsScreenShareEnabled
+        {
+            get
+            {
+                JSNative.PushString("isScreenShareEnabled");
+                return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
+            }
+        }   
+        
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
         {
