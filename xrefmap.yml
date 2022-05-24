@@ -2495,6 +2495,45 @@ references:
   isSpec: "True"
   fullName: LiveKit.Participant.Identity
   nameWithType: Participant.Identity
+- uid: LiveKit.Participant.IsCameraEnabled
+  name: IsCameraEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsCameraEnabled
+  commentId: P:LiveKit.Participant.IsCameraEnabled
+  fullName: LiveKit.Participant.IsCameraEnabled
+  nameWithType: Participant.IsCameraEnabled
+- uid: LiveKit.Participant.IsCameraEnabled*
+  name: IsCameraEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsCameraEnabled_
+  commentId: Overload:LiveKit.Participant.IsCameraEnabled
+  isSpec: "True"
+  fullName: LiveKit.Participant.IsCameraEnabled
+  nameWithType: Participant.IsCameraEnabled
+- uid: LiveKit.Participant.IsMicrophoneEnabled
+  name: IsMicrophoneEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsMicrophoneEnabled
+  commentId: P:LiveKit.Participant.IsMicrophoneEnabled
+  fullName: LiveKit.Participant.IsMicrophoneEnabled
+  nameWithType: Participant.IsMicrophoneEnabled
+- uid: LiveKit.Participant.IsMicrophoneEnabled*
+  name: IsMicrophoneEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsMicrophoneEnabled_
+  commentId: Overload:LiveKit.Participant.IsMicrophoneEnabled
+  isSpec: "True"
+  fullName: LiveKit.Participant.IsMicrophoneEnabled
+  nameWithType: Participant.IsMicrophoneEnabled
+- uid: LiveKit.Participant.IsScreenShareEnabled
+  name: IsScreenShareEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsScreenShareEnabled
+  commentId: P:LiveKit.Participant.IsScreenShareEnabled
+  fullName: LiveKit.Participant.IsScreenShareEnabled
+  nameWithType: Participant.IsScreenShareEnabled
+- uid: LiveKit.Participant.IsScreenShareEnabled*
+  name: IsScreenShareEnabled
+  href: api/LiveKit.Participant.html#LiveKit_Participant_IsScreenShareEnabled_
+  commentId: Overload:LiveKit.Participant.IsScreenShareEnabled
+  isSpec: "True"
+  fullName: LiveKit.Participant.IsScreenShareEnabled
+  nameWithType: Participant.IsScreenShareEnabled
 - uid: LiveKit.Participant.IsSpeaking
   name: IsSpeaking
   href: api/LiveKit.Participant.html#LiveKit_Participant_IsSpeaking
