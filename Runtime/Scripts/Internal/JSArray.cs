@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -51,12 +53,18 @@ namespace LiveKit
 
                 JSNative.PushNumber(index);
                 var ptr = JSNative.GetProperty(NativeHandle);
-                if (JSNative.IsPrimitive(typeof(T)))
+
+                var type = typeof(T);
+                if (JSNative.IsPrimitive(type))
                     return (T) JSNative.GetPrimitive(ptr);
+
+                if (type.IsValueType)
+                    return JSNative.GetStruct<T>(ptr);
                 
                 return (T)(object) Acquire<JSRef>(ptr);
             }
-            set {
+            set 
+            {
                 JSNative.PushNumber(index);
                 PushValue(value);
                 JSNative.SetProperty(NativeHandle);
@@ -133,8 +141,11 @@ namespace LiveKit
 
         private void PushValue(T value)
         {
-            if (JSNative.IsPrimitive(typeof(T)))
+            var type = typeof(T);
+            if (JSNative.IsPrimitive(type))
                 JSNative.PushPrimitive(value);
+            else if(type.IsValueType)
+                JSNative.PushStruct(JsonConvert.SerializeObject(value, JSNative.JsonSettings));
             else
                 JSNative.PushObject((value as JSRef).NativeHandle);
         }

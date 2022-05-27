@@ -151,4 +151,27 @@ namespace LiveKit
         [JsonProperty("rtcpMuxPolicy")]
         public RTCRtcpMuxPolicy? RTCPMuxPolicy;
     }
+    
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum MediaDeviceKind
+    {
+        [EnumMember(Value = "audioinput")]
+        AudioInput,
+        [EnumMember(Value = "audiooutput")]
+        AudioOutput,
+        [EnumMember(Value = "videoinput")]
+        VideoInput
+    }
+    
+    public struct MediaDeviceInfo
+    {
+        [JsonProperty("deviceId")]
+        public string DeviceId;
+        [JsonProperty("groupId")]
+        public string GroupId;
+        [JsonProperty("kind")]
+        public MediaDeviceKind Kind;
+        [JsonProperty("label")]
+        public string Label;
+    }
 }

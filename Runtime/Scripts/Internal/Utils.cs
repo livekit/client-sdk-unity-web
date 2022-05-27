@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 
 namespace LiveKit
 {
-    internal class Utils
+    public class Utils
     {
-        public static string ToEnumString<T>(T type)
+        internal static string ToEnumString<T>(T type)
         {
             var eType = typeof(T);
             var name = Enum.GetName(eType, type);
@@ -14,7 +14,7 @@ namespace LiveKit
             return attributes.Value;
         }
 
-        public static T ToEnum<T>(string str)
+        internal static T ToEnum<T>(string str)
         {
             var eType = typeof(T);
             foreach (var name in Enum.GetNames(eType))
@@ -26,8 +26,8 @@ namespace LiveKit
 
             throw new NullReferenceException("Enum not found");
         }
-
-        public static bool IsNumber(Type type)
+        
+        internal static bool IsNumber(Type type)
         {
             switch (Type.GetTypeCode(type))
             {
@@ -46,6 +46,20 @@ namespace LiveKit
                 default:
                     return false;
             }
+        }
+
+        public static void PrintHandle(JSHandle handle)
+        {
+            JSNative.PushString("console");
+            var console = JSNative.GetProperty(JSNative.Window);
+            
+            JSNative.PushObject(handle);
+            JSNative.CallMethod(console, "log");
+        }
+        
+        public static void PrintHandle(JSRef reff)
+        {
+            PrintHandle(reff.NativeHandle);
         }
     }
 }

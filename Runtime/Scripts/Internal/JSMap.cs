@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -55,9 +56,13 @@ namespace LiveKit
 
                 PushKey(key);
                 var ptr = JSNative.CallMethod(NativeHandle, "get");
-                if(JSNative.IsPrimitive(typeof(TValue)))
+                var type = typeof(TValue);
+                if(JSNative.IsPrimitive(type))
                     return (TValue) JSNative.GetPrimitive(ptr);
 
+                if (type.IsValueType)
+                    return JSNative.GetStruct<TValue>(ptr);
+                
                 return (TValue)(object) Acquire<JSRef>(ptr);
             }
             set
@@ -156,16 +161,22 @@ namespace LiveKit
 
         private void PushKey(TKey key)
         {
-            if (JSNative.IsPrimitive(typeof(TKey)))
+            var type = typeof(TKey);
+            if (JSNative.IsPrimitive(type))
                 JSNative.PushPrimitive(key);
+            else if(type.IsValueType)
+                JSNative.PushStruct(JsonConvert.SerializeObject(key, JSNative.JsonSettings));
             else
                 JSNative.PushObject((key as JSRef).NativeHandle);
         }
 
         private void PushValue(TValue value)
         {
-            if (JSNative.IsPrimitive(typeof(TValue)))
+            var type = typeof(TValue);
+            if (JSNative.IsPrimitive(type))
                 JSNative.PushPrimitive(value);
+            else if(type.IsValueType)
+                JSNative.PushStruct(JsonConvert.SerializeObject(value, JSNative.JsonSettings));
             else
                 JSNative.PushObject((value as JSRef).NativeHandle);
         }

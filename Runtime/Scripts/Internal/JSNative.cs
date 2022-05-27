@@ -171,7 +171,7 @@ namespace LiveKit
 
             PushObject(ptr);
             var strifyPtr = CallMethod(json, "stringify");
-
+            
             if(!IsString(strifyPtr))
                 throw new Exception($"Failed to bridge {typeof(T)}");
 
@@ -196,11 +196,11 @@ namespace LiveKit
         {
             if (IsString(ptr))
                 return GetString(ptr);
-            else if (IsNumber(ptr))
+            if (IsNumber(ptr))
                 return GetNumber(ptr);
-            else if (IsBoolean(ptr))
+            if (IsBoolean(ptr))
                 return GetBoolean(ptr);
-            else if (IsNull(ptr) || IsUndefined(ptr))
+            if (IsNull(ptr) || IsUndefined(ptr))
                 return null;
 
             throw new ArgumentException("Unsupported type");
@@ -213,14 +213,5 @@ namespace LiveKit
         }
     }
 
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum MediaDeviceKind
-    {
-        [EnumMember(Value = "audioinput")]
-        AudioInput,
-        [EnumMember(Value = "audiooutput")]
-        AudioOutput,
-        [EnumMember(Value = "videoinput")]
-        VideoInput
-    }
+
 }

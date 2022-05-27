@@ -406,11 +406,32 @@ namespace LiveKit
             JSBridge.SendRoomCreated(this);
         }
 
+        ~Room()
+        {
+            SetKeepAlive(LocalParticipant, false);
+        }
+        
+        public static JSPromise<JSArray<MediaDeviceInfo>> GetLocalDevices(MediaDeviceKind? kind = null, bool? requestPermissions = null)
+        {
+            JSNative.PushString("Room");
+            var roomClazz = JSNative.GetProperty(JSNative.LiveKit);
+
+            if(kind.HasValue)
+                JSNative.PushString(Utils.ToEnumString(kind.Value));
+            else
+                JSNative.PushUndefined();
+            
+            if(requestPermissions.HasValue)
+                JSNative.PushBoolean(requestPermissions.Value);
+            
+            return Acquire<JSPromise<JSArray<MediaDeviceInfo>>>(JSNative.CallMethod(roomClazz, "getLocalDevices"));
+        }
+
         private void RegisterEvents()
         {
             foreach (var e in Enum.GetValues(typeof(RoomEvent)))
                 SetListener((RoomEvent) e, EventReceived);
-
+    
             SetKeepAlive(LocalParticipant, true);
             
             ParticipantConnected += (p) => SetKeepAlive(p, true);
@@ -421,11 +442,6 @@ namespace LiveKit
             
             TrackSubscribed += (track, publication, participant) => SetKeepAlive(track, true);
             TrackUnsubscribed += (track, publication, participant) => SetKeepAlive(track, false);
-        }
-        
-        ~Room()
-        {
-            SetKeepAlive(LocalParticipant, false);
         }
 
         public ConnectOperation Connect(string url, string token, RoomConnectOptions? options = null)
