@@ -2357,6 +2357,36 @@ references:
   commentId: F:LiveKit.MediaDeviceFailure.PermissionDenied
   fullName: LiveKit.MediaDeviceFailure.PermissionDenied
   nameWithType: MediaDeviceFailure.PermissionDenied
+- uid: LiveKit.MediaDeviceInfo
+  name: MediaDeviceInfo
+  href: api/LiveKit.MediaDeviceInfo.html
+  commentId: T:LiveKit.MediaDeviceInfo
+  fullName: LiveKit.MediaDeviceInfo
+  nameWithType: MediaDeviceInfo
+- uid: LiveKit.MediaDeviceInfo.DeviceId
+  name: DeviceId
+  href: api/LiveKit.MediaDeviceInfo.html#LiveKit_MediaDeviceInfo_DeviceId
+  commentId: F:LiveKit.MediaDeviceInfo.DeviceId
+  fullName: LiveKit.MediaDeviceInfo.DeviceId
+  nameWithType: MediaDeviceInfo.DeviceId
+- uid: LiveKit.MediaDeviceInfo.GroupId
+  name: GroupId
+  href: api/LiveKit.MediaDeviceInfo.html#LiveKit_MediaDeviceInfo_GroupId
+  commentId: F:LiveKit.MediaDeviceInfo.GroupId
+  fullName: LiveKit.MediaDeviceInfo.GroupId
+  nameWithType: MediaDeviceInfo.GroupId
+- uid: LiveKit.MediaDeviceInfo.Kind
+  name: Kind
+  href: api/LiveKit.MediaDeviceInfo.html#LiveKit_MediaDeviceInfo_Kind
+  commentId: F:LiveKit.MediaDeviceInfo.Kind
+  fullName: LiveKit.MediaDeviceInfo.Kind
+  nameWithType: MediaDeviceInfo.Kind
+- uid: LiveKit.MediaDeviceInfo.Label
+  name: Label
+  href: api/LiveKit.MediaDeviceInfo.html#LiveKit_MediaDeviceInfo_Label
+  commentId: F:LiveKit.MediaDeviceInfo.Label
+  fullName: LiveKit.MediaDeviceInfo.Label
+  nameWithType: MediaDeviceInfo.Label
 - uid: LiveKit.MediaDeviceKind
   name: MediaDeviceKind
   href: api/LiveKit.MediaDeviceKind.html
@@ -3321,6 +3351,22 @@ references:
   isSpec: "True"
   fullName: LiveKit.Room.Finalize
   nameWithType: Room.Finalize
+- uid: LiveKit.Room.GetLocalDevices(System.Nullable{LiveKit.MediaDeviceKind},System.Nullable{System.Boolean})
+  name: GetLocalDevices(Nullable<MediaDeviceKind>, Nullable<Boolean>)
+  href: api/LiveKit.Room.html#LiveKit_Room_GetLocalDevices_System_Nullable_LiveKit_MediaDeviceKind__System_Nullable_System_Boolean__
+  commentId: M:LiveKit.Room.GetLocalDevices(System.Nullable{LiveKit.MediaDeviceKind},System.Nullable{System.Boolean})
+  name.vb: GetLocalDevices(Nullable(Of MediaDeviceKind), Nullable(Of Boolean))
+  fullName: LiveKit.Room.GetLocalDevices(System.Nullable<LiveKit.MediaDeviceKind>, System.Nullable<System.Boolean>)
+  fullName.vb: LiveKit.Room.GetLocalDevices(System.Nullable(Of LiveKit.MediaDeviceKind), System.Nullable(Of System.Boolean))
+  nameWithType: Room.GetLocalDevices(Nullable<MediaDeviceKind>, Nullable<Boolean>)
+  nameWithType.vb: Room.GetLocalDevices(Nullable(Of MediaDeviceKind), Nullable(Of Boolean))
+- uid: LiveKit.Room.GetLocalDevices*
+  name: GetLocalDevices
+  href: api/LiveKit.Room.html#LiveKit_Room_GetLocalDevices_
+  commentId: Overload:LiveKit.Room.GetLocalDevices
+  isSpec: "True"
+  fullName: LiveKit.Room.GetLocalDevices
+  nameWithType: Room.GetLocalDevices
 - uid: LiveKit.Room.GetParticipantByIdentity(System.String)
   name: GetParticipantByIdentity(String)
   href: api/LiveKit.Room.html#LiveKit_Room_GetParticipantByIdentity_System_String_
@@ -4788,6 +4834,31 @@ references:
   commentId: T:LiveKit.UnsupportedServer
   fullName: LiveKit.UnsupportedServer
   nameWithType: UnsupportedServer
+- uid: LiveKit.Utils
+  name: Utils
+  href: api/LiveKit.Utils.html
+  commentId: T:LiveKit.Utils
+  fullName: LiveKit.Utils
+  nameWithType: Utils
+- uid: LiveKit.Utils.PrintHandle(LiveKit.JSHandle)
+  name: PrintHandle(JSHandle)
+  href: api/LiveKit.Utils.html#LiveKit_Utils_PrintHandle_LiveKit_JSHandle_
+  commentId: M:LiveKit.Utils.PrintHandle(LiveKit.JSHandle)
+  fullName: LiveKit.Utils.PrintHandle(LiveKit.JSHandle)
+  nameWithType: Utils.PrintHandle(JSHandle)
+- uid: LiveKit.Utils.PrintHandle(LiveKit.JSRef)
+  name: PrintHandle(JSRef)
+  href: api/LiveKit.Utils.html#LiveKit_Utils_PrintHandle_LiveKit_JSRef_
+  commentId: M:LiveKit.Utils.PrintHandle(LiveKit.JSRef)
+  fullName: LiveKit.Utils.PrintHandle(LiveKit.JSRef)
+  nameWithType: Utils.PrintHandle(JSRef)
+- uid: LiveKit.Utils.PrintHandle*
+  name: PrintHandle
+  href: api/LiveKit.Utils.html#LiveKit_Utils_PrintHandle_
+  commentId: Overload:LiveKit.Utils.PrintHandle
+  isSpec: "True"
+  fullName: LiveKit.Utils.PrintHandle
+  nameWithType: Utils.PrintHandle
 - uid: LiveKit.VideoCaptureOptions
   name: VideoCaptureOptions
   href: api/LiveKit.VideoCaptureOptions.html

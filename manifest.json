@@ -617,6 +617,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.MediaDeviceInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.MediaDeviceInfo.html",
+          "hash": "+6XodLnEiHpJR4r5TNmzc0WTcNaweWRoqu6Fw2t0Fz0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.MediaDeviceKind.yml",
       "output": {
         ".html": {
@@ -1305,7 +1317,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.html",
-          "hash": "2eFbk2S4IObAK6ko2mE2EBViyMe6iAdBHwEbmUyOA+Q="
+          "hash": "fVv8DvqFUqjgDopcCwwaVf/In7f4w5SNVH3wEvuhXLE="
         }
       },
       "is_incremental": false,
@@ -1529,6 +1541,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Utils.html",
+          "hash": "UHSdRHgB7IWtlM+/CqoNj+pDm8k7HrJlUn+uVORdqeA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.VideoCaptureOptions.yml",
       "output": {
         ".html": {
@@ -1629,7 +1653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "65xd4D1qer50FyMBbjF2HEiVSlDmv1ihXZFedEvjUDg="
+          "hash": "induhHG4OsNFgKZLT4sPVRLyarT5DVZbg8Bg9p0zQYs="
         }
       },
       "is_incremental": false,
@@ -1653,7 +1677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "067p12ETHYfeBDGVo3ii6YAkjVmKTaKtiE8swgbq4T0="
+          "hash": "Ro8T0hJBQlx8VBc8+jgl71oa4ii5mYSyAlsYna09XGA="
         }
       },
       "is_incremental": false,
@@ -1704,7 +1728,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 135,
+          "total_file_count": 137,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
