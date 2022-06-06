@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSRef : CriticalFinalizerObject
+    public class JSRef : IDisposable
     {
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
@@ -98,24 +98,23 @@ namespace LiveKit
 
         ~JSRef()
         {
-            var ptr = NativeHandle.DangerousGetHandle();
-            if (Cache[ptr].TryGetTarget(out var _))
-            {
-                // It means that another instance has been created after this one being GC
-                // il2cpp doesn't support Long WeakReference
-                return;
-            }
-
-            Free();
+            Dispose(false);
         }
 
-        internal void Free()
+        private void Dispose(bool disposing)
         {
-            if(!NativeHandle.IsClosed)
-                NativeHandle.Close();
-            
             var ptr = NativeHandle.DangerousGetHandle();
             Cache.Remove(ptr);
+
+            if (disposing)
+            {
+                NativeHandle.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
     }
