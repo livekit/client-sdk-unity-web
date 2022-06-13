@@ -406,11 +406,12 @@ namespace LiveKit
             JSBridge.SendRoomCreated(this);
         }
 
-        ~Room()
+        protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
             SetKeepAlive(LocalParticipant, false);
         }
-        
+
         public static JSPromise<JSArray<MediaDeviceInfo>> GetLocalDevices(MediaDeviceKind? kind = null, bool? requestPermissions = null)
         {
             JSNative.PushString("Room");

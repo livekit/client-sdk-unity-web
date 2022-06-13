@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -101,7 +99,7 @@ namespace LiveKit
             Dispose(false);
         }
 
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             var ptr = NativeHandle.DangerousGetHandle();
             Cache.Remove(ptr);

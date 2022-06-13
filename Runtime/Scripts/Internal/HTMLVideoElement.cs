@@ -63,8 +63,9 @@ namespace LiveKit
             AddEventListener("resize", ResizeEvent);
         }
 
-        ~HTMLVideoElement()
+        protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
             Object.Destroy(Texture);
             JSNative.DestroyTexture(m_TextureId);
         }

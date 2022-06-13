@@ -7,7 +7,7 @@ namespace LiveKit
     {
         private JSHandle() : base(true)
         {
-            
+
         }
 
         internal JSHandle(IntPtr ptr, bool ownsHandle) : base(ownsHandle)

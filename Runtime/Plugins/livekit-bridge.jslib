@@ -180,13 +180,17 @@ var NativeLib = {
 
     PushFunction: function (ptr, fnc) {
         LKBridge.Stack.push(function () {
-            LKBridge.StackCSharp = Array.from(arguments);
-            LKBridge.FunctionInstance = this;
+            try{
+                LKBridge.StackCSharp = Array.from(arguments);
+                LKBridge.FunctionInstance = this;
 
-            LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
+                LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
 
-            LKBridge.FunctionInstance = null;
-            LKBridge.StackCSharp = [];
+                LKBridge.FunctionInstance = null;
+                LKBridge.StackCSharp = [];
+            } catch (e) {
+                console.error("An error occured when calling C# callback", fnc, e);
+            }
         });
     },
 

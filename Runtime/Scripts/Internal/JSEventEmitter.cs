@@ -25,11 +25,13 @@ namespace LiveKit
             SetKeepAlive(NativeHandle, true);
         }
         
-        ~JSEventEmitter()
+        protected override void Dispose(bool disposing)
         {
-            // Clear events automatically 
-            foreach(var k in Events.Keys.ToList())
-                RemoveListener(k);                
+            base.Dispose(disposing);
+            
+            // Clear events
+            foreach (var k in Events.Keys.ToArray())
+                RemoveListener(k);
             
             SetKeepAlive(NativeHandle, false);
         }
@@ -37,7 +39,7 @@ namespace LiveKit
         // Similar to "on" but we only accepts one listener (No need for multiple in internal use)
         internal void SetListener(T eventt, JSNative.JSDelegate fnc)
         {
-            var wrapper = new EventWrapper()
+            var wrapper = new EventWrapper
             {
                 Event = eventt,
                 FncRef = new JSRef()
@@ -60,12 +62,11 @@ namespace LiveKit
             if (!Events.TryGetValue(eventt, out var wrapper))
                 return;
             
-            SetKeepAlive(wrapper.FncRef, false);
-            
             JSNative.PushString(Utils.ToEnumString(eventt));
             JSNative.PushObject(wrapper.FncRef.NativeHandle);
             JSNative.CallMethod(NativeHandle, "removeListener");
 
+            SetKeepAlive(wrapper.FncRef, false);
             Events.Remove(eventt);
         }
     }
