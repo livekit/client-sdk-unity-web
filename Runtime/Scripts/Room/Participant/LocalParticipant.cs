@@ -39,21 +39,30 @@ namespace LiveKit
             return base.GetTrackByName(name) as LocalTrackPublication;
         }
 
-        public JSPromise<LocalTrackPublication> SetCameraEnabled(bool enabled)
+        public JSPromise<LocalTrackPublication> SetCameraEnabled(bool enabled, VideoCaptureOptions? options = null)
         {
             JSNative.PushBoolean(enabled);
+            if (options != null)
+                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
+            
             return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setCameraEnabled"));
         }
 
-        public JSPromise<LocalTrackPublication> SetMicrophoneEnabled(bool enabled)
+        public JSPromise<LocalTrackPublication> SetMicrophoneEnabled(bool enabled, AudioCaptureOptions? options = null)
         {
             JSNative.PushBoolean(enabled);
+            if (options != null)
+                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
+            
             return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setMicrophoneEnabled"));
         }
 
-        public JSPromise<LocalTrackPublication> SetScreenShareEnabled(bool enabled)
+        public JSPromise<LocalTrackPublication> SetScreenShareEnabled(bool enabled, ScreenShareCaptureOptions? options = null)
         {
             JSNative.PushBoolean(enabled);
+            if (options != null)
+                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
+            
             return Acquire<JSPromise<LocalTrackPublication>>(JSNative.CallMethod(NativeHandle, "setScreenShareEnabled"));
         }
 

@@ -71,7 +71,7 @@ namespace LiveKit
 
     public class JSPromise<T> : JSPromise where T : JSObject
     {
-        public T ResolveValue { get; private set; }
+        public T ResolveValue { get; private set; } // Nullable
 
         [Preserve]
         internal JSPromise(JSHandle handle) : base(handle)
