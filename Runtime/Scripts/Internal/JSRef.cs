@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Reflection;
-using System.Runtime.ConstrainedExecution;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSRef : CriticalFinalizerObject
+    public class JSRef
     {
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
@@ -98,25 +96,18 @@ namespace LiveKit
 
         ~JSRef()
         {
-            var ptr = NativeHandle.DangerousGetHandle();
-            if (Cache[ptr].TryGetTarget(out var _))
-            {
-                // It means that another instance has been created after this one being GC
-                // il2cpp doesn't support Long WeakReference
-                return;
-            }
-
-            Free();
+            Dispose(false);
         }
 
-        internal void Free()
+        protected virtual void Dispose(bool disposing)
         {
-            if(!NativeHandle.IsClosed)
-                NativeHandle.Close();
-            
             var ptr = NativeHandle.DangerousGetHandle();
             Cache.Remove(ptr);
-            GC.SuppressFinalize(this);
+
+            if (disposing)
+            {
+                NativeHandle.Dispose();
+            }
         }
     }
 }
