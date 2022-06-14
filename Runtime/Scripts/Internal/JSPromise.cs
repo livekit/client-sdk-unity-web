@@ -40,8 +40,8 @@ namespace LiveKit
         [Preserve]
         internal JSPromise(JSHandle handle) : base(handle)
         {
-            JSNative.PushFunction(NativeHandle, PromiseResolve);
-            JSNative.PushFunction(NativeHandle, PromiseReject);
+            JSNative.PushFunction(NativeHandle, PromiseResolve, nameof(PromiseResolve));
+            JSNative.PushFunction(NativeHandle, PromiseReject, nameof(PromiseReject));
             JSNative.CallMethod(NativeHandle, "then");
         }
 

@@ -16,7 +16,7 @@ namespace LiveKit
                 identifier = NativeHandle;
 
             JSNative.PushString(e);
-            JSNative.PushFunction(identifier, callback);
+            JSNative.PushFunction(identifier, callback, $"HTMLElement - EventListener: {e}");
             JSNative.CallMethod(NativeHandle, "addEventListener");
         }
     }

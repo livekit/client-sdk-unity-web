@@ -105,7 +105,7 @@ namespace LiveKit
         internal static extern void PushObject(JSHandle ptr);
 
         [DllImport("__Internal")]
-        internal static extern void PushFunction(JSHandle ptr, JSDelegate action);
+        internal static extern void PushFunction(JSHandle ptr, JSDelegate action, string debugLabel);
 
         [DllImport("__Internal")]
         internal static extern JSHandle CallMethod(JSHandle ptr, string fnc);

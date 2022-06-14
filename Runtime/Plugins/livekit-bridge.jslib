@@ -178,7 +178,7 @@ var NativeLib = {
         LKBridge.Stack.push(HEAPU8.subarray(of, of + size));
     },
 
-    PushFunction: function (ptr, fnc) {
+    PushFunction: function (ptr, fnc, debugLabel) {
         LKBridge.Stack.push(function () {
             try{
                 LKBridge.StackCSharp = Array.from(arguments);
@@ -189,7 +189,7 @@ var NativeLib = {
                 LKBridge.FunctionInstance = null;
                 LKBridge.StackCSharp = [];
             } catch (e) {
-                console.error("An error occured when calling C# callback", fnc, e);
+                console.error("An error occured when calling C# callback", fnc, e, UTF8ToString(debugLabel));
             }
         });
     },
