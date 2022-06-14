@@ -118,6 +118,15 @@ namespace LiveKit
                 return JSNative.GetString(ptr);
             }
         }
+        
+        public TrackStreamState StreamState
+        {
+            get
+            {
+                JSNative.PushString("streamState");
+                return Utils.ToEnum<TrackStreamState>(JSNative.GetString(JSNative.GetProperty(NativeHandle)));
+            }
+        }
 
         [MonoPInvokeCallback(typeof(Action<IntPtr>))]
         private static void EventReceived(IntPtr iptr)
