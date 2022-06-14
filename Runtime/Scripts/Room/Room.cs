@@ -19,7 +19,7 @@ namespace LiveKit
         Reconnecting
     }
 
-    public class Room : JSEventEmitter<RoomEvent>
+    public class Room : JSEventEmitter<RoomEvent>, IDisposable
     {
         public delegate void ReconnectingDelegate();
         public delegate void ReconnectedDelegate();
@@ -456,6 +456,12 @@ namespace LiveKit
             return Acquire<ConnectOperation>(JSNative.CallMethod(NativeHandle, "connect"));
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
         public void Disconnect(bool stopTracks = true)
         {
             JSNative.PushBoolean(stopTracks);

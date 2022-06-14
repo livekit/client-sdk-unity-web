@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public class JSRef : IDisposable
+    public class JSRef
     {
         private static readonly Dictionary<string, Type> s_TypeMap = new Dictionary<string, Type>()
         {
@@ -108,12 +108,6 @@ namespace LiveKit
             {
                 NativeHandle.Dispose();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }
