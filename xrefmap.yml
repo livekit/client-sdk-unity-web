@@ -702,19 +702,19 @@ references:
   commentId: T:LiveKit.HTMLVideoElement
   fullName: LiveKit.HTMLVideoElement
   nameWithType: HTMLVideoElement
-- uid: LiveKit.HTMLVideoElement.Finalize
-  name: Finalize()
-  href: api/LiveKit.HTMLVideoElement.html#LiveKit_HTMLVideoElement_Finalize
-  commentId: M:LiveKit.HTMLVideoElement.Finalize
-  fullName: LiveKit.HTMLVideoElement.Finalize()
-  nameWithType: HTMLVideoElement.Finalize()
-- uid: LiveKit.HTMLVideoElement.Finalize*
-  name: Finalize
-  href: api/LiveKit.HTMLVideoElement.html#LiveKit_HTMLVideoElement_Finalize_
-  commentId: Overload:LiveKit.HTMLVideoElement.Finalize
+- uid: LiveKit.HTMLVideoElement.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/LiveKit.HTMLVideoElement.html#LiveKit_HTMLVideoElement_Dispose_System_Boolean_
+  commentId: M:LiveKit.HTMLVideoElement.Dispose(System.Boolean)
+  fullName: LiveKit.HTMLVideoElement.Dispose(System.Boolean)
+  nameWithType: HTMLVideoElement.Dispose(Boolean)
+- uid: LiveKit.HTMLVideoElement.Dispose*
+  name: Dispose
+  href: api/LiveKit.HTMLVideoElement.html#LiveKit_HTMLVideoElement_Dispose_
+  commentId: Overload:LiveKit.HTMLVideoElement.Dispose
   isSpec: "True"
-  fullName: LiveKit.HTMLVideoElement.Finalize
-  nameWithType: HTMLVideoElement.Finalize
+  fullName: LiveKit.HTMLVideoElement.Dispose
+  nameWithType: HTMLVideoElement.Dispose
 - uid: LiveKit.HTMLVideoElement.Texture
   name: Texture
   href: api/LiveKit.HTMLVideoElement.html#LiveKit_HTMLVideoElement_Texture
@@ -1306,23 +1306,23 @@ references:
   fullName.vb: LiveKit.JSEventEmitter(Of T)
   nameWithType: JSEventEmitter<T>
   nameWithType.vb: JSEventEmitter(Of T)
-- uid: LiveKit.JSEventEmitter`1.Finalize
-  name: Finalize()
-  href: api/LiveKit.JSEventEmitter-1.html#LiveKit_JSEventEmitter_1_Finalize
-  commentId: M:LiveKit.JSEventEmitter`1.Finalize
-  fullName: LiveKit.JSEventEmitter<T>.Finalize()
-  fullName.vb: LiveKit.JSEventEmitter(Of T).Finalize()
-  nameWithType: JSEventEmitter<T>.Finalize()
-  nameWithType.vb: JSEventEmitter(Of T).Finalize()
-- uid: LiveKit.JSEventEmitter`1.Finalize*
-  name: Finalize
-  href: api/LiveKit.JSEventEmitter-1.html#LiveKit_JSEventEmitter_1_Finalize_
-  commentId: Overload:LiveKit.JSEventEmitter`1.Finalize
+- uid: LiveKit.JSEventEmitter`1.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/LiveKit.JSEventEmitter-1.html#LiveKit_JSEventEmitter_1_Dispose_System_Boolean_
+  commentId: M:LiveKit.JSEventEmitter`1.Dispose(System.Boolean)
+  fullName: LiveKit.JSEventEmitter<T>.Dispose(System.Boolean)
+  fullName.vb: LiveKit.JSEventEmitter(Of T).Dispose(System.Boolean)
+  nameWithType: JSEventEmitter<T>.Dispose(Boolean)
+  nameWithType.vb: JSEventEmitter(Of T).Dispose(Boolean)
+- uid: LiveKit.JSEventEmitter`1.Dispose*
+  name: Dispose
+  href: api/LiveKit.JSEventEmitter-1.html#LiveKit_JSEventEmitter_1_Dispose_
+  commentId: Overload:LiveKit.JSEventEmitter`1.Dispose
   isSpec: "True"
-  fullName: LiveKit.JSEventEmitter<T>.Finalize
-  fullName.vb: LiveKit.JSEventEmitter(Of T).Finalize
-  nameWithType: JSEventEmitter<T>.Finalize
-  nameWithType.vb: JSEventEmitter(Of T).Finalize
+  fullName: LiveKit.JSEventEmitter<T>.Dispose
+  fullName.vb: LiveKit.JSEventEmitter(Of T).Dispose
+  nameWithType: JSEventEmitter<T>.Dispose
+  nameWithType.vb: JSEventEmitter(Of T).Dispose
 - uid: LiveKit.JSHandle
   name: JSHandle
   href: api/LiveKit.JSHandle.html
@@ -1763,6 +1763,19 @@ references:
   commentId: T:LiveKit.JSRef
   fullName: LiveKit.JSRef
   nameWithType: JSRef
+- uid: LiveKit.JSRef.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/LiveKit.JSRef.html#LiveKit_JSRef_Dispose_System_Boolean_
+  commentId: M:LiveKit.JSRef.Dispose(System.Boolean)
+  fullName: LiveKit.JSRef.Dispose(System.Boolean)
+  nameWithType: JSRef.Dispose(Boolean)
+- uid: LiveKit.JSRef.Dispose*
+  name: Dispose
+  href: api/LiveKit.JSRef.html#LiveKit_JSRef_Dispose_
+  commentId: Overload:LiveKit.JSRef.Dispose
+  isSpec: "True"
+  fullName: LiveKit.JSRef.Dispose
+  nameWithType: JSRef.Dispose
 - uid: LiveKit.JSRef.Finalize
   name: Finalize()
   href: api/LiveKit.JSRef.html#LiveKit_JSRef_Finalize
@@ -3338,19 +3351,25 @@ references:
   commentId: T:LiveKit.Room.DisconnectedDelegate
   fullName: LiveKit.Room.DisconnectedDelegate
   nameWithType: Room.DisconnectedDelegate
-- uid: LiveKit.Room.Finalize
-  name: Finalize()
-  href: api/LiveKit.Room.html#LiveKit_Room_Finalize
-  commentId: M:LiveKit.Room.Finalize
-  fullName: LiveKit.Room.Finalize()
-  nameWithType: Room.Finalize()
-- uid: LiveKit.Room.Finalize*
-  name: Finalize
-  href: api/LiveKit.Room.html#LiveKit_Room_Finalize_
-  commentId: Overload:LiveKit.Room.Finalize
+- uid: LiveKit.Room.Dispose
+  name: Dispose()
+  href: api/LiveKit.Room.html#LiveKit_Room_Dispose
+  commentId: M:LiveKit.Room.Dispose
+  fullName: LiveKit.Room.Dispose()
+  nameWithType: Room.Dispose()
+- uid: LiveKit.Room.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  href: api/LiveKit.Room.html#LiveKit_Room_Dispose_System_Boolean_
+  commentId: M:LiveKit.Room.Dispose(System.Boolean)
+  fullName: LiveKit.Room.Dispose(System.Boolean)
+  nameWithType: Room.Dispose(Boolean)
+- uid: LiveKit.Room.Dispose*
+  name: Dispose
+  href: api/LiveKit.Room.html#LiveKit_Room_Dispose_
+  commentId: Overload:LiveKit.Room.Dispose
   isSpec: "True"
-  fullName: LiveKit.Room.Finalize
-  nameWithType: Room.Finalize
+  fullName: LiveKit.Room.Dispose
+  nameWithType: Room.Dispose
 - uid: LiveKit.Room.GetLocalDevices(System.Nullable{LiveKit.MediaDeviceKind},System.Nullable{System.Boolean})
   name: GetLocalDevices(Nullable<MediaDeviceKind>, Nullable<Boolean>)
   href: api/LiveKit.Room.html#LiveKit_Room_GetLocalDevices_System_Nullable_LiveKit_MediaDeviceKind__System_Nullable_System_Boolean__
