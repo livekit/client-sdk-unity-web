@@ -2028,12 +2028,15 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.PublishTrack
   nameWithType: LocalParticipant.PublishTrack
-- uid: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean)
-  name: SetCameraEnabled(Boolean)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetCameraEnabled_System_Boolean_
-  commentId: M:LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean)
-  fullName: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean)
-  nameWithType: LocalParticipant.SetCameraEnabled(Boolean)
+- uid: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean,System.Nullable{LiveKit.VideoCaptureOptions})
+  name: SetCameraEnabled(Boolean, Nullable<VideoCaptureOptions>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetCameraEnabled_System_Boolean_System_Nullable_LiveKit_VideoCaptureOptions__
+  commentId: M:LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean,System.Nullable{LiveKit.VideoCaptureOptions})
+  name.vb: SetCameraEnabled(Boolean, Nullable(Of VideoCaptureOptions))
+  fullName: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean, System.Nullable<LiveKit.VideoCaptureOptions>)
+  fullName.vb: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean, System.Nullable(Of LiveKit.VideoCaptureOptions))
+  nameWithType: LocalParticipant.SetCameraEnabled(Boolean, Nullable<VideoCaptureOptions>)
+  nameWithType.vb: LocalParticipant.SetCameraEnabled(Boolean, Nullable(Of VideoCaptureOptions))
 - uid: LiveKit.LocalParticipant.SetCameraEnabled*
   name: SetCameraEnabled
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetCameraEnabled_
@@ -2041,12 +2044,15 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.SetCameraEnabled
   nameWithType: LocalParticipant.SetCameraEnabled
-- uid: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean)
-  name: SetMicrophoneEnabled(Boolean)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMicrophoneEnabled_System_Boolean_
-  commentId: M:LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean)
-  fullName: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean)
-  nameWithType: LocalParticipant.SetMicrophoneEnabled(Boolean)
+- uid: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean,System.Nullable{LiveKit.AudioCaptureOptions})
+  name: SetMicrophoneEnabled(Boolean, Nullable<AudioCaptureOptions>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMicrophoneEnabled_System_Boolean_System_Nullable_LiveKit_AudioCaptureOptions__
+  commentId: M:LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean,System.Nullable{LiveKit.AudioCaptureOptions})
+  name.vb: SetMicrophoneEnabled(Boolean, Nullable(Of AudioCaptureOptions))
+  fullName: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean, System.Nullable<LiveKit.AudioCaptureOptions>)
+  fullName.vb: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean, System.Nullable(Of LiveKit.AudioCaptureOptions))
+  nameWithType: LocalParticipant.SetMicrophoneEnabled(Boolean, Nullable<AudioCaptureOptions>)
+  nameWithType.vb: LocalParticipant.SetMicrophoneEnabled(Boolean, Nullable(Of AudioCaptureOptions))
 - uid: LiveKit.LocalParticipant.SetMicrophoneEnabled*
   name: SetMicrophoneEnabled
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMicrophoneEnabled_
@@ -2054,12 +2060,15 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.SetMicrophoneEnabled
   nameWithType: LocalParticipant.SetMicrophoneEnabled
-- uid: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean)
-  name: SetScreenShareEnabled(Boolean)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetScreenShareEnabled_System_Boolean_
-  commentId: M:LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean)
-  fullName: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean)
-  nameWithType: LocalParticipant.SetScreenShareEnabled(Boolean)
+- uid: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean,System.Nullable{LiveKit.ScreenShareCaptureOptions})
+  name: SetScreenShareEnabled(Boolean, Nullable<ScreenShareCaptureOptions>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetScreenShareEnabled_System_Boolean_System_Nullable_LiveKit_ScreenShareCaptureOptions__
+  commentId: M:LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean,System.Nullable{LiveKit.ScreenShareCaptureOptions})
+  name.vb: SetScreenShareEnabled(Boolean, Nullable(Of ScreenShareCaptureOptions))
+  fullName: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean, System.Nullable<LiveKit.ScreenShareCaptureOptions>)
+  fullName.vb: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean, System.Nullable(Of LiveKit.ScreenShareCaptureOptions))
+  nameWithType: LocalParticipant.SetScreenShareEnabled(Boolean, Nullable<ScreenShareCaptureOptions>)
+  nameWithType.vb: LocalParticipant.SetScreenShareEnabled(Boolean, Nullable(Of ScreenShareCaptureOptions))
 - uid: LiveKit.LocalParticipant.SetScreenShareEnabled*
   name: SetScreenShareEnabled
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetScreenShareEnabled_
@@ -3072,19 +3081,6 @@ references:
   isSpec: "True"
   fullName: LiveKit.RemoteTrack.Start
   nameWithType: RemoteTrack.Start
-- uid: LiveKit.RemoteTrack.StreamState
-  name: StreamState
-  href: api/LiveKit.RemoteTrack.html#LiveKit_RemoteTrack_StreamState
-  commentId: P:LiveKit.RemoteTrack.StreamState
-  fullName: LiveKit.RemoteTrack.StreamState
-  nameWithType: RemoteTrack.StreamState
-- uid: LiveKit.RemoteTrack.StreamState*
-  name: StreamState
-  href: api/LiveKit.RemoteTrack.html#LiveKit_RemoteTrack_StreamState_
-  commentId: Overload:LiveKit.RemoteTrack.StreamState
-  isSpec: "True"
-  fullName: LiveKit.RemoteTrack.StreamState
-  nameWithType: RemoteTrack.StreamState
 - uid: LiveKit.RemoteTrackPublication
   name: RemoteTrackPublication
   href: api/LiveKit.RemoteTrackPublication.html
@@ -4378,6 +4374,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.Track.Stop
   nameWithType: Track.Stop
+- uid: LiveKit.Track.StreamState
+  name: StreamState
+  href: api/LiveKit.Track.html#LiveKit_Track_StreamState
+  commentId: P:LiveKit.Track.StreamState
+  fullName: LiveKit.Track.StreamState
+  nameWithType: Track.StreamState
+- uid: LiveKit.Track.StreamState*
+  name: StreamState
+  href: api/LiveKit.Track.html#LiveKit_Track_StreamState_
+  commentId: Overload:LiveKit.Track.StreamState
+  isSpec: "True"
+  fullName: LiveKit.Track.StreamState
+  nameWithType: Track.StreamState
 - uid: LiveKit.Track.Unmuted
   name: Unmuted
   href: api/LiveKit.Track.html#LiveKit_Track_Unmuted
