@@ -49,7 +49,7 @@ namespace LiveKit
             
             Events.Add(eventt, wrapper);
             
-            JSNative.PushFunction(wrapper.NativeHandle, fnc);
+            JSNative.PushFunction(wrapper.NativeHandle, fnc, $"JSEventEmitter - Listener: {Utils.ToEnumString(eventt)}");
             JSNative.SetRef(wrapper.FncRef.NativeHandle);
             
             JSNative.PushString(Utils.ToEnumString(eventt));
