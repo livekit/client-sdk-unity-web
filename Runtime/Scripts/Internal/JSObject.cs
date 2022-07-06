@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -12,7 +13,7 @@ namespace LiveKit
         internal JSObject(JSHandle handle) : base(handle)
         {
             if (JSNative.IsUndefined(handle) || JSNative.IsNull(handle))
-                throw new ArgumentException($"An object reference cannot be null, {GetType()}");
+                Debug.LogError($"An object reference cannot be null, {GetType()}");
         }
 
         internal JSObject()

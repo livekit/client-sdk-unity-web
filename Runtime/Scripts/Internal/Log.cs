@@ -14,7 +14,13 @@ namespace LiveKit
         {
             UnityEngine.Debug.unityLogger.Log(LogType.Log, $"{PREFIX} {msg}");
         }
-
+        
+        [Conditional(LK_DEBUG)]
+        public static void DebugHandle(JSRef reff)
+        {
+            Utils.PrintHandle(reff);
+        }
+        
         public static void Error(object msg)
         {
             UnityEngine.Debug.unityLogger.Log(LogType.Error, $"{PREFIX} {msg}");
