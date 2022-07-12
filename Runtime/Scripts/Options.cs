@@ -46,6 +46,7 @@ namespace LiveKit
         public bool AutoSubscribe;
         [JsonProperty("rtcConfig")]
         public RTCConfiguration? RTCConfig;
+        [Obsolete]
         [JsonProperty("publishOnly")]
         public string PublishOnly;
     }
