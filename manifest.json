@@ -209,6 +209,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.DisconnectReason.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.DisconnectReason.html",
+          "hash": "oq6RwVnOuedejh/WRyvtyatDRwA5G3KOSFDHCeCs3Q8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.Errors.yml",
       "output": {
         ".html": {
@@ -549,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.LocalParticipant.html",
-          "hash": "5da/T/YmKKZfc+QLaHJSsmrxAcv5yk65ZzKCH2HFGYA="
+          "hash": "lbM2mdZZKvQJqcTDz30+3HzpHEYIsTt8Bu6P3qSEVds="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1077,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.DisconnectedDelegate.html",
-          "hash": "ABya4zPF88bIsH5GAbDkSASjmuxekmSonbjrQSl75hA="
+          "hash": "Ah8AXoblgmptcBoPAH/MFJHmRgm3sFyvCb32J98WeXo="
         }
       },
       "is_incremental": false,
@@ -1329,7 +1341,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.RoomConnectOptions.html",
-          "hash": "WYOS8Ug5TR5/s6yCu5KCNRj6XJ9uRBARqjvhYs9FJOI="
+          "hash": "RMN67g8QpAtgjEqsDmWaMEB+X0S6GaCKsjQGiayMU18="
         }
       },
       "is_incremental": false,
@@ -1365,7 +1377,19 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.ScreenShareCaptureOptions.html",
-          "hash": "eRG1fMma4sJivNMFJ7E7a9xL0RFpprzxOw/rpGRYx/o="
+          "hash": "H1lLwheXOwcKpvSlCf0H6Sexrxcg8RBK8BbKp6YVpOE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ScreenShareCaptureOptionsWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ScreenShareCaptureOptionsWriter.html",
+          "hash": "qv9igzPIbUuIgMK12x7JxGdM2wj8SYe8F+j3dgzfRfo="
         }
       },
       "is_incremental": false,
@@ -1653,7 +1677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "cOGp9gasFd6RQWsF/DcQ5yWbfTy6gwloZOBPL7pmPXw="
+          "hash": "HABsI8ttf93pvv+TAjd0tbqLeLxXnZwkvRGcNrWe6KU="
         }
       },
       "is_incremental": false,
@@ -1677,7 +1701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "Ro8T0hJBQlx8VBc8+jgl71oa4ii5mYSyAlsYna09XGA="
+          "hash": "L8pmoUcxNDYT+c7HJhsDoVLHCgqDzYIGw/OQ433UJYc="
         }
       },
       "is_incremental": false,
@@ -1728,7 +1752,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 137,
+          "total_file_count": 139,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Struct ScreenShareCaptureOptions
+    <title>Class ScreenShareCaptureOptionsWriter
    | LiveKit Unity SDK </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Struct ScreenShareCaptureOptions
+    <meta name="title" content="Class ScreenShareCaptureOptionsWriter
    | LiveKit Unity SDK ">
     <meta name="generator" content="docfx 2.59.3.0">
     
@@ -78,52 +78,37 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="LiveKit.ScreenShareCaptureOptions">
+            <article class="content wrap" id="_content" data-uid="LiveKit.ScreenShareCaptureOptionsWriter">
   
   
-  <h1 id="LiveKit_ScreenShareCaptureOptions" data-uid="LiveKit.ScreenShareCaptureOptions" class="text-break">Struct ScreenShareCaptureOptions
+  <h1 id="LiveKit_ScreenShareCaptureOptionsWriter" data-uid="LiveKit.ScreenShareCaptureOptionsWriter" class="text-break">Class ScreenShareCaptureOptionsWriter
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.equals#system-valuetype-equals(system-object)">ValueType.Equals(Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.gethashcode#system-valuetype-gethashcode">ValueType.GetHashCode()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.tostring#system-valuetype-tostring">ValueType.ToString()</a>
-    </div>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">Object.Equals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.referenceequals#system-object-referenceequals(system-object-system-object)">Object.ReferenceEquals(Object, Object)</a>
-    </div>
-    <div>
-      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object.gettype#system-object-gettype">Object.GetType()</a>
-    </div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">ScreenShareCaptureOptionsWriter</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="LiveKit.html">LiveKit</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="LiveKit_ScreenShareCaptureOptions_syntax">Syntax</h5>
+  <h5 id="LiveKit_ScreenShareCaptureOptionsWriter_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public struct ScreenShareCaptureOptions</code></pre>
+    <pre><code class="lang-csharp hljs">public class ScreenShareCaptureOptionsWriter : JsonConverter&lt;ScreenShareCaptureOptions&gt;</code></pre>
   </div>
-  <h3 id="fields">Fields
+  <h3 id="properties">Properties
   </h3>
   
   
-  <h4 id="LiveKit_ScreenShareCaptureOptions_Audio" data-uid="LiveKit.ScreenShareCaptureOptions.Audio">Audio</h4>
+  <a id="LiveKit_ScreenShareCaptureOptionsWriter_CanRead_" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.CanRead*"></a>
+  <h4 id="LiveKit_ScreenShareCaptureOptionsWriter_CanRead" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.CanRead">CanRead</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool? Audio</code></pre>
+    <pre><code class="lang-csharp hljs">public override bool CanRead { get; }</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -133,55 +118,108 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="LiveKit_ScreenShareCaptureOptionsWriter_ReadJson_" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.ReadJson*"></a>
+  <h4 id="LiveKit_ScreenShareCaptureOptionsWriter_ReadJson_JsonReader_System_Type_LiveKit_ScreenShareCaptureOptions_System_Boolean_JsonSerializer_" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.ReadJson(JsonReader,System.Type,LiveKit.ScreenShareCaptureOptions,System.Boolean,JsonSerializer)">ReadJson(JsonReader, Type, ScreenShareCaptureOptions, Boolean, JsonSerializer)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override ScreenShareCaptureOptions ReadJson(JsonReader reader, Type objectType, ScreenShareCaptureOptions existingValue, bool hasExistingValue, JsonSerializer serializer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">JsonReader</span></td>
+        <td><span class="parametername">reader</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.type">Type</a></td>
+        <td><span class="parametername">objectType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="LiveKit.ScreenShareCaptureOptions.html">ScreenShareCaptureOptions</a></td>
+        <td><span class="parametername">existingValue</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">hasExistingValue</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">JsonSerializer</span></td>
+        <td><span class="parametername">serializer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LiveKit.ScreenShareCaptureOptions.html">ScreenShareCaptureOptions</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   
   
-  <h4 id="LiveKit_ScreenShareCaptureOptions_AudioOptions" data-uid="LiveKit.ScreenShareCaptureOptions.AudioOptions">AudioOptions</h4>
+  <a id="LiveKit_ScreenShareCaptureOptionsWriter_WriteJson_" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.WriteJson*"></a>
+  <h4 id="LiveKit_ScreenShareCaptureOptionsWriter_WriteJson_JsonWriter_LiveKit_ScreenShareCaptureOptions_JsonSerializer_" data-uid="LiveKit.ScreenShareCaptureOptionsWriter.WriteJson(JsonWriter,LiveKit.ScreenShareCaptureOptions,JsonSerializer)">WriteJson(JsonWriter, ScreenShareCaptureOptions, JsonSerializer)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AudioCaptureOptions? AudioOptions</code></pre>
+    <pre><code class="lang-csharp hljs">public override void WriteJson(JsonWriter writer, ScreenShareCaptureOptions value, JsonSerializer serializer)</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
+  <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
         <th>Type</th>
+        <th>Name</th>
         <th>Description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="LiveKit.AudioCaptureOptions.html">AudioCaptureOptions</a>&gt;</td>
+        <td><span class="xref">JsonWriter</span></td>
+        <td><span class="parametername">writer</span></td>
         <td></td>
       </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="LiveKit_ScreenShareCaptureOptions_Resolution" data-uid="LiveKit.ScreenShareCaptureOptions.Resolution">Resolution</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public VideoResolution? Resolution</code></pre>
-  </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
+        <td><a class="xref" href="LiveKit.ScreenShareCaptureOptions.html">ScreenShareCaptureOptions</a></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
       </tr>
-    </thead>
-    <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.nullable-1">Nullable</a>&lt;<a class="xref" href="LiveKit.VideoResolution.html">VideoResolution</a>&gt;</td>
+        <td><span class="xref">JsonSerializer</span></td>
+        <td><span class="parametername">serializer</span></td>
         <td></td>
       </tr>
     </tbody>
