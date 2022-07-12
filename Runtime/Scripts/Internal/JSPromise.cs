@@ -10,26 +10,40 @@ namespace LiveKit
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseResolve(IntPtr id)
         {
-            var handle = new JSHandle(id, true);
-            if (!JSNative.IsObject(handle))
-                return; // The promise can be garbage collected before completed (When ignoring Promise)
+            try
+            {
+                var handle = new JSHandle(id, true);
+                if (!JSNative.IsObject(handle))
+                    return; // The promise can be garbage collected before completed (When ignoring Promise)
             
-            var promise = Acquire<JSPromise>(handle);
-            promise.OnResolve();
-            promise.IsDone = true;
+                var promise = Acquire<JSPromise>(handle);
+                promise.OnResolve();
+                promise.IsDone = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error happened on JSPromise.PromiseResolve: {Environment.NewLine} {e.Message}");  
+            }
         }
 
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void PromiseReject(IntPtr id)
         {
-            var handle = new JSHandle(id, true);
-            if (!JSNative.IsObject(handle))
-                return;
+            try
+            {
+                var handle = new JSHandle(id, true);
+                if (!JSNative.IsObject(handle))
+                    return;
             
-            var promise = Acquire<JSPromise>(handle);
-            promise.OnReject();
-            promise.IsDone = true;
-            promise.IsError = true;
+                var promise = Acquire<JSPromise>(handle);
+                promise.OnReject();
+                promise.IsDone = true;
+                promise.IsError = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error happened on JSPromise.PromiseReject: {Environment.NewLine} {e.Message}"); 
+            }
         }
 
         public bool IsDone { get; private set; }
@@ -40,8 +54,8 @@ namespace LiveKit
         [Preserve]
         internal JSPromise(JSHandle handle) : base(handle)
         {
-            JSNative.PushFunction(NativeHandle, PromiseResolve, nameof(PromiseResolve));
-            JSNative.PushFunction(NativeHandle, PromiseReject, nameof(PromiseReject));
+            JSNative.PushFunction(NativeHandle, PromiseResolve, "PromiseResolve");
+            JSNative.PushFunction(NativeHandle, PromiseReject, "PromiseReject");
             JSNative.CallMethod(NativeHandle, "then");
         }
 

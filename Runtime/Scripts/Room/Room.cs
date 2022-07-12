@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using AOT;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
@@ -281,7 +282,7 @@ namespace LiveKit
                         }
                     case RoomEvent.AudioPlaybackStatusChanged:
                         {
-                            bool status = JSNative.GetBoolean(JSNative.ShiftStack());
+                            var status = JSNative.GetBoolean(JSNative.ShiftStack());
                             Log.Debug($"Room: Received AudioPlaybackChanged({status})");
                             room.AudioPlaybackChanged?.Invoke(status);
                             break;

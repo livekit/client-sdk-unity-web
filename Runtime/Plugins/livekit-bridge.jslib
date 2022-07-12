@@ -59,8 +59,8 @@ var NativeLib = {
             var count = LKBridge.RefCount.get(ptr) - 1;
             LKBridge.RefCount.set(ptr, count);
 
-            if (LKBridge.Debug && count < 0) {
-                console.warn('LKBridge: The ref count of ' + ptr +  '(obj: ' + LKBridge.Data.get(ptr) + ') is negative ( Ptr management is wrong ! )');
+            if (count < 0) {
+                console.error('LKBridge: The ref count of ' + ptr +  '(obj: ' + LKBridge.Data.get(ptr) + ') is negative ( Ptr management is wrong ! )');
             }
             
             if (count <= 0) {
@@ -97,9 +97,7 @@ var NativeLib = {
         LKBridge.Pointers = new Map();
         LKBridge.RefCount = new Map();
 
-        if (LKBridge.Debug) {
-            window.lkinternal = LKBridge;
-        }
+        window.lkinternal = LKBridge;
     },
 
     GetProperty: function (ptr) {
@@ -178,7 +176,8 @@ var NativeLib = {
         LKBridge.Stack.push(HEAPU8.subarray(of, of + size));
     },
 
-    PushFunction: function (ptr, fnc, debugLabel) {
+    PushFunction: function (ptr, fnc, labelPtr) {
+        var label = UTF8ToString(labelPtr);
         LKBridge.Stack.push(function () {
             try{
                 LKBridge.StackCSharp = Array.from(arguments);
@@ -189,7 +188,8 @@ var NativeLib = {
                 LKBridge.FunctionInstance = null;
                 LKBridge.StackCSharp = [];
             } catch (e) {
-                console.error("An error occured when calling C# callback", fnc, e, UTF8ToString(debugLabel));
+                console.error("An error occured when calling C# callback", fnc, e, label,
+                    "StackCSharp:", LKBridge.StackCSharp);
             }
         });
     },
@@ -206,10 +206,11 @@ var NativeLib = {
         var mName = UTF8ToString(str);
         var fnc = obj[mName];
         var result = undefined;
+        
         try{
             result = fnc.apply(obj, stack);
         }catch (e) {
-            console.error("Internal issue when calling " + mName + "\n", "Args: ", stack, e)
+            console.error("Internal issue when calling " + mName + "\n", "Stack: ", stack, e)
         }
         
         return LKBridge.AddRef(LKBridge.GetOrNewRef(result));
@@ -232,7 +233,7 @@ var NativeLib = {
         try{
             inst = new (Function.prototype.bind.apply(obj[clazz], stack));
         }catch (e) {
-            console.error("Internal issue when trying to instantiate " + clazz + "\n", "Args: ", stack, e)
+            console.error("Internal issue when trying to instantiate " + clazz + "\n", "Stack: ", stack, e)
         }
         LKBridge.SetRef(toPtr, inst);
     },

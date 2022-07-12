@@ -37,7 +37,10 @@ namespace LiveKit
                 
                 var el = Acquire<HTMLVideoElement>(handle);
                 Log.Debug($"Received HTMLVideoElement.Resize {el.VideoWidth}x{el.VideoHeight}");
-                
+
+                if (el.VideoWidth == 0 || el.VideoHeight == 0)
+                    Debug.LogError($"HTMLVideoElement.Resize - Wrong size: {el.VideoWidth}*{el.VideoHeight}");
+                    
                 el.SetupTexture();
                 el.VideoReceived?.Invoke(el.Texture);
             }
