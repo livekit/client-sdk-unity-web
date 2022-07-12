@@ -315,7 +315,7 @@ var NativeLib = {
                 
                 // Flip Y
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
-                GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
+                GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.SRGB8, GLctx.SRGB8, GLctx.UNSIGNED_BYTE, video);
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, false);
 
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);

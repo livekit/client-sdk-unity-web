@@ -75,7 +75,7 @@ namespace LiveKit
             if (Texture != null)
                 Object.Destroy(Texture);
             
-            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, false, (IntPtr) m_TextureId);
+            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGB24, false, true, (IntPtr) m_TextureId);
         }
     }
 }
