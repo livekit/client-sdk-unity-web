@@ -24,7 +24,7 @@ namespace LiveKit
     {
         public delegate void ReconnectingDelegate();
         public delegate void ReconnectedDelegate();
-        public delegate void DisconnectedDelegate();
+        public delegate void DisconnectedDelegate(DisconnectReason? reason);
         public delegate void StateChangedDelegate(ConnectionState state);
         public delegate void MediaDevicesChangedDelegate();
         public delegate void ParticipantConnectedDelegate(RemoteParticipant participant);
@@ -95,9 +95,16 @@ namespace LiveKit
                         room.Reconnected?.Invoke();
                         break;
                     case RoomEvent.Disconnected:
-                        Log.Debug("Room: Received Disconnected");
-                        room.Disconnected?.Invoke();
+                    {
+                        var pPtr = JSNative.ShiftStack();
+                        DisconnectReason? reason = null;
+                        if(JSNative.IsNumber(pPtr))
+                            reason = (DisconnectReason?) JSNative.GetNumber(pPtr);
+                        
+                        Log.Debug($"Room: Received Disconnected({reason})");
+                        room.Disconnected?.Invoke(reason);
                         break;
+                    }
                     case RoomEvent.StateChanged:
                         {
                             var str = JSNative.GetString(JSNative.ShiftStack());
