@@ -1,6 +1,6 @@
 {
   "name": "@livekit/livekit-unity",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "LiveKit Unity Bridge for WebGL",
   "main": "./dist/index.js",
   "source": "./src/index.ts",
@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "livekit-client": "^1.2.1",
+    "livekit-client": "^1.2.2",
     "typed-emitter": "^2.1.0"
   },
   "devDependencies": {
