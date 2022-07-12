@@ -316,6 +316,11 @@ ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
+async-await-queue@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/async-await-queue/-/async-await-queue-1.2.1.tgz#baf459f5fbac902b060a88fee4da853fd86f2128"
+  integrity sha512-v2j+/EMzAnuJZ8I4570KJMFhi6G9g3WZyFh6cPnmQSJh3nLao77XpRt01kyFegQazPSKvue1yaIYDp/NfV/b0g==
+
 braces@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
@@ -583,11 +588,12 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-livekit-client@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.1.0.tgz#7e3807d227b7b5d732106a8a9b96a5d3c5ee6d26"
-  integrity sha512-Eqd4fiYjSfICANT2M54PXEUdsERFBoTWuBrDFgpUYqZWMiLPMgRR5XF9qmMuGmGmweHk6fnWKPO9EOWinNYU2Q==
+livekit-client@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.2.1.tgz#20a7064bad12880c5fbf48503a48eaf51a837693"
+  integrity sha512-eegFf/phgk99NoFjGSPiwYSGCz/GRxrz1cQ47rcnRlOaE6SuKMo2Og7PKVGjP7Ll8aBT8WlvRnYj66o+WgNJBA==
   dependencies:
+    async-await-queue "^1.2.1"
     events "^3.3.0"
     loglevel "^1.8.0"
     protobufjs "^6.11.2"
