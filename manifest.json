@@ -1377,7 +1377,19 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.ScreenShareCaptureOptions.html",
-          "hash": "eRG1fMma4sJivNMFJ7E7a9xL0RFpprzxOw/rpGRYx/o="
+          "hash": "H1lLwheXOwcKpvSlCf0H6Sexrxcg8RBK8BbKp6YVpOE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.ScreenShareCaptureOptionsWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.ScreenShareCaptureOptionsWriter.html",
+          "hash": "qv9igzPIbUuIgMK12x7JxGdM2wj8SYe8F+j3dgzfRfo="
         }
       },
       "is_incremental": false,
@@ -1665,7 +1677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "3/FhDbYQm71Ru3MCWWCyKXGHyLSvc/Ti/z42S3sMJto="
+          "hash": "HABsI8ttf93pvv+TAjd0tbqLeLxXnZwkvRGcNrWe6KU="
         }
       },
       "is_incremental": false,
@@ -1689,7 +1701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "wUWYOry7s9DAPiAmSiPrs3fXcSUQknQlR+ODiUYHYMI="
+          "hash": "L8pmoUcxNDYT+c7HJhsDoVLHCgqDzYIGw/OQ433UJYc="
         }
       },
       "is_incremental": false,
@@ -1740,7 +1752,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 138,
+          "total_file_count": 139,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

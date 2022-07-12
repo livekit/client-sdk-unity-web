@@ -4209,12 +4209,63 @@ references:
   commentId: F:LiveKit.ScreenShareCaptureOptions.Audio
   fullName: LiveKit.ScreenShareCaptureOptions.Audio
   nameWithType: ScreenShareCaptureOptions.Audio
+- uid: LiveKit.ScreenShareCaptureOptions.AudioOptions
+  name: AudioOptions
+  href: api/LiveKit.ScreenShareCaptureOptions.html#LiveKit_ScreenShareCaptureOptions_AudioOptions
+  commentId: F:LiveKit.ScreenShareCaptureOptions.AudioOptions
+  fullName: LiveKit.ScreenShareCaptureOptions.AudioOptions
+  nameWithType: ScreenShareCaptureOptions.AudioOptions
 - uid: LiveKit.ScreenShareCaptureOptions.Resolution
   name: Resolution
   href: api/LiveKit.ScreenShareCaptureOptions.html#LiveKit_ScreenShareCaptureOptions_Resolution
   commentId: F:LiveKit.ScreenShareCaptureOptions.Resolution
   fullName: LiveKit.ScreenShareCaptureOptions.Resolution
   nameWithType: ScreenShareCaptureOptions.Resolution
+- uid: LiveKit.ScreenShareCaptureOptionsWriter
+  name: ScreenShareCaptureOptionsWriter
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html
+  commentId: T:LiveKit.ScreenShareCaptureOptionsWriter
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter
+  nameWithType: ScreenShareCaptureOptionsWriter
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.CanRead
+  name: CanRead
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_CanRead
+  commentId: P:LiveKit.ScreenShareCaptureOptionsWriter.CanRead
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.CanRead
+  nameWithType: ScreenShareCaptureOptionsWriter.CanRead
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.CanRead*
+  name: CanRead
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_CanRead_
+  commentId: Overload:LiveKit.ScreenShareCaptureOptionsWriter.CanRead
+  isSpec: "True"
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.CanRead
+  nameWithType: ScreenShareCaptureOptionsWriter.CanRead
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.ReadJson(JsonReader,System.Type,LiveKit.ScreenShareCaptureOptions,System.Boolean,JsonSerializer)
+  name: ReadJson(JsonReader, Type, ScreenShareCaptureOptions, Boolean, JsonSerializer)
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_ReadJson_JsonReader_System_Type_LiveKit_ScreenShareCaptureOptions_System_Boolean_JsonSerializer_
+  commentId: M:LiveKit.ScreenShareCaptureOptionsWriter.ReadJson(JsonReader,System.Type,LiveKit.ScreenShareCaptureOptions,System.Boolean,JsonSerializer)
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.ReadJson(JsonReader, System.Type, LiveKit.ScreenShareCaptureOptions, System.Boolean, JsonSerializer)
+  nameWithType: ScreenShareCaptureOptionsWriter.ReadJson(JsonReader, Type, ScreenShareCaptureOptions, Boolean, JsonSerializer)
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.ReadJson*
+  name: ReadJson
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_ReadJson_
+  commentId: Overload:LiveKit.ScreenShareCaptureOptionsWriter.ReadJson
+  isSpec: "True"
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.ReadJson
+  nameWithType: ScreenShareCaptureOptionsWriter.ReadJson
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.WriteJson(JsonWriter,LiveKit.ScreenShareCaptureOptions,JsonSerializer)
+  name: WriteJson(JsonWriter, ScreenShareCaptureOptions, JsonSerializer)
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_WriteJson_JsonWriter_LiveKit_ScreenShareCaptureOptions_JsonSerializer_
+  commentId: M:LiveKit.ScreenShareCaptureOptionsWriter.WriteJson(JsonWriter,LiveKit.ScreenShareCaptureOptions,JsonSerializer)
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.WriteJson(JsonWriter, LiveKit.ScreenShareCaptureOptions, JsonSerializer)
+  nameWithType: ScreenShareCaptureOptionsWriter.WriteJson(JsonWriter, ScreenShareCaptureOptions, JsonSerializer)
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.WriteJson*
+  name: WriteJson
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_WriteJson_
+  commentId: Overload:LiveKit.ScreenShareCaptureOptionsWriter.WriteJson
+  isSpec: "True"
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.WriteJson
+  nameWithType: ScreenShareCaptureOptionsWriter.WriteJson
 - uid: LiveKit.ScreenSharePresets
   name: ScreenSharePresets
   href: api/LiveKit.ScreenSharePresets.html
