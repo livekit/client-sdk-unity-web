@@ -123,13 +123,48 @@ namespace LiveKit
         public VideoResolution? Resolution;
     }
 
+    [JsonConverter(typeof(ScreenShareCaptureOptionsWriter))]
     public struct ScreenShareCaptureOptions
     {
-        [JsonProperty("audio")]
         public bool? Audio;
-        [JsonProperty("resolution")]
+        public AudioCaptureOptions? AudioOptions;
         public VideoResolution? Resolution;
     }
+    
+    public class ScreenShareCaptureOptionsWriter : JsonConverter<ScreenShareCaptureOptions>
+    {
+        public override bool CanRead => false;
+
+        public override ScreenShareCaptureOptions ReadJson(JsonReader reader, Type objectType, ScreenShareCaptureOptions existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteJson(JsonWriter writer, ScreenShareCaptureOptions value, JsonSerializer serializer)
+        {
+            writer.WriteStartObject();
+
+            if(value.AudioOptions != null && value.Audio.GetValueOrDefault(true))
+            {
+                writer.WritePropertyName("audio");
+                serializer.Serialize(writer, value.AudioOptions);
+            }
+            else if(value.Audio != null)
+            {
+                writer.WritePropertyName("audio");
+                writer.WriteValue(value.Audio);
+            }
+
+            if (value.Resolution != null)
+            {
+                writer.WritePropertyName("resolution");
+                serializer.Serialize(writer, value.Resolution);
+            }
+
+            writer.WriteEndObject();
+        }
+    }
+
 
     public struct AudioCaptureOptions
     {
