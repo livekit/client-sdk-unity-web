@@ -532,7 +532,7 @@
   "api/LiveKit.RoomConnectOptions.html": {
     "href": "api/LiveKit.RoomConnectOptions.html",
     "title": "Struct RoomConnectOptions | LiveKit Unity SDK",
-    "keywords": "Struct RoomConnectOptions Inherited Members ValueType.Equals(Object) ValueType.GetHashCode() ValueType.ToString() Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetType() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public struct RoomConnectOptions Fields AutoSubscribe Declaration public bool AutoSubscribe Field Value Type Description Boolean PublishOnly Declaration [Obsolete] public string PublishOnly Field Value Type Description String RTCConfig Declaration public RTCConfiguration? RTCConfig Field Value Type Description Nullable < RTCConfiguration >"
+    "keywords": "Struct RoomConnectOptions Inherited Members ValueType.Equals(Object) ValueType.GetHashCode() ValueType.ToString() Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetType() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public struct RoomConnectOptions Fields AutoSubscribe Declaration public bool AutoSubscribe Field Value Type Description Boolean PublishOnly Declaration public string PublishOnly Field Value Type Description String RTCConfig Declaration public RTCConfiguration? RTCConfig Field Value Type Description Nullable < RTCConfiguration >"
   },
   "api/LiveKit.RoomEvent.html": {
     "href": "api/LiveKit.RoomEvent.html",
