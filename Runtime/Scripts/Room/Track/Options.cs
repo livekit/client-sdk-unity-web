@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Runtime.Serialization;
+using UnityEngine.Scripting;
 
 namespace LiveKit
 {
@@ -25,6 +26,12 @@ namespace LiveKit
 
     public class CreateLocalTracksOptionsWriter : JsonConverter<CreateLocalTracksOptions>
     {
+        [Preserve]
+        public CreateLocalTracksOptionsWriter()
+        {
+            
+        }
+        
         public override bool CanRead => false;
 
         public override CreateLocalTracksOptions ReadJson(JsonReader reader, Type objectType, CreateLocalTracksOptions existingValue, bool hasExistingValue, JsonSerializer serializer)
@@ -133,6 +140,13 @@ namespace LiveKit
     
     public class ScreenShareCaptureOptionsWriter : JsonConverter<ScreenShareCaptureOptions>
     {
+
+        [Preserve]
+        public ScreenShareCaptureOptionsWriter()
+        {
+            
+        }
+        
         public override bool CanRead => false;
 
         public override ScreenShareCaptureOptions ReadJson(JsonReader reader, Type objectType, ScreenShareCaptureOptions existingValue, bool hasExistingValue, JsonSerializer serializer)
