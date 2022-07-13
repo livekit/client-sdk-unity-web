@@ -299,7 +299,6 @@ namespace LiveKit
             catch (Exception e)
             {
                 Log.Error($"Error happened on RoomEvent.{evRef.Event} ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
-                throw;
             }
         }
                 
@@ -502,19 +501,12 @@ namespace LiveKit
 
     public class ConnectOperation : JSPromise
     {
-        public Room Room { get; private set; }
         public JSError Error { get; private set; }
 
         [Preserve]
         internal ConnectOperation(JSHandle handle) : base(handle)
         {
 
-        }
-
-        protected override void OnResolve()
-        {
-            base.OnResolve();
-            Room = Acquire<Room>(ResolveHandle);
         }
 
         protected override void OnReject()

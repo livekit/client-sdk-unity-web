@@ -195,7 +195,6 @@ namespace LiveKit
             catch (Exception e)
             {
                 Log.Error($"Error happened on TrackEvent.{evRef.Event} ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
-                throw;
             }
         }
         
