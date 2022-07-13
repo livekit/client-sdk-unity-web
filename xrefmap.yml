@@ -278,32 +278,6 @@ references:
   isSpec: "True"
   fullName: LiveKit.ConnectOperation.OnReject
   nameWithType: ConnectOperation.OnReject
-- uid: LiveKit.ConnectOperation.OnResolve
-  name: OnResolve()
-  href: api/LiveKit.ConnectOperation.html#LiveKit_ConnectOperation_OnResolve
-  commentId: M:LiveKit.ConnectOperation.OnResolve
-  fullName: LiveKit.ConnectOperation.OnResolve()
-  nameWithType: ConnectOperation.OnResolve()
-- uid: LiveKit.ConnectOperation.OnResolve*
-  name: OnResolve
-  href: api/LiveKit.ConnectOperation.html#LiveKit_ConnectOperation_OnResolve_
-  commentId: Overload:LiveKit.ConnectOperation.OnResolve
-  isSpec: "True"
-  fullName: LiveKit.ConnectOperation.OnResolve
-  nameWithType: ConnectOperation.OnResolve
-- uid: LiveKit.ConnectOperation.Room
-  name: Room
-  href: api/LiveKit.ConnectOperation.html#LiveKit_ConnectOperation_Room
-  commentId: P:LiveKit.ConnectOperation.Room
-  fullName: LiveKit.ConnectOperation.Room
-  nameWithType: ConnectOperation.Room
-- uid: LiveKit.ConnectOperation.Room*
-  name: Room
-  href: api/LiveKit.ConnectOperation.html#LiveKit_ConnectOperation_Room_
-  commentId: Overload:LiveKit.ConnectOperation.Room
-  isSpec: "True"
-  fullName: LiveKit.ConnectOperation.Room
-  nameWithType: ConnectOperation.Room
 - uid: LiveKit.ConstrainBoolean
   name: ConstrainBoolean
   href: api/LiveKit.ConstrainBoolean.html
