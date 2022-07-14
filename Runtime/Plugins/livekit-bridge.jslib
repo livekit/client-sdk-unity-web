@@ -179,6 +179,11 @@ var NativeLib = {
     PushFunction: function (ptr, fnc, labelPtr) {
         var label = UTF8ToString(labelPtr);
         LKBridge.Stack.push(function () {
+            if (!LKBridge.Data.has(ptr)) {
+                console.warn("Trying to fire an event on a freed object", ptr, fnc, label);
+                return;
+            } 
+            
             try{
                 LKBridge.StackCSharp = Array.from(arguments);
                 LKBridge.FunctionInstance = this;

@@ -12,14 +12,13 @@ using UnityEngine;
 [assembly: InternalsVisibleTo("LiveKit.BridgeTests")] 
 namespace LiveKit
 {
-    [SuppressUnmanagedCodeSecurity]
     internal static class JSNative
     {
         // JSHandle can't be marshalled in a delegate
         // JSHandle must be created with ptr when the callback is called
         public delegate void JSDelegate(IntPtr ptr);
 
-        internal static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
+        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings()
         {
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore,

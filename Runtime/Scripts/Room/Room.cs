@@ -74,7 +74,7 @@ namespace LiveKit
         public event TrackSubscriptionPermissionChangedDelegate TrackSubscriptionPermissionChanged;
         public event AudioPlaybackChangedDelegate AudioPlaybackChanged;
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
         {
             var handle = new JSHandle(iptr, true);
