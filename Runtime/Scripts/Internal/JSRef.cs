@@ -44,7 +44,7 @@ namespace LiveKit
         {
             if (handle.IsClosed || handle.IsInvalid)
                 throw new Exception("Trying to acquire an invalid handle");
-                
+
             var ptr = handle.DangerousGetHandle();
             if (Cache.TryGetValue(ptr, out var wRef) && wRef.TryGetTarget(out JSRef jsRef))
                 return jsRef as T;
@@ -62,7 +62,7 @@ namespace LiveKit
                 if (s_TypeMap.TryGetValue(typeName, out Type correctType))
                     type = correctType;
             }
-
+            
             return Activator.CreateInstance(type, BindingFlags.NonPublic | BindingFlags.Instance, null, new object[]{handle}, null) as T;
         }
 

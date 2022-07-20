@@ -128,7 +128,7 @@ namespace LiveKit
             }
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr>))]
+        [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
         {
             var handle = new JSHandle(iptr, true);
