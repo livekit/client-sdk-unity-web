@@ -495,6 +495,19 @@ references:
   commentId: T:LiveKit.CreateLocalTracksOptionsWriter
   fullName: LiveKit.CreateLocalTracksOptionsWriter
   nameWithType: CreateLocalTracksOptionsWriter
+- uid: LiveKit.CreateLocalTracksOptionsWriter.#ctor
+  name: CreateLocalTracksOptionsWriter()
+  href: api/LiveKit.CreateLocalTracksOptionsWriter.html#LiveKit_CreateLocalTracksOptionsWriter__ctor
+  commentId: M:LiveKit.CreateLocalTracksOptionsWriter.#ctor
+  fullName: LiveKit.CreateLocalTracksOptionsWriter.CreateLocalTracksOptionsWriter()
+  nameWithType: CreateLocalTracksOptionsWriter.CreateLocalTracksOptionsWriter()
+- uid: LiveKit.CreateLocalTracksOptionsWriter.#ctor*
+  name: CreateLocalTracksOptionsWriter
+  href: api/LiveKit.CreateLocalTracksOptionsWriter.html#LiveKit_CreateLocalTracksOptionsWriter__ctor_
+  commentId: Overload:LiveKit.CreateLocalTracksOptionsWriter.#ctor
+  isSpec: "True"
+  fullName: LiveKit.CreateLocalTracksOptionsWriter.CreateLocalTracksOptionsWriter
+  nameWithType: CreateLocalTracksOptionsWriter.CreateLocalTracksOptionsWriter
 - uid: LiveKit.CreateLocalTracksOptionsWriter.CanRead
   name: CanRead
   href: api/LiveKit.CreateLocalTracksOptionsWriter.html#LiveKit_CreateLocalTracksOptionsWriter_CanRead
@@ -4201,6 +4214,19 @@ references:
   commentId: T:LiveKit.ScreenShareCaptureOptionsWriter
   fullName: LiveKit.ScreenShareCaptureOptionsWriter
   nameWithType: ScreenShareCaptureOptionsWriter
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.#ctor
+  name: ScreenShareCaptureOptionsWriter()
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter__ctor
+  commentId: M:LiveKit.ScreenShareCaptureOptionsWriter.#ctor
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.ScreenShareCaptureOptionsWriter()
+  nameWithType: ScreenShareCaptureOptionsWriter.ScreenShareCaptureOptionsWriter()
+- uid: LiveKit.ScreenShareCaptureOptionsWriter.#ctor*
+  name: ScreenShareCaptureOptionsWriter
+  href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter__ctor_
+  commentId: Overload:LiveKit.ScreenShareCaptureOptionsWriter.#ctor
+  isSpec: "True"
+  fullName: LiveKit.ScreenShareCaptureOptionsWriter.ScreenShareCaptureOptionsWriter
+  nameWithType: ScreenShareCaptureOptionsWriter.ScreenShareCaptureOptionsWriter
 - uid: LiveKit.ScreenShareCaptureOptionsWriter.CanRead
   name: CanRead
   href: api/LiveKit.ScreenShareCaptureOptionsWriter.html#LiveKit_ScreenShareCaptureOptionsWriter_CanRead
