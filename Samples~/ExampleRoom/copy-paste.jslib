@@ -7,11 +7,7 @@ var NativeLib = {
             var buffer = _malloc(bufferSize);
             stringToUTF8(data, buffer, bufferSize);
 
-            if (typeof Runtime !== "undefined") {
-                Runtime.dynCall("vi", fnc, [buffer]);
-            } else {
-                dynCall("vi", fnc, [buffer]);
-            }
+            Module.dynCall_vi(fnc, buffer);
         });
     },
 

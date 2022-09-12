@@ -10,14 +10,6 @@ var NativeLib = {
         FunctionInstance: null, // Current instance in a callback ( = this )
         NullPtr: 0,
 
-        DynCall: function (sig, fnc, args) {
-            if (typeof Runtime !== 'undefined') {
-                Runtime.dynCall(sig, fnc, args); // Old Unity version
-            } else {
-                dynCall(sig, fnc, args);
-            }
-        },
-
         NewRef: function () {
             var nPtr = LKBridge.RefIndex++;
             LKBridge.RefCount.set(nPtr, 0);
@@ -188,7 +180,7 @@ var NativeLib = {
                 LKBridge.StackCSharp = Array.from(arguments);
                 LKBridge.FunctionInstance = this;
 
-                LKBridge.DynCall('vi', fnc, [LKBridge.AddRef(ptr)]);
+                Module.dynCall_vi(fnc, LKBridge.AddRef(ptr));
 
                 LKBridge.FunctionInstance = null;
                 LKBridge.StackCSharp = [];
