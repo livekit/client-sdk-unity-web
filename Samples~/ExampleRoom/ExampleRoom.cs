@@ -18,23 +18,8 @@ public class ExampleRoom : MonoBehaviour
     {
         // New Room must be called when WebGL assembly is loaded
         m_Room = new Room();
-        var c = m_Room.Connect(JoinMenu.LivekitURL, JoinMenu.RoomToken);
-        yield return c;
-
-        DisconnectButton.onClick.AddListener(() =>
-        {
-            m_Room.Disconnect();
-            SceneManager.LoadScene("JoinScene", LoadSceneMode.Single);
-        });
-
-        if (c.IsError)
-        {
-            Debug.Log("Failed to connect to the room !");
-            yield break;
-        }
-
-        Debug.Log("Connected to the room");
-
+        
+        // Setup the callbacks before connecting to the Room
         m_Room.ParticipantConnected += (p) =>
         {
             Debug.Log($"Participant connected: {p.Sid}");
@@ -43,7 +28,24 @@ public class ExampleRoom : MonoBehaviour
         m_Room.LocalTrackPublished += (publication, participant) => HandleAddedTrack(publication.Track, publication);
         m_Room.LocalTrackUnpublished += (publication, participant) => HandleRemovedTrack(publication.Track, publication);
         m_Room.TrackSubscribed += (track, publication, participant) => HandleAddedTrack(track, publication);
-        m_Room.TrackUnsubscribed += (track, publication, participant) => HandleRemovedTrack(track, publication); ;
+        m_Room.TrackUnsubscribed += (track, publication, participant) => HandleRemovedTrack(track, publication);
+        
+        var c = m_Room.Connect(JoinMenu.LivekitURL, JoinMenu.RoomToken);
+        yield return c;
+        
+        if (c.IsError)
+        {
+            Debug.Log("Failed to connect to the room !");
+            yield break;
+        }
+        
+        Debug.Log("Connected to the room");
+
+        DisconnectButton.onClick.AddListener(() =>
+        {
+            m_Room.Disconnect();
+            SceneManager.LoadScene("JoinScene", LoadSceneMode.Single);
+        });
 
         yield return m_Room.LocalParticipant.EnableCameraAndMicrophone();
     }
