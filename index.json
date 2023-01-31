@@ -82,7 +82,7 @@
   "api/LiveKit.DeviceIdPromise.html": {
     "href": "api/LiveKit.DeviceIdPromise.html",
     "title": "Class DeviceIdPromise | LiveKit Unity SDK",
-    "keywords": "Class DeviceIdPromise Inheritance Object JSRef JSObject JSPromise DeviceIdPromise Implements IEnumerator Inherited Members JSPromise.IsDone JSPromise.IsError JSPromise.OnReject() JSPromise.Current JSPromise.MoveNext() JSPromise.Reset() JSRef.Dispose(Boolean) Object.ToString() Object.Equals(Object) Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetHashCode() Object.GetType() Object.MemberwiseClone() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public class DeviceIdPromise : JSPromise Properties DeviceId Declaration public string DeviceId { get; } Property Value Type Description String Methods OnResolve() Declaration protected virtual void OnResolve() Implements IEnumerator"
+    "keywords": "Class DeviceIdPromise Inheritance Object JSRef JSObject JSPromise DeviceIdPromise Implements IEnumerator Inherited Members JSPromise.IsDone JSPromise.IsError JSPromise.OnReject() JSPromise.Current JSPromise.MoveNext() JSPromise.Reset() JSRef.Dispose(Boolean) Object.ToString() Object.Equals(Object) Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetHashCode() Object.GetType() Object.MemberwiseClone() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public class DeviceIdPromise : JSPromise Properties DeviceId Declaration public string DeviceId { get; } Property Value Type Description String Methods OnResolve() Declaration protected override void OnResolve() Overrides JSPromise.OnResolve() Implements IEnumerator"
   },
   "api/LiveKit.DisconnectReason.html": {
     "href": "api/LiveKit.DisconnectReason.html",
