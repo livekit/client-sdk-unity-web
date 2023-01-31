@@ -23,7 +23,7 @@ namespace LiveKit
 
             return JSNative.GetStruct<TrackDimensions>(ptr);
         }
-    
+
         public DeviceIdPromise GetDeviceId()
         {
             return Acquire<DeviceIdPromise>(JSNative.CallMethod(NativeHandle, "getDeviceId"));
@@ -49,8 +49,8 @@ namespace LiveKit
         {
 
         }
-        
-        protected virtual void OnResolve()
+
+        protected override void OnResolve()
         {
             base.OnResolve();
             if (!JSNative.IsUndefined(ResolveHandle))

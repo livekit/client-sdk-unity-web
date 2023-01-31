@@ -583,10 +583,10 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-livekit-client@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.3.0.tgz#c728f10cb6c9e553db87e04050a05e453714c8c9"
-  integrity sha512-Ls3ADbc2fVFDTOxjVkbBbLAxzhXh0DYJa+uWaTFOviyiV5gK6/rW3Sp9x5RSJfu7IbZqD+wg8VghiXCgNmNAxQ==
+livekit-client@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/livekit-client/-/livekit-client-1.6.3.tgz#4ff46f1fbdaaa7982c339738964d18e8b43fd3d5"
+  integrity sha512-hnVN/rQ9pVWK0L1lemLSOzBI6IXoJepgHP/USqmGJ6eucaoLMx1jK0iMWpR5T2/pg97GmZaUaRSUcXlELNSsoA==
   dependencies:
     async-await-queue "^1.2.1"
     events "^3.3.0"
@@ -595,6 +595,7 @@ livekit-client@^1.3.0:
     sdp-transform "^2.14.1"
     ts-debounce "^4.0.0"
     typed-emitter "^2.1.0"
+    ua-parser-js "^1.0.2"
     webrtc-adapter "^8.1.1"
 
 loader-runner@^4.2.0:
@@ -930,6 +931,11 @@ typescript@^4.5.5:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.3.tgz#8364b502d5257b540f9de4c40be84c98e23a129d"
   integrity sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==
+
+ua-parser-js@^1.0.2:
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.33.tgz#f21f01233e90e7ed0f059ceab46eb190ff17f8f4"
+  integrity sha512-RqshF7TPTE0XLYAqmjlu5cLLuGdKrNu9O1KLA/qp39QtbZwuzwv1dT46DZSopoUMsYgXpB3Cv8a03FI8b74oFQ==
 
 uri-js@^4.2.2:
   version "4.4.1"

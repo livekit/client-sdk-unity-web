@@ -13,19 +13,19 @@ namespace LiveKit
             get
             {
                 JSNative.PushString("videoWidth");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
+                return (int)JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
-        
+
         public int VideoHeight
         {
             get
             {
                 JSNative.PushString("videoHeight");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
+                return (int)JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void ResizeEvent(IntPtr ptr)
         {
@@ -34,13 +34,13 @@ namespace LiveKit
                 var handle = new JSHandle(ptr, true);
                 if (!JSNative.IsObject(handle))
                     return;
-                
+
                 var el = Acquire<HTMLVideoElement>(handle);
                 Log.Debug($"Received HTMLVideoElement.Resize {el.VideoWidth}x{el.VideoHeight}");
 
                 if (el.VideoWidth == 0 || el.VideoHeight == 0)
                     Debug.LogError($"HTMLVideoElement.Resize - Wrong size: {el.VideoWidth}*{el.VideoHeight}");
-                    
+
                 el.SetupTexture();
                 el.VideoReceived?.Invoke(el.Texture);
             }
@@ -49,10 +49,10 @@ namespace LiveKit
                 Log.Error($"Error happened on HTMLVideoElement.VideoReceived ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
             }
         }
-        
+
         public delegate void VideoReceivedDelegate(Texture2D tex);
         public event VideoReceivedDelegate VideoReceived;
-        
+
         public Texture2D Texture { get; private set; }
         private readonly int m_TextureId;
 
@@ -76,8 +76,8 @@ namespace LiveKit
         {
             if (Texture != null)
                 Object.Destroy(Texture);
-            
-            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, true, (IntPtr) m_TextureId);
+
+            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, true, (IntPtr)m_TextureId);
         }
     }
-}
+};

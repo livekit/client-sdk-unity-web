@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@livekit/livekit-unity": "^0.0.4"
+    "@livekit/livekit-unity": "^1.4.0"
   },
   "devDependencies": {
     "ts-loader": "^9.2.7",
