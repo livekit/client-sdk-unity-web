@@ -307,16 +307,23 @@ var NativeLib = {
     AttachVideo: function (videoPtr, texId) {
         var tex = GL.textures[texId];
         var lastTime = -1;
-        
+
+        var initialVideo = LKBridge.Data.get(videoPtr);
+        initialVideo.style.opacity = 0;
+        initialVideo.style.width = 0;
+        initialVideo.style.height = 0;
+        document.body.appendChild(initialVideo);
+
         var updateVideo = function () {
             var video = LKBridge.Data.get(videoPtr);
-            if (video === undefined)
+            if (video === undefined) {
+		        initialVideo.remove();
                 return;
+	        }
             
             var time = video.currentTime;
             if (!video.paused && video.srcObject !== null && time !== lastTime) {
                 lastTime = time;
-                
                 GLctx.bindTexture(GLctx.TEXTURE_2D, tex);
                 
                 // Flip Y
