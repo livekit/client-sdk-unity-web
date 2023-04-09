@@ -367,7 +367,7 @@
   "api/LiveKit.ParticipantTrackPermission.html": {
     "href": "api/LiveKit.ParticipantTrackPermission.html",
     "title": "Struct ParticipantTrackPermission | LiveKit Unity SDK",
-    "keywords": "Struct ParticipantTrackPermission Inherited Members ValueType.Equals(Object) ValueType.GetHashCode() ValueType.ToString() Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetType() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public struct ParticipantTrackPermission Fields AllowAll Declaration public bool? AllowAll Field Value Type Description Nullable < Boolean > AllowedTrackSids Declaration public string[] AllowedTrackSids Field Value Type Description String [] ParticipantSid Declaration public string ParticipantSid Field Value Type Description String"
+    "keywords": "Struct ParticipantTrackPermission Inherited Members ValueType.Equals(Object) ValueType.GetHashCode() ValueType.ToString() Object.Equals(Object, Object) Object.ReferenceEquals(Object, Object) Object.GetType() Namespace : LiveKit Assembly : cs.temp.dll.dll Syntax public struct ParticipantTrackPermission Fields AllowAll Declaration public bool? AllowAll Field Value Type Description Nullable < Boolean > AllowedTrackSids Declaration public string[] AllowedTrackSids Field Value Type Description String [] ParticipantIdentity Declaration public string ParticipantIdentity Field Value Type Description String"
   },
   "api/LiveKit.PublishDataError.html": {
     "href": "api/LiveKit.PublishDataError.html",

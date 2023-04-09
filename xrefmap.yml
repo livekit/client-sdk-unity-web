@@ -2988,12 +2988,12 @@ references:
   commentId: F:LiveKit.ParticipantTrackPermission.AllowedTrackSids
   fullName: LiveKit.ParticipantTrackPermission.AllowedTrackSids
   nameWithType: ParticipantTrackPermission.AllowedTrackSids
-- uid: LiveKit.ParticipantTrackPermission.ParticipantSid
-  name: ParticipantSid
-  href: api/LiveKit.ParticipantTrackPermission.html#LiveKit_ParticipantTrackPermission_ParticipantSid
-  commentId: F:LiveKit.ParticipantTrackPermission.ParticipantSid
-  fullName: LiveKit.ParticipantTrackPermission.ParticipantSid
-  nameWithType: ParticipantTrackPermission.ParticipantSid
+- uid: LiveKit.ParticipantTrackPermission.ParticipantIdentity
+  name: ParticipantIdentity
+  href: api/LiveKit.ParticipantTrackPermission.html#LiveKit_ParticipantTrackPermission_ParticipantIdentity
+  commentId: F:LiveKit.ParticipantTrackPermission.ParticipantIdentity
+  fullName: LiveKit.ParticipantTrackPermission.ParticipantIdentity
+  nameWithType: ParticipantTrackPermission.ParticipantIdentity
 - uid: LiveKit.PublishDataError
   name: PublishDataError
   href: api/LiveKit.PublishDataError.html
