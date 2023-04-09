@@ -83,12 +83,12 @@ namespace LiveKit
             }
         }
 
-        public int AudioLevel
+        public double AudioLevel
         {
             get
             {
                 JSNative.PushString("audioLevel");
-                return (int) JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
+                return JSNative.GetNumber(JSNative.GetProperty(NativeHandle));
             }
         }
 
