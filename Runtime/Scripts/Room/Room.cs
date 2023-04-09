@@ -47,7 +47,7 @@ namespace LiveKit
         public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publication, TrackStreamState streamState, RemoteParticipant participant);
         public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status, RemoteParticipant participant);
         public delegate void AudioPlaybackChangedDelegate(bool playing);
-        
+
         public event ReconnectingDelegate Reconnecting;
         public event ReconnectedDelegate Reconnected;
         public event DisconnectedDelegate Disconnected;
@@ -83,7 +83,7 @@ namespace LiveKit
             try
             {
                 var room = Acquire<Room>(JSNative.GetFunctionInstance());
-                
+
                 switch (evRef.Event)
                 {
                     case RoomEvent.Reconnecting:
@@ -100,7 +100,7 @@ namespace LiveKit
                         DisconnectReason? reason = null;
                         if(JSNative.IsNumber(pPtr))
                             reason = (DisconnectReason?) JSNative.GetNumber(pPtr);
-                        
+
                         Log.Debug($"Room: Received Disconnected({reason})");
                         room.Disconnected?.Invoke(reason);
                         break;
@@ -210,7 +210,7 @@ namespace LiveKit
                             string metadata = null;
                             if (JSNative.IsString(mdPtr))
                                 metadata = JSNative.GetString(mdPtr);
-                            
+
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             Log.Debug($"Room: Received ParticipantMetadataChanged(\"{metadata}\", {participant.Sid})");
                             room.ParticipantMetadataChanged?.Invoke(metadata, participant);
@@ -243,7 +243,7 @@ namespace LiveKit
                             DataPacketKind? kind = null;
                             if (JSNative.IsNumber(kindPtr))
                                 kind = (DataPacketKind?) JSNative.GetNumber(kindPtr);
-                            
+
                             Log.Debug($"Room: Received DataReceived({data}, {participant?.Sid}, {kind})");
                             room.DataReceived?.Invoke(data.ToArray(), participant, kind);
                             break;
@@ -301,7 +301,7 @@ namespace LiveKit
                 Log.Error($"Error happened on RoomEvent.{evRef.Event} ( Is your listeners working correctly ? ): {Environment.NewLine} {e.Message}");
             }
         }
-                
+
         public bool IsClosed
         {
             get
@@ -310,7 +310,7 @@ namespace LiveKit
                 return JSNative.GetBoolean(JSNative.GetProperty(NativeHandle));
             }
         }
-        
+
         public ConnectionState State
         {
             get
@@ -340,7 +340,7 @@ namespace LiveKit
 
         public string Sid
         {
-            get 
+            get
             {
                 JSNative.PushString("sid");
                 return JSNative.GetString(JSNative.GetProperty(NativeHandle));
@@ -428,10 +428,10 @@ namespace LiveKit
                 JSNative.PushString(Utils.ToEnumString(kind.Value));
             else
                 JSNative.PushUndefined();
-            
+
             if(requestPermissions.HasValue)
                 JSNative.PushBoolean(requestPermissions.Value);
-            
+
             return Acquire<JSPromise<JSArray<MediaDeviceInfo>>>(JSNative.CallMethod(roomClazz, "getLocalDevices"));
         }
 
@@ -439,15 +439,15 @@ namespace LiveKit
         {
             foreach (var e in Enum.GetValues(typeof(RoomEvent)))
                 SetListener((RoomEvent) e, EventReceived);
-    
+
             SetKeepAlive(LocalParticipant, true);
-            
+
             ParticipantConnected += (p) => SetKeepAlive(p, true);
             ParticipantDisconnected += (p) => SetKeepAlive(p, false);
-            
+
             LocalTrackPublished += (publication, participant) => SetKeepAlive(publication.Track, true);
             LocalTrackUnpublished += (publication, participant) => SetKeepAlive(publication.Track, false);
-            
+
             TrackSubscribed += (track, publication, participant) => SetKeepAlive(track, true);
             TrackUnsubscribed += (track, publication, participant) => SetKeepAlive(track, false);
         }
@@ -468,7 +468,7 @@ namespace LiveKit
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        
+
         public void Disconnect(bool stopTracks = true)
         {
             JSNative.PushBoolean(stopTracks);
@@ -482,7 +482,7 @@ namespace LiveKit
             var ptr = JSNative.CallMethod(NativeHandle, "getParticipantByIdentity");
             if (!JSNative.IsObject(ptr))
                 return null;
-            
+
             return Acquire<Participant>(ptr);
         }
 
