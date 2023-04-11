@@ -1,5 +1,10 @@
+<!--BEGIN_BANNER_IMAGE--><!--END_BANNER_IMAGE-->
+
 # LiveKit Unity SDK
-This package only works on the WebGL platform of Unity
+
+<!--BEGIN_DESCRIPTION-->
+This package only works on the WebGL platform of Unity.
+<!--END_DESCRIPTION-->
 
 ## Docs
 Docs and guides at https://docs.livekit.io
@@ -76,3 +81,5 @@ Room.DataReceived += (data, participant, kind) =>
 
 yield return Room.LocalParticipant.PublishData(Encoding.ASCII.GetBytes("This is as test"), DataPacketKind.RELIABLE);
 ```
+
+<!--BEGIN_REPO_NAV--><!--END_REPO_NAV-->
