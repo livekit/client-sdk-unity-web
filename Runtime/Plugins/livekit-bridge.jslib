@@ -312,8 +312,14 @@ var NativeLib = {
         initialVideo.style.opacity = 0;
         initialVideo.style.width = 0;
         initialVideo.style.height = 0;
+        setTimeout(function() {
+            initialVideo.play();
+        }, 0)
+        initialVideo.addEventListener("canplay", (event) => {
+            initialVideo.play();
+        });
+ 
         document.body.appendChild(initialVideo);
-
         var updateVideo = function () {
             var video = LKBridge.Data.get(videoPtr);
             if (video === undefined) {
