@@ -77,8 +77,7 @@ namespace LiveKit
             if (Texture != null)
                 Object.Destroy(Texture);
 
-            bool isLinear = QualitySettings.activeColorSpace == ColorSpace.Linear;
-            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, isLinear, (IntPtr)m_TextureId);
+            Texture = Texture2D.CreateExternalTexture(VideoWidth, VideoHeight, TextureFormat.RGBA32, false, true, (IntPtr)m_TextureId);
         }
     }
 };

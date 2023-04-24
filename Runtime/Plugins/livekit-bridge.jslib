@@ -4,7 +4,6 @@ var NativeLib = {
         Pointers: null, // Map<object, number>
         RefCount: null, // Map<number, number>
         Debug: false,
-        IsLinear: false,
         RefIndex: 1,
         Stack: [],
         StackCSharp: [],
@@ -91,10 +90,9 @@ var NativeLib = {
         LKBridge.SetRef(ptr, value);
     },
 
-    InitLiveKit: function (debug, isLinear) {
+    InitLiveKit: function (debug) {
         // When initializing these variables directly, emscripten replace the type by {} (not sure why)
         LKBridge.Debug = debug === 1;
-        LKBridge.IsLinear = isLinear === 1;
         LKBridge.Data = new Map();
         LKBridge.Pointers = new Map();
         LKBridge.RefCount = new Map();
@@ -314,20 +312,14 @@ var NativeLib = {
         initialVideo.style.opacity = 0;
         initialVideo.style.width = 0;
         initialVideo.style.height = 0;
-        setTimeout(function() {
-            initialVideo.play();
-        }, 0)
-        initialVideo.addEventListener("canplay", (event) => {
-            initialVideo.play();
-        });
- 
         document.body.appendChild(initialVideo);
+
         var updateVideo = function () {
             var video = LKBridge.Data.get(videoPtr);
             if (video === undefined) {
-                initialVideo.remove();
+		        initialVideo.remove();
                 return;
-            }
+	        }
             
             var time = video.currentTime;
             if (!video.paused && video.srcObject !== null && time !== lastTime) {
@@ -336,7 +328,7 @@ var NativeLib = {
                 
                 // Flip Y
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, true);
-                GLctx.texImage2D(GLctx.TEXTURE_2D, 0, LKBridge.IsLinear ? GLctx.SRGB8_ALPHA8 : GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
+                GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, video);
                 GLctx.pixelStorei(GLctx.UNPACK_FLIP_Y_WEBGL, false);
 
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.LINEAR);
