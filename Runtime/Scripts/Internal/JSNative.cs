@@ -34,11 +34,11 @@ namespace LiveKit
         {
             AotHelper.EnsureType<StringEnumConverter>();
 #if !UNITY_EDITOR && UNITY_WEBGL
-            bool isLinear = QualitySettings.activeColorSpace == ColorSpace.Linear;
+
 #if LK_DEBUG
-            InitLiveKit(true, isLinear);
+            InitLiveKit(true);
 #else
-            InitLiveKit(false, isLinear);
+            InitLiveKit(false);
 #endif
 
             Window = RetrieveWindowObject();
@@ -59,7 +59,7 @@ namespace LiveKit
         }
 
         [DllImport("__Internal")]
-        internal static extern void InitLiveKit(bool debug, bool isLinear);
+        internal static extern void InitLiveKit(bool debug);
 
         [DllImport("__Internal")]
         internal static extern JSHandle NewRef();
