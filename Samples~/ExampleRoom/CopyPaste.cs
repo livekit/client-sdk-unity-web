@@ -10,6 +10,7 @@ using UnityEngine;
  */
 public class CopyPaste
 {
+#if UNITY_WEBGL && !UNITY_EDITOR
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
     private static void Init()
     {
@@ -24,4 +25,5 @@ public class CopyPaste
 
     [DllImport("__Internal")]
     internal static extern void InitCopyPaste(Action<string> action);
+#endif
 }
