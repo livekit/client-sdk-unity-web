@@ -316,7 +316,6 @@ var NativeLib = {
         initialVideo.style.bottom = "0px";
         initialVideo.style.right = "0px";
         initialVideo.setAttribute("autoplay", "");
-        initialVideo.setAttribute("muted", "true");
         initialVideo.setAttribute("playsinline", "");
  
         setTimeout(function() {
