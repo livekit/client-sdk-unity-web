@@ -309,12 +309,20 @@ var NativeLib = {
         var lastTime = -1;
 
         var initialVideo = LKBridge.Data.get(videoPtr);
-        initialVideo.style.opacity = 0;
-        initialVideo.style.width = 0;
-        initialVideo.style.height = 0;
+        // From Babylon.js, ... Not the best way to do it? We need to hide the video
+        initialVideo.style.transform = "scale(0.0001, 0.0001)";
+        initialVideo.style.opacity = "0";
+        initialVideo.style.position = "fixed";
+        initialVideo.style.bottom = "0px";
+        initialVideo.style.right = "0px";
+        initialVideo.setAttribute("autoplay", "");
+        initialVideo.setAttribute("muted", "true");
+        initialVideo.setAttribute("playsinline", "");
+ 
         setTimeout(function() {
             initialVideo.play();
         }, 0)
+
         initialVideo.addEventListener("canplay", (event) => {
             initialVideo.play();
         });
@@ -323,9 +331,9 @@ var NativeLib = {
         var updateVideo = function () {
             var video = LKBridge.Data.get(videoPtr);
             if (video === undefined) {
-		        initialVideo.remove();
+                initialVideo.remove();
                 return;
-	        }
+            }
             
             var time = video.currentTime;
             if (!video.paused && video.srcObject !== null && time !== lastTime) {
