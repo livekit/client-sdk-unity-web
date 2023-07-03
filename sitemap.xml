@@ -2,847 +2,847 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/index.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.AudioCaptureOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.AudioPreset.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.AudioPresets.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Client.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConnectionError.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConnectionQuality.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConnectionState.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConnectOperation.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConstrainBoolean.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConstrainDOMString.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConstrainDouble.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ConstrainULong.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.CreateLocalTracksOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.CreateLocalTracksOptionsWriter.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.DataPacketKind.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.DeviceIdPromise.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.DisconnectReason.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Errors.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.FacingMode.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.HTMLAudioElement.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.HTMLElement.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.HTMLMediaElement.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.HTMLVideoElement.VideoReceivedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.HTMLVideoElement.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.IAudioTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.ElementAttachedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.ElementDetachedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.EndedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.MessageDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.MutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.UnmutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ITrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.IVideoTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSArray-1.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSError.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSEventEmitter-1.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSHandle.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSMap-2.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSObject.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSPromise.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSPromise-1.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSRef.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.JSUint8Array.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LivekitError.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LocalAudioTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LocalParticipant.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LocalTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LocalTrackPublication.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LocalVideoTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.LogLevel.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.MediaDeviceFailure.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.MediaDeviceInfo.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.MediaDeviceKind.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.MediaStreamTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.ConnectionQualityChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.DataReceivedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.IsSpeakingChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.LocalTrackPublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.LocalTrackUnpublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.ParticipantMetadataChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackMutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackPublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackStreamStateChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackSubscribedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackSubscriptionFailedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackSubscriptionPermissionChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackUnmutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackUnpublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.TrackUnsubscribedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Participant.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ParticipantEvent.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ParticipantTrackPermission.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.PublishDataError.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RemoteAudioTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RemoteParticipant.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RemoteTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RemoteTrackPublication.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RemoteVideoTrack.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ActiveSpeakersChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.AudioPlaybackChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ConnectionQualityChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.DataReceivedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.DisconnectedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.LocalTrackPublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.LocalTrackUnpublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.MediaDevicesChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.MediaDevicesErrorDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ParticipantConnectedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ParticipantDisconnectedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ParticipantMetadataChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ReconnectedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.ReconnectingDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.RoomMetadataChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.StateChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackMutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackPublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackStreamStateChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackSubscribedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackSubscriptionFailedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackSubscriptionPermissionChangedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackUnmutedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackUnpublishedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.TrackUnsubscribedDelegate.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Room.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RoomConnectOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RoomEvent.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RoomOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCBundlePolicy.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCConfiguration.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCIceCredentialType.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCIceServer.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCIceTransportPolicy.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.RTCRtcpMuxPolicy.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ScreenShareCaptureOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ScreenShareCaptureOptionsWriter.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.ScreenSharePresets.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.SubscriptionStatus.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Track.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackDimensions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackEvent.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackInvalidError.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackKind.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackPublication.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackPublishDefaults.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackPublishOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackSource.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.TrackStreamState.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.UnexpectedConnectionState.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.UnsupportedServer.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.Utils.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoCaptureOptions.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoCodec.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoEncoding.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoPreset.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoPresets.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoPresets43.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoQuality.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.VideoResolution.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/api/LiveKit.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://livekit.github.io/client-sdk-unity-web/index.html</loc>
-    <lastmod>2023-04-24T09:04:30+00:00</lastmod>
+    <lastmod>2023-07-03T08:15:59+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
