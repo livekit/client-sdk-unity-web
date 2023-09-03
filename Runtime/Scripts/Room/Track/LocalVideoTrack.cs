@@ -41,5 +41,11 @@ namespace LiveKit
 
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "restartTrack"));
         }
+
+        public JSPromise SetProcessor (JSHandle processor, bool showProcessedStreamLocally = true) {
+            JSNative.PushObject (processor);
+            JSNative.PushBoolean (showProcessedStreamLocally);
+            return Acquire<JSPromise> (JSNative.CallMethod (NativeHandle, "setProcessor"));
+        }
     }
 }
