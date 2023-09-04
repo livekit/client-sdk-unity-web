@@ -2335,6 +2335,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalVideoTrack.SetDeviceId
   nameWithType: LocalVideoTrack.SetDeviceId
+- uid: LiveKit.LocalVideoTrack.SetProcessor(LiveKit.JSHandle,System.Boolean)
+  name: SetProcessor(JSHandle, Boolean)
+  href: api/LiveKit.LocalVideoTrack.html#LiveKit_LocalVideoTrack_SetProcessor_LiveKit_JSHandle_System_Boolean_
+  commentId: M:LiveKit.LocalVideoTrack.SetProcessor(LiveKit.JSHandle,System.Boolean)
+  fullName: LiveKit.LocalVideoTrack.SetProcessor(LiveKit.JSHandle, System.Boolean)
+  nameWithType: LocalVideoTrack.SetProcessor(JSHandle, Boolean)
+- uid: LiveKit.LocalVideoTrack.SetProcessor*
+  name: SetProcessor
+  href: api/LiveKit.LocalVideoTrack.html#LiveKit_LocalVideoTrack_SetProcessor_
+  commentId: Overload:LiveKit.LocalVideoTrack.SetProcessor
+  isSpec: "True"
+  fullName: LiveKit.LocalVideoTrack.SetProcessor
+  nameWithType: LocalVideoTrack.SetProcessor
 - uid: LiveKit.LocalVideoTrack.SetPublishingQuality(LiveKit.VideoQuality)
   name: SetPublishingQuality(VideoQuality)
   href: api/LiveKit.LocalVideoTrack.html#LiveKit_LocalVideoTrack_SetPublishingQuality_LiveKit_VideoQuality_
