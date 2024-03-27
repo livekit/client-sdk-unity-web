@@ -7,9 +7,9 @@
     "build": "npx webpack"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
-    "@livekit/livekit-unity": "^1.5.0"
+    "@livekit/livekit-unity": "^1.5.1"
   },
   "devDependencies": {
     "ts-loader": "^9.2.7",
