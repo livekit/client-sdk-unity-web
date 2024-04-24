@@ -2,7 +2,10 @@
     "name": "LiveKitBridge",
     "rootNamespace": "LiveKit",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": true,
     "overrideReferences": false,
