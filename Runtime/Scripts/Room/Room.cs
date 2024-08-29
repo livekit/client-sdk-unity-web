@@ -329,15 +329,6 @@ namespace LiveKit
             }
         }
 
-        public string Sid
-        {
-            get
-            {
-                JSNative.PushString("sid");
-                return JSNative.GetString(JSNative.GetProperty(NativeHandle));
-            }
-        }
-
         public JSPromise<JSObject> GetSid()
         {
             return Acquire<JSPromise<JSObject>>(JSNative.CallMethod(NativeHandle, "getSid"));
