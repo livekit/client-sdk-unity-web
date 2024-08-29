@@ -28,14 +28,19 @@ namespace LiveKit
             return Acquire<JSError>(ptr);
         }
 
-        public new LocalTrackPublication GetTrack(TrackSource source)
+        public new LocalTrackPublication GetTrackPublication(TrackSource source)
         {
-            return base.GetTrack(source) as LocalTrackPublication;
+            return base.GetTrackPublication(source) as LocalTrackPublication;
         }
 
-        public new LocalTrackPublication GetTrackByName(string name)
+        public new LocalTrackPublication GetTrackPublicationByName(string name)
         {
-            return base.GetTrackByName(name) as LocalTrackPublication;
+            return base.GetTrackPublicationByName(name) as LocalTrackPublication;
+        }
+
+        public new LocalTrackPublication GetTrackPublicationBySid(string sid)
+        {
+            return base.GetTrackPublicationBySid(sid) as LocalTrackPublication;
         }
 
         public JSPromise<LocalTrackPublication> SetCameraEnabled(bool enabled, VideoCaptureOptions? options = null,
