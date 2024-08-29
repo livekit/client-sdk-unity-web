@@ -153,26 +153,29 @@ namespace LiveKit
             return Acquire<LocalTrackPublication>(ptr);
         }
 
-        // TODO Support unsafe ptr
-        public JSPromise PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)
+        public JSPromise PublishData(byte[] data, bool reliable, string[] destinationIdentities, string topic)
         {
-            return PublishData(data, 0, data.Length, kind, participants);
+            return PublishData(data, 0, data.Length, reliable, destinationIdentities, topic);
         }
 
-        public JSPromise PublishData(byte[] data, int offset, int size, DataPacketKind kind,
-            params RemoteParticipant[] participants)
+        public JSPromise PublishData(byte[] data, int offset, int size, bool reliable, string[] destinationIdentities, string topic)
         {
-            JSArray<RemoteParticipant> arr = null;
-            if (participants != null)
-                arr = new JSArray<RemoteParticipant>(participants);
+            JSArray<string> arr = null;
+            if (destinationIdentities != null)
+                arr = new JSArray<string>(destinationIdentities);
 
             JSNative.PushData(data, offset, size);
-            JSNative.PushNumber((double) kind);
+            JSNative.PushBoolean((bool)reliable);
 
-            if (participants == null)
+            if (destinationIdentities == null)
                 JSNative.PushUndefined();
             else
                 JSNative.PushObject(arr.NativeHandle);
+
+            if(topic == null)
+                JSNative.PushUndefined();
+            else
+                JSNative.PushString(topic);
 
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "publishData"));
         }

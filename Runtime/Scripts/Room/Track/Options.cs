@@ -78,8 +78,8 @@ namespace LiveKit
         public VideoEncoding? ScreenShareEncoding;
         [JsonProperty("videoCodec")]
         public VideoCodec? VideoCodec;
-        [JsonProperty("audioBitrate")]
-        public int? AudioBitrate;
+        [JsonProperty("maxBitrate")]
+        public int? MaxBitrate;
         [JsonProperty("dtx")]
         public bool? DTX;
         [JsonProperty("simulcast")]
@@ -106,8 +106,6 @@ namespace LiveKit
         public VideoEncoding? ScreenShareEncoding;
         [JsonProperty("videoCodec")]
         public VideoCodec? VideoCodec;
-        [JsonProperty("audioBitrate")]
-        public int? AudioBitrate;
         [JsonProperty("dtx")]
         public bool? DTX;
         [JsonProperty("simulcast")]

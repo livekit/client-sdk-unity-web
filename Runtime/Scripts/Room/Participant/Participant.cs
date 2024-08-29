@@ -56,29 +56,29 @@ namespace LiveKit
         public event TrackStreamStateChangedDelegate TrackStreamStateChanged;
         public event TrackSubscriptionPermissionChangedDelegate TrackSubscriptionPermissionChanged;
         
-        public JSMap<string, TrackPublication> AudioTracks
+        public JSMap<string, TrackPublication> AudioTrackPublications
         {
             get
             {
-                JSNative.PushString("audioTracks");
+                JSNative.PushString("audioTrackPublications");
                 return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativeHandle));
             }
         }
 
-        public JSMap<string, TrackPublication> VideoTracks
+        public JSMap<string, TrackPublication> VideoTrackPublications
         {
             get
             {
-                JSNative.PushString("videoTracks");
+                JSNative.PushString("videoTrackPublications");
                 return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativeHandle));
             }
         }
 
-        public JSMap<string, TrackPublication> Tracks
+        public JSMap<string, TrackPublication> TrackPublications
         {
             get
             {
-                JSNative.PushString("tracks");
+                JSNative.PushString("trackPublications");
                 return Acquire<JSMap<string, TrackPublication>>(JSNative.GetProperty(NativeHandle));
             }
         }
@@ -344,30 +344,41 @@ namespace LiveKit
                 SetListener((ParticipantEvent) e, EventReceived);
         }
 
-        public JSArray<TrackPublication> GetTracks()
+        public JSArray<TrackPublication> GetTrackPublications()
         {
-            return Acquire<JSArray<TrackPublication>>(JSNative.CallMethod(NativeHandle, "getTracks"));
+            return Acquire<JSArray<TrackPublication>>(JSNative.CallMethod(NativeHandle, "getTrackPublications"));
         }
 
-        public TrackPublication GetTrack(TrackSource source)
+        public TrackPublication GetTrackPublication(TrackSource source)
         {
             JSNative.PushString(Utils.ToEnumString(source));
 
-            var ptr = JSNative.CallMethod(NativeHandle, "getTrack");
+            var ptr = JSNative.CallMethod(NativeHandle, "getTrackPublication");
             if (!JSNative.IsObject(ptr))
                 return null;
             
             return Acquire<TrackPublication>(ptr);
         }
 
-        public TrackPublication GetTrackByName(string name)
+        public TrackPublication GetTrackPublicationByName(string name)
         {
             JSNative.PushString(name);
 
-            var ptr = JSNative.CallMethod(NativeHandle, "getTrackByName");
+            var ptr = JSNative.CallMethod(NativeHandle, "getTrackPublicationByName");
             if (!JSNative.IsObject(ptr))
                 return null;
             
+            return Acquire<TrackPublication>(ptr);
+        }
+
+        public TrackPublication GetTrackPublicationBySid(string sid)
+        {
+            JSNative.PushString(sid);
+
+            var ptr = JSNative.CallMethod(NativeHandle, "getTrackPublicationBySid");
+            if (!JSNative.IsObject(ptr))
+                return null;
+
             return Acquire<TrackPublication>(ptr);
         }
     }
