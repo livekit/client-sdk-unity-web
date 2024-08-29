@@ -20,7 +20,6 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@livekit/livekit-unity": "file:",
     "livekit-client": " v2.5.0",
     "typed-emitter": "^2.1.0"
   },
