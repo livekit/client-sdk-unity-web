@@ -56,7 +56,9 @@ namespace LiveKit
         [EnumMember(Value = "audioPlaybackChanged")]
         AudioPlaybackStatusChanged,
         [EnumMember(Value = "mediaDevicesError")]
-        MediaDevicesError
+        MediaDevicesError,
+        [EnumMember(Value = "participantAttributesChanged")]
+        ParticipantAttributesChanged,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]

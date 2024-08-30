@@ -193,5 +193,22 @@ namespace LiveKit
 
             JSNative.CallMethod(NativeHandle, "setTrackSubscriptionPermissions");
         }
+
+        public JSPromise SetName(string name)
+        {
+            JSNative.PushString(name);
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setName"));
+        }
+
+        public JSPromise SetMetadata(string metadata)
+        {
+            JSNative.PushString(metadata);
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setMetadata"));
+        }
+
+        public JSPromise SetAttributes(JSMap<string, string> attributes) {
+            JSNative.PushObject(attributes.NativeHandle);
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setAttributes"));
+        }
     }
 }
