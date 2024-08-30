@@ -22,25 +22,29 @@ namespace LiveKit
             return (float) JSNative.GetNumber(JSNative.CallMethod(NativeHandle, "getVolume"));
         }
 
-        public new RemoteTrackPublication GetTrack(TrackSource source)
+        public new RemoteTrackPublication GetTrackPublication(TrackSource source)
         {
-            return base.GetTrack(source) as RemoteTrackPublication;
+            return base.GetTrackPublication(source) as RemoteTrackPublication;
         }
 
-        public new RemoteTrackPublication GetTrackByName(string name)
+        public new RemoteTrackPublication GetTrackPublicationByName(string name)
         {
-            return base.GetTrackByName(name) as RemoteTrackPublication;
+            return base.GetTrackPublicationByName(name) as RemoteTrackPublication;
         }
 
-        public RemoteTrackPublication GetTrackPublication(string sid)
-        {
-            JSNative.PushString(sid);
 
-            var ptr = JSNative.CallMethod(NativeHandle, "getTrackPublication");
-            if (!JSNative.IsObject(ptr))
-                return null;
-            
-            return Acquire<RemoteTrackPublication>(ptr);
+        public new RemoteTrackPublication GetTrackPublicationBySid(string sid)
+        {
+            return base.GetTrackPublicationBySid(sid) as RemoteTrackPublication;
+        }
+
+        public JSMap<string, RemoteTrackPublication> RemotePublications
+        {
+            get
+            {
+                JSNative.PushString("trackPublications");
+                return Acquire<JSMap<string, RemoteTrackPublication>>(JSNative.GetProperty(NativeHandle));
+            }
         }
     }
 }
