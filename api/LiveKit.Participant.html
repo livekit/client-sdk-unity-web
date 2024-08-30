@@ -157,13 +157,13 @@
   </table>
   
   
-  <a id="LiveKit_Participant_AudioTracks_" data-uid="LiveKit.Participant.AudioTracks*"></a>
-  <h4 id="LiveKit_Participant_AudioTracks" data-uid="LiveKit.Participant.AudioTracks">AudioTracks</h4>
+  <a id="LiveKit_Participant_AudioTrackPublications_" data-uid="LiveKit.Participant.AudioTrackPublications*"></a>
+  <h4 id="LiveKit_Participant_AudioTrackPublications" data-uid="LiveKit.Participant.AudioTrackPublications">AudioTrackPublications</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; AudioTracks { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; AudioTrackPublications { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -407,13 +407,13 @@
   </table>
   
   
-  <a id="LiveKit_Participant_Tracks_" data-uid="LiveKit.Participant.Tracks*"></a>
-  <h4 id="LiveKit_Participant_Tracks" data-uid="LiveKit.Participant.Tracks">Tracks</h4>
+  <a id="LiveKit_Participant_TrackPublications_" data-uid="LiveKit.Participant.TrackPublications*"></a>
+  <h4 id="LiveKit_Participant_TrackPublications" data-uid="LiveKit.Participant.TrackPublications">TrackPublications</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; Tracks { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; TrackPublications { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -432,13 +432,13 @@
   </table>
   
   
-  <a id="LiveKit_Participant_VideoTracks_" data-uid="LiveKit.Participant.VideoTracks*"></a>
-  <h4 id="LiveKit_Participant_VideoTracks" data-uid="LiveKit.Participant.VideoTracks">VideoTracks</h4>
+  <a id="LiveKit_Participant_VideoTrackPublications_" data-uid="LiveKit.Participant.VideoTrackPublications*"></a>
+  <h4 id="LiveKit_Participant_VideoTrackPublications" data-uid="LiveKit.Participant.VideoTrackPublications">VideoTrackPublications</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; VideoTracks { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public JSMap&lt;string, TrackPublication&gt; VideoTrackPublications { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -459,13 +459,13 @@
   </h3>
   
   
-  <a id="LiveKit_Participant_GetTrack_" data-uid="LiveKit.Participant.GetTrack*"></a>
-  <h4 id="LiveKit_Participant_GetTrack_LiveKit_TrackSource_" data-uid="LiveKit.Participant.GetTrack(LiveKit.TrackSource)">GetTrack(TrackSource)</h4>
+  <a id="LiveKit_Participant_GetTrackPublication_" data-uid="LiveKit.Participant.GetTrackPublication*"></a>
+  <h4 id="LiveKit_Participant_GetTrackPublication_LiveKit_TrackSource_" data-uid="LiveKit.Participant.GetTrackPublication(LiveKit.TrackSource)">GetTrackPublication(TrackSource)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TrackPublication GetTrack(TrackSource source)</code></pre>
+    <pre><code class="lang-csharp hljs">public TrackPublication GetTrackPublication(TrackSource source)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -501,13 +501,13 @@
   </table>
   
   
-  <a id="LiveKit_Participant_GetTrackByName_" data-uid="LiveKit.Participant.GetTrackByName*"></a>
-  <h4 id="LiveKit_Participant_GetTrackByName_System_String_" data-uid="LiveKit.Participant.GetTrackByName(System.String)">GetTrackByName(String)</h4>
+  <a id="LiveKit_Participant_GetTrackPublicationByName_" data-uid="LiveKit.Participant.GetTrackPublicationByName*"></a>
+  <h4 id="LiveKit_Participant_GetTrackPublicationByName_System_String_" data-uid="LiveKit.Participant.GetTrackPublicationByName(System.String)">GetTrackPublicationByName(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public TrackPublication GetTrackByName(string name)</code></pre>
+    <pre><code class="lang-csharp hljs">public TrackPublication GetTrackPublicationByName(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -543,13 +543,55 @@
   </table>
   
   
-  <a id="LiveKit_Participant_GetTracks_" data-uid="LiveKit.Participant.GetTracks*"></a>
-  <h4 id="LiveKit_Participant_GetTracks" data-uid="LiveKit.Participant.GetTracks">GetTracks()</h4>
+  <a id="LiveKit_Participant_GetTrackPublicationBySid_" data-uid="LiveKit.Participant.GetTrackPublicationBySid*"></a>
+  <h4 id="LiveKit_Participant_GetTrackPublicationBySid_System_String_" data-uid="LiveKit.Participant.GetTrackPublicationBySid(System.String)">GetTrackPublicationBySid(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSArray&lt;TrackPublication&gt; GetTracks()</code></pre>
+    <pre><code class="lang-csharp hljs">public TrackPublication GetTrackPublicationBySid(string sid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sid</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LiveKit.TrackPublication.html">TrackPublication</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="LiveKit_Participant_GetTrackPublications_" data-uid="LiveKit.Participant.GetTrackPublications*"></a>
+  <h4 id="LiveKit_Participant_GetTrackPublications" data-uid="LiveKit.Participant.GetTrackPublications">GetTrackPublications()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public JSArray&lt;TrackPublication&gt; GetTrackPublications()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">

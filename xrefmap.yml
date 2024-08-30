@@ -1967,32 +1967,45 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.EnableCameraAndMicrophone
   nameWithType: LocalParticipant.EnableCameraAndMicrophone
-- uid: LiveKit.LocalParticipant.GetTrack(LiveKit.TrackSource)
-  name: GetTrack(TrackSource)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrack_LiveKit_TrackSource_
-  commentId: M:LiveKit.LocalParticipant.GetTrack(LiveKit.TrackSource)
-  fullName: LiveKit.LocalParticipant.GetTrack(LiveKit.TrackSource)
-  nameWithType: LocalParticipant.GetTrack(TrackSource)
-- uid: LiveKit.LocalParticipant.GetTrack*
-  name: GetTrack
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrack_
-  commentId: Overload:LiveKit.LocalParticipant.GetTrack
+- uid: LiveKit.LocalParticipant.GetTrackPublication(LiveKit.TrackSource)
+  name: GetTrackPublication(TrackSource)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublication_LiveKit_TrackSource_
+  commentId: M:LiveKit.LocalParticipant.GetTrackPublication(LiveKit.TrackSource)
+  fullName: LiveKit.LocalParticipant.GetTrackPublication(LiveKit.TrackSource)
+  nameWithType: LocalParticipant.GetTrackPublication(TrackSource)
+- uid: LiveKit.LocalParticipant.GetTrackPublication*
+  name: GetTrackPublication
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublication_
+  commentId: Overload:LiveKit.LocalParticipant.GetTrackPublication
   isSpec: "True"
-  fullName: LiveKit.LocalParticipant.GetTrack
-  nameWithType: LocalParticipant.GetTrack
-- uid: LiveKit.LocalParticipant.GetTrackByName(System.String)
-  name: GetTrackByName(String)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackByName_System_String_
-  commentId: M:LiveKit.LocalParticipant.GetTrackByName(System.String)
-  fullName: LiveKit.LocalParticipant.GetTrackByName(System.String)
-  nameWithType: LocalParticipant.GetTrackByName(String)
-- uid: LiveKit.LocalParticipant.GetTrackByName*
-  name: GetTrackByName
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackByName_
-  commentId: Overload:LiveKit.LocalParticipant.GetTrackByName
+  fullName: LiveKit.LocalParticipant.GetTrackPublication
+  nameWithType: LocalParticipant.GetTrackPublication
+- uid: LiveKit.LocalParticipant.GetTrackPublicationByName(System.String)
+  name: GetTrackPublicationByName(String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublicationByName_System_String_
+  commentId: M:LiveKit.LocalParticipant.GetTrackPublicationByName(System.String)
+  fullName: LiveKit.LocalParticipant.GetTrackPublicationByName(System.String)
+  nameWithType: LocalParticipant.GetTrackPublicationByName(String)
+- uid: LiveKit.LocalParticipant.GetTrackPublicationByName*
+  name: GetTrackPublicationByName
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublicationByName_
+  commentId: Overload:LiveKit.LocalParticipant.GetTrackPublicationByName
   isSpec: "True"
-  fullName: LiveKit.LocalParticipant.GetTrackByName
-  nameWithType: LocalParticipant.GetTrackByName
+  fullName: LiveKit.LocalParticipant.GetTrackPublicationByName
+  nameWithType: LocalParticipant.GetTrackPublicationByName
+- uid: LiveKit.LocalParticipant.GetTrackPublicationBySid(System.String)
+  name: GetTrackPublicationBySid(String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublicationBySid_System_String_
+  commentId: M:LiveKit.LocalParticipant.GetTrackPublicationBySid(System.String)
+  fullName: LiveKit.LocalParticipant.GetTrackPublicationBySid(System.String)
+  nameWithType: LocalParticipant.GetTrackPublicationBySid(String)
+- uid: LiveKit.LocalParticipant.GetTrackPublicationBySid*
+  name: GetTrackPublicationBySid
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_GetTrackPublicationBySid_
+  commentId: Overload:LiveKit.LocalParticipant.GetTrackPublicationBySid
+  isSpec: "True"
+  fullName: LiveKit.LocalParticipant.GetTrackPublicationBySid
+  nameWithType: LocalParticipant.GetTrackPublicationBySid
 - uid: LiveKit.LocalParticipant.LastCameraError
   name: LastCameraError()
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_LastCameraError
@@ -2019,24 +2032,24 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.LastMicrophoneError
   nameWithType: LocalParticipant.LastMicrophoneError
-- uid: LiveKit.LocalParticipant.PublishData(System.Byte[],LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])
-  name: PublishData(Byte[], DataPacketKind, RemoteParticipant[])
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_PublishData_System_Byte___LiveKit_DataPacketKind_LiveKit_RemoteParticipant___
-  commentId: M:LiveKit.LocalParticipant.PublishData(System.Byte[],LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])
-  name.vb: PublishData(Byte(), DataPacketKind, RemoteParticipant())
-  fullName: LiveKit.LocalParticipant.PublishData(System.Byte[], LiveKit.DataPacketKind, LiveKit.RemoteParticipant[])
-  fullName.vb: LiveKit.LocalParticipant.PublishData(System.Byte(), LiveKit.DataPacketKind, LiveKit.RemoteParticipant())
-  nameWithType: LocalParticipant.PublishData(Byte[], DataPacketKind, RemoteParticipant[])
-  nameWithType.vb: LocalParticipant.PublishData(Byte(), DataPacketKind, RemoteParticipant())
-- uid: LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])
-  name: PublishData(Byte[], Int32, Int32, DataPacketKind, RemoteParticipant[])
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_PublishData_System_Byte___System_Int32_System_Int32_LiveKit_DataPacketKind_LiveKit_RemoteParticipant___
-  commentId: M:LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])
-  name.vb: PublishData(Byte(), Int32, Int32, DataPacketKind, RemoteParticipant())
-  fullName: LiveKit.LocalParticipant.PublishData(System.Byte[], System.Int32, System.Int32, LiveKit.DataPacketKind, LiveKit.RemoteParticipant[])
-  fullName.vb: LiveKit.LocalParticipant.PublishData(System.Byte(), System.Int32, System.Int32, LiveKit.DataPacketKind, LiveKit.RemoteParticipant())
-  nameWithType: LocalParticipant.PublishData(Byte[], Int32, Int32, DataPacketKind, RemoteParticipant[])
-  nameWithType.vb: LocalParticipant.PublishData(Byte(), Int32, Int32, DataPacketKind, RemoteParticipant())
+- uid: LiveKit.LocalParticipant.PublishData(System.Byte[],System.Boolean,System.String[],System.String)
+  name: PublishData(Byte[], Boolean, String[], String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_PublishData_System_Byte___System_Boolean_System_String___System_String_
+  commentId: M:LiveKit.LocalParticipant.PublishData(System.Byte[],System.Boolean,System.String[],System.String)
+  name.vb: PublishData(Byte(), Boolean, String(), String)
+  fullName: LiveKit.LocalParticipant.PublishData(System.Byte[], System.Boolean, System.String[], System.String)
+  fullName.vb: LiveKit.LocalParticipant.PublishData(System.Byte(), System.Boolean, System.String(), System.String)
+  nameWithType: LocalParticipant.PublishData(Byte[], Boolean, String[], String)
+  nameWithType.vb: LocalParticipant.PublishData(Byte(), Boolean, String(), String)
+- uid: LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,System.Boolean,System.String[],System.String)
+  name: PublishData(Byte[], Int32, Int32, Boolean, String[], String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_PublishData_System_Byte___System_Int32_System_Int32_System_Boolean_System_String___System_String_
+  commentId: M:LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,System.Boolean,System.String[],System.String)
+  name.vb: PublishData(Byte(), Int32, Int32, Boolean, String(), String)
+  fullName: LiveKit.LocalParticipant.PublishData(System.Byte[], System.Int32, System.Int32, System.Boolean, System.String[], System.String)
+  fullName.vb: LiveKit.LocalParticipant.PublishData(System.Byte(), System.Int32, System.Int32, System.Boolean, System.String(), System.String)
+  nameWithType: LocalParticipant.PublishData(Byte[], Int32, Int32, Boolean, String[], String)
+  nameWithType.vb: LocalParticipant.PublishData(Byte(), Int32, Int32, Boolean, String(), String)
 - uid: LiveKit.LocalParticipant.PublishData*
   name: PublishData
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_PublishData_
@@ -2512,19 +2525,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.Participant.AudioLevel
   nameWithType: Participant.AudioLevel
-- uid: LiveKit.Participant.AudioTracks
-  name: AudioTracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_AudioTracks
-  commentId: P:LiveKit.Participant.AudioTracks
-  fullName: LiveKit.Participant.AudioTracks
-  nameWithType: Participant.AudioTracks
-- uid: LiveKit.Participant.AudioTracks*
-  name: AudioTracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_AudioTracks_
-  commentId: Overload:LiveKit.Participant.AudioTracks
+- uid: LiveKit.Participant.AudioTrackPublications
+  name: AudioTrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_AudioTrackPublications
+  commentId: P:LiveKit.Participant.AudioTrackPublications
+  fullName: LiveKit.Participant.AudioTrackPublications
+  nameWithType: Participant.AudioTrackPublications
+- uid: LiveKit.Participant.AudioTrackPublications*
+  name: AudioTrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_AudioTrackPublications_
+  commentId: Overload:LiveKit.Participant.AudioTrackPublications
   isSpec: "True"
-  fullName: LiveKit.Participant.AudioTracks
-  nameWithType: Participant.AudioTracks
+  fullName: LiveKit.Participant.AudioTrackPublications
+  nameWithType: Participant.AudioTrackPublications
 - uid: LiveKit.Participant.ConnectionQualityChanged
   name: ConnectionQualityChanged
   href: api/LiveKit.Participant.html#LiveKit_Participant_ConnectionQualityChanged
@@ -2549,45 +2562,58 @@ references:
   commentId: T:LiveKit.Participant.DataReceivedDelegate
   fullName: LiveKit.Participant.DataReceivedDelegate
   nameWithType: Participant.DataReceivedDelegate
-- uid: LiveKit.Participant.GetTrack(LiveKit.TrackSource)
-  name: GetTrack(TrackSource)
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrack_LiveKit_TrackSource_
-  commentId: M:LiveKit.Participant.GetTrack(LiveKit.TrackSource)
-  fullName: LiveKit.Participant.GetTrack(LiveKit.TrackSource)
-  nameWithType: Participant.GetTrack(TrackSource)
-- uid: LiveKit.Participant.GetTrack*
-  name: GetTrack
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrack_
-  commentId: Overload:LiveKit.Participant.GetTrack
+- uid: LiveKit.Participant.GetTrackPublication(LiveKit.TrackSource)
+  name: GetTrackPublication(TrackSource)
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublication_LiveKit_TrackSource_
+  commentId: M:LiveKit.Participant.GetTrackPublication(LiveKit.TrackSource)
+  fullName: LiveKit.Participant.GetTrackPublication(LiveKit.TrackSource)
+  nameWithType: Participant.GetTrackPublication(TrackSource)
+- uid: LiveKit.Participant.GetTrackPublication*
+  name: GetTrackPublication
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublication_
+  commentId: Overload:LiveKit.Participant.GetTrackPublication
   isSpec: "True"
-  fullName: LiveKit.Participant.GetTrack
-  nameWithType: Participant.GetTrack
-- uid: LiveKit.Participant.GetTrackByName(System.String)
-  name: GetTrackByName(String)
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackByName_System_String_
-  commentId: M:LiveKit.Participant.GetTrackByName(System.String)
-  fullName: LiveKit.Participant.GetTrackByName(System.String)
-  nameWithType: Participant.GetTrackByName(String)
-- uid: LiveKit.Participant.GetTrackByName*
-  name: GetTrackByName
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackByName_
-  commentId: Overload:LiveKit.Participant.GetTrackByName
+  fullName: LiveKit.Participant.GetTrackPublication
+  nameWithType: Participant.GetTrackPublication
+- uid: LiveKit.Participant.GetTrackPublicationByName(System.String)
+  name: GetTrackPublicationByName(String)
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublicationByName_System_String_
+  commentId: M:LiveKit.Participant.GetTrackPublicationByName(System.String)
+  fullName: LiveKit.Participant.GetTrackPublicationByName(System.String)
+  nameWithType: Participant.GetTrackPublicationByName(String)
+- uid: LiveKit.Participant.GetTrackPublicationByName*
+  name: GetTrackPublicationByName
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublicationByName_
+  commentId: Overload:LiveKit.Participant.GetTrackPublicationByName
   isSpec: "True"
-  fullName: LiveKit.Participant.GetTrackByName
-  nameWithType: Participant.GetTrackByName
-- uid: LiveKit.Participant.GetTracks
-  name: GetTracks()
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTracks
-  commentId: M:LiveKit.Participant.GetTracks
-  fullName: LiveKit.Participant.GetTracks()
-  nameWithType: Participant.GetTracks()
-- uid: LiveKit.Participant.GetTracks*
-  name: GetTracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTracks_
-  commentId: Overload:LiveKit.Participant.GetTracks
+  fullName: LiveKit.Participant.GetTrackPublicationByName
+  nameWithType: Participant.GetTrackPublicationByName
+- uid: LiveKit.Participant.GetTrackPublicationBySid(System.String)
+  name: GetTrackPublicationBySid(String)
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublicationBySid_System_String_
+  commentId: M:LiveKit.Participant.GetTrackPublicationBySid(System.String)
+  fullName: LiveKit.Participant.GetTrackPublicationBySid(System.String)
+  nameWithType: Participant.GetTrackPublicationBySid(String)
+- uid: LiveKit.Participant.GetTrackPublicationBySid*
+  name: GetTrackPublicationBySid
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublicationBySid_
+  commentId: Overload:LiveKit.Participant.GetTrackPublicationBySid
   isSpec: "True"
-  fullName: LiveKit.Participant.GetTracks
-  nameWithType: Participant.GetTracks
+  fullName: LiveKit.Participant.GetTrackPublicationBySid
+  nameWithType: Participant.GetTrackPublicationBySid
+- uid: LiveKit.Participant.GetTrackPublications
+  name: GetTrackPublications()
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublications
+  commentId: M:LiveKit.Participant.GetTrackPublications
+  fullName: LiveKit.Participant.GetTrackPublications()
+  nameWithType: Participant.GetTrackPublications()
+- uid: LiveKit.Participant.GetTrackPublications*
+  name: GetTrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_GetTrackPublications_
+  commentId: Overload:LiveKit.Participant.GetTrackPublications
+  isSpec: "True"
+  fullName: LiveKit.Participant.GetTrackPublications
+  nameWithType: Participant.GetTrackPublications
 - uid: LiveKit.Participant.Identity
   name: Identity
   href: api/LiveKit.Participant.html#LiveKit_Participant_Identity
@@ -2765,6 +2791,19 @@ references:
   commentId: T:LiveKit.Participant.TrackMutedDelegate
   fullName: LiveKit.Participant.TrackMutedDelegate
   nameWithType: Participant.TrackMutedDelegate
+- uid: LiveKit.Participant.TrackPublications
+  name: TrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_TrackPublications
+  commentId: P:LiveKit.Participant.TrackPublications
+  fullName: LiveKit.Participant.TrackPublications
+  nameWithType: Participant.TrackPublications
+- uid: LiveKit.Participant.TrackPublications*
+  name: TrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_TrackPublications_
+  commentId: Overload:LiveKit.Participant.TrackPublications
+  isSpec: "True"
+  fullName: LiveKit.Participant.TrackPublications
+  nameWithType: Participant.TrackPublications
 - uid: LiveKit.Participant.TrackPublished
   name: TrackPublished
   href: api/LiveKit.Participant.html#LiveKit_Participant_TrackPublished
@@ -2777,19 +2816,6 @@ references:
   commentId: T:LiveKit.Participant.TrackPublishedDelegate
   fullName: LiveKit.Participant.TrackPublishedDelegate
   nameWithType: Participant.TrackPublishedDelegate
-- uid: LiveKit.Participant.Tracks
-  name: Tracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_Tracks
-  commentId: P:LiveKit.Participant.Tracks
-  fullName: LiveKit.Participant.Tracks
-  nameWithType: Participant.Tracks
-- uid: LiveKit.Participant.Tracks*
-  name: Tracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_Tracks_
-  commentId: Overload:LiveKit.Participant.Tracks
-  isSpec: "True"
-  fullName: LiveKit.Participant.Tracks
-  nameWithType: Participant.Tracks
 - uid: LiveKit.Participant.TrackStreamStateChanged
   name: TrackStreamStateChanged
   href: api/LiveKit.Participant.html#LiveKit_Participant_TrackStreamStateChanged
@@ -2874,19 +2900,19 @@ references:
   commentId: T:LiveKit.Participant.TrackUnsubscribedDelegate
   fullName: LiveKit.Participant.TrackUnsubscribedDelegate
   nameWithType: Participant.TrackUnsubscribedDelegate
-- uid: LiveKit.Participant.VideoTracks
-  name: VideoTracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_VideoTracks
-  commentId: P:LiveKit.Participant.VideoTracks
-  fullName: LiveKit.Participant.VideoTracks
-  nameWithType: Participant.VideoTracks
-- uid: LiveKit.Participant.VideoTracks*
-  name: VideoTracks
-  href: api/LiveKit.Participant.html#LiveKit_Participant_VideoTracks_
-  commentId: Overload:LiveKit.Participant.VideoTracks
+- uid: LiveKit.Participant.VideoTrackPublications
+  name: VideoTrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_VideoTrackPublications
+  commentId: P:LiveKit.Participant.VideoTrackPublications
+  fullName: LiveKit.Participant.VideoTrackPublications
+  nameWithType: Participant.VideoTrackPublications
+- uid: LiveKit.Participant.VideoTrackPublications*
+  name: VideoTrackPublications
+  href: api/LiveKit.Participant.html#LiveKit_Participant_VideoTrackPublications_
+  commentId: Overload:LiveKit.Participant.VideoTrackPublications
   isSpec: "True"
-  fullName: LiveKit.Participant.VideoTracks
-  nameWithType: Participant.VideoTracks
+  fullName: LiveKit.Participant.VideoTrackPublications
+  nameWithType: Participant.VideoTrackPublications
 - uid: LiveKit.ParticipantEvent
   name: ParticipantEvent
   href: api/LiveKit.ParticipantEvent.html
@@ -3051,38 +3077,12 @@ references:
   commentId: T:LiveKit.RemoteParticipant
   fullName: LiveKit.RemoteParticipant
   nameWithType: RemoteParticipant
-- uid: LiveKit.RemoteParticipant.GetTrack(LiveKit.TrackSource)
-  name: GetTrack(TrackSource)
-  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrack_LiveKit_TrackSource_
-  commentId: M:LiveKit.RemoteParticipant.GetTrack(LiveKit.TrackSource)
-  fullName: LiveKit.RemoteParticipant.GetTrack(LiveKit.TrackSource)
-  nameWithType: RemoteParticipant.GetTrack(TrackSource)
-- uid: LiveKit.RemoteParticipant.GetTrack*
-  name: GetTrack
-  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrack_
-  commentId: Overload:LiveKit.RemoteParticipant.GetTrack
-  isSpec: "True"
-  fullName: LiveKit.RemoteParticipant.GetTrack
-  nameWithType: RemoteParticipant.GetTrack
-- uid: LiveKit.RemoteParticipant.GetTrackByName(System.String)
-  name: GetTrackByName(String)
-  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackByName_System_String_
-  commentId: M:LiveKit.RemoteParticipant.GetTrackByName(System.String)
-  fullName: LiveKit.RemoteParticipant.GetTrackByName(System.String)
-  nameWithType: RemoteParticipant.GetTrackByName(String)
-- uid: LiveKit.RemoteParticipant.GetTrackByName*
-  name: GetTrackByName
-  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackByName_
-  commentId: Overload:LiveKit.RemoteParticipant.GetTrackByName
-  isSpec: "True"
-  fullName: LiveKit.RemoteParticipant.GetTrackByName
-  nameWithType: RemoteParticipant.GetTrackByName
-- uid: LiveKit.RemoteParticipant.GetTrackPublication(System.String)
-  name: GetTrackPublication(String)
-  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublication_System_String_
-  commentId: M:LiveKit.RemoteParticipant.GetTrackPublication(System.String)
-  fullName: LiveKit.RemoteParticipant.GetTrackPublication(System.String)
-  nameWithType: RemoteParticipant.GetTrackPublication(String)
+- uid: LiveKit.RemoteParticipant.GetTrackPublication(LiveKit.TrackSource)
+  name: GetTrackPublication(TrackSource)
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublication_LiveKit_TrackSource_
+  commentId: M:LiveKit.RemoteParticipant.GetTrackPublication(LiveKit.TrackSource)
+  fullName: LiveKit.RemoteParticipant.GetTrackPublication(LiveKit.TrackSource)
+  nameWithType: RemoteParticipant.GetTrackPublication(TrackSource)
 - uid: LiveKit.RemoteParticipant.GetTrackPublication*
   name: GetTrackPublication
   href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublication_
@@ -3090,6 +3090,32 @@ references:
   isSpec: "True"
   fullName: LiveKit.RemoteParticipant.GetTrackPublication
   nameWithType: RemoteParticipant.GetTrackPublication
+- uid: LiveKit.RemoteParticipant.GetTrackPublicationByName(System.String)
+  name: GetTrackPublicationByName(String)
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublicationByName_System_String_
+  commentId: M:LiveKit.RemoteParticipant.GetTrackPublicationByName(System.String)
+  fullName: LiveKit.RemoteParticipant.GetTrackPublicationByName(System.String)
+  nameWithType: RemoteParticipant.GetTrackPublicationByName(String)
+- uid: LiveKit.RemoteParticipant.GetTrackPublicationByName*
+  name: GetTrackPublicationByName
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublicationByName_
+  commentId: Overload:LiveKit.RemoteParticipant.GetTrackPublicationByName
+  isSpec: "True"
+  fullName: LiveKit.RemoteParticipant.GetTrackPublicationByName
+  nameWithType: RemoteParticipant.GetTrackPublicationByName
+- uid: LiveKit.RemoteParticipant.GetTrackPublicationBySid(System.String)
+  name: GetTrackPublicationBySid(String)
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublicationBySid_System_String_
+  commentId: M:LiveKit.RemoteParticipant.GetTrackPublicationBySid(System.String)
+  fullName: LiveKit.RemoteParticipant.GetTrackPublicationBySid(System.String)
+  nameWithType: RemoteParticipant.GetTrackPublicationBySid(String)
+- uid: LiveKit.RemoteParticipant.GetTrackPublicationBySid*
+  name: GetTrackPublicationBySid
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetTrackPublicationBySid_
+  commentId: Overload:LiveKit.RemoteParticipant.GetTrackPublicationBySid
+  isSpec: "True"
+  fullName: LiveKit.RemoteParticipant.GetTrackPublicationBySid
+  nameWithType: RemoteParticipant.GetTrackPublicationBySid
 - uid: LiveKit.RemoteParticipant.GetVolume
   name: GetVolume()
   href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_GetVolume
@@ -3103,6 +3129,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.RemoteParticipant.GetVolume
   nameWithType: RemoteParticipant.GetVolume
+- uid: LiveKit.RemoteParticipant.RemotePublications
+  name: RemotePublications
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_RemotePublications
+  commentId: P:LiveKit.RemoteParticipant.RemotePublications
+  fullName: LiveKit.RemoteParticipant.RemotePublications
+  nameWithType: RemoteParticipant.RemotePublications
+- uid: LiveKit.RemoteParticipant.RemotePublications*
+  name: RemotePublications
+  href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_RemotePublications_
+  commentId: Overload:LiveKit.RemoteParticipant.RemotePublications
+  isSpec: "True"
+  fullName: LiveKit.RemoteParticipant.RemotePublications
+  nameWithType: RemoteParticipant.RemotePublications
 - uid: LiveKit.RemoteParticipant.SetVolume(System.Single)
   name: SetVolume(Single)
   href: api/LiveKit.RemoteParticipant.html#LiveKit_RemoteParticipant_SetVolume_System_Single_
@@ -3449,6 +3488,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.Room.GetParticipantByIdentity
   nameWithType: Room.GetParticipantByIdentity
+- uid: LiveKit.Room.GetSid
+  name: GetSid()
+  href: api/LiveKit.Room.html#LiveKit_Room_GetSid
+  commentId: M:LiveKit.Room.GetSid
+  fullName: LiveKit.Room.GetSid()
+  nameWithType: Room.GetSid()
+- uid: LiveKit.Room.GetSid*
+  name: GetSid
+  href: api/LiveKit.Room.html#LiveKit_Room_GetSid_
+  commentId: Overload:LiveKit.Room.GetSid
+  isSpec: "True"
+  fullName: LiveKit.Room.GetSid
+  nameWithType: Room.GetSid
 - uid: LiveKit.Room.IsClosed
   name: IsClosed
   href: api/LiveKit.Room.html#LiveKit_Room_IsClosed
@@ -3585,19 +3637,6 @@ references:
   commentId: T:LiveKit.Room.ParticipantMetadataChangedDelegate
   fullName: LiveKit.Room.ParticipantMetadataChangedDelegate
   nameWithType: Room.ParticipantMetadataChangedDelegate
-- uid: LiveKit.Room.Participants
-  name: Participants
-  href: api/LiveKit.Room.html#LiveKit_Room_Participants
-  commentId: P:LiveKit.Room.Participants
-  fullName: LiveKit.Room.Participants
-  nameWithType: Room.Participants
-- uid: LiveKit.Room.Participants*
-  name: Participants
-  href: api/LiveKit.Room.html#LiveKit_Room_Participants_
-  commentId: Overload:LiveKit.Room.Participants
-  isSpec: "True"
-  fullName: LiveKit.Room.Participants
-  nameWithType: Room.Participants
 - uid: LiveKit.Room.Reconnected
   name: Reconnected
   href: api/LiveKit.Room.html#LiveKit_Room_Reconnected
@@ -3622,6 +3661,19 @@ references:
   commentId: T:LiveKit.Room.ReconnectingDelegate
   fullName: LiveKit.Room.ReconnectingDelegate
   nameWithType: Room.ReconnectingDelegate
+- uid: LiveKit.Room.RemoteParticipants
+  name: RemoteParticipants
+  href: api/LiveKit.Room.html#LiveKit_Room_RemoteParticipants
+  commentId: P:LiveKit.Room.RemoteParticipants
+  fullName: LiveKit.Room.RemoteParticipants
+  nameWithType: Room.RemoteParticipants
+- uid: LiveKit.Room.RemoteParticipants*
+  name: RemoteParticipants
+  href: api/LiveKit.Room.html#LiveKit_Room_RemoteParticipants_
+  commentId: Overload:LiveKit.Room.RemoteParticipants
+  isSpec: "True"
+  fullName: LiveKit.Room.RemoteParticipants
+  nameWithType: Room.RemoteParticipants
 - uid: LiveKit.Room.RoomMetadataChanged
   name: RoomMetadataChanged
   href: api/LiveKit.Room.html#LiveKit_Room_RoomMetadataChanged
@@ -3647,19 +3699,6 @@ references:
   isSpec: "True"
   fullName: LiveKit.Room.RoomOptions
   nameWithType: Room.RoomOptions
-- uid: LiveKit.Room.Sid
-  name: Sid
-  href: api/LiveKit.Room.html#LiveKit_Room_Sid
-  commentId: P:LiveKit.Room.Sid
-  fullName: LiveKit.Room.Sid
-  nameWithType: Room.Sid
-- uid: LiveKit.Room.Sid*
-  name: Sid
-  href: api/LiveKit.Room.html#LiveKit_Room_Sid_
-  commentId: Overload:LiveKit.Room.Sid
-  isSpec: "True"
-  fullName: LiveKit.Room.Sid
-  nameWithType: Room.Sid
 - uid: LiveKit.Room.StartAudio
   name: StartAudio()
   href: api/LiveKit.Room.html#LiveKit_Room_StartAudio
@@ -3686,18 +3725,6 @@ references:
   isSpec: "True"
   fullName: LiveKit.Room.State
   nameWithType: Room.State
-- uid: LiveKit.Room.StateChanged
-  name: StateChanged
-  href: api/LiveKit.Room.html#LiveKit_Room_StateChanged
-  commentId: E:LiveKit.Room.StateChanged
-  fullName: LiveKit.Room.StateChanged
-  nameWithType: Room.StateChanged
-- uid: LiveKit.Room.StateChangedDelegate
-  name: Room.StateChangedDelegate
-  href: api/LiveKit.Room.StateChangedDelegate.html
-  commentId: T:LiveKit.Room.StateChangedDelegate
-  fullName: LiveKit.Room.StateChangedDelegate
-  nameWithType: Room.StateChangedDelegate
 - uid: LiveKit.Room.SwitchActiveDevice(LiveKit.MediaDeviceKind,System.String)
   name: SwitchActiveDevice(MediaDeviceKind, String)
   href: api/LiveKit.Room.html#LiveKit_Room_SwitchActiveDevice_LiveKit_MediaDeviceKind_System_String_
@@ -3831,12 +3858,6 @@ references:
   commentId: F:LiveKit.RoomConnectOptions.AutoSubscribe
   fullName: LiveKit.RoomConnectOptions.AutoSubscribe
   nameWithType: RoomConnectOptions.AutoSubscribe
-- uid: LiveKit.RoomConnectOptions.PublishOnly
-  name: PublishOnly
-  href: api/LiveKit.RoomConnectOptions.html#LiveKit_RoomConnectOptions_PublishOnly
-  commentId: F:LiveKit.RoomConnectOptions.PublishOnly
-  fullName: LiveKit.RoomConnectOptions.PublishOnly
-  nameWithType: RoomConnectOptions.PublishOnly
 - uid: LiveKit.RoomConnectOptions.RTCConfig
   name: RTCConfig
   href: api/LiveKit.RoomConnectOptions.html#LiveKit_RoomConnectOptions_RTCConfig
@@ -4782,18 +4803,18 @@ references:
   commentId: T:LiveKit.TrackPublishDefaults
   fullName: LiveKit.TrackPublishDefaults
   nameWithType: TrackPublishDefaults
-- uid: LiveKit.TrackPublishDefaults.AudioBitrate
-  name: AudioBitrate
-  href: api/LiveKit.TrackPublishDefaults.html#LiveKit_TrackPublishDefaults_AudioBitrate
-  commentId: F:LiveKit.TrackPublishDefaults.AudioBitrate
-  fullName: LiveKit.TrackPublishDefaults.AudioBitrate
-  nameWithType: TrackPublishDefaults.AudioBitrate
 - uid: LiveKit.TrackPublishDefaults.DTX
   name: DTX
   href: api/LiveKit.TrackPublishDefaults.html#LiveKit_TrackPublishDefaults_DTX
   commentId: F:LiveKit.TrackPublishDefaults.DTX
   fullName: LiveKit.TrackPublishDefaults.DTX
   nameWithType: TrackPublishDefaults.DTX
+- uid: LiveKit.TrackPublishDefaults.MaxBitrate
+  name: MaxBitrate
+  href: api/LiveKit.TrackPublishDefaults.html#LiveKit_TrackPublishDefaults_MaxBitrate
+  commentId: F:LiveKit.TrackPublishDefaults.MaxBitrate
+  fullName: LiveKit.TrackPublishDefaults.MaxBitrate
+  nameWithType: TrackPublishDefaults.MaxBitrate
 - uid: LiveKit.TrackPublishDefaults.ScreenShareEncoding
   name: ScreenShareEncoding
   href: api/LiveKit.TrackPublishDefaults.html#LiveKit_TrackPublishDefaults_ScreenShareEncoding
@@ -4842,12 +4863,6 @@ references:
   commentId: T:LiveKit.TrackPublishOptions
   fullName: LiveKit.TrackPublishOptions
   nameWithType: TrackPublishOptions
-- uid: LiveKit.TrackPublishOptions.AudioBitrate
-  name: AudioBitrate
-  href: api/LiveKit.TrackPublishOptions.html#LiveKit_TrackPublishOptions_AudioBitrate
-  commentId: F:LiveKit.TrackPublishOptions.AudioBitrate
-  fullName: LiveKit.TrackPublishOptions.AudioBitrate
-  nameWithType: TrackPublishOptions.AudioBitrate
 - uid: LiveKit.TrackPublishOptions.DTX
   name: DTX
   href: api/LiveKit.TrackPublishOptions.html#LiveKit_TrackPublishOptions_DTX
@@ -5274,12 +5289,6 @@ references:
   commentId: F:LiveKit.VideoQuality.MEDIUM
   fullName: LiveKit.VideoQuality.MEDIUM
   nameWithType: VideoQuality.MEDIUM
-- uid: LiveKit.VideoQuality.OFF
-  name: OFF
-  href: api/LiveKit.VideoQuality.html#LiveKit_VideoQuality_OFF
-  commentId: F:LiveKit.VideoQuality.OFF
-  fullName: LiveKit.VideoQuality.OFF
-  nameWithType: VideoQuality.OFF
 - uid: LiveKit.VideoQuality.UNRECOGNIZED
   name: UNRECOGNIZED
   href: api/LiveKit.VideoQuality.html#LiveKit_VideoQuality_UNRECOGNIZED

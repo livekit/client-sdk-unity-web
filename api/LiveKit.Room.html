@@ -310,13 +310,13 @@
   </table>
   
   
-  <a id="LiveKit_Room_Participants_" data-uid="LiveKit.Room.Participants*"></a>
-  <h4 id="LiveKit_Room_Participants" data-uid="LiveKit.Room.Participants">Participants</h4>
+  <a id="LiveKit_Room_RemoteParticipants_" data-uid="LiveKit.Room.RemoteParticipants*"></a>
+  <h4 id="LiveKit_Room_RemoteParticipants" data-uid="LiveKit.Room.RemoteParticipants">RemoteParticipants</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSMap&lt;string, RemoteParticipant&gt; Participants { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public JSMap&lt;string, RemoteParticipant&gt; RemoteParticipants { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -354,31 +354,6 @@
     <tbody>
       <tr>
         <td><a class="xref" href="LiveKit.RoomOptions.html">RoomOptions</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <a id="LiveKit_Room_Sid_" data-uid="LiveKit.Room.Sid*"></a>
-  <h4 id="LiveKit_Room_Sid" data-uid="LiveKit.Room.Sid">Sid</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string Sid { get; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -613,6 +588,31 @@
     <tbody>
       <tr>
         <td><a class="xref" href="LiveKit.Participant.html">Participant</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="LiveKit_Room_GetSid_" data-uid="LiveKit.Room.GetSid*"></a>
+  <h4 id="LiveKit_Room_GetSid" data-uid="LiveKit.Room.GetSid">GetSid()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public JSPromise&lt;JSObject&gt; GetSid()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LiveKit.JSPromise-1.html">JSPromise</a>&lt;<a class="xref" href="LiveKit.JSObject.html">JSObject</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -1047,30 +1047,6 @@
     <tbody>
       <tr>
         <td><a class="xref" href="LiveKit.Room.RoomMetadataChangedDelegate.html">Room.RoomMetadataChangedDelegate</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  
-  <h4 id="LiveKit_Room_StateChanged" data-uid="LiveKit.Room.StateChanged">StateChanged</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public event Room.StateChangedDelegate StateChanged</code></pre>
-  </div>
-  <h5 class="eventType">Event Type</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="LiveKit.Room.StateChangedDelegate.html">Room.StateChangedDelegate</a></td>
         <td></td>
       </tr>
     </tbody>

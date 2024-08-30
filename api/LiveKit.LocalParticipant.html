@@ -142,13 +142,13 @@
       <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_TrackSubscriptionPermissionChanged">Participant.TrackSubscriptionPermissionChanged</a>
     </div>
     <div>
-      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_AudioTracks">Participant.AudioTracks</a>
+      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_AudioTrackPublications">Participant.AudioTrackPublications</a>
     </div>
     <div>
-      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_VideoTracks">Participant.VideoTracks</a>
+      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_VideoTrackPublications">Participant.VideoTrackPublications</a>
     </div>
     <div>
-      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_Tracks">Participant.Tracks</a>
+      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_TrackPublications">Participant.TrackPublications</a>
     </div>
     <div>
       <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_AudioLevel">Participant.AudioLevel</a>
@@ -181,7 +181,7 @@
       <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_IsScreenShareEnabled">Participant.IsScreenShareEnabled</a>
     </div>
     <div>
-      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_GetTracks">Participant.GetTracks()</a>
+      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_GetTrackPublications">Participant.GetTrackPublications()</a>
     </div>
     <div>
       <a class="xref" href="LiveKit.JSEventEmitter-1.html#LiveKit_JSEventEmitter_1_Dispose_System_Boolean_">JSEventEmitter&lt;ParticipantEvent&gt;.Dispose(Boolean)</a>
@@ -327,13 +327,13 @@
   </table>
   
   
-  <a id="LiveKit_LocalParticipant_GetTrack_" data-uid="LiveKit.LocalParticipant.GetTrack*"></a>
-  <h4 id="LiveKit_LocalParticipant_GetTrack_LiveKit_TrackSource_" data-uid="LiveKit.LocalParticipant.GetTrack(LiveKit.TrackSource)">GetTrack(TrackSource)</h4>
+  <a id="LiveKit_LocalParticipant_GetTrackPublication_" data-uid="LiveKit.LocalParticipant.GetTrackPublication*"></a>
+  <h4 id="LiveKit_LocalParticipant_GetTrackPublication_LiveKit_TrackSource_" data-uid="LiveKit.LocalParticipant.GetTrackPublication(LiveKit.TrackSource)">GetTrackPublication(TrackSource)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public LocalTrackPublication GetTrack(TrackSource source)</code></pre>
+    <pre><code class="lang-csharp hljs">public LocalTrackPublication GetTrackPublication(TrackSource source)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -369,13 +369,13 @@
   </table>
   
   
-  <a id="LiveKit_LocalParticipant_GetTrackByName_" data-uid="LiveKit.LocalParticipant.GetTrackByName*"></a>
-  <h4 id="LiveKit_LocalParticipant_GetTrackByName_System_String_" data-uid="LiveKit.LocalParticipant.GetTrackByName(System.String)">GetTrackByName(String)</h4>
+  <a id="LiveKit_LocalParticipant_GetTrackPublicationByName_" data-uid="LiveKit.LocalParticipant.GetTrackPublicationByName*"></a>
+  <h4 id="LiveKit_LocalParticipant_GetTrackPublicationByName_System_String_" data-uid="LiveKit.LocalParticipant.GetTrackPublicationByName(System.String)">GetTrackPublicationByName(String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public LocalTrackPublication GetTrackByName(string name)</code></pre>
+    <pre><code class="lang-csharp hljs">public LocalTrackPublication GetTrackPublicationByName(string name)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -390,6 +390,48 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LiveKit.LocalTrackPublication.html">LocalTrackPublication</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="LiveKit_LocalParticipant_GetTrackPublicationBySid_" data-uid="LiveKit.LocalParticipant.GetTrackPublicationBySid*"></a>
+  <h4 id="LiveKit_LocalParticipant_GetTrackPublicationBySid_System_String_" data-uid="LiveKit.LocalParticipant.GetTrackPublicationBySid(System.String)">GetTrackPublicationBySid(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public LocalTrackPublication GetTrackPublicationBySid(string sid)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sid</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -462,12 +504,12 @@
   
   
   <a id="LiveKit_LocalParticipant_PublishData_" data-uid="LiveKit.LocalParticipant.PublishData*"></a>
-  <h4 id="LiveKit_LocalParticipant_PublishData_System_Byte___LiveKit_DataPacketKind_LiveKit_RemoteParticipant___" data-uid="LiveKit.LocalParticipant.PublishData(System.Byte[],LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])">PublishData(Byte[], DataPacketKind, RemoteParticipant[])</h4>
+  <h4 id="LiveKit_LocalParticipant_PublishData_System_Byte___System_Boolean_System_String___System_String_" data-uid="LiveKit.LocalParticipant.PublishData(System.Byte[],System.Boolean,System.String[],System.String)">PublishData(Byte[], Boolean, String[], String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSPromise PublishData(byte[] data, DataPacketKind kind, params RemoteParticipant[] participants)</code></pre>
+    <pre><code class="lang-csharp hljs">public JSPromise PublishData(byte[] data, bool reliable, string[] destinationIdentities, string topic)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -485,13 +527,18 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="LiveKit.DataPacketKind.html">DataPacketKind</a></td>
-        <td><span class="parametername">kind</span></td>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">reliable</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="LiveKit.RemoteParticipant.html">RemoteParticipant</a>[]</td>
-        <td><span class="parametername">participants</span></td>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">destinationIdentities</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">topic</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -514,12 +561,12 @@
   
   
   <a id="LiveKit_LocalParticipant_PublishData_" data-uid="LiveKit.LocalParticipant.PublishData*"></a>
-  <h4 id="LiveKit_LocalParticipant_PublishData_System_Byte___System_Int32_System_Int32_LiveKit_DataPacketKind_LiveKit_RemoteParticipant___" data-uid="LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,LiveKit.DataPacketKind,LiveKit.RemoteParticipant[])">PublishData(Byte[], Int32, Int32, DataPacketKind, RemoteParticipant[])</h4>
+  <h4 id="LiveKit_LocalParticipant_PublishData_System_Byte___System_Int32_System_Int32_System_Boolean_System_String___System_String_" data-uid="LiveKit.LocalParticipant.PublishData(System.Byte[],System.Int32,System.Int32,System.Boolean,System.String[],System.String)">PublishData(Byte[], Int32, Int32, Boolean, String[], String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSPromise PublishData(byte[] data, int offset, int size, DataPacketKind kind, params RemoteParticipant[] participants)</code></pre>
+    <pre><code class="lang-csharp hljs">public JSPromise PublishData(byte[] data, int offset, int size, bool reliable, string[] destinationIdentities, string topic)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -547,13 +594,18 @@
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="LiveKit.DataPacketKind.html">DataPacketKind</a></td>
-        <td><span class="parametername">kind</span></td>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">reliable</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><a class="xref" href="LiveKit.RemoteParticipant.html">RemoteParticipant</a>[]</td>
-        <td><span class="parametername">participants</span></td>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">destinationIdentities</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">topic</span></td>
         <td></td>
       </tr>
     </tbody>
