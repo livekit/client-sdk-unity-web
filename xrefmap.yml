@@ -2082,6 +2082,22 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.PublishTrack
   nameWithType: LocalParticipant.PublishTrack
+- uid: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap{System.String,System.String})
+  name: SetAttributes(JSMap<String, String>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetAttributes_LiveKit_JSMap_System_String_System_String__
+  commentId: M:LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap{System.String,System.String})
+  name.vb: SetAttributes(JSMap(Of String, String))
+  fullName: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap<System.String, System.String>)
+  fullName.vb: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap(Of System.String, System.String))
+  nameWithType: LocalParticipant.SetAttributes(JSMap<String, String>)
+  nameWithType.vb: LocalParticipant.SetAttributes(JSMap(Of String, String))
+- uid: LiveKit.LocalParticipant.SetAttributes*
+  name: SetAttributes
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetAttributes_
+  commentId: Overload:LiveKit.LocalParticipant.SetAttributes
+  isSpec: "True"
+  fullName: LiveKit.LocalParticipant.SetAttributes
+  nameWithType: LocalParticipant.SetAttributes
 - uid: LiveKit.LocalParticipant.SetCameraEnabled(System.Boolean,System.Nullable{LiveKit.VideoCaptureOptions},System.Nullable{LiveKit.TrackPublishOptions})
   name: SetCameraEnabled(Boolean, Nullable<VideoCaptureOptions>, Nullable<TrackPublishOptions>)
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetCameraEnabled_System_Boolean_System_Nullable_LiveKit_VideoCaptureOptions__System_Nullable_LiveKit_TrackPublishOptions__
@@ -2098,6 +2114,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.SetCameraEnabled
   nameWithType: LocalParticipant.SetCameraEnabled
+- uid: LiveKit.LocalParticipant.SetMetadata(System.String)
+  name: SetMetadata(String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMetadata_System_String_
+  commentId: M:LiveKit.LocalParticipant.SetMetadata(System.String)
+  fullName: LiveKit.LocalParticipant.SetMetadata(System.String)
+  nameWithType: LocalParticipant.SetMetadata(String)
+- uid: LiveKit.LocalParticipant.SetMetadata*
+  name: SetMetadata
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMetadata_
+  commentId: Overload:LiveKit.LocalParticipant.SetMetadata
+  isSpec: "True"
+  fullName: LiveKit.LocalParticipant.SetMetadata
+  nameWithType: LocalParticipant.SetMetadata
 - uid: LiveKit.LocalParticipant.SetMicrophoneEnabled(System.Boolean,System.Nullable{LiveKit.AudioCaptureOptions},System.Nullable{LiveKit.TrackPublishOptions})
   name: SetMicrophoneEnabled(Boolean, Nullable<AudioCaptureOptions>, Nullable<TrackPublishOptions>)
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetMicrophoneEnabled_System_Boolean_System_Nullable_LiveKit_AudioCaptureOptions__System_Nullable_LiveKit_TrackPublishOptions__
@@ -2114,6 +2143,19 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.SetMicrophoneEnabled
   nameWithType: LocalParticipant.SetMicrophoneEnabled
+- uid: LiveKit.LocalParticipant.SetName(System.String)
+  name: SetName(String)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetName_System_String_
+  commentId: M:LiveKit.LocalParticipant.SetName(System.String)
+  fullName: LiveKit.LocalParticipant.SetName(System.String)
+  nameWithType: LocalParticipant.SetName(String)
+- uid: LiveKit.LocalParticipant.SetName*
+  name: SetName
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetName_
+  commentId: Overload:LiveKit.LocalParticipant.SetName
+  isSpec: "True"
+  fullName: LiveKit.LocalParticipant.SetName
+  nameWithType: LocalParticipant.SetName
 - uid: LiveKit.LocalParticipant.SetScreenShareEnabled(System.Boolean,System.Nullable{LiveKit.ScreenShareCaptureOptions},System.Nullable{LiveKit.TrackPublishOptions})
   name: SetScreenShareEnabled(Boolean, Nullable<ScreenShareCaptureOptions>, Nullable<TrackPublishOptions>)
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetScreenShareEnabled_System_Boolean_System_Nullable_LiveKit_ScreenShareCaptureOptions__System_Nullable_LiveKit_TrackPublishOptions__
@@ -2512,6 +2554,19 @@ references:
   commentId: T:LiveKit.Participant
   fullName: LiveKit.Participant
   nameWithType: Participant
+- uid: LiveKit.Participant.attributes
+  name: attributes
+  href: api/LiveKit.Participant.html#LiveKit_Participant_attributes
+  commentId: P:LiveKit.Participant.attributes
+  fullName: LiveKit.Participant.attributes
+  nameWithType: Participant.attributes
+- uid: LiveKit.Participant.attributes*
+  name: attributes
+  href: api/LiveKit.Participant.html#LiveKit_Participant_attributes_
+  commentId: Overload:LiveKit.Participant.attributes
+  isSpec: "True"
+  fullName: LiveKit.Participant.attributes
+  nameWithType: Participant.attributes
 - uid: LiveKit.Participant.AudioLevel
   name: AudioLevel
   href: api/LiveKit.Participant.html#LiveKit_Participant_AudioLevel
@@ -3350,6 +3405,18 @@ references:
   commentId: T:LiveKit.Room.ActiveSpeakersChangedDelegate
   fullName: LiveKit.Room.ActiveSpeakersChangedDelegate
   nameWithType: Room.ActiveSpeakersChangedDelegate
+- uid: LiveKit.Room.AttributesChanged
+  name: AttributesChanged
+  href: api/LiveKit.Room.html#LiveKit_Room_AttributesChanged
+  commentId: E:LiveKit.Room.AttributesChanged
+  fullName: LiveKit.Room.AttributesChanged
+  nameWithType: Room.AttributesChanged
+- uid: LiveKit.Room.AttributesChangedDelegate
+  name: Room.AttributesChangedDelegate
+  href: api/LiveKit.Room.AttributesChangedDelegate.html
+  commentId: T:LiveKit.Room.AttributesChangedDelegate
+  fullName: LiveKit.Room.AttributesChangedDelegate
+  nameWithType: Room.AttributesChangedDelegate
 - uid: LiveKit.Room.AudioPlaybackChanged
   name: AudioPlaybackChanged
   href: api/LiveKit.Room.html#LiveKit_Room_AudioPlaybackChanged
@@ -3924,6 +3991,12 @@ references:
   commentId: F:LiveKit.RoomEvent.MediaDevicesError
   fullName: LiveKit.RoomEvent.MediaDevicesError
   nameWithType: RoomEvent.MediaDevicesError
+- uid: LiveKit.RoomEvent.ParticipantAttributesChanged
+  name: ParticipantAttributesChanged
+  href: api/LiveKit.RoomEvent.html#LiveKit_RoomEvent_ParticipantAttributesChanged
+  commentId: F:LiveKit.RoomEvent.ParticipantAttributesChanged
+  fullName: LiveKit.RoomEvent.ParticipantAttributesChanged
+  nameWithType: RoomEvent.ParticipantAttributesChanged
 - uid: LiveKit.RoomEvent.ParticipantConnected
   name: ParticipantConnected
   href: api/LiveKit.RoomEvent.html#LiveKit_RoomEvent_ParticipantConnected

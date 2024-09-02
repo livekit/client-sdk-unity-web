@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum RoomEvent
+    <title>Delegate Room.AttributesChangedDelegate
    | LiveKit Unity SDK </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum RoomEvent
+    <meta name="title" content="Delegate Room.AttributesChangedDelegate
    | LiveKit Unity SDK ">
     <meta name="generator" content="docfx 2.59.4.0">
     
@@ -78,135 +78,41 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="LiveKit.RoomEvent">
+            <article class="content wrap" id="_content" data-uid="LiveKit.Room.AttributesChangedDelegate">
   
   
-  <h1 id="LiveKit_RoomEvent" data-uid="LiveKit.RoomEvent" class="text-break">Enum RoomEvent
+  <h1 id="LiveKit_Room_AttributesChangedDelegate" data-uid="LiveKit.Room.AttributesChangedDelegate" class="text-break">Delegate Room.AttributesChangedDelegate
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="LiveKit.html">LiveKit</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="LiveKit_RoomEvent_syntax">Syntax</h5>
+  <h5 id="LiveKit_Room_AttributesChangedDelegate_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum RoomEvent</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate void AttributesChangedDelegate(Participant participant, JSMap&lt;string, string&gt; changedAttributes);</code></pre>
   </div>
-  <h3 id="fields">Fields
-  </h3>
+  <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
+        <th>Type</th>
         <th>Name</th>
         <th>Description</th>
       </tr>
-    <thead>
+    </thead>
     <tbody>
       <tr>
-        <td id="LiveKit_RoomEvent_ActiveSpeakersChanged">ActiveSpeakersChanged</td>
+        <td><a class="xref" href="LiveKit.Participant.html">Participant</a></td>
+        <td><span class="parametername">participant</span></td>
         <td></td>
       </tr>
       <tr>
-        <td id="LiveKit_RoomEvent_AudioPlaybackStatusChanged">AudioPlaybackStatusChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_ConnectionQualityChanged">ConnectionQualityChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_DataReceived">DataReceived</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_Disconnected">Disconnected</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_LocalTrackPublished">LocalTrackPublished</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_LocalTrackUnpublished">LocalTrackUnpublished</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_MediaDevicesChanged">MediaDevicesChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_MediaDevicesError">MediaDevicesError</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_ParticipantAttributesChanged">ParticipantAttributesChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_ParticipantConnected">ParticipantConnected</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_ParticipantDisconnected">ParticipantDisconnected</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_ParticipantMetadataChanged">ParticipantMetadataChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_Reconnected">Reconnected</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_Reconnecting">Reconnecting</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_RoomMetadataChanged">RoomMetadataChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_StateChanged">StateChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackMuted">TrackMuted</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackPublished">TrackPublished</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackStreamStateChanged">TrackStreamStateChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackSubscribed">TrackSubscribed</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackSubscriptionFailed">TrackSubscriptionFailed</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackSubscriptionPermissionChanged">TrackSubscriptionPermissionChanged</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackUnmuted">TrackUnmuted</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackUnpublished">TrackUnpublished</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="LiveKit_RoomEvent_TrackUnsubscribed">TrackUnsubscribed</td>
+        <td><a class="xref" href="LiveKit.JSMap-2.html">JSMap</a>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">changedAttributes</span></td>
         <td></td>
       </tr>
     </tbody>
-  </thead></thead></table>
+  </table>
 </article>
           </div>
           

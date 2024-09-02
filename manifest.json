@@ -561,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.LocalParticipant.html",
-          "hash": "pm0wjtL/MLKrV9TvnLkZbBW024zX9xXh7/rm9TXi95A="
+          "hash": "WauzWVobNFZpii34XiK3q4EV2LygQgLpVZIx6vU5t4c="
         }
       },
       "is_incremental": false,
@@ -849,7 +849,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Participant.html",
-          "hash": "muKgEN5BIwDMxIt7nGJFebqdT6Y0mIKkozl4JroSECA="
+          "hash": "rwrZRuBBHmM2P3dTjKMTMolpMgxZ+f0/2Gq42jHePZs="
         }
       },
       "is_incremental": false,
@@ -981,7 +981,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.RemoteParticipant.html",
-          "hash": "cppJJcRcbq4Wm8XzsNR2AUcLeUaXtyB5KUvdIwipGJM="
+          "hash": "EGGD9fMwLI7Yol0ornR1Sn2FE6aS1ItR/CORJii0kno="
         }
       },
       "is_incremental": false,
@@ -1030,6 +1030,18 @@
         ".html": {
           "relative_path": "api/LiveKit.Room.ActiveSpeakersChangedDelegate.html",
           "hash": "3jSCDATt/fpBC0UTNdgBRW5C9SL7U3iLaMQ9Yi5v0NY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.Room.AttributesChangedDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.Room.AttributesChangedDelegate.html",
+          "hash": "A+SNW6NnZ1RVj3uwuqr9bSh2toBb2lSK0+YKatPAKvs="
         }
       },
       "is_incremental": false,
@@ -1317,7 +1329,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.html",
-          "hash": "ot4PDDqPe5pzvuVZsuxoAWwweyHH8MLgHI7txwgYxcM="
+          "hash": "FJm4bEhoMQgMoaqOVNEcmAytVM4WFCevQg2QVIhwG/A="
         }
       },
       "is_incremental": false,
@@ -1341,7 +1353,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.RoomEvent.html",
-          "hash": "NdihvTt74N1L2s3iECjntkZmODFwEGBPhNDBuQwcc8Q="
+          "hash": "Rwdqtk8qWxXDnPSiiDpfJhcIl3rzZf7bvvVm8HJ6nlk="
         }
       },
       "is_incremental": false,
@@ -1665,7 +1677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "DMDCtIbrLZJTPQug7VVWpiY0aSHEpyzUi6RPW3u69bI="
+          "hash": "VtJzf9mlx3WQuLAUgXPUobMigdcNd5rvO3sr5u1HBD4="
         }
       },
       "is_incremental": false,
@@ -1689,7 +1701,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "moWk38zKCLlKqOxMVX0XDoSAYUCNHTF1ppjjY4y//v0="
+          "hash": "b50opTdY6v+rpsHAQCSN457R/o2nut8xOxmw4uuFREI="
         }
       },
       "is_incremental": false,
@@ -1740,7 +1752,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 138,
+          "total_file_count": 139,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
