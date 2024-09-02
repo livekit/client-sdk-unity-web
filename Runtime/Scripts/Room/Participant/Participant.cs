@@ -153,6 +153,15 @@ namespace LiveKit
             }
         }
 
+        public JSMap<string,string> attributes
+        {
+           get
+           {
+                JSNative.PushString("attributes");
+                return Acquire<JSMap<string,string>>(JSNative.GetProperty(NativeHandle));
+           }
+        }
+
         public DateTime? LastSpokeAt
         {
             get

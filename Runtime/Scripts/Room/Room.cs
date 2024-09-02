@@ -46,6 +46,7 @@ namespace LiveKit
         public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publication, TrackStreamState streamState, RemoteParticipant participant);
         public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status, RemoteParticipant participant);
         public delegate void AudioPlaybackChangedDelegate(bool playing);
+        public delegate void AttributesChangedDelegate(Participant participant, JSMap<string, string> changedAttributes);
 
         public event ReconnectingDelegate Reconnecting;
         public event ReconnectedDelegate Reconnected;
@@ -71,6 +72,7 @@ namespace LiveKit
         public event TrackStreamStateChangedDelegate TrackStreamStateChanged;
         public event TrackSubscriptionPermissionChangedDelegate TrackSubscriptionPermissionChanged;
         public event AudioPlaybackChangedDelegate AudioPlaybackChanged;
+        public event AttributesChangedDelegate AttributesChanged;
 
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
@@ -283,6 +285,14 @@ namespace LiveKit
                             var status = JSNative.GetBoolean(JSNative.ShiftStack());
                             Log.Debug($"Room: Received AudioPlaybackChanged({status})");
                             room.AudioPlaybackChanged?.Invoke(status);
+                            break;
+                        }
+                    case RoomEvent.ParticipantAttributesChanged:
+                        {
+                            var changedAttributes = Acquire<JSMap<string, string>>(JSNative.ShiftStack());
+                            var participant = Acquire<Participant>(JSNative.ShiftStack());
+                            Log.Debug($"Room: Received AttributesChanged({participant.Sid}, {changedAttributes})");
+                            room.AttributesChanged?.Invoke(participant, changedAttributes);
                             break;
                         }
                 }
