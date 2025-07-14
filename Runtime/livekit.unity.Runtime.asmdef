@@ -10,8 +10,10 @@
     "allowUnsafeCode": true,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "LIVEKIT_CALL_WEB"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
