@@ -39,7 +39,7 @@ namespace LiveKit
         internal static readonly HashSet<object> AliveCache = new HashSet<object>(); // Used to hold a reference and release it manually
 
         internal readonly JSHandle NativeHandle; // Own the handle
-
+        public JSHandle Handle => NativeHandle;
         internal static T Acquire<T>(JSHandle handle) where T : JSRef
         {
             if (handle.IsClosed || handle.IsInvalid)

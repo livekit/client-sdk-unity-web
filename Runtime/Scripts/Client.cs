@@ -42,5 +42,21 @@ namespace LiveKit
 
             return JSRef.Acquire<JSPromise<JSArray<LocalTrack>>>(JSNative.CallMethod(JSNative.LiveKit, "createLocalScreenTracks"));
         }
+
+        // Wrapper per la funzione JS exportata: createAudioAnalyser(track, options)
+        public static AudioAnalyser CreateAudioAnalyser(Track track, AudioAnalyserOptions? options = null)
+        {
+            if (track == null)
+                throw new ArgumentNullException(nameof(track));
+
+            // ordine degli argomenti: (track, options)
+            JSNative.PushObject(track.NativeHandle);
+            if (options.HasValue)
+            {
+                JSNative.PushStruct(JsonConvert.SerializeObject(options.Value, JSNative.JsonSettings));
+            }
+
+            return JSRef.Acquire<AudioAnalyser>(JSNative.CallMethod(JSNative.LiveKit, "createAudioAnalyser"));
+        }
     }
 }
