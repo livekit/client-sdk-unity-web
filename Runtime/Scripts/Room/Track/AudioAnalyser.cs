@@ -5,7 +5,7 @@ namespace LiveKit
 {       
     public interface IAudioAnalyser
     {
-        float CalculateVolume();
+        float CalculateAvgAmplitude();
         void Cleanup();
     }
     public sealed class AudioAnalyser : JSObject, IAudioAnalyser
@@ -14,7 +14,7 @@ namespace LiveKit
         internal AudioAnalyser(JSHandle handle) : base(handle)
         {
         }
-        public float CalculateVolume()
+        public float CalculateAvgAmplitude()
         {
             var ret = JSNative.CallMethod(NativeHandle, "calculateVolume");
             return (float)JSNative.GetNumber(ret);
