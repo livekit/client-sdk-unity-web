@@ -5,7 +5,6 @@ namespace LiveKit
 {
     public class JSHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        public IntPtr Ptr => handle;
         private JSHandle() : base(true)
         {
 

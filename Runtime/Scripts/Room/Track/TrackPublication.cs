@@ -6,41 +6,7 @@ using UnityEngine.Scripting;
 
 
 namespace LiveKit
-{
-    // Opzioni passate a createAudioAnalyser di livekit-client.js
-    public struct AudioAnalyserOptions
-    {
-        [JsonProperty("cloneTrack")]
-        public bool? CloneTrack { get; set; }
-
-        [JsonProperty("fftSize")]
-        public int? FftSize { get; set; }
-
-        [JsonProperty("smoothingTimeConstant")]
-        public float? SmoothingTimeConstant { get; set; }
-    }
-
-    // Wrapper dell’oggetto JS restituito da createAudioAnalyser
-    public sealed class AudioAnalyser : JSObject
-    {
-        [Preserve]
-        internal AudioAnalyser(JSHandle handle) : base(handle)
-        {
-        }
-
-        // Ritorna l’ampiezza media RMS normalizzata [0..1]
-        public float CalculateVolume()
-        {
-            var ret = JSNative.CallMethod(NativeHandle, "calculateVolume");
-            return (float)JSNative.GetNumber(ret);
-        }
-
-        // Rilascia risorse lato JS (disconnette nodi WebAudio)
-        public void Cleanup()
-        {
-            JSNative.CallMethod(NativeHandle, "cleanup");
-        }
-    }
+{    
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SubscriptionStatus
     {
