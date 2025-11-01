@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace LiveKit
