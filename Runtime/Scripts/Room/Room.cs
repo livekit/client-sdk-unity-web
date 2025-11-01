@@ -239,7 +239,7 @@ namespace LiveKit
 
                             var topicPtr = JSNative.ShiftStack();
                             string topic = null;
-                            if (JSNative.IsString(topicPtr) && !JSNative.IsUndefined(topicPtr))
+                            if (!JSNative.IsUndefined(topicPtr) && JSNative.IsString(topicPtr))
                                 topic = JSNative.GetString(topicPtr);
 
                             Log.Debug($"Room: Received DataReceived({data}, {participant?.Sid}, {kind} {topic})");
