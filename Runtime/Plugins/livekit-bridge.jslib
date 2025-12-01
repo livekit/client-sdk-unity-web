@@ -11,10 +11,22 @@ var NativeLib = {
         NullPtr: 0,
 
         DynCall: function (sig, fnc, args) {
-            if (typeof Runtime !== 'undefined') {
-                Runtime.dynCall(sig, fnc, args); // Old Unity version
-            } else {
-                dynCall(sig, fnc, args);
+            if (typeof Runtime !== 'undefined' && typeof Runtime.dynCall === 'function') {
+                return Runtime.dynCall(sig, fnc, args);
+            }
+
+            if (sig === 'vi') {
+                return ({{{ makeDynCall('vi', 'fnc') }}}).apply(null, args);
+            }
+
+            var legacy = (typeof Module !== 'undefined') ? Module['dynCall_' + sig] : undefined;
+            if (typeof legacy === 'function') {
+                return legacy.apply(null, [fnc].concat(args));
+            }
+
+            var table = (typeof Module !== 'undefined' && Module['wasmTable']) ? Module['wasmTable'] : (typeof wasmTable !== 'undefined' ? wasmTable : undefined);
+            if (table && typeof table.get === 'function') {
+                return table.get(fnc).apply(null, args);
             }
         },
 
