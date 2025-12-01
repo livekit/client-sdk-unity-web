@@ -40,7 +40,7 @@ namespace LiveKit
         public delegate void ParticipantMetadataChangedDelegate(string metadata, Participant participant);
         public delegate void ActiveSpeakersChangedDelegate(JSArray<Participant> speakers);
         public delegate void RoomMetadataChangedDelegate(string metadata);
-        public delegate void DataReceivedDelegate(byte[] data, RemoteParticipant participant, DataPacketKind? kind);
+        public delegate void DataReceivedDelegate(byte[] data, RemoteParticipant participant, DataPacketKind? kind, string topic);
         public delegate void ConnectionQualityChangedDelegate(ConnectionQuality quality, Participant participant);
         public delegate void MediaDevicesErrorDelegate(JSError error);
         public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publication, TrackStreamState streamState, RemoteParticipant participant);
@@ -237,8 +237,13 @@ namespace LiveKit
                             if (JSNative.IsNumber(kindPtr))
                                 kind = (DataPacketKind?) JSNative.GetNumber(kindPtr);
 
-                            Log.Debug($"Room: Received DataReceived({data}, {participant?.Sid}, {kind})");
-                            room.DataReceived?.Invoke(data.ToArray(), participant, kind);
+                            var topicPtr = JSNative.ShiftStack();
+                            string topic = null;
+                            if (!JSNative.IsUndefined(topicPtr) && JSNative.IsString(topicPtr))
+                                topic = JSNative.GetString(topicPtr);
+
+                            Log.Debug($"Room: Received DataReceived({data}, {participant?.Sid}, {kind} {topic})");
+                            room.DataReceived?.Invoke(data.ToArray(), participant, kind, topic);
                             break;
                         }
                     case RoomEvent.ConnectionQualityChanged:
