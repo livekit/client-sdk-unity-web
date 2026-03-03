@@ -204,6 +204,17 @@ namespace LiveKit
         [JsonProperty("sampleSize")]
         public ConstrainULong? SampleSize;
     }
+    public struct AudioAnalyserOptions
+    {
+        [JsonProperty("cloneTrack")]
+        public bool? CloneTrack { get; set; }
+
+        [JsonProperty("fftSize")]
+        public int? FftSize { get; set; }
+
+        [JsonProperty("smoothingTimeConstant")]
+        public float? SmoothingTimeConstant { get; set; }
+    }
 
     public struct VideoResolution
     {
