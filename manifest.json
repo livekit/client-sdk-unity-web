@@ -17,6 +17,30 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.AudioAnalyser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.AudioAnalyser.html",
+          "hash": "AHuorKPB9SonkP9JX5X+TgWPxPLHZ6wnc4TKTV4k6LQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.AudioAnalyserOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.AudioAnalyserOptions.html",
+          "hash": "ohZ6TsBX1fkeTyRmdSbCpzAJOH0CE9YiThApZlDHSL0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.AudioCaptureOptions.yml",
       "output": {
         ".html": {
@@ -57,7 +81,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Client.html",
-          "hash": "ssADKT7k0TeqRESRri9l8hU3XCvgnyPfJt69Evl4D1s="
+          "hash": "n8jhH/z8BAXe4rTF01T24rNKuYPUd+taVg5y0Gdc09o="
         }
       },
       "is_incremental": false,
@@ -305,6 +329,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.IAudioAnalyser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.IAudioAnalyser.html",
+          "hash": "VbLvYagwHRDYrnfxk+r4PNFJrG6dxeo9GrqClzxOzDg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.IAudioTrack.yml",
       "output": {
         ".html": {
@@ -477,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.JSObject.html",
-          "hash": "qw5N/XsNJ04NbW3SPcyudtW6qjwubEMYXpUYvnJPRY8="
+          "hash": "Tlm1PXNCrZ+Qx6xp2v/HdSdhWvSLofkTyCKB8MxkwCo="
         }
       },
       "is_incremental": false,
@@ -1677,7 +1713,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "VtJzf9mlx3WQuLAUgXPUobMigdcNd5rvO3sr5u1HBD4="
+          "hash": "/fJjJW6XXu2qOdvCe4BuNK7BANrZzSIhGmo9atZpc1A="
         }
       },
       "is_incremental": false,
@@ -1701,7 +1737,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "b50opTdY6v+rpsHAQCSN457R/o2nut8xOxmw4uuFREI="
+          "hash": "AkxDkULLWsoy0FqLiR3++QBlBkmRPOsiqBNyRtV+Ldo="
         }
       },
       "is_incremental": false,
@@ -1752,7 +1788,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 139,
+          "total_file_count": 142,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

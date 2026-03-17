@@ -7,6 +7,83 @@ references:
   commentId: N:LiveKit
   fullName: LiveKit
   nameWithType: LiveKit
+- uid: LiveKit.AudioAnalyser
+  name: AudioAnalyser
+  href: api/LiveKit.AudioAnalyser.html
+  commentId: T:LiveKit.AudioAnalyser
+  fullName: LiveKit.AudioAnalyser
+  nameWithType: AudioAnalyser
+- uid: LiveKit.AudioAnalyser.CalculateAvgAmplitude
+  name: CalculateAvgAmplitude()
+  href: api/LiveKit.AudioAnalyser.html#LiveKit_AudioAnalyser_CalculateAvgAmplitude
+  commentId: M:LiveKit.AudioAnalyser.CalculateAvgAmplitude
+  fullName: LiveKit.AudioAnalyser.CalculateAvgAmplitude()
+  nameWithType: AudioAnalyser.CalculateAvgAmplitude()
+- uid: LiveKit.AudioAnalyser.CalculateAvgAmplitude*
+  name: CalculateAvgAmplitude
+  href: api/LiveKit.AudioAnalyser.html#LiveKit_AudioAnalyser_CalculateAvgAmplitude_
+  commentId: Overload:LiveKit.AudioAnalyser.CalculateAvgAmplitude
+  isSpec: "True"
+  fullName: LiveKit.AudioAnalyser.CalculateAvgAmplitude
+  nameWithType: AudioAnalyser.CalculateAvgAmplitude
+- uid: LiveKit.AudioAnalyser.Dispose
+  name: Dispose()
+  href: api/LiveKit.AudioAnalyser.html#LiveKit_AudioAnalyser_Dispose
+  commentId: M:LiveKit.AudioAnalyser.Dispose
+  fullName: LiveKit.AudioAnalyser.Dispose()
+  nameWithType: AudioAnalyser.Dispose()
+- uid: LiveKit.AudioAnalyser.Dispose*
+  name: Dispose
+  href: api/LiveKit.AudioAnalyser.html#LiveKit_AudioAnalyser_Dispose_
+  commentId: Overload:LiveKit.AudioAnalyser.Dispose
+  isSpec: "True"
+  fullName: LiveKit.AudioAnalyser.Dispose
+  nameWithType: AudioAnalyser.Dispose
+- uid: LiveKit.AudioAnalyserOptions
+  name: AudioAnalyserOptions
+  href: api/LiveKit.AudioAnalyserOptions.html
+  commentId: T:LiveKit.AudioAnalyserOptions
+  fullName: LiveKit.AudioAnalyserOptions
+  nameWithType: AudioAnalyserOptions
+- uid: LiveKit.AudioAnalyserOptions.CloneTrack
+  name: CloneTrack
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_CloneTrack
+  commentId: P:LiveKit.AudioAnalyserOptions.CloneTrack
+  fullName: LiveKit.AudioAnalyserOptions.CloneTrack
+  nameWithType: AudioAnalyserOptions.CloneTrack
+- uid: LiveKit.AudioAnalyserOptions.CloneTrack*
+  name: CloneTrack
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_CloneTrack_
+  commentId: Overload:LiveKit.AudioAnalyserOptions.CloneTrack
+  isSpec: "True"
+  fullName: LiveKit.AudioAnalyserOptions.CloneTrack
+  nameWithType: AudioAnalyserOptions.CloneTrack
+- uid: LiveKit.AudioAnalyserOptions.FftSize
+  name: FftSize
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_FftSize
+  commentId: P:LiveKit.AudioAnalyserOptions.FftSize
+  fullName: LiveKit.AudioAnalyserOptions.FftSize
+  nameWithType: AudioAnalyserOptions.FftSize
+- uid: LiveKit.AudioAnalyserOptions.FftSize*
+  name: FftSize
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_FftSize_
+  commentId: Overload:LiveKit.AudioAnalyserOptions.FftSize
+  isSpec: "True"
+  fullName: LiveKit.AudioAnalyserOptions.FftSize
+  nameWithType: AudioAnalyserOptions.FftSize
+- uid: LiveKit.AudioAnalyserOptions.SmoothingTimeConstant
+  name: SmoothingTimeConstant
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_SmoothingTimeConstant
+  commentId: P:LiveKit.AudioAnalyserOptions.SmoothingTimeConstant
+  fullName: LiveKit.AudioAnalyserOptions.SmoothingTimeConstant
+  nameWithType: AudioAnalyserOptions.SmoothingTimeConstant
+- uid: LiveKit.AudioAnalyserOptions.SmoothingTimeConstant*
+  name: SmoothingTimeConstant
+  href: api/LiveKit.AudioAnalyserOptions.html#LiveKit_AudioAnalyserOptions_SmoothingTimeConstant_
+  commentId: Overload:LiveKit.AudioAnalyserOptions.SmoothingTimeConstant
+  isSpec: "True"
+  fullName: LiveKit.AudioAnalyserOptions.SmoothingTimeConstant
+  nameWithType: AudioAnalyserOptions.SmoothingTimeConstant
 - uid: LiveKit.AudioCaptureOptions
   name: AudioCaptureOptions
   href: api/LiveKit.AudioCaptureOptions.html
@@ -103,6 +180,22 @@ references:
   commentId: T:LiveKit.Client
   fullName: LiveKit.Client
   nameWithType: Client
+- uid: LiveKit.Client.CreateAudioAnalyser(LiveKit.Track,System.Nullable{LiveKit.AudioAnalyserOptions})
+  name: CreateAudioAnalyser(Track, Nullable<AudioAnalyserOptions>)
+  href: api/LiveKit.Client.html#LiveKit_Client_CreateAudioAnalyser_LiveKit_Track_System_Nullable_LiveKit_AudioAnalyserOptions__
+  commentId: M:LiveKit.Client.CreateAudioAnalyser(LiveKit.Track,System.Nullable{LiveKit.AudioAnalyserOptions})
+  name.vb: CreateAudioAnalyser(Track, Nullable(Of AudioAnalyserOptions))
+  fullName: LiveKit.Client.CreateAudioAnalyser(LiveKit.Track, System.Nullable<LiveKit.AudioAnalyserOptions>)
+  fullName.vb: LiveKit.Client.CreateAudioAnalyser(LiveKit.Track, System.Nullable(Of LiveKit.AudioAnalyserOptions))
+  nameWithType: Client.CreateAudioAnalyser(Track, Nullable<AudioAnalyserOptions>)
+  nameWithType.vb: Client.CreateAudioAnalyser(Track, Nullable(Of AudioAnalyserOptions))
+- uid: LiveKit.Client.CreateAudioAnalyser*
+  name: CreateAudioAnalyser
+  href: api/LiveKit.Client.html#LiveKit_Client_CreateAudioAnalyser_
+  commentId: Overload:LiveKit.Client.CreateAudioAnalyser
+  isSpec: "True"
+  fullName: LiveKit.Client.CreateAudioAnalyser
+  nameWithType: Client.CreateAudioAnalyser
 - uid: LiveKit.Client.CreateLocalAudioTrack(System.Nullable{LiveKit.AudioCaptureOptions})
   name: CreateLocalAudioTrack(Nullable<AudioCaptureOptions>)
   href: api/LiveKit.Client.html#LiveKit_Client_CreateLocalAudioTrack_System_Nullable_LiveKit_AudioCaptureOptions__
@@ -807,6 +900,25 @@ references:
   isSpec: "True"
   fullName: LiveKit.HTMLVideoElement.VideoWidth
   nameWithType: HTMLVideoElement.VideoWidth
+- uid: LiveKit.IAudioAnalyser
+  name: IAudioAnalyser
+  href: api/LiveKit.IAudioAnalyser.html
+  commentId: T:LiveKit.IAudioAnalyser
+  fullName: LiveKit.IAudioAnalyser
+  nameWithType: IAudioAnalyser
+- uid: LiveKit.IAudioAnalyser.CalculateAvgAmplitude
+  name: CalculateAvgAmplitude()
+  href: api/LiveKit.IAudioAnalyser.html#LiveKit_IAudioAnalyser_CalculateAvgAmplitude
+  commentId: M:LiveKit.IAudioAnalyser.CalculateAvgAmplitude
+  fullName: LiveKit.IAudioAnalyser.CalculateAvgAmplitude()
+  nameWithType: IAudioAnalyser.CalculateAvgAmplitude()
+- uid: LiveKit.IAudioAnalyser.CalculateAvgAmplitude*
+  name: CalculateAvgAmplitude
+  href: api/LiveKit.IAudioAnalyser.html#LiveKit_IAudioAnalyser_CalculateAvgAmplitude_
+  commentId: Overload:LiveKit.IAudioAnalyser.CalculateAvgAmplitude
+  isSpec: "True"
+  fullName: LiveKit.IAudioAnalyser.CalculateAvgAmplitude
+  nameWithType: IAudioAnalyser.CalculateAvgAmplitude
 - uid: LiveKit.IAudioTrack
   name: IAudioTrack
   href: api/LiveKit.IAudioTrack.html

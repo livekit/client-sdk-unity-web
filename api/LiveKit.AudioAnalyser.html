@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class JSObject
+    <title>Class AudioAnalyser
    | LiveKit Unity SDK </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class JSObject
+    <meta name="title" content="Class AudioAnalyser
    | LiveKit Unity SDK ">
     <meta name="generator" content="docfx 2.59.4.0">
     
@@ -78,10 +78,10 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="LiveKit.JSObject">
+            <article class="content wrap" id="_content" data-uid="LiveKit.AudioAnalyser">
   
   
-  <h1 id="LiveKit_JSObject" data-uid="LiveKit.JSObject" class="text-break">Class JSObject
+  <h1 id="LiveKit_AudioAnalyser" data-uid="LiveKit.AudioAnalyser" class="text-break">Class AudioAnalyser
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
@@ -89,17 +89,13 @@
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><a class="xref" href="LiveKit.JSRef.html">JSRef</a></div>
-    <div class="level2"><span class="xref">JSObject</span></div>
-      <div class="level3"><a class="xref" href="LiveKit.AudioAnalyser.html">AudioAnalyser</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.HTMLElement.html">HTMLElement</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSArray-1.html">JSArray&lt;T&gt;</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSError.html">JSError</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSEventEmitter-1.html">JSEventEmitter&lt;T&gt;</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSMap-2.html">JSMap&lt;TKey, TValue&gt;</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSPromise.html">JSPromise</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.JSUint8Array.html">JSUint8Array</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.MediaStreamTrack.html">MediaStreamTrack</a></div>
-      <div class="level3"><a class="xref" href="LiveKit.TrackPublication.html">TrackPublication</a></div>
+    <div class="level2"><a class="xref" href="LiveKit.JSObject.html">JSObject</a></div>
+    <div class="level3"><span class="xref">AudioAnalyser</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="LiveKit.IAudioAnalyser.html">IAudioAnalyser</a></div>
+    <div><span class="xref">System.IDisposable</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -130,9 +126,53 @@
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="LiveKit.html">LiveKit</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="LiveKit_JSObject_syntax">Syntax</h5>
+  <h5 id="LiveKit_AudioAnalyser_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class JSObject : JSRef</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class AudioAnalyser : JSObject, IAudioAnalyser, IDisposable</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  
+  
+  <a id="LiveKit_AudioAnalyser_CalculateAvgAmplitude_" data-uid="LiveKit.AudioAnalyser.CalculateAvgAmplitude*"></a>
+  <h4 id="LiveKit_AudioAnalyser_CalculateAvgAmplitude" data-uid="LiveKit.AudioAnalyser.CalculateAvgAmplitude">CalculateAvgAmplitude()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float CalculateAvgAmplitude()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="LiveKit_AudioAnalyser_Dispose_" data-uid="LiveKit.AudioAnalyser.Dispose*"></a>
+  <h4 id="LiveKit_AudioAnalyser_Dispose" data-uid="LiveKit.AudioAnalyser.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="LiveKit.IAudioAnalyser.html">IAudioAnalyser</a>
+  </div>
+  <div>
+      <span class="xref">System.IDisposable</span>
   </div>
 </article>
           </div>
