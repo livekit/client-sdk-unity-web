@@ -1,11 +1,11 @@
+using System;
 using UnityEngine.Scripting;
 
 namespace LiveKit
 {
-    public interface IAudioAnalyser
+    public interface IAudioAnalyser : IDisposable
     {
         float CalculateAvgAmplitude();
-        void Cleanup();
     }
     public sealed class AudioAnalyser : JSObject, IAudioAnalyser
     {
@@ -18,7 +18,7 @@ namespace LiveKit
             var ret = JSNative.CallMethod(NativeHandle, "calculateVolume");
             return (float)JSNative.GetNumber(ret);
         }
-        public void Cleanup()
+        public void Dispose()
         {
             JSNative.CallMethod(NativeHandle, "cleanup");
         }

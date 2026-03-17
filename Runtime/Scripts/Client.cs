@@ -46,7 +46,7 @@ namespace LiveKit
         {
             if (track == null)
             {
-                throw new ArgumentNullException($"{nameof(CreateAudioAnalyser)} - {nameof(track)} should be a valid {nameof(Track)} instance");
+                throw new ArgumentNullException(nameof(track));
             }
             JSNative.PushObject(track.NativeHandle);
             if (options.HasValue)
