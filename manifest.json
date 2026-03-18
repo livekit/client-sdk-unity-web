@@ -929,6 +929,18 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/LiveKit.PublishDataOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LiveKit.PublishDataOptions.html",
+          "hash": "mGo7Br32Ug/ZelzGLj3AOoZQqTK54olrbL3tp0zSti4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/LiveKit.RTCBundlePolicy.yml",
       "output": {
         ".html": {
@@ -1113,7 +1125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.Room.DataReceivedDelegate.html",
-          "hash": "ZS8aMo+EatNCDihYyxXTk5KqMPRKG3R+tA+zh3ujpjU="
+          "hash": "oY9zEoWjEoXXIDxx3duEFlJjHsQsHM7FSr0JkcnUDWI="
         }
       },
       "is_incremental": false,
@@ -1713,7 +1725,7 @@
       "output": {
         ".html": {
           "relative_path": "api/LiveKit.html",
-          "hash": "/fJjJW6XXu2qOdvCe4BuNK7BANrZzSIhGmo9atZpc1A="
+          "hash": "dsr3XCqZ6NvgaMjV7NRAosKX6coVBXq171UQEPp+brk="
         }
       },
       "is_incremental": false,
@@ -1737,7 +1749,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "AkxDkULLWsoy0FqLiR3++QBlBkmRPOsiqBNyRtV+Ldo="
+          "hash": "j9nZNB5i1nuUer7iK2O6WnNiHYXtYLEjeAfpHPNxwjM="
         }
       },
       "is_incremental": false,
@@ -1788,7 +1800,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 142,
+          "total_file_count": 143,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

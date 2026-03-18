@@ -3206,6 +3206,30 @@ references:
   commentId: T:LiveKit.PublishDataError
   fullName: LiveKit.PublishDataError
   nameWithType: PublishDataError
+- uid: LiveKit.PublishDataOptions
+  name: PublishDataOptions
+  href: api/LiveKit.PublishDataOptions.html
+  commentId: T:LiveKit.PublishDataOptions
+  fullName: LiveKit.PublishDataOptions
+  nameWithType: PublishDataOptions
+- uid: LiveKit.PublishDataOptions.DestinationIdentities
+  name: DestinationIdentities
+  href: api/LiveKit.PublishDataOptions.html#LiveKit_PublishDataOptions_DestinationIdentities
+  commentId: F:LiveKit.PublishDataOptions.DestinationIdentities
+  fullName: LiveKit.PublishDataOptions.DestinationIdentities
+  nameWithType: PublishDataOptions.DestinationIdentities
+- uid: LiveKit.PublishDataOptions.Reliable
+  name: Reliable
+  href: api/LiveKit.PublishDataOptions.html#LiveKit_PublishDataOptions_Reliable
+  commentId: F:LiveKit.PublishDataOptions.Reliable
+  fullName: LiveKit.PublishDataOptions.Reliable
+  nameWithType: PublishDataOptions.Reliable
+- uid: LiveKit.PublishDataOptions.Topic
+  name: Topic
+  href: api/LiveKit.PublishDataOptions.html#LiveKit_PublishDataOptions_Topic
+  commentId: F:LiveKit.PublishDataOptions.Topic
+  fullName: LiveKit.PublishDataOptions.Topic
+  nameWithType: PublishDataOptions.Topic
 - uid: LiveKit.RemoteAudioTrack
   name: RemoteAudioTrack
   href: api/LiveKit.RemoteAudioTrack.html
