@@ -47,7 +47,8 @@ namespace LiveKit
         public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publication, TrackStreamState streamState, RemoteParticipant participant);
         public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status, RemoteParticipant participant);
         public delegate void AudioPlaybackChangedDelegate(bool playing);
-        public delegate void AttributesChangedDelegate(Participant participant, IReadOnlyDictionary<string, string> changedAttributes);        public delegate void TranscriptionReceivedDelegate(List<TranscriptionSegment> segments, Participant participant, TrackPublication publication);
+        public delegate void AttributesChangedDelegate(Participant participant, IReadOnlyDictionary<string, string> changedAttributes);
+        public delegate void TranscriptionReceivedDelegate(List<TranscriptionSegment> segments, Participant participant, TrackPublication publication);
         public event ReconnectingDelegate Reconnecting;
         public event ReconnectedDelegate Reconnected;
         public event DisconnectedDelegate Disconnected;
@@ -309,7 +310,7 @@ namespace LiveKit
                     case RoomEvent.TranscriptionReceived:
                         {
                             var segmentsPtr = JSNative.ShiftStack();
-                            var segments = JSNative.GetStruct<List<TranscriptionSegment>>(segmentsPtr);
+                            var segments = JSNative.GetStruct<List<TranscriptionSegment>>(segmentsPtr) ?? new List<TranscriptionSegment>();
 
                             var participantPtr = JSNative.ShiftStack();
                             Participant participant = null;
