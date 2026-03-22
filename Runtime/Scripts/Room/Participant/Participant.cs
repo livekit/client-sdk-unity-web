@@ -152,14 +152,16 @@ namespace LiveKit
                 return JSNative.GetString(ptr);
             }
         }
-
-        public JSMap<string,string> attributes
+        public IReadOnlyDictionary<string, string> attributes
         {
-           get
-           {
+            get
+            {
                 JSNative.PushString("attributes");
-                return Acquire<JSMap<string,string>>(JSNative.GetProperty(NativeHandle));
-           }
+                var ptr = JSNative.GetProperty(NativeHandle);
+                if (!JSNative.IsObject(ptr) || JSNative.IsNull(ptr) || JSNative.IsUndefined(ptr))
+                    return null;
+                return JSNative.GetStruct<Dictionary<string, string>>(ptr);
+            }
         }
 
         public DateTime? LastSpokeAt
