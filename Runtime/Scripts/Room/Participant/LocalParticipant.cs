@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-using System.Collections.Generic;
+
 namespace LiveKit
 {
     public class LocalParticipant : Participant
@@ -222,8 +224,13 @@ namespace LiveKit
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setMetadata"));
         }
 
-        public JSPromise SetAttributes(JSMap<string, string> attributes) {
-            JSNative.PushObject(attributes.NativeHandle);
+        public JSPromise SetAttributes(IReadOnlyDictionary<string, string> attributes)
+        {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException(nameof(attributes));
+            }
+            JSNative.PushStruct(JsonConvert.SerializeObject(attributes, JSNative.JsonSettings));
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setAttributes"));
         }
     }
