@@ -39,7 +39,8 @@ namespace LiveKit
         public delegate void ConnectionQualityChangedDelegate(ConnectionQuality quality);
         public delegate void TrackStreamStateChangedDelegate(RemoteTrackPublication publication, TrackStreamState streamState); 
         public delegate void TrackSubscriptionPermissionChangedDelegate(RemoteTrackPublication publication, SubscriptionStatus status);
-        
+        public delegate void TranscriptionReceivedDelegate(List<TranscriptionSegment> segments, TrackPublication publication);
+
         public event TrackPublishedDelegate TrackPublished;
         public event TrackSubscribedDelegate TrackSubscribed;
         public event TrackSubscriptionFailedDelegate TrackSubscriptionFailed;
@@ -55,7 +56,8 @@ namespace LiveKit
         public event ConnectionQualityChangedDelegate ConnectionQualityChanged;
         public event TrackStreamStateChangedDelegate TrackStreamStateChanged;
         public event TrackSubscriptionPermissionChangedDelegate TrackSubscriptionPermissionChanged;
-        
+        public event TranscriptionReceivedDelegate TranscriptionReceived;
+
         public JSMap<string, TrackPublication> AudioTrackPublications
         {
             get
@@ -333,6 +335,20 @@ namespace LiveKit
                         var status = Utils.ToEnum<SubscriptionStatus>(stateref);
                         Log.Debug($"Participant: TrackStreamStateChanged({publication}, {status})");
                         participant.TrackSubscriptionPermissionChanged?.Invoke(publication, status);
+                        break;
+                    }
+                    case ParticipantEvent.TranscriptionReceived:
+                    {
+                        var segmentsPtr = JSNative.ShiftStack();
+                        var segments = JSNative.GetStruct<List<TranscriptionSegment>>(segmentsPtr) ?? new List<TranscriptionSegment>();
+
+                        var publicationPtr = JSNative.ShiftStack();
+                        TrackPublication publication = null;
+                        if (!JSNative.IsNull(publicationPtr) && !JSNative.IsUndefined(publicationPtr))
+                            publication = Acquire<TrackPublication>(publicationPtr);
+
+                        Log.Debug($"Participant: TranscriptionReceived({segments.Count} segments, {publication})");
+                        participant.TranscriptionReceived?.Invoke(segments, publication);
                         break;
                     }
                 }

@@ -96,6 +96,8 @@ namespace LiveKit
         TrackStreamStateChanged,
         [EnumMember(Value = "trackSubscriptionPermissionChanged")]
         TrackSubscriptionPermissionChanged,
+        [EnumMember(Value = "transcriptionReceived")]
+        TranscriptionReceived,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
