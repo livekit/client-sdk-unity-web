@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using UnityEngine;
 using UnityEngine.Scripting;
+using System.Collections.Generic;
 
 namespace LiveKit
 {
@@ -48,6 +49,7 @@ namespace LiveKit
         public delegate void AudioPlaybackChangedDelegate(bool playing);
         public delegate void AttributesChangedDelegate(Participant participant, JSMap<string, string> changedAttributes);
 
+        public delegate void TranscriptionReceivedDelegate(List<TranscriptionSegment> segments, Participant participant, TrackPublication publication);
         public event ReconnectingDelegate Reconnecting;
         public event ReconnectedDelegate Reconnected;
         public event DisconnectedDelegate Disconnected;
@@ -73,6 +75,8 @@ namespace LiveKit
         public event TrackSubscriptionPermissionChangedDelegate TrackSubscriptionPermissionChanged;
         public event AudioPlaybackChangedDelegate AudioPlaybackChanged;
         public event AttributesChangedDelegate AttributesChanged;
+
+        public event TranscriptionReceivedDelegate TranscriptionReceived;
 
         [MonoPInvokeCallback(typeof(JSNative.JSDelegate))]
         private static void EventReceived(IntPtr iptr)
@@ -298,6 +302,24 @@ namespace LiveKit
                             var participant = Acquire<Participant>(JSNative.ShiftStack());
                             Log.Debug($"Room: Received AttributesChanged({participant.Sid}, {changedAttributes})");
                             room.AttributesChanged?.Invoke(participant, changedAttributes);
+                            break;
+                        }
+                    case RoomEvent.TranscriptionReceived:
+                        {
+                            var segmentsPtr = JSNative.ShiftStack();
+                            var segments = JSNative.GetStruct<List<TranscriptionSegment>>(segmentsPtr);
+
+                            var participantPtr = JSNative.ShiftStack();
+                            Participant participant = null;
+                            if (!JSNative.IsNull(participantPtr) && !JSNative.IsUndefined(participantPtr))
+                                participant = Acquire<Participant>(participantPtr);
+
+                            var publicationPtr = JSNative.ShiftStack();
+                            TrackPublication publication = null;
+                            if (!JSNative.IsNull(publicationPtr) && !JSNative.IsUndefined(publicationPtr))
+                                publication = Acquire<TrackPublication>(publicationPtr);
+
+                            room.TranscriptionReceived?.Invoke(segments, participant, publication);
                             break;
                         }
                 }

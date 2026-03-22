@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
-
+using System.Collections.Generic;
 namespace LiveKit
 {
     public class LocalParticipant : Participant
@@ -177,6 +177,28 @@ namespace LiveKit
 
             var result = JSNative.CallMethod(NativeHandle, "publishData");
             return Acquire<JSPromise>(result);
+        }
+
+        public JSPromise SendText(string text, string[] destinationIdentities = null, string topic = null, Dictionary<string, string> attributes = null)
+        {
+            JSNative.PushString(text);
+
+            if (destinationIdentities == null && topic == null && attributes == null)
+            {
+                JSNative.PushUndefined();
+            }
+            else
+            {
+                var options = new SendTextOptions
+                {
+                    DestinationIdentities = destinationIdentities,
+                    Topic = topic,
+                    Attributes = attributes
+                };
+
+                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
+            }
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "sendText"));
         }
 
         public void SetTrackSubscriptionPermissions(bool allParticipantsAllowed,
