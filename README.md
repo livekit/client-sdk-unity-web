@@ -82,12 +82,17 @@ Room.TrackSubscribed += (track, publication, participant) =>
 
 ### Sending/Receiving data
 ```cs
-Room.DataReceived += (data, participant, kind) =>
+Room.DataReceived += (data, participant, kind, topic) =>
 {
     Debug.Log("Received data : " + Encoding.ASCII.GetString(data));
 };
 
-yield return Room.LocalParticipant.PublishData(Encoding.ASCII.GetBytes("This is as test"), DataPacketKind.RELIABLE);
+yield return Room.LocalParticipant.PublishData(
+    Encoding.ASCII.GetBytes("This is as test"),
+    reliable: true,
+    destinationIdentities: null,
+    topic: null
+);
 ```
 
 <!--BEGIN_REPO_NAV-->
