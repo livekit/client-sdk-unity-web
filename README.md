@@ -95,6 +95,104 @@ yield return Room.LocalParticipant.PublishData(
 );
 ```
 
+### Agent Communication
+For agent voice (audio/video) communication, follow the basic publish/subscribe examples above. This section focuses on agent messaging, state, and transcription.
+
+#### 1) Send message to an agent (`AgentSendTextExample`)
+Sends a message to a specific participant identity on `lk.chat`.
+
+```cs
+public class AgentSendTextExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+
+    public IEnumerator SendToAgent(string message)
+    {
+        var send = Room.LocalParticipant.SendText(
+            text: message,
+            destinationIdentities: new[] { AgentIdentity },
+            topic: "lk.chat"
+        );
+        yield return send;
+    }
+}
+```
+
+#### 2) Listen for agent transcription (`AgentTranscriptionExample`)
+Attach transcription listener when the matching agent participant connects.
+
+```cs
+public class AgentTranscriptionExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+    private RemoteParticipant _agent;
+
+    // Room.ParticipantConnected event listener
+    public void OnAgentConnected(RemoteParticipant participant)
+    {
+        if (participant.Identity != AgentIdentity) return;
+        _agent = participant;
+        _agent.TranscriptionReceived += OnAgentTranscriptionReceived;
+    }
+    // Room.ParticipantDisconnected event listener
+    public void OnAgentDisconnected(RemoteParticipant participant)
+    {
+        if (_agent != null && participant.Identity == _agent.Identity)
+        {
+            _agent.TranscriptionReceived -= OnAgentTranscriptionReceived;
+            _agent = null;
+        }
+    }
+
+    private void OnAgentTranscriptionReceived(List<TranscriptionSegment> segments, TrackPublication publication)
+    {
+        foreach (var segment in segments)
+        {
+            Debug.Log($"Agent with identity {_agent.Identity} transcription received: '{segment.Text}'");
+        }
+    }
+}
+```
+
+#### 3) Listen for agent state changes (`AgentAttributesChangedExample`)
+Uses `Room.AttributesChanged` and reads `lk.agent.state`.
+
+```cs
+public class AgentAttributesChangedExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+    private RemoteParticipant _agent;
+    // Room.ParticipantConnected event listener
+    public void OnAgentConnected(RemoteParticipant participant)
+    {
+        if (participant.Identity != AgentIdentity) return;
+        _agent = participant;
+        Room.AttributesChanged += OnAgentAttributesChanged;
+    }
+    // Room.ParticipantDisconnected event listener
+    public void OnAgentDisconnected(RemoteParticipant participant)
+    {
+        if (_agent != null && participant.Identity == _agent.Identity)
+        {
+            Room.AttributesChanged -= OnAgentAttributesChanged;
+            _agent = null;
+        }
+    }
+
+    public void OnAgentAttributesChanged(Participant participant, IReadOnlyDictionary<string, string> changedAttributes)
+    {
+        if (_agent == null || participant.Identity != _agent.Identity) return;
+        if (changedAttributes.TryGetValue("lk.agent.state", out var state))
+        {
+            Debug.Log($"Agent with identity {participant.Identity} is now {state}");
+        }
+    }
+}
+```
+
 <!--BEGIN_REPO_NAV-->
 <br/><table>
 <thead><tr><th colspan="2">LiveKit Ecosystem</th></tr></thead>
