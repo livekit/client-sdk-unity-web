@@ -59,6 +59,8 @@ namespace LiveKit
         MediaDevicesError,
         [EnumMember(Value = "participantAttributesChanged")]
         ParticipantAttributesChanged,
+        [EnumMember(Value = "transcriptionReceived")]
+        TranscriptionReceived,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -94,6 +96,8 @@ namespace LiveKit
         TrackStreamStateChanged,
         [EnumMember(Value = "trackSubscriptionPermissionChanged")]
         TrackSubscriptionPermissionChanged,
+        [EnumMember(Value = "transcriptionReceived")]
+        TranscriptionReceived,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]

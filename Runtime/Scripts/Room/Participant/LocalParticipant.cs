@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine.Scripting;
 
@@ -179,6 +181,28 @@ namespace LiveKit
             return Acquire<JSPromise>(result);
         }
 
+        public JSPromise SendText(string text, string[] destinationIdentities = null, string topic = null, Dictionary<string, string> attributes = null)
+        {
+            JSNative.PushString(text);
+
+            if (destinationIdentities == null && topic == null && attributes == null)
+            {
+                JSNative.PushUndefined();
+            }
+            else
+            {
+                var options = new SendTextOptions
+                {
+                    DestinationIdentities = destinationIdentities,
+                    Topic = topic,
+                    Attributes = attributes
+                };
+
+                JSNative.PushStruct(JsonConvert.SerializeObject(options, JSNative.JsonSettings));
+            }
+            return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "sendText"));
+        }
+
         public void SetTrackSubscriptionPermissions(bool allParticipantsAllowed,
             ParticipantTrackPermission[] participantTrackPermissions)
         {
@@ -200,8 +224,13 @@ namespace LiveKit
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setMetadata"));
         }
 
-        public JSPromise SetAttributes(JSMap<string, string> attributes) {
-            JSNative.PushObject(attributes.NativeHandle);
+        public JSPromise SetAttributes(IReadOnlyDictionary<string, string> attributes)
+        {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException(nameof(attributes));
+            }
+            JSNative.PushStruct(JsonConvert.SerializeObject(attributes, JSNative.JsonSettings));
             return Acquire<JSPromise>(JSNative.CallMethod(NativeHandle, "setAttributes"));
         }
     }
