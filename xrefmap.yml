@@ -2194,15 +2194,31 @@ references:
   isSpec: "True"
   fullName: LiveKit.LocalParticipant.PublishTrack
   nameWithType: LocalParticipant.PublishTrack
-- uid: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap{System.String,System.String})
-  name: SetAttributes(JSMap<String, String>)
-  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetAttributes_LiveKit_JSMap_System_String_System_String__
-  commentId: M:LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap{System.String,System.String})
-  name.vb: SetAttributes(JSMap(Of String, String))
-  fullName: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap<System.String, System.String>)
-  fullName.vb: LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap(Of System.String, System.String))
-  nameWithType: LocalParticipant.SetAttributes(JSMap<String, String>)
-  nameWithType.vb: LocalParticipant.SetAttributes(JSMap(Of String, String))
+- uid: LiveKit.LocalParticipant.SendText(System.String,System.String[],System.String,Dictionary{System.String,System.String})
+  name: SendText(String, String[], String, Dictionary<String, String>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SendText_System_String_System_String___System_String_Dictionary_System_String_System_String__
+  commentId: M:LiveKit.LocalParticipant.SendText(System.String,System.String[],System.String,Dictionary{System.String,System.String})
+  name.vb: SendText(String, String(), String, Dictionary(Of String, String))
+  fullName: LiveKit.LocalParticipant.SendText(System.String, System.String[], System.String, Dictionary<System.String, System.String>)
+  fullName.vb: LiveKit.LocalParticipant.SendText(System.String, System.String(), System.String, Dictionary(Of System.String, System.String))
+  nameWithType: LocalParticipant.SendText(String, String[], String, Dictionary<String, String>)
+  nameWithType.vb: LocalParticipant.SendText(String, String(), String, Dictionary(Of String, String))
+- uid: LiveKit.LocalParticipant.SendText*
+  name: SendText
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SendText_
+  commentId: Overload:LiveKit.LocalParticipant.SendText
+  isSpec: "True"
+  fullName: LiveKit.LocalParticipant.SendText
+  nameWithType: LocalParticipant.SendText
+- uid: LiveKit.LocalParticipant.SetAttributes(IReadOnlyDictionary{System.String,System.String})
+  name: SetAttributes(IReadOnlyDictionary<String, String>)
+  href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetAttributes_IReadOnlyDictionary_System_String_System_String__
+  commentId: M:LiveKit.LocalParticipant.SetAttributes(IReadOnlyDictionary{System.String,System.String})
+  name.vb: SetAttributes(IReadOnlyDictionary(Of String, String))
+  fullName: LiveKit.LocalParticipant.SetAttributes(IReadOnlyDictionary<System.String, System.String>)
+  fullName.vb: LiveKit.LocalParticipant.SetAttributes(IReadOnlyDictionary(Of System.String, System.String))
+  nameWithType: LocalParticipant.SetAttributes(IReadOnlyDictionary<String, String>)
+  nameWithType.vb: LocalParticipant.SetAttributes(IReadOnlyDictionary(Of String, String))
 - uid: LiveKit.LocalParticipant.SetAttributes*
   name: SetAttributes
   href: api/LiveKit.LocalParticipant.html#LiveKit_LocalParticipant_SetAttributes_
@@ -3067,6 +3083,18 @@ references:
   commentId: T:LiveKit.Participant.TrackUnsubscribedDelegate
   fullName: LiveKit.Participant.TrackUnsubscribedDelegate
   nameWithType: Participant.TrackUnsubscribedDelegate
+- uid: LiveKit.Participant.TranscriptionReceived
+  name: TranscriptionReceived
+  href: api/LiveKit.Participant.html#LiveKit_Participant_TranscriptionReceived
+  commentId: E:LiveKit.Participant.TranscriptionReceived
+  fullName: LiveKit.Participant.TranscriptionReceived
+  nameWithType: Participant.TranscriptionReceived
+- uid: LiveKit.Participant.TranscriptionReceivedDelegate
+  name: Participant.TranscriptionReceivedDelegate
+  href: api/LiveKit.Participant.TranscriptionReceivedDelegate.html
+  commentId: T:LiveKit.Participant.TranscriptionReceivedDelegate
+  fullName: LiveKit.Participant.TranscriptionReceivedDelegate
+  nameWithType: Participant.TranscriptionReceivedDelegate
 - uid: LiveKit.Participant.VideoTrackPublications
   name: VideoTrackPublications
   href: api/LiveKit.Participant.html#LiveKit_Participant_VideoTrackPublications
@@ -3176,6 +3204,12 @@ references:
   commentId: F:LiveKit.ParticipantEvent.TrackUnsubscribed
   fullName: LiveKit.ParticipantEvent.TrackUnsubscribed
   nameWithType: ParticipantEvent.TrackUnsubscribed
+- uid: LiveKit.ParticipantEvent.TranscriptionReceived
+  name: TranscriptionReceived
+  href: api/LiveKit.ParticipantEvent.html#LiveKit_ParticipantEvent_TranscriptionReceived
+  commentId: F:LiveKit.ParticipantEvent.TranscriptionReceived
+  fullName: LiveKit.ParticipantEvent.TranscriptionReceived
+  nameWithType: ParticipantEvent.TranscriptionReceived
 - uid: LiveKit.ParticipantTrackPermission
   name: ParticipantTrackPermission
   href: api/LiveKit.ParticipantTrackPermission.html
@@ -4049,6 +4083,18 @@ references:
   commentId: T:LiveKit.Room.TrackUnsubscribedDelegate
   fullName: LiveKit.Room.TrackUnsubscribedDelegate
   nameWithType: Room.TrackUnsubscribedDelegate
+- uid: LiveKit.Room.TranscriptionReceived
+  name: TranscriptionReceived
+  href: api/LiveKit.Room.html#LiveKit_Room_TranscriptionReceived
+  commentId: E:LiveKit.Room.TranscriptionReceived
+  fullName: LiveKit.Room.TranscriptionReceived
+  nameWithType: Room.TranscriptionReceived
+- uid: LiveKit.Room.TranscriptionReceivedDelegate
+  name: Room.TranscriptionReceivedDelegate
+  href: api/LiveKit.Room.TranscriptionReceivedDelegate.html
+  commentId: T:LiveKit.Room.TranscriptionReceivedDelegate
+  fullName: LiveKit.Room.TranscriptionReceivedDelegate
+  nameWithType: Room.TranscriptionReceivedDelegate
 - uid: LiveKit.RoomConnectOptions
   name: RoomConnectOptions
   href: api/LiveKit.RoomConnectOptions.html
@@ -4229,6 +4275,12 @@ references:
   commentId: F:LiveKit.RoomEvent.TrackUnsubscribed
   fullName: LiveKit.RoomEvent.TrackUnsubscribed
   nameWithType: RoomEvent.TrackUnsubscribed
+- uid: LiveKit.RoomEvent.TranscriptionReceived
+  name: TranscriptionReceived
+  href: api/LiveKit.RoomEvent.html#LiveKit_RoomEvent_TranscriptionReceived
+  commentId: F:LiveKit.RoomEvent.TranscriptionReceived
+  fullName: LiveKit.RoomEvent.TranscriptionReceived
+  nameWithType: RoomEvent.TranscriptionReceived
 - uid: LiveKit.RoomOptions
   name: RoomOptions
   href: api/LiveKit.RoomOptions.html
@@ -4545,6 +4597,51 @@ references:
   commentId: F:LiveKit.ScreenSharePresets.H720_FPS5
   fullName: LiveKit.ScreenSharePresets.H720_FPS5
   nameWithType: ScreenSharePresets.H720_FPS5
+- uid: LiveKit.SendTextOptions
+  name: SendTextOptions
+  href: api/LiveKit.SendTextOptions.html
+  commentId: T:LiveKit.SendTextOptions
+  fullName: LiveKit.SendTextOptions
+  nameWithType: SendTextOptions
+- uid: LiveKit.SendTextOptions.Attributes
+  name: Attributes
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_Attributes
+  commentId: P:LiveKit.SendTextOptions.Attributes
+  fullName: LiveKit.SendTextOptions.Attributes
+  nameWithType: SendTextOptions.Attributes
+- uid: LiveKit.SendTextOptions.Attributes*
+  name: Attributes
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_Attributes_
+  commentId: Overload:LiveKit.SendTextOptions.Attributes
+  isSpec: "True"
+  fullName: LiveKit.SendTextOptions.Attributes
+  nameWithType: SendTextOptions.Attributes
+- uid: LiveKit.SendTextOptions.DestinationIdentities
+  name: DestinationIdentities
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_DestinationIdentities
+  commentId: P:LiveKit.SendTextOptions.DestinationIdentities
+  fullName: LiveKit.SendTextOptions.DestinationIdentities
+  nameWithType: SendTextOptions.DestinationIdentities
+- uid: LiveKit.SendTextOptions.DestinationIdentities*
+  name: DestinationIdentities
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_DestinationIdentities_
+  commentId: Overload:LiveKit.SendTextOptions.DestinationIdentities
+  isSpec: "True"
+  fullName: LiveKit.SendTextOptions.DestinationIdentities
+  nameWithType: SendTextOptions.DestinationIdentities
+- uid: LiveKit.SendTextOptions.Topic
+  name: Topic
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_Topic
+  commentId: P:LiveKit.SendTextOptions.Topic
+  fullName: LiveKit.SendTextOptions.Topic
+  nameWithType: SendTextOptions.Topic
+- uid: LiveKit.SendTextOptions.Topic*
+  name: Topic
+  href: api/LiveKit.SendTextOptions.html#LiveKit_SendTextOptions_Topic_
+  commentId: Overload:LiveKit.SendTextOptions.Topic
+  isSpec: "True"
+  fullName: LiveKit.SendTextOptions.Topic
+  nameWithType: SendTextOptions.Topic
 - uid: LiveKit.SubscriptionStatus
   name: SubscriptionStatus
   href: api/LiveKit.SubscriptionStatus.html
@@ -5192,6 +5289,116 @@ references:
   commentId: F:LiveKit.TrackStreamState.Unknown
   fullName: LiveKit.TrackStreamState.Unknown
   nameWithType: TrackStreamState.Unknown
+- uid: LiveKit.TranscriptionSegment
+  name: TranscriptionSegment
+  href: api/LiveKit.TranscriptionSegment.html
+  commentId: T:LiveKit.TranscriptionSegment
+  fullName: LiveKit.TranscriptionSegment
+  nameWithType: TranscriptionSegment
+- uid: LiveKit.TranscriptionSegment.EndTime
+  name: EndTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_EndTime
+  commentId: P:LiveKit.TranscriptionSegment.EndTime
+  fullName: LiveKit.TranscriptionSegment.EndTime
+  nameWithType: TranscriptionSegment.EndTime
+- uid: LiveKit.TranscriptionSegment.EndTime*
+  name: EndTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_EndTime_
+  commentId: Overload:LiveKit.TranscriptionSegment.EndTime
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.EndTime
+  nameWithType: TranscriptionSegment.EndTime
+- uid: LiveKit.TranscriptionSegment.Final
+  name: Final
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Final
+  commentId: P:LiveKit.TranscriptionSegment.Final
+  fullName: LiveKit.TranscriptionSegment.Final
+  nameWithType: TranscriptionSegment.Final
+- uid: LiveKit.TranscriptionSegment.Final*
+  name: Final
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Final_
+  commentId: Overload:LiveKit.TranscriptionSegment.Final
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.Final
+  nameWithType: TranscriptionSegment.Final
+- uid: LiveKit.TranscriptionSegment.FirstReceivedTime
+  name: FirstReceivedTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_FirstReceivedTime
+  commentId: P:LiveKit.TranscriptionSegment.FirstReceivedTime
+  fullName: LiveKit.TranscriptionSegment.FirstReceivedTime
+  nameWithType: TranscriptionSegment.FirstReceivedTime
+- uid: LiveKit.TranscriptionSegment.FirstReceivedTime*
+  name: FirstReceivedTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_FirstReceivedTime_
+  commentId: Overload:LiveKit.TranscriptionSegment.FirstReceivedTime
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.FirstReceivedTime
+  nameWithType: TranscriptionSegment.FirstReceivedTime
+- uid: LiveKit.TranscriptionSegment.Id
+  name: Id
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Id
+  commentId: P:LiveKit.TranscriptionSegment.Id
+  fullName: LiveKit.TranscriptionSegment.Id
+  nameWithType: TranscriptionSegment.Id
+- uid: LiveKit.TranscriptionSegment.Id*
+  name: Id
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Id_
+  commentId: Overload:LiveKit.TranscriptionSegment.Id
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.Id
+  nameWithType: TranscriptionSegment.Id
+- uid: LiveKit.TranscriptionSegment.Language
+  name: Language
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Language
+  commentId: P:LiveKit.TranscriptionSegment.Language
+  fullName: LiveKit.TranscriptionSegment.Language
+  nameWithType: TranscriptionSegment.Language
+- uid: LiveKit.TranscriptionSegment.Language*
+  name: Language
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Language_
+  commentId: Overload:LiveKit.TranscriptionSegment.Language
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.Language
+  nameWithType: TranscriptionSegment.Language
+- uid: LiveKit.TranscriptionSegment.LastReceivedTime
+  name: LastReceivedTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_LastReceivedTime
+  commentId: P:LiveKit.TranscriptionSegment.LastReceivedTime
+  fullName: LiveKit.TranscriptionSegment.LastReceivedTime
+  nameWithType: TranscriptionSegment.LastReceivedTime
+- uid: LiveKit.TranscriptionSegment.LastReceivedTime*
+  name: LastReceivedTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_LastReceivedTime_
+  commentId: Overload:LiveKit.TranscriptionSegment.LastReceivedTime
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.LastReceivedTime
+  nameWithType: TranscriptionSegment.LastReceivedTime
+- uid: LiveKit.TranscriptionSegment.StartTime
+  name: StartTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_StartTime
+  commentId: P:LiveKit.TranscriptionSegment.StartTime
+  fullName: LiveKit.TranscriptionSegment.StartTime
+  nameWithType: TranscriptionSegment.StartTime
+- uid: LiveKit.TranscriptionSegment.StartTime*
+  name: StartTime
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_StartTime_
+  commentId: Overload:LiveKit.TranscriptionSegment.StartTime
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.StartTime
+  nameWithType: TranscriptionSegment.StartTime
+- uid: LiveKit.TranscriptionSegment.Text
+  name: Text
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Text
+  commentId: P:LiveKit.TranscriptionSegment.Text
+  fullName: LiveKit.TranscriptionSegment.Text
+  nameWithType: TranscriptionSegment.Text
+- uid: LiveKit.TranscriptionSegment.Text*
+  name: Text
+  href: api/LiveKit.TranscriptionSegment.html#LiveKit_TranscriptionSegment_Text_
+  commentId: Overload:LiveKit.TranscriptionSegment.Text
+  isSpec: "True"
+  fullName: LiveKit.TranscriptionSegment.Text
+  nameWithType: TranscriptionSegment.Text
 - uid: LiveKit.UnexpectedConnectionState
   name: UnexpectedConnectionState
   href: api/LiveKit.UnexpectedConnectionState.html

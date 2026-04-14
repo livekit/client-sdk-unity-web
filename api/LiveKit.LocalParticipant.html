@@ -142,6 +142,9 @@
       <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_TrackSubscriptionPermissionChanged">Participant.TrackSubscriptionPermissionChanged</a>
     </div>
     <div>
+      <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_TranscriptionReceived">Participant.TranscriptionReceived</a>
+    </div>
+    <div>
       <a class="xref" href="LiveKit.Participant.html#LiveKit_Participant_AudioTrackPublications">Participant.AudioTrackPublications</a>
     </div>
     <div>
@@ -724,13 +727,13 @@
   </table>
   
   
-  <a id="LiveKit_LocalParticipant_SetAttributes_" data-uid="LiveKit.LocalParticipant.SetAttributes*"></a>
-  <h4 id="LiveKit_LocalParticipant_SetAttributes_LiveKit_JSMap_System_String_System_String__" data-uid="LiveKit.LocalParticipant.SetAttributes(LiveKit.JSMap{System.String,System.String})">SetAttributes(JSMap&lt;String, String&gt;)</h4>
+  <a id="LiveKit_LocalParticipant_SendText_" data-uid="LiveKit.LocalParticipant.SendText*"></a>
+  <h4 id="LiveKit_LocalParticipant_SendText_System_String_System_String___System_String_Dictionary_System_String_System_String__" data-uid="LiveKit.LocalParticipant.SendText(System.String,System.String[],System.String,Dictionary{System.String,System.String})">SendText(String, String[], String, Dictionary&lt;String, String&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public JSPromise SetAttributes(JSMap&lt;string, string&gt; attributes)</code></pre>
+    <pre><code class="lang-csharp hljs">public JSPromise SendText(string text, string[] destinationIdentities = null, string topic = null, Dictionary&lt;string, string&gt; attributes = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -743,7 +746,64 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="LiveKit.JSMap-2.html">JSMap</a>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">destinationIdentities</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">topic</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">attributes</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="LiveKit.JSPromise.html">JSPromise</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  <a id="LiveKit_LocalParticipant_SetAttributes_" data-uid="LiveKit.LocalParticipant.SetAttributes*"></a>
+  <h4 id="LiveKit_LocalParticipant_SetAttributes_IReadOnlyDictionary_System_String_System_String__" data-uid="LiveKit.LocalParticipant.SetAttributes(IReadOnlyDictionary{System.String,System.String})">SetAttributes(IReadOnlyDictionary&lt;String, String&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public JSPromise SetAttributes(IReadOnlyDictionary&lt;string, string&gt; attributes)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">attributes</span></td>
         <td></td>
       </tr>

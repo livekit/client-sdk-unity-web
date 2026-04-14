@@ -138,12 +138,105 @@ Room.TrackSubscribed += (track, publication, participant) =&gt;
 };
 </code></pre>
 <h3 id="sendingreceiving-data">Sending/Receiving data</h3>
-<pre><code class="lang-cs">Room.DataReceived += (data, participant, kind) =&gt;
+<pre><code class="lang-cs">Room.DataReceived += (data, participant, kind, topic) =&gt;
 {
     Debug.Log(&quot;Received data : &quot; + Encoding.ASCII.GetString(data));
 };
 
-yield return Room.LocalParticipant.PublishData(Encoding.ASCII.GetBytes(&quot;This is as test&quot;), DataPacketKind.RELIABLE);
+yield return Room.LocalParticipant.PublishData(
+    Encoding.ASCII.GetBytes(&quot;This is as test&quot;),
+    reliable: true,
+    destinationIdentities: null,
+    topic: null
+);
+</code></pre>
+<h3 id="agent-communication">Agent Communication</h3>
+<p>For agent voice (audio/video) communication, follow the basic publish/subscribe examples above. This section focuses on agent messaging, state, and transcription.</p>
+<h4 id="1-send-message-to-an-agent-agentsendtextexample">1) Send message to an agent (<code>AgentSendTextExample</code>)</h4>
+<p>Sends a message to a specific participant identity on <code>lk.chat</code>.</p>
+<pre><code class="lang-cs">public class AgentSendTextExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+
+    public IEnumerator SendToAgent(string message)
+    {
+        var send = Room.LocalParticipant.SendText(
+            text: message,
+            destinationIdentities: new[] { AgentIdentity },
+            topic: &quot;lk.chat&quot;
+        );
+        yield return send;
+    }
+}
+</code></pre>
+<h4 id="2-listen-for-agent-transcription-agenttranscriptionexample">2) Listen for agent transcription (<code>AgentTranscriptionExample</code>)</h4>
+<p>Attach transcription listener when the matching agent participant connects.</p>
+<pre><code class="lang-cs">public class AgentTranscriptionExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+    private RemoteParticipant _agent;
+
+    // Room.ParticipantConnected event listener
+    public void OnAgentConnected(RemoteParticipant participant)
+    {
+        if (participant.Identity != AgentIdentity) return;
+        _agent = participant;
+        _agent.TranscriptionReceived += OnAgentTranscriptionReceived;
+    }
+    // Room.ParticipantDisconnected event listener
+    public void OnAgentDisconnected(RemoteParticipant participant)
+    {
+        if (_agent != null &amp;&amp; participant.Identity == _agent.Identity)
+        {
+            _agent.TranscriptionReceived -= OnAgentTranscriptionReceived;
+            _agent = null;
+        }
+    }
+
+    private void OnAgentTranscriptionReceived(List&lt;TranscriptionSegment&gt; segments, TrackPublication publication)
+    {
+        foreach (var segment in segments)
+        {
+            Debug.Log($&quot;Agent with identity {_agent.Identity} transcription received: '{segment.Text}'&quot;);
+        }
+    }
+}
+</code></pre>
+<h4 id="3-listen-for-agent-state-changes-agentattributeschangedexample">3) Listen for agent state changes (<code>AgentAttributesChangedExample</code>)</h4>
+<p>Uses <code>Room.AttributesChanged</code> and reads <code>lk.agent.state</code>.</p>
+<pre><code class="lang-cs">public class AgentAttributesChangedExample : MonoBehaviour
+{
+    public Room Room;
+    public string AgentIdentity;
+    private RemoteParticipant _agent;
+    // Room.ParticipantConnected event listener
+    public void OnAgentConnected(RemoteParticipant participant)
+    {
+        if (participant.Identity != AgentIdentity) return;
+        _agent = participant;
+        Room.AttributesChanged += OnAgentAttributesChanged;
+    }
+    // Room.ParticipantDisconnected event listener
+    public void OnAgentDisconnected(RemoteParticipant participant)
+    {
+        if (_agent != null &amp;&amp; participant.Identity == _agent.Identity)
+        {
+            Room.AttributesChanged -= OnAgentAttributesChanged;
+            _agent = null;
+        }
+    }
+
+    public void OnAgentAttributesChanged(Participant participant, IReadOnlyDictionary&lt;string, string&gt; changedAttributes)
+    {
+        if (_agent == null || participant.Identity != _agent.Identity) return;
+        if (changedAttributes.TryGetValue(&quot;lk.agent.state&quot;, out var state))
+        {
+            Debug.Log($&quot;Agent with identity {participant.Identity} is now {state}&quot;);
+        }
+    }
+}
 </code></pre>
 <!--BEGIN_REPO_NAV-->
 <p><br><table><p>

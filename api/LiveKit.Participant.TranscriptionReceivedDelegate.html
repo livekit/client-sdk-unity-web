@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Delegate Room.AttributesChangedDelegate
+    <title>Delegate Participant.TranscriptionReceivedDelegate
    | LiveKit Unity SDK </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Delegate Room.AttributesChangedDelegate
+    <meta name="title" content="Delegate Participant.TranscriptionReceivedDelegate
    | LiveKit Unity SDK ">
     <meta name="generator" content="docfx 2.59.4.0">
     
@@ -78,18 +78,18 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="LiveKit.Room.AttributesChangedDelegate">
+            <article class="content wrap" id="_content" data-uid="LiveKit.Participant.TranscriptionReceivedDelegate">
   
   
-  <h1 id="LiveKit_Room_AttributesChangedDelegate" data-uid="LiveKit.Room.AttributesChangedDelegate" class="text-break">Delegate Room.AttributesChangedDelegate
+  <h1 id="LiveKit_Participant_TranscriptionReceivedDelegate" data-uid="LiveKit.Participant.TranscriptionReceivedDelegate" class="text-break">Delegate Participant.TranscriptionReceivedDelegate
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="LiveKit.html">LiveKit</a></h6>
   <h6><strong>Assembly</strong>: cs.temp.dll.dll</h6>
-  <h5 id="LiveKit_Room_AttributesChangedDelegate_syntax">Syntax</h5>
+  <h5 id="LiveKit_Participant_TranscriptionReceivedDelegate_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public delegate void AttributesChangedDelegate(Participant participant, IReadOnlyDictionary&lt;string, string&gt; changedAttributes);</code></pre>
+    <pre><code class="lang-csharp hljs">public delegate void TranscriptionReceivedDelegate(List&lt;TranscriptionSegment&gt; segments, TrackPublication publication);</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -102,13 +102,13 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="LiveKit.Participant.html">Participant</a></td>
-        <td><span class="parametername">participant</span></td>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="LiveKit.TranscriptionSegment.html">TranscriptionSegment</a>&gt;</td>
+        <td><span class="parametername">segments</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">IReadOnlyDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
-        <td><span class="parametername">changedAttributes</span></td>
+        <td><a class="xref" href="LiveKit.TrackPublication.html">TrackPublication</a></td>
+        <td><span class="parametername">publication</span></td>
         <td></td>
       </tr>
     </tbody>
