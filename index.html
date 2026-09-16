@@ -82,6 +82,38 @@
 <!--BEGIN_DESCRIPTION-->
 <p>Use this SDK to add realtime video, audio and data features to your Unity (WebGL) app. By connecting to <a href="https://livekit.io/">LiveKit</a> Cloud or a self-hosted server, you can quickly build applications such as multi-modal AI, live streaming, or video calls with just a few lines of code.</p>
 <!--END_DESCRIPTION-->
+<!--BEGIN_AGENTS_INFO-->
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>If you're building Voice AI, <a href="https://github.com/livekit/agents">LiveKit Agents</a> is the SDK for code-first realtime voice agents. STT, LLM, TTS, turn detection, <a href="https://docs.livekit.io/agents/models/tts/expressive/">expressive speech</a>, <a href="https://docs.livekit.io/agents/models/stt/keyterms/">keyterm accuracy</a>, tool usage, and telephony all come bundled in the framework. It's available in both <a href="https://github.com/livekit/agents">Python</a> and <a href="https://github.com/livekit/agents-js">Node.js</a>.</p>
+<pre><code class="lang-python"># agent.py
+from livekit import agents
+from livekit.agents import Agent, AgentServer, AgentSession, STTContextOptions, TurnHandlingOptions, inference
+
+server = AgentServer()
+
+
+@server.rtc_session(agent_name=&quot;my-agent&quot;)
+async def my_agent(ctx: agents.JobContext):
+    session = AgentSession(
+        stt=inference.STT(model=&quot;deepgram/nova-3&quot;, language=&quot;multi&quot;),
+        llm=inference.LLM(model=&quot;google/gemma-4-31b-it&quot;),
+        tts=inference.TTS(model=&quot;inworld/inworld-tts-2&quot;, voice=&quot;Ashley&quot;),
+        turn_handling=TurnHandlingOptions(turn_detection=inference.TurnDetector()),
+        stt_context_options=STTContextOptions(keyterms=[&quot;LiveKit&quot;, &quot;Acme Corp&quot;]),
+        expressive=True,
+    )
+    await session.start(room=ctx.room, agent=Agent(instructions=&quot;You are a helpful voice AI assistant.&quot;))
+    await session.generate_reply(instructions=&quot;Greet the user and offer your assistance.&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    agents.cli.run_app(server)
+</code></pre>
+<p>Models come from <a href="https://docs.livekit.io/agents/models/">LiveKit Inference</a> with no per-provider API keys, and LiveKit Cloud handles <a href="https://docs.livekit.io/deploy/agents/">deployment</a> and <a href="https://docs.livekit.io/deploy/observability/">observability</a>. Visit the docs for more info at <a href="https://docs.livekit.io/agents/">docs.livekit.io/agents</a>.</p>
+<p>Using a coding agent? Install the LiveKit skill with <code>npx skills add livekit/agent-skills</code> and add the docs MCP at <code>https://docs.livekit.io/mcp/</code> (see <a href="https://docs.livekit.io/intro/coding-agents/">coding agent support</a>).</p>
+</div>
+<!--END_AGENTS_INFO-->
 <h2 id="docs">Docs</h2>
 <p>Docs and guides at <a href="https://docs.livekit.io">https://docs.livekit.io</a></p>
 <p><a href="https://livekit.github.io/client-sdk-unity-web/">SDK reference</a></p>
