@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "schedule": ["before 6am on the first day of the month"],
+  "enabledManagers": ["npm"],
+  "includePaths": ["Bridge~/package.json"],
+  "packageRules": [
+    {
+      "description": "Only track livekit-client, which the WebGL bridge bundles into Runtime/Plugins/livekit-client.jspre",
+      "matchPackageNames": ["*", "!livekit-client"],
+      "enabled": false
+    },
+    {
+      "description": "First-party dependency: no need to quarantine new releases, and raise the range floor so package.json shows the bundled version",
+      "matchPackageNames": ["livekit-client"],
+      "rangeStrategy": "bump",
+      "minimumReleaseAge": null,
+      "schedule": ["at any time"]
+    }
+  ]
+}
