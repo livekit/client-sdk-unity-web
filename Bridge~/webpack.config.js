@@ -1,5 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const TerserPlugin = require("terser-webpack-plugin");
+// The Unity package, not the Bridge npm package, so the reported version matches the SDK users install
+const unityPackage = require('../package.json');
 
 module.exports = {
     entry: {
@@ -15,6 +18,11 @@ module.exports = {
         },
     },
     mode: 'production',
+    plugins: [
+        new webpack.DefinePlugin({
+            __LK_UNITY_SDK_VERSION__: JSON.stringify(unityPackage.version),
+        }),
+    ],
     devtool: 'inline-source-map',
     target: ["web"],
     module: {
