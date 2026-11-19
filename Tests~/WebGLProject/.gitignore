@@ -1,0 +1,14 @@
+# Throwaway CI project: Unity regenerates everything except the files checked in here.
+Library/
+Temp/
+Logs/
+UserSettings/
+Build/
+obj/
+*.csproj
+*.sln
+*.meta
+Assets/E2E/E2E.unity
+Packages/packages-lock.json
+ProjectSettings/*
+!ProjectSettings/ProjectVersion.txt
