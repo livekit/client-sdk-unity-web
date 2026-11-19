@@ -538,6 +538,7 @@ namespace LiveKit
 
         protected override void OnReject()
         {
+            base.OnReject();
             Error = Acquire<JSError>(RejectHandle);
         }
     }
