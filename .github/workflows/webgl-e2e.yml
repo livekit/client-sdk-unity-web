@@ -37,12 +37,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # The Unity WebGL Docker image is large.
-      - name: Free disk space
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          tool-cache: false
-
       - name: Cache Unity Library
         uses: actions/cache@v4
         with:
