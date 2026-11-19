@@ -17,6 +17,9 @@ on:
       - ".github/workflows/webgl-e2e.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: webgl-e2e-${{ github.ref }}
   cancel-in-progress: true
