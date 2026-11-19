@@ -3,7 +3,14 @@ name: WebGL E2E
 # Builds Tests~/WebGLProject for WebGL, then runs it in headless Chromium against a local
 # LiveKit dev server: C# -> JS bridge -> livekit-client -> server, no mocks.
 on:
+  pull_request:
+    paths:
+      - "Runtime/**"
+      - "Tests~/**"
+      - ".github/workflows/webgl-e2e.yml"
+  # Runs on main keep the Unity Library cache warm: caches saved on main are readable from PR branches.
   push:
+    branches: [main]
     paths:
       - "Runtime/**"
       - "Tests~/**"
