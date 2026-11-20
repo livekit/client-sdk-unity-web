@@ -80,7 +80,7 @@ jobs:
         working-directory: Tests~/e2e
         run: |
           npm ci
-          npx playwright install --with-deps chromium
+          npx --no playwright install --with-deps chromium
 
       - name: Run E2E tests
         working-directory: Tests~/e2e
