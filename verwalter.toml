@@ -2,4 +2,4 @@
 
 [packages."io.livekit.unity"]
 path = "."
-versioning.files = ["package.json"]
+versioning.files = ["package.json", "Bridge~/package.json"]
