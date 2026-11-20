@@ -8,6 +8,8 @@ on:
       - "Runtime/**"
       - "Tests~/**"
       - ".github/workflows/webgl-e2e.yml"
+      # Every release PR bumps the version here, so E2E runs on it before the tag is created.
+      - "package.json"
   # Runs on main keep the Unity Library cache warm: caches saved on main are readable from PR branches.
   push:
     branches: [main]
@@ -15,6 +17,7 @@ on:
       - "Runtime/**"
       - "Tests~/**"
       - ".github/workflows/webgl-e2e.yml"
+      - "package.json"
   workflow_dispatch:
 
 permissions:
