@@ -1,0 +1,12 @@
+{
+  "name": "livekit-unity-webgl-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node run.mjs"
+  },
+  "dependencies": {
+    "livekit-server-sdk": "^2.20.0",
+    "playwright": "^1.65.1"
+  }
+}

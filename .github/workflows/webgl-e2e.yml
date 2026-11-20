@@ -1,0 +1,98 @@
+name: WebGL E2E
+
+# Builds Tests~/WebGLProject for WebGL, then runs it in headless Chromium against a local
+# LiveKit dev server: C# -> JS bridge -> livekit-client -> server, no mocks.
+on:
+  pull_request:
+    paths:
+      - "Runtime/**"
+      - "Tests~/**"
+      - ".github/workflows/webgl-e2e.yml"
+  # Runs on main keep the Unity Library cache warm: caches saved on main are readable from PR branches.
+  push:
+    branches: [main]
+    paths:
+      - "Runtime/**"
+      - "Tests~/**"
+      - ".github/workflows/webgl-e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: webgl-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_PATH: Tests~/WebGLProject
+
+jobs:
+  e2e:
+    name: WebGL E2E (${{ matrix.unityVersion }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion: [2022.3.62f1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Unity Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: Library-webgl-${{ matrix.unityVersion }}-${{ hashFiles('Tests~/WebGLProject/Packages/manifest.json', 'Runtime/**') }}
+          restore-keys: |
+            Library-webgl-${{ matrix.unityVersion }}-
+
+      - name: Build WebGL player
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: ${{ env.PROJECT_PATH }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: WebGL
+          buildMethod: LiveKit.E2E.Editor.E2EBuild.Build
+          buildName: E2E
+          buildsPath: build
+          versioning: None
+          allowDirtyBuild: true
+
+      - name: Run LiveKit server
+        uses: livekit/dev-server-action@61e2b4dcb170dd3591e0c9b0db3c3fe5db93b500
+        with:
+          github-token: ${{ github.token }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: Tests~/e2e/package-lock.json
+
+      - name: Install runner
+        working-directory: Tests~/e2e
+        run: |
+          npm ci
+          npx --no playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        working-directory: Tests~/e2e
+        run: |
+          INDEX=$(find "$GITHUB_WORKSPACE/build" -name index.html -print -quit)
+          if [ -z "$INDEX" ]; then echo "::error::No index.html under build/"; exit 1; fi
+          node run.mjs "$(dirname "$INDEX")"
+
+      - name: Upload WebGL build
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl-e2e-build-${{ matrix.unityVersion }}
+          path: build
+          if-no-files-found: ignore
