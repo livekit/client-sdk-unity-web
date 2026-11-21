@@ -1,6 +1,13 @@
-import { Room } from "livekit-client"
+import { Room, setWrapperSdkInfo } from "livekit-client"
 import type TypedEmitter from 'typed-emitter';
 import { EventEmitter } from 'events';
+
+// Injected by webpack from the Unity package.json
+declare const __LK_UNITY_SDK_VERSION__: string;
+
+// Report this SDK as UNITY_WEB instead of JS to the server.
+// Runs when the .jspre loads, before C# can create and connect a Room.
+setWrapperSdkInfo({ sdk: 'UNITY_WEB', version: __LK_UNITY_SDK_VERSION__ });
 
 export class UnityBridge extends (EventEmitter as new () => TypedEmitter<UnityCallbacks>) {
   private _ready : boolean = false;
